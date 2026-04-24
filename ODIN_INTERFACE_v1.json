@@ -1,0 +1,131 @@
+{
+  "interface_id": "ODIN_INTERFACE_v1",
+  "created_at": "2026-04-24T23:09:58",
+  "purpose": "Internal control-center for ODIN / Deutsch Trainer system architecture.",
+  "not_for": [
+    "student-facing lesson UI",
+    "replacement for Deutsch Trainer platform",
+    "lesson generator itself"
+  ],
+  "core_principle": "ODIN controls, validates, and coordinates the system; it does not replace DT, SSUDT, ISSU, or the Platform.",
+  "tabs": [
+    {
+      "id": "dashboard",
+      "title": "Dashboard",
+      "purpose": "System status and next action"
+    },
+    {
+      "id": "core",
+      "title": "Core Architecture",
+      "purpose": "DT = plan, SSUDT = create, ISSU = support, Platform = execute"
+    },
+    {
+      "id": "plan",
+      "title": "Plan Engine",
+      "purpose": "Course roadmap and source of truth"
+    },
+    {
+      "id": "factory",
+      "title": "Lesson Factory / ССУДТ",
+      "purpose": "Base lesson creation system"
+    },
+    {
+      "id": "issu",
+      "title": "ISSU Support",
+      "purpose": "On-demand support lessons from photo/homework/weak topic"
+    },
+    {
+      "id": "platform",
+      "title": "Platform / Execution",
+      "purpose": "Learning experience: lessons, review, progress, daily plan"
+    },
+    {
+      "id": "links",
+      "title": "Core Link Model",
+      "purpose": "PLAN ↔ TOPIC ↔ LESSON ↔ PLATFORM ↔ REVIEW ↔ PROGRESS"
+    },
+    {
+      "id": "export",
+      "title": "Export / Sync",
+      "purpose": "Core state export/import/sync readiness"
+    },
+    {
+      "id": "changelog",
+      "title": "Changelog",
+      "purpose": "System evolution control"
+    },
+    {
+      "id": "qa",
+      "title": "QA / Risks",
+      "purpose": "Weak points, locks, and no-break rules"
+    }
+  ],
+  "modules": [
+    {
+      "id": "DT_CORE_ARCHITECTURE_v1",
+      "status": "locked",
+      "layer": "architecture",
+      "role": "Defines roles and boundaries"
+    },
+    {
+      "id": "DT_PLAN_ENGINE_v1",
+      "status": "planned_ready",
+      "layer": "plan",
+      "role": "Builds roadmap/course plan"
+    },
+    {
+      "id": "DT_CORE_LINK_MODEL_v1",
+      "status": "fixed_concept",
+      "layer": "link",
+      "role": "Connects plan, topics, lessons, progress"
+    },
+    {
+      "id": "DT_LESSON_FACTORY_v1",
+      "status": "ready",
+      "layer": "factory",
+      "role": "Integrates ISSU/ISH/V3 logic into lesson pipeline"
+    },
+    {
+      "id": "DT_LESSON_VIEWER_v1_ISSU_SAFE_MODE",
+      "status": "ready",
+      "layer": "viewer",
+      "role": "Safe lesson opening without CSS/JS conflict"
+    },
+    {
+      "id": "DT_PLATFORM_v0.8_EXPORT_SYNC",
+      "status": "ready",
+      "layer": "data",
+      "role": "Export/import of core state"
+    },
+    {
+      "id": "DT_CHANGELOG_SYSTEM_v1",
+      "status": "ready",
+      "layer": "history",
+      "role": "Tracks evolution"
+    },
+    {
+      "id": "DT_LANGUAGE_SYSTEM_v1",
+      "status": "next_core",
+      "layer": "language",
+      "role": "Language selection/switching model"
+    }
+  ],
+  "hard_locks": [
+    "PLAN is source of truth",
+    "Platform does not decide what to learn",
+    "SSUDT creates base course lessons",
+    "ISSU supports/adapts; it is not the main course generator",
+    "Lesson design must not be merged into platform design",
+    "ISSU/V3 lesson header and internal UX must not be removed",
+    "Resume is UX state, not learning control",
+    "Progress is lesson + topic + course",
+    "Every support lesson must bind to topic_id",
+    "No build without QA and changelog entry"
+  ],
+  "next_recommended_steps": [
+    "Review ODIN_INTERFACE_v1",
+    "Fix ODIN UI as internal control layer",
+    "Build DT_LANGUAGE_SYSTEM_v1",
+    "Update unified DT app after language model is fixed"
+  ]
+}

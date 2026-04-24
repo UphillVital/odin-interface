@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ODIN Interface v1</title>
+<style>
+:root {
+  --bg:#f5f7fb; --card:#fff; --text:#132033; --muted:#64748b; --line:#dbe5f2;
+  --blue:#2563eb; --blue2:#dbeafe; --green:#16a34a; --green2:#dcfce7;
+  --red:#dc2626; --red2:#fee2e2; --amber:#f59e0b; --amber2:#fef3c7;
+  --purple:#7c3aed; --purple2:#ede9fe; --shadow:0 12px 30px rgba(15,23,42,.08);
+}
+* { box-sizing:border-box; }
+body { margin:0; background:linear-gradient(180deg,#f8fbff 0%,var(--bg) 100%); color:var(--text); font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; line-height:1.55; }
+header { position:sticky; top:0; z-index:20; background:rgba(255,255,255,.96); border-bottom:1px solid var(--line); padding:12px; backdrop-filter:blur(12px); }
+.wrap { max-width:1180px; margin:auto; }
+.top { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+.brand { display:flex; align-items:center; gap:10px; }
+.logo { width:44px; height:44px; border-radius:16px; background:linear-gradient(135deg,#111827,var(--purple)); color:white; display:grid; place-items:center; font-weight:950; }
+h1 { margin:0; font-size:20px; }
+.sub { margin:3px 0 0; color:var(--muted); font-size:13px; }
+nav { display:flex; gap:8px; overflow:auto; margin-top:12px; padding-bottom:2px; }
+nav button { border:1px solid var(--line); background:white; color:var(--text); padding:9px 12px; border-radius:999px; font-weight:850; cursor:pointer; white-space:nowrap; box-shadow:0 2px 8px rgba(15,23,42,.04); }
+nav button.active { background:#111827; color:white; border-color:#111827; }
+main { max-width:1180px; margin:auto; padding:14px; }
+.page { display:none; }
+.page.active { display:block; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:24px; padding:18px; margin:14px 0; box-shadow:var(--shadow); }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px; }
+.item,.stat { background:#fbfdff; border:1px solid var(--line); border-radius:20px; padding:15px; }
+.stat b { font-size:27px; }
+.pill { display:inline-block; background:var(--blue2); color:var(--blue); border-radius:999px; padding:4px 10px; font-size:12px; font-weight:900; margin:2px; }
+.lock { background:var(--red2); color:#991b1b; }
+.ready { background:var(--green2); color:#166534; }
+.next { background:var(--amber2); color:#92400e; }
+.purple { background:var(--purple2); color:#5b21b6; }
+.ok { color:var(--green); font-weight:900; }
+.warn { color:#b45309; font-weight:900; }
+.bad { color:var(--red); font-weight:900; }
+.flow { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; background:#0f172a; color:#e5e7eb; border-radius:18px; padding:14px; overflow:auto; white-space:pre-wrap; }
+ul { padding-left:20px; }
+li { margin:6px 0; }
+input { width:100%; padding:12px; border:1px solid var(--line); border-radius:15px; font:inherit; }
+@media(max-width:700px) {
+  main { padding:10px; }
+  .card { padding:14px; border-radius:20px; }
+  .grid { grid-template-columns:1fr; }
+  nav button { font-size:13px; padding:8px 10px; }
+}
+</style>
+<script id="ODIN_INTERFACE_MODEL" type="application/json">
+{
+  "interface_id": "ODIN_INTERFACE_v1",
+  "created_at": "2026-04-24T23:09:58",
+  "purpose": "Internal control-center for ODIN / Deutsch Trainer system architecture.",
+  "not_for": [
+    "student-facing lesson UI",
+    "replacement for Deutsch Trainer platform",
+    "lesson generator itself"
+  ],
+  "core_principle": "ODIN controls, validates, and coordinates the system; it does not replace DT, SSUDT, ISSU, or the Platform.",
+  "tabs": [
+    {
+      "id": "dashboard",
+      "title": "Dashboard",
+      "purpose": "System status and next action"
+    },
+    {
+      "id": "core",
+      "title": "Core Architecture",
+      "purpose": "DT = plan, SSUDT = create, ISSU = support, Platform = execute"
+    },
+    {
+      "id": "plan",
+      "title": "Plan Engine",
+      "purpose": "Course roadmap and source of truth"
+    },
+    {
+      "id": "factory",
+      "title": "Lesson Factory / ССУДТ",
+      "purpose": "Base lesson creation system"
+    },
+    {
+      "id": "issu",
+      "title": "ISSU Support",
+      "purpose": "On-demand support lessons from photo/homework/weak topic"
+    },
+    {
+      "id": "platform",
+      "title": "Platform / Execution",
+      "purpose": "Learning experience: lessons, review, progress, daily plan"
+    },
+    {
+      "id": "links",
+      "title": "Core Link Model",
+      "purpose": "PLAN ↔ TOPIC ↔ LESSON ↔ PLATFORM ↔ REVIEW ↔ PROGRESS"
+    },
+    {
+      "id": "export",
+      "title": "Export / Sync",
+      "purpose": "Core state export/import/sync readiness"
+    },
+    {
+      "id": "changelog",
+      "title": "Changelog",
+      "purpose": "System evolution control"
+    },
+    {
+      "id": "qa",
+      "title": "QA / Risks",
+      "purpose": "Weak points, locks, and no-break rules"
+    }
+  ],
+  "modules": [
+    {
+      "id": "DT_CORE_ARCHITECTURE_v1",
+      "status": "locked",
+      "layer": "architecture",
+      "role": "Defines roles and boundaries"
+    },
+    {
+      "id": "DT_PLAN_ENGINE_v1",
+      "status": "planned_ready",
+      "layer": "plan",
+      "role": "Builds roadmap/course plan"
+    },
+    {
+      "id": "DT_CORE_LINK_MODEL_v1",
+      "status": "fixed_concept",
+      "layer": "link",
+      "role": "Connects plan, topics, lessons, progress"
+    },
+    {
+      "id": "DT_LESSON_FACTORY_v1",
+      "status": "ready",
+      "layer": "factory",
+      "role": "Integrates ISSU/ISH/V3 logic into lesson pipeline"
+    },
+    {
+      "id": "DT_LESSON_VIEWER_v1_ISSU_SAFE_MODE",
+      "status": "ready",
+      "layer": "viewer",
+      "role": "Safe lesson opening without CSS/JS conflict"
+    },
+    {
+      "id": "DT_PLATFORM_v0.8_EXPORT_SYNC",
+      "status": "ready",
+      "layer": "data",
+      "role": "Export/import of core state"
+    },
+    {
+      "id": "DT_CHANGELOG_SYSTEM_v1",
+      "status": "ready",
+      "layer": "history",
+      "role": "Tracks evolution"
+    },
+    {
+      "id": "DT_LANGUAGE_SYSTEM_v1",
+      "status": "next_core",
+      "layer": "language",
+      "role": "Language selection/switching model"
+    }
+  ],
+  "hard_locks": [
+    "PLAN is source of truth",
+    "Platform does not decide what to learn",
+    "SSUDT creates base course lessons",
+    "ISSU supports/adapts; it is not the main course generator",
+    "Lesson design must not be merged into platform design",
+    "ISSU/V3 lesson header and internal UX must not be removed",
+    "Resume is UX state, not learning control",
+    "Progress is lesson + topic + course",
+    "Every support lesson must bind to topic_id",
+    "No build without QA and changelog entry"
+  ],
+  "next_recommended_steps": [
+    "Review ODIN_INTERFACE_v1",
+    "Fix ODIN UI as internal control layer",
+    "Build DT_LANGUAGE_SYSTEM_v1",
+    "Update unified DT app after language model is fixed"
+  ]
+}
+</script>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <div class="logo">O</div>
+        <div>
+          <h1>ODIN Interface v1</h1>
+          <p class="sub">Внутрішній control-center для ДТ / ССУДТ / ІССУ / Platform</p>
+        </div>
+      </div>
+      <span class="pill purple">CONTROL LAYER</span>
+    </div>
+    <nav id="nav"></nav>
+  </div>
+</header>
+
+<main>
+<section class="card">
+  <span class="pill">ODIN</span><span class="pill">CONTROL CENTER</span><span class="pill ready">READY FOR REVIEW</span>
+  <p><span class="ok">PASS:</span> ODIN UI створено як окремий внутрішній інтерфейс, не як студентський ДТ і не як урок.</p>
+</section>
+
+<section id="dashboard" class="page active">
+  <div class="card">
+    <h2>Dashboard</h2>
+    <div class="grid">
+      <div class="stat"><div>Core Status</div><b>LOCKED</b></div>
+      <div class="stat"><div>Plan Engine</div><b>READY</b></div>
+      <div class="stat"><div>Link Model</div><b>FIXED</b></div>
+      <div class="stat"><div>Next Core</div><b>LANG</b></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Next Recommended Steps</h2>
+    <ol id="nextSteps"></ol>
+  </div>
+</section>
+
+<section id="core" class="page">
+  <div class="card">
+    <h2>Core Architecture</h2>
+    <div class="flow">ДТ = планує
+ССУДТ = створює
+ІССУ = підсилює / адаптує
+Платформа = виконує
+ODIN = контролює / валідовує / координує</div>
+  </div>
+</section>
+
+<section id="plan" class="page">
+  <div class="card">
+    <h2>Plan Engine</h2>
+    <p><b>PLAN = source of truth.</b></p>
+    <div class="flow">COURSE → LEVEL → MODULE → TOPIC → LESSON → DAY</div>
+  </div>
+</section>
+
+<section id="factory" class="page">
+  <div class="card">
+    <h2>Lesson Factory / ССУДТ</h2>
+    <p>ССУДТ створює базові уроки курсу по темах і порядку, визначеному ДТ Plan Engine.</p>
+    <ul>
+      <li>base lessons</li>
+      <li>practice lessons</li>
+      <li>review lessons</li>
+      <li>quality locks</li>
+    </ul>
+  </div>
+</section>
+
+<section id="issu" class="page">
+  <div class="card">
+    <h2>ISSU Support</h2>
+    <p>ІССУ — не основа курсу, а on-demand support module.</p>
+    <ul>
+      <li>photo → support lesson</li>
+      <li>homework explanation</li>
+      <li>weak topic reinforcement</li>
+      <li>must bind to topic_id</li>
+    </ul>
+  </div>
+</section>
+
+<section id="platform" class="page">
+  <div class="card">
+    <h2>Platform / Execution</h2>
+    <p>Платформа показує активний урок з PLAN, веде review/progress/daily/AI, але не вирішує що вчити.</p>
+  </div>
+</section>
+
+<section id="links" class="page">
+  <div class="card">
+    <h2>Core Link Model</h2>
+    <div class="flow">PLAN ↔ TOPIC ↔ LESSON ↔ PLATFORM ↔ REVIEW ↔ PROGRESS
+
+active_lesson_id = from PLAN
+resume_position = UX only
+progress = lesson + topic + course
+support_lesson = ISSU + topic_id</div>
+  </div>
+</section>
+
+<section id="export" class="page">
+  <div class="card">
+    <h2>Export / Sync</h2>
+    <p>Експортується core state: course, active topic, active lesson, resume, progress, daily plan, changelog.</p>
+    <span class="pill ready">DT_PLATFORM_v0.8_EXPORT_SYNC</span>
+  </div>
+</section>
+
+<section id="changelog" class="page">
+  <div class="card">
+    <h2>Changelog</h2>
+    <p>Кожен major build має запис у changelog. Кожна stable точка має snapshot.</p>
+  </div>
+</section>
+
+<section id="qa" class="page">
+  <div class="card">
+    <h2>QA / Risks / Hard Locks</h2>
+    <input id="searchLocks" placeholder="Пошук по locks..." oninput="renderLocks()">
+    <div id="locks" class="grid"></div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Modules</h2>
+  <div id="modules" class="grid"></div>
+</section>
+</main>
+
+<script>
+const MODEL = JSON.parse(document.getElementById('ODIN_INTERFACE_MODEL').textContent);
+
+function tab(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function renderNav() {
+  document.getElementById('nav').innerHTML = MODEL.tabs.map((t,i) =>
+    `<button class="${i===0?'active':''}" onclick="tab('${t.id}', this)">${t.title}</button>`
+  ).join('');
+}
+
+function renderModules() {
+  document.getElementById('modules').innerHTML = MODEL.modules.map(m => `
+    <div class="item">
+      <span class="pill ${m.status.includes('ready') ? 'ready' : m.status.includes('next') ? 'next' : m.status.includes('locked') ? 'lock' : 'purple'}">${m.status}</span>
+      <span class="pill">${m.layer}</span>
+      <h3>${m.id}</h3>
+      <p>${m.role}</p>
+    </div>
+  `).join('');
+}
+
+function renderNext() {
+  document.getElementById('nextSteps').innerHTML = MODEL.next_recommended_steps.map(x => `<li>${x}</li>`).join('');
+}
+
+function renderLocks() {
+  const q = (document.getElementById('searchLocks')?.value || '').toLowerCase().trim();
+  const rows = MODEL.hard_locks.filter(x => !q || x.toLowerCase().includes(q));
+  document.getElementById('locks').innerHTML = rows.map(x => `<div class="item"><span class="pill lock">LOCK</span><p>${x}</p></div>`).join('');
+}
+
+renderNav();
+renderModules();
+renderNext();
+renderLocks();
+</script>
+</body>
+</html>
