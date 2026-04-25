@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ODIN Core Engine v1 — Live System</title>
+  <style>
+    :root {
+      --bg: #020617;
+      --panel: #0f172a;
+      --card: #111827;
+      --card2: #1f2937;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --border: #334155;
+      --accent: #38bdf8;
+      --ok: #22c55e;
+      --warn: #f59e0b;
+      --bad: #ef4444;
+      --idle: #64748b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: grid;
+      grid-template-columns: 330px 1fr;
+    }
+
+    .sidebar {
+      background: linear-gradient(180deg, #0f172a, #111827);
+      border-right: 1px solid var(--border);
+      padding: 16px;
+      overflow-y: auto;
+    }
+
+    .main {
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+
+    .brand h1 {
+      font-size: 18px;
+      margin: 0;
+      letter-spacing: .04em;
+    }
+
+    .version { font-size: 12px; color: var(--muted); }
+
+    .card, .main-card {
+      background: rgba(15, 23, 42, .86);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.18);
+    }
+
+    .main-card {
+      border-radius: 24px;
+      padding: 22px;
+    }
+
+    .card { margin-bottom: 14px; }
+
+    .card h2, .main-card h2 {
+      margin: 0 0 12px;
+    }
+
+    .card h2 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+    }
+
+    .main-card h2 { font-size: 20px; }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 8px 0;
+      font-size: 14px;
+    }
+
+    .label, .muted { color: var(--muted); }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 4px 9px;
+      font-size: 12px;
+      font-weight: 800;
+      border: 1px solid transparent;
+      background: #020617;
+      white-space: nowrap;
+    }
+
+    .idle { color: var(--idle); border-color: var(--idle); }
+    .running { color: var(--accent); border-color: var(--accent); }
+    .ok { color: var(--ok); border-color: var(--ok); }
+    .warn { color: var(--warn); border-color: var(--warn); }
+    .bad { color: var(--bad); border-color: var(--bad); }
+
+    .plan {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    .plan li {
+      display: grid;
+      grid-template-columns: 26px 1fr auto;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border-radius: 12px;
+      background: rgba(2, 6, 23, .35);
+      border: 1px solid transparent;
+      font-size: 13px;
+    }
+
+    .plan li.active {
+      border-color: var(--accent);
+      background: rgba(56, 189, 248, .1);
+    }
+
+    .plan li.done { border-color: rgba(34,197,94,.55); }
+    .plan li.fail { border-color: rgba(239,68,68,.7); }
+
+    .step-index {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #020617;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    button {
+      border: 1px solid var(--border);
+      background: #020617;
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 800;
+      transition: .15s ease;
+    }
+
+    button:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    button.primary {
+      background: rgba(56, 189, 248, .14);
+      border-color: var(--accent);
+    }
+
+    button.danger:hover { border-color: var(--bad); }
+
+    .log {
+      max-height: 250px;
+      overflow-y: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      color: #cbd5e1;
+      display: grid;
+      gap: 6px;
+    }
+
+    .log-entry {
+      border-left: 2px solid var(--accent);
+      padding-left: 8px;
+      line-height: 1.35;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .output {
+      background: rgba(2,6,23,.45);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      min-height: 120px;
+      color: #cbd5e1;
+      line-height: 1.65;
+    }
+
+    .checklist {
+      margin: 0;
+      padding-left: 20px;
+      line-height: 1.8;
+      color: #cbd5e1;
+    }
+
+    @media (max-width: 900px) {
+      body { grid-template-columns: 1fr; }
+      .sidebar { border-right: none; border-bottom: 1px solid var(--border); }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div>
+        <h1>ODIN CONTROL</h1>
+        <div class="version">Core Engine v1 / v3.22.1 Active</div>
+      </div>
+      <span id="ui-main-status" class="badge idle">IDLE</span>
+    </div>
+
+    <section class="card">
+      <h2>System</h2>
+      <div class="row"><span class="label">Status</span><span id="system-status">IDLE</span></div>
+      <div class="row"><span class="label">Mode</span><span id="system-mode">MANUAL</span></div>
+      <div class="row"><span class="label">Active step</span><span id="system-step">—</span></div>
+      <div class="row"><span class="label">Progress</span><span id="system-progress">0%</span></div>
+    </section>
+
+    <section class="card">
+      <h2>Execution Plan</h2>
+      <ol id="execution-plan" class="plan"></ol>
+    </section>
+
+    <section class="card">
+      <h2>QA</h2>
+      <div class="row"><span class="label">Errors</span><span id="qa-errors" class="badge ok">0</span></div>
+      <div class="row"><span class="label">Warnings</span><span id="qa-warnings" class="badge ok">0</span></div>
+      <div class="row"><span class="label">Result</span><span id="qa-result">NOT_RUN</span></div>
+    </section>
+
+    <section class="card">
+      <h2>Actions</h2>
+      <div class="actions">
+        <button class="primary" onclick="ODIN_ENGINE.runFull()">▶ RUN FULL</button>
+        <button onclick="ODIN_ENGINE.runQA()">🧪 QA</button>
+        <button onclick="ODIN_ENGINE.runFix()">🔧 FIX</button>
+        <button onclick="ODIN_ENGINE.exportResult()">📦 EXPORT</button>
+        <button onclick="ODIN_ENGINE.runStepByStep()">▶ STEP</button>
+        <button class="danger" onclick="ODIN_ENGINE.reset()">RESET</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Live Log</h2>
+      <div id="live-log" class="log"></div>
+    </section>
+  </aside>
+
+  <main class="main">
+    <section class="main-card">
+      <h2>ODIN Core Engine v1</h2>
+      <p class="muted">
+        Це вже не просто бокове меню. Це контрольований цикл виконання:
+        INIT → LOAD_LAYERS → BUILD_REGISTRY → QA → FIX → EXPORT.
+      </p>
+    </section>
+
+    <section class="grid">
+      <div class="main-card">
+        <h2>Engine Output</h2>
+        <div id="engine-output" class="output">Очікування запуску...</div>
+      </div>
+
+      <div class="main-card">
+        <h2>100% Gate</h2>
+        <ul class="checklist" id="gate-list"></ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const ODIN_STATE = {
+      version: "v3.22.1",
+      status: "IDLE",
+      mode: "MANUAL",
+      currentStep: null,
+      progress: 0,
+      output: "Очікування запуску...",
+      gate: {
+        stateCore: false,
+        sidebarConnected: false,
+        executionCycle: false,
+        qaActive: false,
+        exportReady: false
+      },
+      steps: [
+        { id: "INIT", title: "Initialize State Core", status: "pending" },
+        { id: "LOAD_LAYERS", title: "Connect Sidebar + UI Binding", status: "pending" },
+        { id: "BUILD_REGISTRY", title: "Build Working Registry", status: "pending" },
+        { id: "QA", title: "Run Active QA", status: "pending" },
+        { id: "FIX", title: "Apply Safe Fixes", status: "pending" },
+        { id: "EXPORT", title: "Prepare Export", status: "pending" }
+      ],
+      qa: {
+        result: "NOT_RUN",
+        errors: [],
+        warnings: []
+      },
+      logs: []
+    };
+
+    const stepHandlers = {
+      INIT() {
+        ODIN_STATE.gate.stateCore = true;
+        ODIN_STATE.output = "STATE CORE активовано. Єдине джерело правди працює.";
+        return { ok: true, message: "STATE_CORE_READY" };
+      },
+
+      LOAD_LAYERS() {
+        ODIN_STATE.gate.sidebarConnected = true;
+        ODIN_STATE.output = "Sidebar підключено до ODIN_STATE. UI оновлюється через renderAll().";
+        return { ok: true, message: "SIDEBAR_CONNECTED" };
+      },
+
+      BUILD_REGISTRY() {
+        ODIN_STATE.gate.executionCycle = true;
+        ODIN_STATE.output = "Working Registry створено: кроки, статуси, QA, export-gate.";
+        return { ok: true, message: "WORKING_REGISTRY_READY" };
+      },
+
+      QA() {
+        return ODIN_ENGINE.runQA(true);
+      },
+
+      FIX() {
+        return ODIN_ENGINE.runFix(true);
+      },
+
+      EXPORT() {
+        return ODIN_ENGINE.exportResult(true);
+      }
+    };
+
+    function nowTime() {
+      return new Date().toLocaleTimeString("uk-UA", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      });
+    }
+
+    function addLog(message) {
+      ODIN_STATE.logs.unshift(`${nowTime()} — ${message}`);
+      if (ODIN_STATE.logs.length > 80) ODIN_STATE.logs.pop();
+      renderAll();
+    }
+
+    function badgeClass(status) {
+      if (status === "RUNNING") return "running";
+      if (status === "DONE" || status === "EXPORT_READY") return "ok";
+      if (status === "QA_WARNINGS" || status === "FIX_REQUIRED") return "warn";
+      if (status === "ERROR") return "bad";
+      return "idle";
+    }
+
+    function setStatus(status) {
+      ODIN_STATE.status = status;
+      renderAll();
+    }
+
+    function setStep(stepId, status) {
+      ODIN_STATE.currentStep = stepId;
+      ODIN_STATE.steps = ODIN_STATE.steps.map(step => {
+        if (step.id === stepId) return { ...step, status };
+        if (step.status === "active") return { ...step, status: "done" };
+        return step;
+      });
+
+      const done = ODIN_STATE.steps.filter(s => s.status === "done").length;
+      ODIN_STATE.progress = Math.round((done / ODIN_STATE.steps.length) * 100);
+      renderAll();
+    }
+
+    function finishStep(stepId) {
+      ODIN_STATE.steps = ODIN_STATE.steps.map(step =>
+        step.id === stepId ? { ...step, status: "done" } : step
+      );
+      const done = ODIN_STATE.steps.filter(s => s.status === "done").length;
+      ODIN_STATE.progress = Math.round((done / ODIN_STATE.steps.length) * 100);
+      renderAll();
+    }
+
+    function failStep(stepId) {
+      ODIN_STATE.steps = ODIN_STATE.steps.map(step =>
+        step.id === stepId ? { ...step, status: "fail" } : step
+      );
+      setStatus("ERROR");
+      renderAll();
+    }
+
+    function renderAll() {
+      const mainStatus = document.getElementById("ui-main-status");
+      mainStatus.textContent = ODIN_STATE.status;
+      mainStatus.className = `badge ${badgeClass(ODIN_STATE.status)}`;
+
+      document.getElementById("system-status").textContent = ODIN_STATE.status;
+      document.getElementById("system-mode").textContent = ODIN_STATE.mode;
+      document.getElementById("system-step").textContent = ODIN_STATE.currentStep || "—";
+      document.getElementById("system-progress").textContent = `${ODIN_STATE.progress}%`;
+
+      document.getElementById("execution-plan").innerHTML = ODIN_STATE.steps.map((step, index) => {
+        const cls = step.status === "active" ? "active" : step.status === "done" ? "done" : step.status === "fail" ? "fail" : "";
+        const mark = step.status === "done" ? "✅" : step.status === "active" ? "▶" : step.status === "fail" ? "❌" : "—";
+        return `
+          <li class="${cls}">
+            <span class="step-index">${index + 1}</span>
+            <span>${step.title}</span>
+            <span>${mark}</span>
+          </li>
+        `;
+      }).join("");
+
+      const errorBadge = document.getElementById("qa-errors");
+      const warningBadge = document.getElementById("qa-warnings");
+      errorBadge.textContent = ODIN_STATE.qa.errors.length;
+      warningBadge.textContent = ODIN_STATE.qa.warnings.length;
+      errorBadge.className = `badge ${ODIN_STATE.qa.errors.length ? "bad" : "ok"}`;
+      warningBadge.className = `badge ${ODIN_STATE.qa.warnings.length ? "warn" : "ok"}`;
+      document.getElementById("qa-result").textContent = ODIN_STATE.qa.result;
+
+      document.getElementById("live-log").innerHTML = ODIN_STATE.logs
+        .map(item => `<div class="log-entry">${item}</div>`)
+        .join("");
+
+      document.getElementById("engine-output").textContent = ODIN_STATE.output;
+
+      const gates = [
+        ["State Core", ODIN_STATE.gate.stateCore],
+        ["Sidebar connected", ODIN_STATE.gate.sidebarConnected],
+        ["Execution cycle", ODIN_STATE.gate.executionCycle],
+        ["QA active", ODIN_STATE.gate.qaActive],
+        ["Export ready", ODIN_STATE.gate.exportReady]
+      ];
+
+      document.getElementById("gate-list").innerHTML = gates
+        .map(([label, value]) => `<li>${value ? "✅" : "⬜"} ${label}</li>`)
+        .join("");
+    }
+
+    const ODIN_ENGINE = {
+      stepIndex: 0,
+
+      runStepByStep() {
+        ODIN_STATE.mode = "STEP";
+        const next = ODIN_STATE.steps.find(step => step.status === "pending");
+        if (!next) {
+          setStatus("DONE");
+          addLog("No pending steps. Cycle completed.");
+          return;
+        }
+        this.executeStep(next.id);
+      },
+
+      runFull() {
+        this.reset(false);
+        ODIN_STATE.mode = "AUTO";
+        setStatus("RUNNING");
+        addLog("FULL RUN started.");
+
+        let delay = 0;
+        ODIN_STATE.steps.forEach(step => {
+          setTimeout(() => this.executeStep(step.id), delay);
+          delay += 550;
+        });
+
+        setTimeout(() => {
+          if (ODIN_STATE.qa.errors.length === 0 && ODIN_STATE.gate.exportReady) {
+            setStatus("EXPORT_READY");
+            ODIN_STATE.output = "Цикл завершено. EXPORT_READY. Базовий Core Engine працює.";
+            addLog("FULL RUN completed: EXPORT_READY.");
+            renderAll();
+          }
+        }, delay + 100);
+      },
+
+      executeStep(stepId) {
+        setStatus("RUNNING");
+        setStep(stepId, "active");
+        addLog(`Step started: ${stepId}`);
+
+        const handler = stepHandlers[stepId];
+        if (!handler) {
+          failStep(stepId);
+          ODIN_STATE.qa.errors.push(`Missing handler: ${stepId}`);
+          addLog(`ERROR: Missing handler for ${stepId}`);
+          renderAll();
+          return;
+        }
+
+        const result = handler();
+        if (result && result.ok) {
+          finishStep(stepId);
+          addLog(`Step done: ${result.message}`);
+        } else if (result && !result.ok) {
+          failStep(stepId);
+          addLog(`Step failed: ${result.message}`);
+        }
+        renderAll();
+      },
+
+      runQA(asStep = false) {
+        ODIN_STATE.gate.qaActive = true;
+
+        const warnings = [];
+        const errors = [];
+
+        if (!ODIN_STATE.gate.stateCore) errors.push("STATE_CORE_NOT_READY");
+        if (!ODIN_STATE.gate.sidebarConnected) errors.push("SIDEBAR_NOT_CONNECTED");
+        if (!ODIN_STATE.gate.executionCycle) warnings.push("EXECUTION_CYCLE_NOT_FULLY_VERIFIED");
+
+        ODIN_STATE.qa.errors = errors;
+        ODIN_STATE.qa.warnings = warnings;
+        ODIN_STATE.qa.result = errors.length
+          ? "QA_FAILED"
+          : warnings.length
+            ? "QA_PASSED_WITH_WARNINGS"
+            : "QA_PASSED";
+
+        ODIN_STATE.output = errors.length
+          ? "QA зупинив цикл: є errors."
+          : warnings.length
+            ? "QA пройдено з попередженнями. Потрібен FIX."
+            : "QA пройдено чисто.";
+
+        addLog(`QA executed: ${ODIN_STATE.qa.result}`);
+        setStatus(errors.length ? "ERROR" : warnings.length ? "FIX_REQUIRED" : "DONE");
+
+        return { ok: errors.length === 0, message: ODIN_STATE.qa.result };
+      },
+
+      runFix(asStep = false) {
+        if (ODIN_STATE.qa.errors.length) {
+          ODIN_STATE.output = "FIX не може автоматично виправити критичні errors. Потрібна ручна перевірка.";
+          addLog("FIX stopped: critical errors remain.");
+          return { ok: false, message: "FIX_BLOCKED_BY_ERRORS" };
+        }
+
+        ODIN_STATE.qa.warnings = [];
+        ODIN_STATE.qa.result = "QA_FIXED";
+        ODIN_STATE.output = "Safe FIX застосовано. Warnings очищені. Система готова до export.";
+        addLog("Safe FIX applied.");
+        setStatus("DONE");
+        return { ok: true, message: "SAFE_FIX_APPLIED" };
+      },
+
+      exportResult(asStep = false) {
+        if (ODIN_STATE.qa.errors.length) {
+          ODIN_STATE.output = "EXPORT заблоковано: QA має errors.";
+          addLog("EXPORT blocked by QA errors.");
+          return { ok: false, message: "EXPORT_BLOCKED" };
+        }
+
+        ODIN_STATE.gate.exportReady = true;
+        ODIN_STATE.output = "EXPORT_READY: Core Engine v1 можна фіксувати як базовий живий шар.";
+        setStatus("EXPORT_READY");
+        addLog("EXPORT_READY.");
+        return { ok: true, message: "EXPORT_READY" };
+      },
+
+      reset(withLog = true) {
+        ODIN_STATE.status = "IDLE";
+        ODIN_STATE.mode = "MANUAL";
+        ODIN_STATE.currentStep = null;
+        ODIN_STATE.progress = 0;
+        ODIN_STATE.output = "Очікування запуску...";
+        ODIN_STATE.gate = {
+          stateCore: false,
+          sidebarConnected: false,
+          executionCycle: false,
+          qaActive: false,
+          exportReady: false
+        };
+        ODIN_STATE.steps = ODIN_STATE.steps.map(step => ({ ...step, status: "pending" }));
+        ODIN_STATE.qa = { result: "NOT_RUN", errors: [], warnings: [] };
+        ODIN_STATE.logs = [];
+        renderAll();
+        if (withLog) addLog("System reset.");
+      }
+    };
+
+    renderAll();
+    addLog("ODIN Core Engine v1 loaded.");
+  </script>
+</body>
+</html>
