@@ -3,27 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ODIN v3.19.4.1 STANDARD ENGINE SCRIPT FIX</title>
+  <title>ODIN v3.21 FULL INTEGRATION</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="wrap">
     <section class="panel hero">
-      <div class="badge">ODIN v3.19.4</div>
-      <h1>STANDARD ENGINE</h1>
-      <p class="muted">
-        Генерація уроку через DT_LESSON_STANDARD_v1: Template + Highlight + Language Markup + Audio + QA + Standalone Export.
-      </p>
+      <div class="badge">ODIN v3.21</div>
+      <h1>FULL INTEGRATION</h1>
+      <p class="muted">STANDARD ENGINE + TRANSLATION v2 + HIGHLIGHT + MARKUP + QA + STANDALONE EXPORT</p>
     </section>
 
     <section class="grid">
       <div class="panel">
-        <h2>Lesson Input</h2>
+        <h2>Lesson Input — Translation v2</h2>
 
-        <label for="title">Назва уроку</label>
-        <input id="title" value="Відокремлювані дієслова">
+        <label for="title_ua">Title UA</label>
+        <input id="title_ua" value="Відокремлювані дієслова">
 
-        <label for="topic">Тема / Topic</label>
+        <label for="title_ru">Title RU</label>
+        <input id="title_ru" value="Отделяемые глаголы">
+
+        <label for="topic">Topic ID</label>
         <input id="topic" value="trennbare-verben">
 
         <label for="level">Рівень</label>
@@ -35,24 +36,27 @@
           <option>B2</option>
         </select>
 
-        <label for="goal">Ціль уроку</label>
-        <textarea id="goal">Зрозуміти правило відокремлюваних дієслів у простому реченні, навчитися бачити основу дієслова і відокремлювану частку, а також будувати власні приклади з дослівним і смисловим перекладом.</textarea>
+        <label for="goal_ua">Goal UA</label>
+        <textarea id="goal_ua">Зрозуміти правило відокремлюваних дієслів у простому реченні, навчитися бачити основу дієслова і відокремлювану частку, а також будувати власні приклади з дослівним і смисловим перекладом.</textarea>
 
-        <label for="examples">Приклади: DE | ДП | СД</label>
-        <textarea id="examples">Ich stehe um sechs Uhr auf.|Я встаю о шостій годині вгору.|Я встаю о шостій годині.
-Mach bitte die Tür zu!|Зроби будь ласка двері до!|Закрий, будь ласка, двері!
-Wir kaufen heute im Supermarkt ein.|Ми купуємо сьогодні в супермаркеті всередину.|Ми сьогодні закуповуємось у супермаркеті.
-Ruf mich bitte später an.|Подзвони мене будь ласка пізніше на.|Подзвони мені, будь ласка, пізніше.
-Ich räume mein Zimmer auf.|Я прибираю мою кімнату вгору.|Я прибираю свою кімнату.</textarea>
+        <label for="goal_ru">Goal RU</label>
+        <textarea id="goal_ru">Понять правило отделяемых глаголов в простом предложении, научиться видеть основу глагола и отделяемую приставку, а также строить собственные примеры с дословным и смысловым переводом.</textarea>
 
-        <label for="vocab">Словник: DE | UA</label>
-        <textarea id="vocab">aufstehen|вставати
-zumachen|закривати
-einkaufen|закуповуватись
-anrufen|телефонувати
-aufräumen|прибирати</textarea>
+        <label for="examples">Examples: DE | Literal UA | Semantic UA | Literal RU | Semantic RU</label>
+        <textarea id="examples">Ich stehe um sechs Uhr auf.|Дослівно: Я встаю о шостій годині вгору.|Я встаю о шостій годині.|Дословно: Я встаю в шесть часов вверх.|Я встаю в шесть часов.
+Mach bitte die Tür zu!|Дослівно: Зроби будь ласка двері до!|Закрий, будь ласка, двері!|Дословно: Сделай пожалуйста дверь до!|Закрой, пожалуйста, дверь!
+Wir kaufen heute im Supermarkt ein.|Дослівно: Ми купуємо сьогодні в супермаркеті всередину.|Ми сьогодні закуповуємось у супермаркеті.|Дословно: Мы покупаем сегодня в супермаркете внутрь.|Мы сегодня закупаемся в супермаркете.
+Ruf mich bitte später an.|Дослівно: Подзвони мене будь ласка пізніше на.|Подзвони мені, будь ласка, пізніше.|Дословно: Позвони меня пожалуйста позже на.|Позвони мне, пожалуйста, позже.
+Ich räume mein Zimmer auf.|Дослівно: Я прибираю мою кімнату вгору.|Я прибираю свою кімнату.|Дословно: Я убираю мою комнату вверх.|Я убираю свою комнату.</textarea>
 
-        <button id="runBtn" type="button">Створити стандартний урок</button>
+        <label for="vocab">Vocabulary: DE | UA | RU</label>
+        <textarea id="vocab">aufstehen|вставати|вставать
+zumachen|закривати|закрывать
+einkaufen|закуповуватись|закупаться
+anrufen|телефонувати|звонить
+aufräumen|прибирати|убирать</textarea>
+
+        <button id="runBtn" type="button">Створити інтегрований урок</button>
         <button id="saveBtn" type="button">💾 Зберегти поточний урок</button>
         <button id="clearBtn" class="secondary" type="button">Очистити</button>
       </div>
@@ -60,10 +64,8 @@ aufräumen|прибирати</textarea>
       <div class="panel">
         <h2>Status</h2>
         <pre id="log">WAITING</pre>
-
         <h2>QA Report</h2>
         <div id="qaBox"><p class="muted">QA зʼявиться після запуску.</p></div>
-
         <h2>Export</h2>
         <div id="download"></div>
       </div>
@@ -73,9 +75,11 @@ aufräumen|прибирати</textarea>
       <h2>Preview Controls</h2>
       <div class="controls">
         <button id="toggleLiteralBtn" type="button">Показати/Сховати ДП</button>
-        <button id="hlOffBtn" class="secondary" type="button">💡 OFF</button>
-        <button id="hlThemeBtn" class="lamp" type="button">💡 THEME</button>
-        <button id="hlAllBtn" class="lamp" type="button">💡 ALL</button>
+        <button id="uiUaBtn" type="button">UA</button>
+        <button id="uiRuBtn" type="button">RU</button>
+        <button id="hlOffBtn" class="secondary" type="button">💡0 OFF</button>
+        <button id="hlThemeBtn" class="lamp" type="button">💡1 THEME</button>
+        <button id="hlAllBtn" class="lamp" type="button">💡2 ALL</button>
       </div>
     </section>
 
@@ -88,9 +92,8 @@ aufräumen|прибирати</textarea>
         </div>
         <div id="lessonsList" class="lessons-list"></div>
       </div>
-
       <div class="panel">
-        <h2>Standard Status</h2>
+        <h2>Integration Status</h2>
         <pre id="dataLog">DATA_WAITING</pre>
       </div>
     </section>
@@ -100,7 +103,6 @@ aufräumen|прибирати</textarea>
       <iframe id="preview" title="Lesson preview"></iframe>
     </section>
   </main>
-
   <script src="app.js"></script>
 </body>
 </html>
