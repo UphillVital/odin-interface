@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ODIN v3.14.1 REVIEW SYSTEM FIX</title>
+  <title>ODIN v3.15 TOPICS SYSTEM</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="wrap">
     <section class="panel hero">
-      <div class="badge">ODIN v3.14.1 FIX</div>
-      <h1>REVIEW SYSTEM — FIX</h1>
+      <div class="badge">ODIN v3.15</div>
+      <h1>TOPICS SYSTEM</h1>
       <p class="muted">
-        FIX: кнопки підключені без inline onclick. Review layer працює через data-action + один event listener.
+        Новий шар поверх REVIEW: уроки мають тему, зберігаються з темою і фільтруються по темах.
       </p>
     </section>
 
@@ -22,6 +22,9 @@
 
         <label for="title">Назва уроку</label>
         <input id="title" value="Відокремлювані дієслова">
+
+        <label for="topic">Тема / Topic</label>
+        <input id="topic" value="Grammar / Trennbare Verben">
 
         <label for="goal">Ціль уроку</label>
         <textarea id="goal">Зрозуміти правило відокремлюваних дієслів, порядок слів у простому реченні, різницю між дослівним і смисловим перекладом та навчитися будувати власні приклади.</textarea>
@@ -73,7 +76,7 @@ aufräumen|прибирати</textarea>
 
     <section class="grid">
       <div class="panel">
-        <h2>📚 Saved Lessons + Review</h2>
+        <h2>📚 Saved Lessons + Topics + Review</h2>
         <div class="controls">
           <button id="filterAllBtn" type="button">All</button>
           <button id="filterNewBtn" type="button">NEW</button>
@@ -82,11 +85,17 @@ aufräumen|прибирати</textarea>
           <button id="refreshLessonsBtn" type="button">Оновити список</button>
           <button id="clearLessonsBtn" class="danger" type="button">Очистити всі уроки</button>
         </div>
+
+        <label for="topicFilter">Фільтр по темі</label>
+        <select id="topicFilter">
+          <option value="ALL">All Topics</option>
+        </select>
+
         <div id="lessonsList" class="lessons-list"></div>
       </div>
 
       <div class="panel">
-        <h2>Review Status</h2>
+        <h2>Topics / Review Status</h2>
         <pre id="dataLog">DATA_WAITING</pre>
       </div>
     </section>
