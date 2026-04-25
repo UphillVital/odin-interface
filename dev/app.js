@@ -28,7 +28,7 @@ function buildLesson(model){
  '</style></head><body class="hl-topic-mode"><h1>'+esc(model.title)+'</h1><span class="badge">Topic: '+esc(model.topic)+' · Level: '+esc(model.level)+'</span>',
  '<section><h2>1. Ціль уроку</h2><p>'+esc(model.goal)+'</p></section><section><h2>2. Основне правило</h2><p>Відокремлювана частка у простому реченні часто переходить у кінець.</p></section>',
  '<section><h2>3. Приклади з ДП і СД</h2>'+examplesHtml+'</section><section><h2>4. Словник</h2><table><thead><tr><th>№</th><th>DE</th><th>UA</th></tr></thead><tbody>'+vocabHtml+'</tbody></table></section>',
- '<section><h2>5. Практика</h2><p>Тема: <b>'+esc(model.topic)+'</b>. Рівень: <b>'+esc(model.level)+'</b>.</p></section><section><h2>QA marker</h2><p>Урок пройшов ODIN v3.16.1 PROGRESSION PIPELINE.</p></section>',
+ '<section><h2>5. Практика</h2><p>Тема: <b>'+esc(model.topic)+'</b>. Рівень: <b>'+esc(model.level)+'</b>.</p></section><section><h2>QA marker</h2><p>Урок пройшов ODIN v3.17 SMART REVIEW PIPELINE.</p></section>',
  '<script>document.addEventListener("click",function(e){if(e.target.classList.contains("mini-toggle")){var card=e.target.closest(".example-card");card.querySelector(".translation-wrap").classList.toggle("local-hidden");}});<\\/script></body></html>'
  ].join("");
 }
@@ -40,7 +40,7 @@ function hardQaCheck(model,html){const messages=[];const error=t=>messages.push(
  const d=findDuplicates(model.examples,i=>i[0]||""); if(d.length>0)error("Є дублікати прикладів DE: "+d.join(", ")); if(!html.includes("QA marker"))error("HTML не містить QA marker."); info("PROGRESSION layer ready: level + MASTERED + topic progress.");
  const hasErrors=messages.some(m=>m.level==="ERROR"),hasWarnings=messages.some(m=>m.level==="WARNING");return{passed:!hasErrors,hasWarnings,messages}}
 function renderQaReport(r){const rows=r.messages.map(m=>'<div class="qa-item '+(m.level==="ERROR"?"qa-error":m.level==="WARNING"?"qa-warning":"qa-info")+'"><b>'+m.level+':</b> '+esc(m.text)+'</div>').join("");const s=r.passed?(r.hasWarnings?"QA_PASSED_WITH_WARNINGS":"QA_PASSED"):"QA_FAILED_EXPORT_BLOCKED";document.getElementById("qaBox").innerHTML=rows+'<div class="qa-item summary '+(r.passed?"qa-pass":"qa-error")+'">'+s+'</div>'}
-function renderDownload(html){const blob=new Blob([html],{type:"text/html;charset=utf-8"});const url=URL.createObjectURL(blob);document.getElementById("download").innerHTML='<a class="download" href="'+url+'" download="odin_lesson_v3_16_1.html">Завантажити урок</a>'}
+function renderDownload(html){const blob=new Blob([html],{type:"text/html;charset=utf-8"});const url=URL.createObjectURL(blob);document.getElementById("download").innerHTML='<a class="download" href="'+url+'" download="odin_lesson_v3_17.html">Завантажити урок</a>'}
 
 function getPreviewDocument(){const f=document.getElementById("preview");return f.contentDocument||f.contentWindow.document}
 function applyMode(){if(!ODIN_STATE.lessonCreated){log("INFO: спочатку створи урок.");return}const d=getPreviewDocument();if(!d)return;d.querySelectorAll(".dp").forEach(e=>e.style.display=ODIN_STATE.showDP?"block":"none");d.querySelectorAll(".sd").forEach(e=>e.style.display=ODIN_STATE.showSD?"block":"none")}
@@ -73,7 +73,79 @@ function setTopicFilter(v){TOPIC_FILTER=v;dataLog("TOPIC_FILTER_SET: "+v);render
 function setLevelFilter(v){LEVEL_FILTER=v;dataLog("LEVEL_FILTER_SET: "+v);renderLessonsList()}
 
 function clearAll(){clearLog();document.getElementById("qaBox").innerHTML='<p class="muted">QA зʼявиться після запуску.</p>';document.getElementById("download").innerHTML="";document.getElementById("preview").srcdoc="";ODIN_STATE={lessonCreated:false,showDP:true,showSD:true,uxMode:"FULL",highlightMode:"TOPIC",lastHtml:"",lastModel:null,lastQa:null}}
-function executeOdinAction(){clearAll();log("RUNNING");runModeGuard();const model=collectInput();ODIN_STATE.lastModel=model;log("PLAN_DONE");log("PIPELINE_DONE");const html=buildLesson(model);ODIN_STATE.lastHtml=html;document.getElementById("preview").srcdoc=html;ODIN_STATE.lessonCreated=true;log("LESSON_DONE");const report=hardQaCheck(model,html);ODIN_STATE.lastQa=report;renderQaReport(report);log(report.passed?(report.hasWarnings?"QA_PASSED_WITH_WARNINGS":"QA_PASSED"):"QA_FAILED");if(!report.passed){document.getElementById("download").innerHTML='<div class="qa-item qa-error">EXPORT BLOCKED</div>';log("EXPORT_BLOCKED");return}renderDownload(html);log("EXPORT_DONE");log("PROGRESSION_LAYER_READY_PARSE_FIXED");log("DONE")}
+function executeOdinAction(){clearAll();log("RUNNING");runModeGuard();const model=collectInput();ODIN_STATE.lastModel=model;log("PLAN_DONE");log("PIPELINE_DONE");const html=buildLesson(model);ODIN_STATE.lastHtml=html;document.getElementById("preview").srcdoc=html;ODIN_STATE.lessonCreated=true;log("LESSON_DONE");const report=hardQaCheck(model,html);ODIN_STATE.lastQa=report;renderQaReport(report);log(report.passed?(report.hasWarnings?"QA_PASSED_WITH_WARNINGS":"QA_PASSED"):"QA_FAILED");if(!report.passed){document.getElementById("download").innerHTML='<div class="qa-item qa-error">EXPORT BLOCKED</div>';log("EXPORT_BLOCKED");return}renderDownload(html);log("EXPORT_DONE");log("SMART_REVIEW_LAYER_READY");log("DONE")}
 
 function bind(){document.getElementById("runBtn").addEventListener("click",executeOdinAction);document.getElementById("saveBtn").addEventListener("click",saveCurrentLesson);document.getElementById("clearBtn").addEventListener("click",clearAll);document.getElementById("toggleDpBtn").addEventListener("click",toggleDP);document.getElementById("toggleSdBtn").addEventListener("click",toggleSD);document.getElementById("modeStudyBtn").addEventListener("click",modeStudy);document.getElementById("modeTestBtn").addEventListener("click",modeTest);document.getElementById("modeFullBtn").addEventListener("click",modeFull);document.getElementById("lampBtn").addEventListener("click",()=>applyHighlightMode("TOPIC"));document.getElementById("lampAllBtn").addEventListener("click",()=>applyHighlightMode("ALL"));document.getElementById("lampOffBtn").addEventListener("click",()=>applyHighlightMode("OFF"));document.getElementById("refreshLessonsBtn").addEventListener("click",()=>{renderFilters();renderProgress();renderLessonsList()});document.getElementById("clearLessonsBtn").addEventListener("click",clearSavedLessons);document.getElementById("filterAllBtn").addEventListener("click",()=>setFilter("ALL"));document.getElementById("filterNewBtn").addEventListener("click",()=>setFilter("NEW"));document.getElementById("filterReviewBtn").addEventListener("click",()=>setFilter("REVIEW"));document.getElementById("filterLearnedBtn").addEventListener("click",()=>setFilter("LEARNED"));document.getElementById("filterMasteredBtn").addEventListener("click",()=>setFilter("MASTERED"));document.getElementById("topicFilter").addEventListener("change",e=>setTopicFilter(e.target.value));document.getElementById("levelFilter").addEventListener("change",e=>setLevelFilter(e.target.value));document.getElementById("lessonsList").addEventListener("click",e=>{const b=e.target.closest("button[data-action]");if(!b)return;const i=Number(b.dataset.index);if(b.dataset.action==="open")openLesson(i);if(b.dataset.action==="export")exportSavedLesson(i);if(b.dataset.action==="delete")deleteLesson(i);if(b.dataset.action==="status")setReviewStatus(i,b.dataset.status);if(b.dataset.action==="auto")autoProgress(i)})}
-document.addEventListener("DOMContentLoaded",()=>{bind();renderFilters();renderProgress();renderLessonsList();dataLog("PARSER_FIX_ACTIVE: newline rows are parsed correctly");dataLog("APP_READY_v3.16.1_PARSE_FIX")});
+document.addEventListener("DOMContentLoaded",()=>{bind();renderFilters();renderProgress();renderLessonsList();dataLog("PARSER_FIX_ACTIVE: newline rows are parsed correctly");dataLog("APP_READY_v3.17_SMART_REVIEW")});
+
+
+function smartPriority(lesson) {
+  const status = lesson.reviewStatus || "NEW";
+  const count = lesson.reviewCount || 0;
+  const last = lesson.lastReviewed ? Date.parse(lesson.lastReviewed) : 0;
+  const daysSince = last ? Math.max(0, Math.floor((Date.now() - last) / 86400000)) : 999;
+
+  let score = 0;
+  const reasons = [];
+
+  if (status === "NEW") { score += 90; reasons.push("Новий урок ще не закріплений."); }
+  if (status === "REVIEW") { score += 75; reasons.push("Позначений як REVIEW."); }
+  if (status === "LEARNED") { score += 35; reasons.push("Вивчений, але потребує періодичного повторення."); }
+  if (status === "MASTERED") { score += 10; reasons.push("MASTERED: низький пріоритет."); }
+
+  if (count === 0) { score += 35; reasons.push("Ще не повторювався."); }
+  if (count === 1) { score += 20; reasons.push("Було лише одне повторення."); }
+  if (daysSince >= 7) { score += 25; reasons.push("Давно не повторювався."); }
+  if (daysSince >= 3 && daysSince < 7) { score += 12; reasons.push("Пора освіжити."); }
+
+  if (score > 100) score = 100;
+  return { score, reasons, daysSince };
+}
+
+function smartPriorityClass(score) {
+  if (score >= 75) return "priority-high";
+  if (score >= 40) return "priority-mid";
+  return "priority-low";
+}
+
+function showSmartReview() {
+  const lessons = getLessons();
+
+  if (!lessons.length) {
+    document.getElementById("smartReviewBox").innerHTML =
+      '<p class="muted">Немає збережених уроків. Спочатку створи і збережи урок.</p>';
+    dataLog("SMART_REVIEW_EMPTY");
+    return;
+  }
+
+  const ranked = lessons
+    .map((lesson, index) => {
+      const priority = smartPriority(lesson);
+      return { lesson, index, priority };
+    })
+    .sort((a, b) => b.priority.score - a.priority.score)
+    .slice(0, 5);
+
+  document.getElementById("smartReviewBox").innerHTML = ranked.map(item => {
+    const l = item.lesson;
+    const p = item.priority;
+    return [
+      '<div class="smart-card ' + smartPriorityClass(p.score) + '">',
+      '<h3>' + esc(l.title) + ' <span class="status-pill ' + statusClass(l.reviewStatus || "NEW") + '">' + esc(l.reviewStatus || "NEW") + '</span></h3>',
+      '<div class="lesson-meta">' + esc(l.topic || "General") + ' · ' + esc(l.level || "A1") + ' · reviews: ' + (l.reviewCount || 0) + '</div>',
+      '<div class="priority-score">Priority: ' + p.score + '%</div>',
+      '<div class="reason">' + p.reasons.map(esc).join("<br>") + '</div>',
+      '<button type="button" data-action="open" data-index="' + item.index + '">Відкрити</button>',
+      '<button type="button" data-action="auto" data-index="' + item.index + '">Auto Progress після повторення</button>',
+      '</div>'
+    ].join("");
+  }).join("");
+
+  dataLog("SMART_REVIEW_READY: " + ranked.length);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const smartBtn = document.getElementById("smartReviewBtn");
+  if (smartBtn) smartBtn.addEventListener("click", showSmartReview);
+  dataLog("SMART_REVIEW_LAYER_READY");
+});

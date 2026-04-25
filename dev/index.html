@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ODIN v3.16.1.1 PROGRESSION PARSE FIX</title>
+  <title>ODIN v3.17.1 PROGRESSION PARSE FIX</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="wrap">
     <section class="panel hero">
-      <div class="badge">ODIN v3.16.1</div>
-      <h1>PROGRESSION SYSTEM — PARSE FIX</h1>
-      <p class="muted">Новий шар: рівні A1/A2/B1, MASTERED, прогрес по темах і авто-прогрес статусів.</p>
+      <div class="badge">ODIN v3.17</div>
+      <h1>SMART REVIEW SYSTEM</h1>
+      <p class="muted">Новий шар: система сама пропонує, що повторити зараз, на основі статусу, повторень і прогресу.</p>
     </section>
 
     <section class="grid">
@@ -107,6 +107,17 @@ aufräumen|прибирати</textarea>
       <div class="panel">
         <h2>Progression Status</h2>
         <pre id="dataLog">DATA_WAITING</pre>
+      </div>
+    </section>
+
+
+    <section class="panel">
+      <h2>🧠 Smart Review</h2>
+      <div class="controls">
+        <button id="smartReviewBtn" type="button">Що мені вчити зараз?</button>
+      </div>
+      <div id="smartReviewBox" class="smart-review-box">
+        <p class="muted">Після натискання ODIN покаже уроки з найвищим пріоритетом повторення.</p>
       </div>
     </section>
 
