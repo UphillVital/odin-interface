@@ -2,6 +2,7 @@ let ODIN_STATE = {
   lessonCreated: false,
   showDP: true,
   showSD: true,
+  uxMode: "FULL",
   lastHtml: "",
   lastModel: null,
   lastQa: null
@@ -59,10 +60,13 @@ function runModeGuard(actionName) {
 function buildLesson(model) {
   const examplesHtml = model.examples.map((example, index) => {
     return [
-      '<article class="example-card">',
+      '<article class="example-card" data-example="' + index + '">',
       '<h3>' + (index + 1) + '. <span class="de">' + esc(example[0]) + '</span></h3>',
+      '<div class="translation-wrap">',
       '<p class="dp"><b>ДП:</b> ' + esc(example[1]) + '</p>',
       '<p class="sd"><b>СД:</b> ' + esc(example[2]) + '</p>',
+      '</div>',
+      '<button class="mini-toggle" type="button">Показати/сховати переклад цього прикладу</button>',
       '</article>'
     ].join("");
   }).join("");
@@ -87,23 +91,36 @@ function buildLesson(model) {
     '<style>',
     'body{font-family:system-ui;line-height:1.6;padding:20px;max-width:920px;margin:auto;background:#f8fafc;color:#0f172a}',
     'section{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:16px;margin:14px 0}',
-    '.example-card{border-left:5px solid #0284c7;padding-left:12px;margin:12px 0}',
+    '.example-card{border-left:5px solid #0284c7;padding:14px;margin:12px 0;background:#fff;border-radius:14px;transition:.2s}',
+    '.example-card:hover{box-shadow:0 10px 28px rgba(15,23,42,.08);transform:translateY(-1px)}',
     '.de{font-weight:900;color:#0f172a}',
     '.dp{color:#475569}',
     '.sd{color:#111827}',
+    '.translation-wrap{transition:.2s}',
+    '.translation-wrap.local-hidden{display:none}',
+    '.mini-toggle{border:0;border-radius:10px;padding:8px 10px;background:#e0f2fe;color:#075985;font-weight:800;cursor:pointer}',
     'table{width:100%;border-collapse:collapse}td,th{border-bottom:1px solid #e2e8f0;padding:8px;text-align:left}',
     '.badge{display:inline-block;background:#e0f2fe;color:#075985;border-radius:999px;padding:5px 9px;font-weight:800}',
     '</style>',
     '</head>',
     '<body>',
     '<h1>' + esc(model.title) + '</h1>',
-    '<span class="badge">ODIN v3.10 REAL INTEGRATION</span>',
+    '<span class="badge">ODIN v3.11 UX CONTROL</span>',
     '<section id="goal"><h2>1. Ціль уроку</h2><p>' + esc(model.goal) + '</p></section>',
     '<section id="rule"><h2>2. Основне правило</h2><p>Відокремлювана частка у простому реченні часто переходить у кінець.</p></section>',
     '<section id="examples"><h2>3. Приклади з ДП і СД</h2>' + examplesHtml + '</section>',
     '<section id="vocab"><h2>4. Словник</h2><table><thead><tr><th>№</th><th>DE</th><th>UA</th></tr></thead><tbody>' + vocabHtml + '</tbody></table></section>',
-    '<section id="practice"><h2>5. Практика</h2><p>Закрий переклади і відтвори німецькі речення самостійно.</p></section>',
-    '<section id="qa-marker"><h2>QA marker</h2><p>Урок пройшов ODIN v3.10 REAL PIPELINE.</p></section>',
+    '<section id="practice"><h2>5. Практика</h2><p>Натискай на приклади, приховуй переклади і відтвори німецькі речення самостійно.</p></section>',
+    '<section id="qa-marker"><h2>QA marker</h2><p>Урок пройшов ODIN v3.11 UX PIPELINE.</p></section>',
+    '<script>',
+    'document.addEventListener("click",function(e){',
+    'if(e.target.classList.contains("mini-toggle")){',
+    'var card=e.target.closest(".example-card");',
+    'var wrap=card.querySelector(".translation-wrap");',
+    'wrap.classList.toggle("local-hidden");',
+    '}',
+    '});',
+    '<\\/script>',
     '</body>',
     '</html>'
   ].join("");
@@ -157,7 +174,7 @@ function hardQaCheck(model, html) {
   if (!html.includes("3. Приклади")) error("HTML не містить блок прикладів.");
   if (!html.includes("4. Словник")) error("HTML не містить блок словника.");
 
-  info("MODE GUARD + HARD QA + UI CONTROL інтегровані в один pipeline.");
+  info("UX layer додано: глобальні режими + локальний toggle прикладу.");
 
   const hasErrors = messages.some(m => m.level === "ERROR");
   const hasWarnings = messages.some(m => m.level === "WARNING");
@@ -188,7 +205,7 @@ function renderDownload(html) {
   const blob = new Blob([html], { type: "text/html;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   document.getElementById("download").innerHTML =
-    '<a class="download" href="' + url + '" download="odin_lesson_v3_10.html">Завантажити урок</a>';
+    '<a class="download" href="' + url + '" download="odin_lesson_v3_11.html">Завантажити урок</a>';
 }
 
 function getPreviewDocument() {
@@ -229,16 +246,26 @@ function toggleSD() {
   log(ODIN_STATE.showSD ? "SD_VISIBLE" : "SD_HIDDEN");
 }
 
-function modeDE() {
+function modeStudy() {
+  ODIN_STATE.showDP = false;
+  ODIN_STATE.showSD = true;
+  ODIN_STATE.uxMode = "STUDY";
+  applyMode();
+  log("MODE_STUDY");
+}
+
+function modeTest() {
   ODIN_STATE.showDP = false;
   ODIN_STATE.showSD = false;
+  ODIN_STATE.uxMode = "TEST";
   applyMode();
-  log("MODE_ONLY_DE");
+  log("MODE_TEST_ONLY_DE");
 }
 
 function modeFull() {
   ODIN_STATE.showDP = true;
   ODIN_STATE.showSD = true;
+  ODIN_STATE.uxMode = "FULL";
   applyMode();
   log("MODE_FULL");
 }
@@ -251,6 +278,7 @@ function clearAll() {
   ODIN_STATE.lessonCreated = false;
   ODIN_STATE.showDP = true;
   ODIN_STATE.showSD = true;
+  ODIN_STATE.uxMode = "FULL";
   ODIN_STATE.lastHtml = "";
   ODIN_STATE.lastModel = null;
   ODIN_STATE.lastQa = null;
@@ -260,7 +288,7 @@ function executeOdinAction() {
   clearAll();
 
   log("RUNNING");
-  runModeGuard("v3.10 REAL INTEGRATION");
+  runModeGuard("v3.11 UX CONTROL LAYER");
 
   const model = collectInput();
   ODIN_STATE.lastModel = model;
@@ -288,7 +316,7 @@ function executeOdinAction() {
 
   renderDownload(html);
   log("EXPORT_DONE");
-  log("UI_CONTROL_READY");
+  log("UX_CONTROL_READY");
   log("DONE");
 }
 
@@ -297,6 +325,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("clearBtn").addEventListener("click", clearAll);
   document.getElementById("toggleDpBtn").addEventListener("click", toggleDP);
   document.getElementById("toggleSdBtn").addEventListener("click", toggleSD);
-  document.getElementById("modeDeBtn").addEventListener("click", modeDE);
+  document.getElementById("modeStudyBtn").addEventListener("click", modeStudy);
+  document.getElementById("modeTestBtn").addEventListener("click", modeTest);
   document.getElementById("modeFullBtn").addEventListener("click", modeFull);
 });

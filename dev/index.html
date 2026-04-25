@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ODIN v3.10 REAL INTEGRATION</title>
+  <title>ODIN v3.11 UX CONTROL LAYER</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="wrap">
     <section class="panel hero">
-      <div class="badge">ODIN v3.10</div>
-      <h1>REAL INTEGRATION</h1>
+      <div class="badge">ODIN v3.11</div>
+      <h1>UX CONTROL LAYER</h1>
       <p class="muted">
-        Один pipeline: INPUT → MODE GUARD → ENGINE → HARD QA → UI CONTROL → EXPORT.
+        v3.11 додає UX-рівень поверх v3.10: режими навчання, клік по прикладу, керування ДП/СД, плавна взаємодія.
       </p>
     </section>
 
@@ -57,14 +57,18 @@ aufräumen|прибирати</textarea>
     </section>
 
     <section class="panel">
-      <h2>UI Control</h2>
+      <h2>UX Control</h2>
       <div class="controls">
         <button id="toggleDpBtn" type="button">Показати/Сховати ДП</button>
         <button id="toggleSdBtn" type="button">Показати/Сховати СД</button>
-        <button id="modeDeBtn" type="button">Тільки DE</button>
-        <button id="modeFullBtn" type="button">Повний режим</button>
+        <button id="modeStudyBtn" type="button">Study Mode</button>
+        <button id="modeTestBtn" type="button">Test Mode</button>
+        <button id="modeFullBtn" type="button">Full Mode</button>
       </div>
-      <p class="muted">Кнопки працюють після створення уроку.</p>
+      <p class="muted">
+        Study Mode: DE + СД. Test Mode: тільки DE. Full Mode: DE + ДП + СД.
+        У preview можна клікати по прикладу, щоб показати/сховати переклади саме цього прикладу.
+      </p>
     </section>
 
     <section class="panel">
