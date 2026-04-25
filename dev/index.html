@@ -1,35 +1,39 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ODIN v3.9 UI CONTROL</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ODIN v3.9.1 UI CONTROL FIX</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <main class="wrap">
+    <section class="panel">
+      <div class="badge">ODIN v3.9.1 FIX</div>
+      <h1>UI CONTROL SYSTEM</h1>
+      <p class="muted">FIX: кнопки підключені через app.js і addEventListener.</p>
 
-<div class="wrap">
+      <button id="createLessonBtn" type="button">Створити урок</button>
 
-<div class="panel">
-<h1>ODIN v3.9 UI CONTROL SYSTEM</h1>
-<button onclick="generateLesson()">Створити урок</button>
+      <div class="controls">
+        <button id="toggleDpBtn" type="button">Показати/Сховати ДП</button>
+        <button id="toggleSdBtn" type="button">Показати/Сховати СД</button>
+        <button id="modeDeBtn" type="button">Тільки DE</button>
+        <button id="modeFullBtn" type="button">Повний режим</button>
+      </div>
+    </section>
 
-<div class="controls">
-<button onclick="toggleDP()">Показати/Сховати ДП</button>
-<button onclick="toggleSD()">Показати/Сховати СД</button>
-<button onclick="modeDE()">Тільки DE</button>
-<button onclick="modeFull()">Повний режим</button>
-</div>
+    <section class="panel">
+      <h2>Status</h2>
+      <pre id="log">WAITING</pre>
+    </section>
 
-</div>
+    <section class="panel">
+      <h2>Preview</h2>
+      <iframe id="preview" title="Lesson preview"></iframe>
+    </section>
+  </main>
 
-<div class="panel">
-<iframe id="preview"></iframe>
-</div>
-
-</div>
-
-<script src="app.js"></script>
-
+  <script src="app.js"></script>
 </body>
 </html>
