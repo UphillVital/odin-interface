@@ -1,4 +1,4 @@
-/* ODIN v3.12 host UI */
+/* ODIN v3.13.1 host UI */
 :root{
   --bg:#0f172a;
   --panel:#1e293b;
@@ -28,14 +28,14 @@ body{
   margin-bottom:16px;
   box-shadow:0 12px 30px rgba(0,0,0,.25);
 }
-.hero{border:1px solid rgba(250,204,21,.28)}
+.hero{border:1px solid rgba(56,189,248,.28)}
 .grid{display:grid;grid-template-columns:1fr;gap:16px}
 @media(min-width:900px){.grid{grid-template-columns:1.08fr .92fr}}
 h1,h2,h3{margin-top:0}
 .badge{
   display:inline-block;
-  background:rgba(250,204,21,.16);
-  color:#fde68a;
+  background:rgba(56,189,248,.15);
+  color:#7dd3fc;
   padding:6px 10px;
   border-radius:999px;
   font-weight:800;
@@ -69,6 +69,7 @@ button,.download{
   text-decoration:none;
 }
 button.secondary{background:#334155;color:#fff}
+button.danger{background:#7f1d1d;color:#fee2e2}
 button.lamp{background:var(--lamp);color:#422006}
 pre{
   background:#020617;
@@ -98,3 +99,12 @@ iframe{
 .summary{font-weight:900;margin-top:10px}
 .controls{display:flex;flex-wrap:wrap;gap:6px}
 .muted{color:var(--muted)}
+.lessons-list{display:grid;gap:10px}
+.lesson-item{
+  background:#0f172a;
+  border:1px solid #334155;
+  border-radius:14px;
+  padding:12px;
+}
+.lesson-item h3{margin:0 0 6px}
+.lesson-meta{color:#cbd5e1;font-size:13px;margin-bottom:8px}

@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ODIN v3.12 GRAMMAR HIGHLIGHT LAMP</title>
+  <title>ODIN v3.13.1 DATA INTEGRATED</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="wrap">
     <section class="panel hero">
-      <div class="badge">ODIN v3.12</div>
-      <h1>GRAMMAR HIGHLIGHT SYSTEM — 💡 ЛАМПА</h1>
+      <div class="badge">ODIN v3.13.1</div>
+      <h1>DATA LAYER — INTEGRATED</h1>
       <p class="muted">
-        v3.12 додає grammar highlight layer поверх v3.11: лампа, режим теми уроку, режим усіх правил, OFF.
+        Реальна інтеграція DATA: урок створюється через pipeline, проходить QA, керується UX/Highlight, зберігається в localStorage і відкривається назад у Preview.
       </p>
     </section>
 
@@ -41,6 +41,7 @@ anrufen|телефонувати
 aufräumen|прибирати</textarea>
 
         <button id="runBtn" type="button">Створити урок через ODIN Pipeline</button>
+        <button id="saveBtn" type="button">💾 Зберегти поточний урок</button>
         <button id="clearBtn" class="secondary" type="button">Очистити</button>
       </div>
 
@@ -68,9 +69,22 @@ aufräumen|прибирати</textarea>
         <button id="lampAllBtn" class="lamp" type="button">💡 All Rules</button>
         <button id="lampOffBtn" class="secondary" type="button">Highlight OFF</button>
       </div>
-      <p class="muted">
-        Topic: підсвічує відокремлювану частку. All Rules: додає підмет/дієслово/частку. OFF: прибирає підсвітку.
-      </p>
+    </section>
+
+    <section class="grid">
+      <div class="panel">
+        <h2>📚 Saved Lessons</h2>
+        <div class="controls">
+          <button id="refreshLessonsBtn" type="button">Оновити список</button>
+          <button id="clearLessonsBtn" class="danger" type="button">Очистити всі уроки</button>
+        </div>
+        <div id="lessonsList" class="lessons-list"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Data Status</h2>
+        <pre id="dataLog">DATA_WAITING</pre>
+      </div>
     </section>
 
     <section class="panel">

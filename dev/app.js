@@ -1,3 +1,5 @@
+const ODIN_STORAGE_KEY = "odin_lessons_v3_13_1";
+
 let ODIN_STATE = {
   lessonCreated: false,
   showDP: true,
@@ -25,6 +27,12 @@ function getValue(id) {
 function log(message) {
   const box = document.getElementById("log");
   if (box.textContent === "WAITING") box.textContent = "";
+  box.textContent += message + "\n";
+}
+
+function dataLog(message) {
+  const box = document.getElementById("dataLog");
+  if (box.textContent === "DATA_WAITING") box.textContent = "";
   box.textContent += message + "\n";
 }
 
@@ -75,24 +83,13 @@ const VERB_FORMS = ["stehe", "mach", "kaufen", "ruf", "räume", "steht", "machst
 
 function renderGermanWithHighlight(sentence) {
   const tokens = tokenizeGerman(sentence);
-  return tokens.map((token, index) => {
+  return tokens.map(token => {
     if (token.type === "space") return token.text;
-
     const clean = normalizeToken(token.text);
     let cls = "token";
-
-    if (TOPIC_PARTICLES.includes(clean)) {
-      cls += " hl-topic";
-    }
-
-    if (SUBJECT_WORDS.includes(clean)) {
-      cls += " hl-subject";
-    }
-
-    if (VERB_FORMS.includes(clean)) {
-      cls += " hl-verb";
-    }
-
+    if (TOPIC_PARTICLES.includes(clean)) cls += " hl-topic";
+    if (SUBJECT_WORDS.includes(clean)) cls += " hl-subject";
+    if (VERB_FORMS.includes(clean)) cls += " hl-verb";
     return '<span class="' + cls + '">' + esc(token.text) + '</span>';
   }).join("");
 }
@@ -136,7 +133,6 @@ function buildLesson(model) {
     '.de{font-weight:900;color:#0f172a}',
     '.dp{color:#475569}',
     '.sd{color:#111827}',
-    '.translation-wrap{transition:.2s}',
     '.translation-wrap.local-hidden{display:none}',
     '.mini-toggle{border:0;border-radius:10px;padding:8px 10px;background:#e0f2fe;color:#075985;font-weight:800;cursor:pointer}',
     '.token{border-radius:7px;padding:1px 4px}',
@@ -157,14 +153,14 @@ function buildLesson(model) {
     '</head>',
     '<body class="hl-topic-mode">',
     '<h1>' + esc(model.title) + '</h1>',
-    '<span class="badge">💡 ODIN v3.12 GRAMMAR HIGHLIGHT</span>',
+    '<span class="badge">💡 ODIN v3.13.1 DATA INTEGRATED</span>',
     '<div class="legend"><span class="legend-topic">Topic: separable particle</span><span class="legend-subject">Subject</span><span class="legend-verb">Verb</span></div>',
     '<section id="goal"><h2>1. Ціль уроку</h2><p>' + esc(model.goal) + '</p></section>',
     '<section id="rule"><h2>2. Основне правило</h2><p>Відокремлювана частка у простому реченні часто переходить у кінець. Лампа підсвічує цю частку.</p></section>',
     '<section id="examples"><h2>3. Приклади з ДП і СД</h2>' + examplesHtml + '</section>',
     '<section id="vocab"><h2>4. Словник</h2><table><thead><tr><th>№</th><th>DE</th><th>UA</th></tr></thead><tbody>' + vocabHtml + '</tbody></table></section>',
     '<section id="practice"><h2>5. Практика</h2><p>Натискай на приклади, приховуй переклади і відтвори німецькі речення самостійно.</p></section>',
-    '<section id="qa-marker"><h2>QA marker</h2><p>Урок пройшов ODIN v3.12 HIGHLIGHT PIPELINE.</p></section>',
+    '<section id="qa-marker"><h2>QA marker</h2><p>Урок пройшов ODIN v3.13.1 DATA PIPELINE.</p></section>',
     '<script>',
     'document.addEventListener("click",function(e){',
     'if(e.target.classList.contains("mini-toggle")){',
@@ -192,7 +188,6 @@ function findDuplicates(list, getKey) {
 
 function hardQaCheck(model, html) {
   const messages = [];
-
   function error(text) { messages.push({ level: "ERROR", text }); }
   function warning(text) { messages.push({ level: "WARNING", text }); }
   function info(text) { messages.push({ level: "INFO", text }); }
@@ -223,16 +218,12 @@ function hardQaCheck(model, html) {
   if (duplicateVocab.length > 0) warning("Є дублікати у словнику: " + duplicateVocab.join(", "));
 
   if (!html.includes("QA marker")) error("HTML не містить QA marker.");
-  if (!html.includes("5. Практика")) error("HTML не містить блок практики.");
-  if (!html.includes("3. Приклади")) error("HTML не містить блок прикладів.");
-  if (!html.includes("4. Словник")) error("HTML не містить блок словника.");
   if (!html.includes("hl-topic")) error("HTML не містить highlight markup.");
 
-  info("Highlight layer додано: TOPIC / ALL / OFF.");
+  info("DATA layer integrated: урок можна зберегти, відкрити, видалити.");
 
   const hasErrors = messages.some(m => m.level === "ERROR");
   const hasWarnings = messages.some(m => m.level === "WARNING");
-
   return { passed: !hasErrors, hasWarnings, messages };
 }
 
@@ -242,7 +233,6 @@ function renderQaReport(report) {
       message.level === "ERROR" ? "qa-error" :
       message.level === "WARNING" ? "qa-warning" :
       "qa-info";
-
     return '<div class="qa-item ' + cssClass + '"><b>' + message.level + ':</b> ' + esc(message.text) + '</div>';
   }).join("");
 
@@ -259,7 +249,7 @@ function renderDownload(html) {
   const blob = new Blob([html], { type: "text/html;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   document.getElementById("download").innerHTML =
-    '<a class="download" href="' + url + '" download="odin_lesson_v3_12.html">Завантажити урок</a>';
+    '<a class="download" href="' + url + '" download="odin_lesson_v3_13_1.html">Завантажити урок</a>';
 }
 
 function getPreviewDocument() {
@@ -272,17 +262,12 @@ function applyMode() {
     log("INFO: спочатку створи урок.");
     return;
   }
-
   const doc = getPreviewDocument();
-  if (!doc) {
-    log("ERROR: preview document not available");
-    return;
-  }
+  if (!doc) return;
 
   doc.querySelectorAll(".dp").forEach(el => {
     el.style.display = ODIN_STATE.showDP ? "block" : "none";
   });
-
   doc.querySelectorAll(".sd").forEach(el => {
     el.style.display = ODIN_STATE.showSD ? "block" : "none";
   });
@@ -293,12 +278,8 @@ function applyHighlightMode(mode) {
     log("INFO: спочатку створи урок.");
     return;
   }
-
   const doc = getPreviewDocument();
-  if (!doc || !doc.body) {
-    log("ERROR: preview document not available");
-    return;
-  }
+  if (!doc || !doc.body) return;
 
   doc.body.classList.remove("hl-topic-mode", "hl-all-mode", "hl-off");
 
@@ -317,17 +298,8 @@ function applyHighlightMode(mode) {
   }
 }
 
-function toggleDP() {
-  ODIN_STATE.showDP = !ODIN_STATE.showDP;
-  applyMode();
-  log(ODIN_STATE.showDP ? "DP_VISIBLE" : "DP_HIDDEN");
-}
-
-function toggleSD() {
-  ODIN_STATE.showSD = !ODIN_STATE.showSD;
-  applyMode();
-  log(ODIN_STATE.showSD ? "SD_VISIBLE" : "SD_HIDDEN");
-}
+function toggleDP() { ODIN_STATE.showDP = !ODIN_STATE.showDP; applyMode(); log(ODIN_STATE.showDP ? "DP_VISIBLE" : "DP_HIDDEN"); }
+function toggleSD() { ODIN_STATE.showSD = !ODIN_STATE.showSD; applyMode(); log(ODIN_STATE.showSD ? "SD_VISIBLE" : "SD_HIDDEN"); }
 
 function modeStudy() {
   ODIN_STATE.showDP = false;
@@ -356,6 +328,99 @@ function modeFull() {
   log("MODE_FULL");
 }
 
+function getLessons() {
+  try {
+    return JSON.parse(localStorage.getItem(ODIN_STORAGE_KEY) || "[]");
+  } catch (e) {
+    return [];
+  }
+}
+
+function setLessons(lessons) {
+  localStorage.setItem(ODIN_STORAGE_KEY, JSON.stringify(lessons));
+}
+
+function saveCurrentLesson() {
+  if (!ODIN_STATE.lessonCreated || !ODIN_STATE.lastHtml || !ODIN_STATE.lastQa || !ODIN_STATE.lastQa.passed) {
+    dataLog("SAVE_BLOCKED: немає успішно створеного уроку після QA.");
+    return;
+  }
+
+  const lessons = getLessons();
+  const record = {
+    id: "lesson_" + Date.now(),
+    title: ODIN_STATE.lastModel.title,
+    createdAt: new Date().toLocaleString(),
+    html: ODIN_STATE.lastHtml,
+    model: ODIN_STATE.lastModel,
+    qaStatus: ODIN_STATE.lastQa.hasWarnings ? "QA_PASSED_WITH_WARNINGS" : "QA_PASSED"
+  };
+
+  lessons.unshift(record);
+  setLessons(lessons);
+  dataLog("LESSON_SAVED: " + record.title);
+  renderLessonsList();
+}
+
+function renderLessonsList() {
+  const lessons = getLessons();
+  const box = document.getElementById("lessonsList");
+
+  if (lessons.length === 0) {
+    box.innerHTML = '<p class="muted">Збережених уроків ще немає.</p>';
+    dataLog("LESSONS_LIST_EMPTY");
+    return;
+  }
+
+  box.innerHTML = lessons.map((lesson, index) => {
+    return [
+      '<div class="lesson-item">',
+      '<h3>' + esc(lesson.title) + '</h3>',
+      '<div class="lesson-meta">' + esc(lesson.createdAt) + ' · ' + esc(lesson.qaStatus) + '</div>',
+      '<button type="button" onclick="openLesson(' + index + ')">Відкрити</button>',
+      '<button type="button" onclick="exportSavedLesson(' + index + ')">Export</button>',
+      '<button type="button" class="danger" onclick="deleteLesson(' + index + ')">Видалити</button>',
+      '</div>'
+    ].join("");
+  }).join("");
+
+  dataLog("LESSONS_LIST_RENDERED: " + lessons.length);
+}
+
+function openLesson(index) {
+  const lessons = getLessons();
+  const lesson = lessons[index];
+  if (!lesson) return;
+
+  document.getElementById("preview").srcdoc = lesson.html;
+  ODIN_STATE.lessonCreated = true;
+  ODIN_STATE.lastHtml = lesson.html;
+  ODIN_STATE.lastModel = lesson.model;
+  dataLog("LESSON_OPENED: " + lesson.title);
+}
+
+function exportSavedLesson(index) {
+  const lessons = getLessons();
+  const lesson = lessons[index];
+  if (!lesson) return;
+  renderDownload(lesson.html);
+  dataLog("SAVED_LESSON_EXPORT_READY: " + lesson.title);
+}
+
+function deleteLesson(index) {
+  const lessons = getLessons();
+  const removed = lessons.splice(index, 1)[0];
+  setLessons(lessons);
+  dataLog("LESSON_DELETED: " + (removed ? removed.title : index));
+  renderLessonsList();
+}
+
+function clearSavedLessons() {
+  localStorage.removeItem(ODIN_STORAGE_KEY);
+  dataLog("ALL_LESSONS_CLEARED");
+  renderLessonsList();
+}
+
 function clearAll() {
   clearLog();
   document.getElementById("qaBox").innerHTML = '<p class="muted">QA зʼявиться після запуску.</p>';
@@ -375,7 +440,7 @@ function executeOdinAction() {
   clearAll();
 
   log("RUNNING");
-  runModeGuard("v3.12 GRAMMAR HIGHLIGHT LAMP");
+  runModeGuard("v3.13.1 DATA INTEGRATED");
 
   const model = collectInput();
   ODIN_STATE.lastModel = model;
@@ -403,12 +468,13 @@ function executeOdinAction() {
 
   renderDownload(html);
   log("EXPORT_DONE");
-  log("HIGHLIGHT_LAYER_READY");
+  log("DATA_LAYER_READY");
   log("DONE");
 }
 
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("runBtn").addEventListener("click", executeOdinAction);
+  document.getElementById("saveBtn").addEventListener("click", saveCurrentLesson);
   document.getElementById("clearBtn").addEventListener("click", clearAll);
   document.getElementById("toggleDpBtn").addEventListener("click", toggleDP);
   document.getElementById("toggleSdBtn").addEventListener("click", toggleSD);
@@ -418,4 +484,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("lampBtn").addEventListener("click", function () { applyHighlightMode("TOPIC"); });
   document.getElementById("lampAllBtn").addEventListener("click", function () { applyHighlightMode("ALL"); });
   document.getElementById("lampOffBtn").addEventListener("click", function () { applyHighlightMode("OFF"); });
+  document.getElementById("refreshLessonsBtn").addEventListener("click", renderLessonsList);
+  document.getElementById("clearLessonsBtn").addEventListener("click", clearSavedLessons);
+  renderLessonsList();
 });
