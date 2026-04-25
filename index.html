@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ODIN Interface v3.1</title>
+<title>ODIN Interface v3.2</title>
 <style>
 :root{--bg:#f5f7fb;--card:#fff;--text:#132033;--muted:#64748b;--line:#dbe5f2;--blue:#2563eb;--blue2:#dbeafe;--green:#16a34a;--green2:#dcfce7;--red:#dc2626;--red2:#fee2e2;--amber:#f59e0b;--amber2:#fef3c7;--purple:#7c3aed;--purple2:#ede9fe;--shadow:0 12px 30px rgba(15,23,42,.08)}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#f8fbff 0%,var(--bg) 100%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
@@ -13,460 +13,418 @@
 .tree-btn{width:100%;text-align:left;border:1px solid transparent;background:transparent;color:#e5e7eb;border-radius:12px;padding:9px 10px;cursor:pointer;font-weight:750;margin:2px 0}.tree-btn:hover{background:#1e293b}.tree-btn.active{background:#dbeafe;color:#1d4ed8}
 .main{padding:18px;max-width:1180px;width:100%;margin:0 auto}.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 h2{margin:0 0 8px}.sub{color:var(--muted);font-size:13px;margin:0}.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px;margin:14px 0;box-shadow:var(--shadow)}.hero{background:linear-gradient(135deg,#eff6ff,#f5f3ff)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.item,.stat{background:#fbfdff;border:1px solid var(--line);border-radius:20px;padding:15px}.stat b{font-size:25px}
-.pill{display:inline-block;background:var(--blue2);color:var(--blue);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:900;margin:2px}.ready{background:var(--green2);color:#166534}.lock{background:var(--red2);color:#991b1b}.warn{background:var(--amber2);color:#92400e}.purple{background:var(--purple2);color:#5b21b6}.ok{color:var(--green);font-weight:900}.bad{color:var(--red);font-weight:900}
-.flow{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#0f172a;color:#e5e7eb;border-radius:18px;padding:14px;overflow:auto;white-space:pre-wrap}code{background:#f1f5f9;border-radius:7px;padding:2px 5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.item,.stat{background:#fbfdff;border:1px solid var(--line);border-radius:20px;padding:15px}.pill{display:inline-block;background:var(--blue2);color:var(--blue);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:900;margin:2px}
+.ready{background:var(--green2);color:#166534}.lock{background:var(--red2);color:#991b1b}.warn{background:var(--amber2);color:#92400e}.purple{background:var(--purple2);color:#5b21b6}.ok{color:var(--green);font-weight:900}.bad{color:var(--red);font-weight:900}code{background:#f1f5f9;border-radius:7px;padding:2px 5px}
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto;max-height:48vh}.main{padding:12px}}
 </style>
-<script id="ODIN_DATA" type="application/json">{
-  "model": {
-    "interface_id": "ODIN_INTERFACE_v3.1_FILLED_CONTROL_CENTER",
-    "created_at": "2026-04-25T02:51:52",
-    "status": "ready_for_review",
-    "purpose": "Finish ODIN Interface v3 by filling all sidebar tree sections with real system content, statuses, rules, files, risks, and next actions.",
-    "fixes": [
-      "v3 sidebar tree existed but felt empty",
-      "sections now have detailed content",
-      "each layer has status, responsibility, files, rules, risks, next actions",
-      "repository rules included",
-      "pipeline and lesson systems included",
-      "ODIN becomes practical control-center, not just navigation"
+<script id="ODIN_SECTIONS" type="application/json">{
+  "dashboard": {
+    "title": "Dashboard",
+    "status": "CONTROL CENTER",
+    "summary": "Головна панель ODIN. Бокове меню виправлено: воно прописане прямо в HTML.",
+    "details": [
+      "ODIN Interface v3.2 — fixed sidebar.",
+      "Sidebar більше не залежить від JS-генерації.",
+      "Права зона показує статус, деталі, файли, ризики і наступний крок."
     ],
-    "github_update": {
-      "rename_html_to": "index.html",
-      "commit_message": "ODIN v3.1 update: fill control center content"
-    },
-    "next_recommended_step": "ODIN_INTERFACE_v3.1_REVIEW_AND_STABLE"
+    "files": [
+      "index.html",
+      "ODIN_INTERFACE_v3_2_FIXED_SIDEBAR.json",
+      "ODIN_INTERFACE_v3_2_FIXED_SIDEBAR.md",
+      "ODIN_INTERFACE_v3_2_CHANGELOG.md",
+      "README.md",
+      "temp/"
+    ],
+    "risks": [
+      "Кеш GitHub Pages",
+      "Неправильний файл як index.html"
+    ],
+    "next": "Завантажити v3.2 як index.html і перевірити бокове меню."
   },
-  "sections": {
-    "dashboard": {
-      "title": "Dashboard",
-      "status": "CONTROL CENTER",
-      "summary": "Головна панель ODIN. Тут видно стан системи, що стабільне, що в роботі, що наступне.",
-      "details": [
-        "ODIN Interface v3.1 — наповнений control-center.",
-        "Архітектура: DT планує, ССУДТ створює, ІССУ підсилює, Platform виконує, ODIN контролює.",
-        "GitHub Pages: працює через index.html.",
-        "Поточний фокус: завершити ODIN Interface як робочу систему, не просто каркас."
-      ],
-      "files": [
-        "index.html",
-        "ODIN_INTERFACE_v3_1_FILLED_CONTROL_CENTER.json",
-        "ODIN_INTERFACE_v3_1_FILLED_CONTROL_CENTER.md",
-        "ODIN_INTERFACE_v3_1_CHANGELOG.md",
-        "README.md",
-        "temp/"
-      ],
-      "risks": [
-        "Плутанина файлів у root/temp",
-        "Занадто швидкий перехід до нових модулів без закриття UI"
-      ],
-      "next": "Після перегляду — зафіксувати ODIN_INTERFACE_v3.1 STABLE."
-    },
-    "core": {
-      "title": "Core Architecture",
-      "status": "LOCKED",
-      "summary": "Базова архітектура продукту. Це серце системи, яке не можна ламати.",
-      "details": [
-        "DT = Plan Engine: будує курс, рівні, теми, порядок навчання.",
-        "ССУДТ = Base Lesson Factory: створює базові, практичні та review-уроки за планом.",
-        "ІССУ = Support Module: створює додаткові уроки з фото, домашки, слабких тем.",
-        "Platform = Execution Layer: показує уроки, review, прогрес, daily plan.",
-        "ODIN = Control Layer: контролює ролі, якість, ризики, синхронізацію і фіксації."
-      ],
-      "files": [
-        "DT_CORE_ARCHITECTURE_v1",
-        "ODIN_INTERFACE_v3.1"
-      ],
-      "risks": [
-        "Змішування ролей",
-        "Перетворення ІССУ на основну систему",
-        "Перенесення логіки планування у Platform"
-      ],
-      "next": "Рольову модель не змінювати без окремого changelog і validation."
-    },
-    "loop": {
-      "title": "Autonomous Loop v68.1 PRO",
-      "status": "INTEGRATED",
-      "summary": "Автономний цикл ODIN, який має не давати системі рухатись хаотично.",
-      "details": [
-        "1. Detect context — зрозуміти, де ми в системі.",
-        "2. Validate against locks — перевірити hard locks.",
-        "3. Select next action — вибрати правильний наступний крок.",
-        "4. Execute or hold — виконати або зупинитись.",
-        "5. QA — перевірити результат.",
-        "6. Changelog — зафіксувати зміни.",
-        "7. Snapshot if stable — зробити точку фіксації."
-      ],
-      "files": [
-        "ODIN v68.1 PRO — Stable Integrated Autonomous Loop"
-      ],
-      "risks": [
-        "Будувати без validation",
-        "Перескакувати через фіксації",
-        "Не оновлювати changelog"
-      ],
-      "next": "Використовувати як процес перед кожним великим build."
-    },
-    "plan": {
-      "title": "DT Plan Engine",
-      "status": "CORE READY",
-      "summary": "ДТ планує курс. PLAN = source of truth.",
-      "details": [
-        "Користувач задає ціль: наприклад UA→DE до B2.",
-        "DT створює roadmap: рівні, модулі, теми, порядок.",
-        "Одна тема може тривати кілька днів.",
-        "Plan визначає active_topic_id і active_lesson_id.",
-        "Platform не вирішує, що вчити — вона тільки виконує план."
-      ],
-      "files": [
-        "DT_PLAN_ENGINE_v1"
-      ],
-      "risks": [
-        "Платформа почне сама вибирати урок",
-        "Уроки створюються без прив’язки до плану"
-      ],
-      "next": "Пізніше створити реальний план по Schritte Plus Neu."
-    },
-    "link": {
-      "title": "Core Link Model",
-      "status": "FIXED",
-      "summary": "Зв’язуючий шар між планом, темами, уроками, платформою і прогресом.",
-      "details": [
-        "PLAN ↔ TOPIC ↔ LESSON ↔ PLATFORM ↔ REVIEW ↔ PROGRESS.",
-        "active_lesson_id приходить з PLAN.",
-        "resume_position — це UX, не логіка навчання.",
-        "progress ведеться на 3 рівнях: lesson, topic, course.",
-        "Support lesson від ІССУ завжди має topic_id."
-      ],
-      "files": [
-        "DT_CORE_LINK_MODEL_v1"
-      ],
-      "risks": [
-        "Відсутність topic_id",
-        "Прогрес тільки по уроку без теми",
-        "ІССУ-уроки без прив’язки"
-      ],
-      "next": "Пізніше реалізувати у реальній DT Platform."
-    },
-    "language": {
-      "title": "Language System",
-      "status": "v1 READY",
-      "summary": "Мовна система керує мовами, а не хардкодить їх у контент.",
-      "details": [
-        "user_language — мова пояснень і перекладів.",
-        "target_language — мова, яку вивчаємо.",
-        "ui_language — мова інтерфейсу.",
-        "course_pair — напрям курсу, наприклад UA-DE.",
-        "DE + DP + SD лишається обов’язковим для німецьких уроків."
-      ],
-      "files": [
-        "DT_LANGUAGE_SYSTEM_v1.json",
-        "DT_LANGUAGE_SYSTEM_v1.md",
-        "dt_language_system_v1.html"
-      ],
-      "risks": [
-        "Змішати UI language і target language",
-        "Скинути прогрес при зміні мови",
-        "Захардкодити UA-DE назавжди"
-      ],
-      "next": "Інтегрувати language profile в реальний lesson generator."
-    },
-    "pipeline": {
-      "title": "Content Pipeline",
-      "status": "v1 READY",
-      "summary": "Система виробництва уроків від плану до платформи.",
-      "details": [
-        "DT_PLAN_ENGINE → TOPIC → SSUDT lessons → optional ISSU support → QA → Content Index → Platform → Progress.",
-        "Lesson types: base, practice, review, support.",
-        "Base/practice/review створює ССУДТ.",
-        "Support створює ІССУ тільки за потреби.",
-        "Жоден урок не входить у Content Index без QA PASS."
-      ],
-      "files": [
-        "DT_CONTENT_PIPELINE_v1.json",
-        "DT_CONTENT_PIPELINE_v1.md",
-        "DT_CONTENT_PIPELINE_CHANGELOG.md"
-      ],
-      "risks": [
-        "Генерувати урок без QA",
-        "Плутати support і base lessons",
-        "Platform почне генерувати уроки"
-      ],
-      "next": "RUN FIRST REAL PIPELINE тільки після стабілізації ODIN UI."
-    },
-    "platform": {
-      "title": "Platform v0.8 Export / Sync",
-      "status": "READY",
-      "summary": "DT Platform v0.8 зберігає і переносить core state.",
-      "details": [
-        "Експортує course, active topic, active lesson, resume, progress, daily plan.",
-        "Storage keys: dt_core_state_v1, dt_progress_v1, dt_daily_plan_v1.",
-        "Progress не є просто відсотком — це lesson + topic + course.",
-        "Export/sync важливий для відновлення і переносу між середовищами."
-      ],
-      "files": [
-        "DT_PLATFORM_v0_8_EXPORT_SYNC.json",
-        "DT_PLATFORM_v0_8_EXPORT_SYNC.md",
-        "dt_platform_v0_8_export_sync.html"
-      ],
-      "risks": [
-        "Експортувати неповний стан",
-        "Не зберегти resume",
-        "Змішати progress і plan"
-      ],
-      "next": "Пізніше підключити до реального DT app."
-    },
-    "ssudt": {
-      "title": "ССУДТ",
-      "status": "BASE FACTORY",
-      "summary": "Система створення базових уроків Deutsch Trainer.",
-      "details": [
-        "Працює за планом ДТ.",
-        "Створює base, practice, review lessons.",
-        "Дотримується стандарту уроку: DE + DP + SD, підсвітка, словник, практика, voice/audio, QA.",
-        "Не будує план і не замінює Platform."
-      ],
-      "files": [
-        "DT_LESSON_FACTORY_v1",
-        "DT_CONTENT_PIPELINE_v1"
-      ],
-      "risks": [
-        "ССУДТ почне змінювати PLAN",
-        "Уроки без topic_id",
-        "Спрощення шаблону уроку"
-      ],
-      "next": "Перевірити на першій реальній темі."
-    },
-    "issu": {
-      "title": "ІССУ",
-      "status": "SUPPORT MODULE",
-      "summary": "Індивідуальна система створення додаткових уроків по фото/домашці/слабкій темі.",
-      "details": [
-        "ІССУ не є основою курсу.",
-        "ІССУ створює support lessons.",
-        "Кожен support lesson має topic_id і reason.",
-        "Підходить для фото, дошки, домашніх завдань, додаткових прикладів."
-      ],
-      "files": [
-        "DT_LESSON_FACTORY_v1",
-        "DT_LESSON_VIEWER_v1_ISSU_SAFE_MODE"
-      ],
-      "risks": [
-        "ІССУ почне замінювати ССУДТ",
-        "Support lessons без прив’язки",
-        "Хаос у Content Index"
-      ],
-      "next": "Пізніше зробити кнопку/процес: Add support lesson."
-    },
-    "factory": {
-      "title": "Lesson Factory",
-      "status": "READY",
-      "summary": "Міст між ІССУ/ІШ/V3-шаблоном і DT Platform.",
-      "details": [
-        "Кожен урок проходить через Lesson Factory перед Content Index.",
-        "Застосовує lesson standard.",
-        "Генерує HTML + manifest + QA.",
-        "Фіксує source: SSUDT або ISSU."
-      ],
-      "files": [
-        "DT_LESSON_FACTORY_v1.json",
-        "DT_LESSON_FACTORY_v1.md"
-      ],
-      "risks": [
-        "Пряме додавання уроків без factory",
-        "Втрата lesson manifest",
-        "Неповний QA"
-      ],
-      "next": "Підключити до першого реального pipeline run."
-    },
-    "viewer": {
-      "title": "Lesson Viewer Safe Mode",
-      "status": "READY",
-      "summary": "Безпечне відкриття уроків без ламання дизайну уроку.",
-      "details": [
-        "Платформа = оболонка.",
-        "Урок = самостійний модуль зі своєю шапкою, кнопками, UX.",
-        "Viewer відкриває урок ізоляційно.",
-        "Не змішуємо CSS/JS уроку і платформи."
-      ],
-      "files": [
-        "DT_LESSON_VIEWER_v1_ISSU_SAFE_MODE"
-      ],
-      "risks": [
-        "Подвійні header-и",
-        "Змішування стилів",
-        "Обрізання уроку"
-      ],
-      "next": "Пізніше зробити full lesson focus mode."
-    },
-    "repo": {
-      "title": "Repo Structure",
-      "status": "LOCKED",
-      "summary": "Правила структури GitHub репозиторію.",
-      "details": [
-        "У root тільки актуальна версія.",
-        "index.html = активний онлайн-інтерфейс.",
-        "JSON/MD/CHANGELOG = опис і контроль актуальної версії.",
-        "temp/ = архів старих файлів.",
-        "ZIP пакети не тримати в root без потреби."
-      ],
-      "files": [
-        "index.html",
-        "ODIN_INTERFACE_v3_1_FILLED_CONTROL_CENTER.json",
-        "ODIN_INTERFACE_v3_1_FILLED_CONTROL_CENTER.md",
-        "ODIN_INTERFACE_v3_1_CHANGELOG.md",
-        "README.md",
-        "temp/"
-      ],
-      "risks": [
-        "Багато версій у root",
-        "Кілька changelog одночасно",
-        "Незрозуміло який HTML активний"
-      ],
-      "next": "Залишити в root тільки v3.1 набір."
-    },
-    "naming": {
-      "title": "File Naming Rules",
-      "status": "NEEDED",
-      "summary": "Правила назв, щоб більше не плутатись.",
-      "details": [
-        "Активний сайт завжди index.html.",
-        "Артефакти мають versioned names.",
-        "Старі versioned files — у temp/.",
-        "Commit message описує версію і зміну.",
-        "Якщо я даю новий HTML для GitHub — я прямо кажу, що він має стати index.html."
-      ],
-      "files": [
-        "ODIN_FILE_NAMING_AND_REPO_RULES_v1 — next optional"
-      ],
-      "risks": [
-        "Плутанина між v2, v2.1, v3, v3.1",
-        "Неправильний файл стає index.html"
-      ],
-      "next": "За потреби зробити окремий naming lock."
-    },
-    "changelog": {
-      "title": "Changelog",
-      "status": "REQUIRED",
-      "summary": "Історія змін системи.",
-      "details": [
-        "Кожна суттєва зміна має запис.",
-        "Changelog відповідає на: що змінилось, чому, статус, наступний крок.",
-        "Stable точки фіксуються явно.",
-        "Без changelog — зміна не вважається системною."
-      ],
-      "files": [
-        "ODIN_INTERFACE_v3_1_CHANGELOG.md"
-      ],
-      "risks": [
-        "Зміни без історії",
-        "Неможливо відкотитись",
-        "Невідомо що стабільне"
-      ],
-      "next": "Після перевірки v3.1 додати STABLE запис."
-    },
-    "backup": {
-      "title": "Backup / temp",
-      "status": "ARCHIVE",
-      "summary": "Архів і recovery зона.",
-      "details": [
-        "temp/ — для старих файлів.",
-        "ZIP — для recovery package.",
-        "Не видаляти старе без причини.",
-        "Root має бути чистим, temp може містити історію."
-      ],
-      "files": [
-        "temp/",
-        "*_PACKAGE.zip"
-      ],
-      "risks": [
-        "Видалити стабільну точку",
-        "Змішати архів і active root"
-      ],
-      "next": "Підтримувати temp як архів."
-    },
-    "qa": {
-      "title": "QA / Locks",
-      "status": "ACTIVE",
-      "summary": "Hard locks і QA правила, що захищають систему.",
-      "details": [
-        "PLAN is source of truth.",
-        "ODIN controls, not replaces.",
-        "Platform executes, not generates.",
-        "ISSU supports, not replaces SSUDT.",
-        "Lesson design must not be merged into Platform design.",
-        "No meaningful change without changelog.",
-        "No secrets/passwords/API keys in repo."
-      ],
-      "files": [
-        "ODIN_INTERFACE_v3_1_CHANGELOG.md",
-        "ODIN_INTERFACE_v3_1_FILLED_CONTROL_CENTER.json"
-      ],
-      "risks": [
-        "Рух без QA",
-        "Злам ролей",
-        "Зміни без фіксації"
-      ],
-      "next": "Після GitHub update — ODIN_INTERFACE_v3.1_REVIEW_AND_STABLE."
-    },
-    "roadmap": {
-      "title": "Roadmap / Next Steps",
-      "status": "NEXT",
-      "summary": "Що робити після завершення інтерфейсу.",
-      "details": [
-        "1. Завантажити v3.1 як index.html.",
-        "2. Перевірити онлайн.",
-        "3. Зафіксувати ODIN_INTERFACE_v3.1 STABLE.",
-        "4. Тільки після цього — перший реальний pipeline run.",
-        "5. Потім — реальний урок за темою з плану."
-      ],
-      "files": [
-        "index.html",
-        "ODIN_INTERFACE_v3_1_*"
-      ],
-      "risks": [
-        "Знову піти в новий модуль до завершення UI"
-      ],
-      "next": "GitHub update + review."
-    }
+  "core": {
+    "title": "Core Architecture",
+    "status": "LOCKED",
+    "summary": "Базова архітектура продукту.",
+    "details": [
+      "DT = Plan Engine.",
+      "ССУДТ = Base Lesson Factory.",
+      "ІССУ = Support Module.",
+      "Platform = Execution Layer.",
+      "ODIN = Control Layer."
+    ],
+    "files": [
+      "DT_CORE_ARCHITECTURE_v1"
+    ],
+    "risks": [
+      "Змішування ролей"
+    ],
+    "next": "Не змінювати без validation."
+  },
+  "loop": {
+    "title": "Autonomous Loop v68.1 PRO",
+    "status": "INTEGRATED",
+    "summary": "Автономний цикл ODIN для контролю процесів.",
+    "details": [
+      "Detect context",
+      "Validate against locks",
+      "Select next action",
+      "Execute or hold",
+      "QA",
+      "Changelog",
+      "Snapshot if stable"
+    ],
+    "files": [
+      "ODIN v68.1 PRO"
+    ],
+    "risks": [
+      "Будувати без validation"
+    ],
+    "next": "Використовувати перед великими build."
+  },
+  "plan": {
+    "title": "DT Plan Engine",
+    "status": "CORE READY",
+    "summary": "ДТ планує курс. PLAN = source of truth.",
+    "details": [
+      "Користувач задає ціль.",
+      "DT створює roadmap.",
+      "Plan визначає active_topic_id і active_lesson_id.",
+      "Platform не вирішує, що вчити."
+    ],
+    "files": [
+      "DT_PLAN_ENGINE_v1"
+    ],
+    "risks": [
+      "Уроки без прив’язки до плану"
+    ],
+    "next": "Пізніше створити реальний план по Schritte Plus Neu."
+  },
+  "link": {
+    "title": "Core Link Model",
+    "status": "FIXED",
+    "summary": "Зв’язує PLAN ↔ TOPIC ↔ LESSON ↔ PLATFORM ↔ REVIEW ↔ PROGRESS.",
+    "details": [
+      "active_lesson_id приходить з PLAN.",
+      "resume_position — UX, не логіка навчання.",
+      "progress: lesson + topic + course.",
+      "Support lesson має topic_id."
+    ],
+    "files": [
+      "DT_CORE_LINK_MODEL_v1"
+    ],
+    "risks": [
+      "Відсутність topic_id"
+    ],
+    "next": "Реалізувати у DT Platform."
+  },
+  "language": {
+    "title": "Language System",
+    "status": "v1 READY",
+    "summary": "Мовна система керує мовами.",
+    "details": [
+      "user_language",
+      "target_language",
+      "ui_language",
+      "course_pair",
+      "DE + DP + SD policy"
+    ],
+    "files": [
+      "DT_LANGUAGE_SYSTEM_v1"
+    ],
+    "risks": [
+      "Змішати UI language і target language"
+    ],
+    "next": "Інтегрувати profile в lesson generator."
+  },
+  "pipeline": {
+    "title": "Content Pipeline",
+    "status": "v1 READY",
+    "summary": "Система виробництва уроків від плану до платформи.",
+    "details": [
+      "DT_PLAN_ENGINE → TOPIC → SSUDT lessons → optional ISSU support → QA → Content Index → Platform → Progress.",
+      "Lesson types: base, practice, review, support.",
+      "Жоден урок не входить у Content Index без QA PASS."
+    ],
+    "files": [
+      "DT_CONTENT_PIPELINE_v1"
+    ],
+    "risks": [
+      "Генерувати урок без QA"
+    ],
+    "next": "RUN FIRST REAL PIPELINE після стабілізації ODIN UI."
+  },
+  "platform": {
+    "title": "Platform v0.8 Export / Sync",
+    "status": "READY",
+    "summary": "DT Platform v0.8 зберігає і переносить core state.",
+    "details": [
+      "course",
+      "active topic",
+      "active lesson",
+      "resume",
+      "progress",
+      "daily plan"
+    ],
+    "files": [
+      "DT_PLATFORM_v0_8_EXPORT_SYNC"
+    ],
+    "risks": [
+      "Експортувати неповний стан"
+    ],
+    "next": "Пізніше підключити до реального DT app."
+  },
+  "ssudt": {
+    "title": "ССУДТ",
+    "status": "BASE FACTORY",
+    "summary": "Система створення базових уроків Deutsch Trainer.",
+    "details": [
+      "Працює за планом ДТ.",
+      "Створює base/practice/review lessons.",
+      "DE + DP + SD, підсвітка, словник, практика, voice/audio, QA."
+    ],
+    "files": [
+      "DT_LESSON_FACTORY_v1",
+      "DT_CONTENT_PIPELINE_v1"
+    ],
+    "risks": [
+      "ССУДТ почне змінювати PLAN"
+    ],
+    "next": "Перевірити на першій реальній темі."
+  },
+  "issu": {
+    "title": "ІССУ",
+    "status": "SUPPORT MODULE",
+    "summary": "Додаткові уроки по фото/домашці/слабкій темі.",
+    "details": [
+      "Не основа курсу.",
+      "Support lessons.",
+      "Кожен support lesson має topic_id і reason."
+    ],
+    "files": [
+      "DT_LESSON_VIEWER_v1_ISSU_SAFE_MODE"
+    ],
+    "risks": [
+      "ІССУ замінює ССУДТ"
+    ],
+    "next": "Пізніше зробити Add support lesson."
+  },
+  "factory": {
+    "title": "Lesson Factory",
+    "status": "READY",
+    "summary": "Міст між ІССУ/ІШ/V3-шаблоном і DT Platform.",
+    "details": [
+      "Кожен урок проходить через Lesson Factory.",
+      "Генерує HTML + manifest + QA.",
+      "Фіксує source: SSUDT або ISSU."
+    ],
+    "files": [
+      "DT_LESSON_FACTORY_v1"
+    ],
+    "risks": [
+      "Пряме додавання уроків без factory"
+    ],
+    "next": "Підключити до pipeline run."
+  },
+  "viewer": {
+    "title": "Lesson Viewer Safe Mode",
+    "status": "READY",
+    "summary": "Безпечне відкриття уроків без ламання дизайну уроку.",
+    "details": [
+      "Платформа = оболонка.",
+      "Урок = самостійний модуль.",
+      "Viewer відкриває урок ізоляційно."
+    ],
+    "files": [
+      "DT_LESSON_VIEWER_v1_ISSU_SAFE_MODE"
+    ],
+    "risks": [
+      "Подвійні header-и"
+    ],
+    "next": "Пізніше full lesson focus mode."
+  },
+  "repo": {
+    "title": "Repo Structure",
+    "status": "LOCKED",
+    "summary": "Правила структури GitHub репозиторію.",
+    "details": [
+      "У root тільки актуальна версія.",
+      "index.html = активний онлайн-інтерфейс.",
+      "temp/ = архів старих файлів."
+    ],
+    "files": [
+      "index.html",
+      "JSON",
+      "MD",
+      "CHANGELOG",
+      "README.md",
+      "temp/"
+    ],
+    "risks": [
+      "Багато версій у root"
+    ],
+    "next": "Залишити в root тільки v3.2 набір."
+  },
+  "naming": {
+    "title": "File Naming Rules",
+    "status": "NEEDED",
+    "summary": "Правила назв, щоб не плутатись.",
+    "details": [
+      "Активний сайт завжди index.html.",
+      "Артефакти мають versioned names.",
+      "Старі versioned files → temp/.",
+      "Якщо новий HTML має стати сайтом — я пишу це прямо."
+    ],
+    "files": [
+      "ODIN_FILE_NAMING_AND_REPO_RULES_v1 — optional"
+    ],
+    "risks": [
+      "Неправильний файл стає index.html"
+    ],
+    "next": "За потреби зробити naming lock."
+  },
+  "changelog": {
+    "title": "Changelog",
+    "status": "REQUIRED",
+    "summary": "Історія змін системи.",
+    "details": [
+      "Що змінилось.",
+      "Чому змінилось.",
+      "Статус.",
+      "Наступний крок.",
+      "Stable lock."
+    ],
+    "files": [
+      "ODIN_INTERFACE_v3_2_CHANGELOG.md"
+    ],
+    "risks": [
+      "Зміни без історії"
+    ],
+    "next": "Після перевірки v3.2 додати STABLE запис."
+  },
+  "backup": {
+    "title": "Backup / temp",
+    "status": "ARCHIVE",
+    "summary": "Архів і recovery зона.",
+    "details": [
+      "temp/ — старі файли.",
+      "ZIP — recovery package.",
+      "Root чистий, temp може містити історію."
+    ],
+    "files": [
+      "temp/",
+      "*_PACKAGE.zip"
+    ],
+    "risks": [
+      "Видалити стабільну точку"
+    ],
+    "next": "Підтримувати temp як архів."
+  },
+  "qa": {
+    "title": "QA / Locks",
+    "status": "ACTIVE",
+    "summary": "Hard locks і QA правила.",
+    "details": [
+      "PLAN is source of truth.",
+      "ODIN controls, not replaces.",
+      "Platform executes, not generates.",
+      "ISSU supports, not replaces SSUDT.",
+      "No meaningful change without changelog.",
+      "No secrets/passwords/API keys in repo."
+    ],
+    "files": [
+      "ODIN_INTERFACE_v3_2_CHANGELOG.md"
+    ],
+    "risks": [
+      "Рух без QA"
+    ],
+    "next": "Після GitHub update — review."
+  },
+  "roadmap": {
+    "title": "Roadmap / Next Steps",
+    "status": "NEXT",
+    "summary": "Що робити після завершення інтерфейсу.",
+    "details": [
+      "1. Завантажити v3.2 як index.html.",
+      "2. Перевірити онлайн.",
+      "3. Зафіксувати ODIN_INTERFACE_v3.2 STABLE.",
+      "4. Потім — перший реальний pipeline run."
+    ],
+    "files": [
+      "index.html",
+      "ODIN_INTERFACE_v3_2_*"
+    ],
+    "risks": [
+      "Знову піти в новий модуль до завершення UI"
+    ],
+    "next": "GitHub update + review."
   }
 }</script>
 </head>
 <body>
 <div class="app">
-<aside class="sidebar"><div class="logo"><div class="mark">O</div><div><h1>ODIN v3.1</h1><p>Filled Control Center</p></div></div><div id="tree"></div></aside>
+<aside class="sidebar">
+  <div class="logo"><div class="mark">O</div><div><h1>ODIN v3.2</h1><p>Fixed Sidebar</p></div></div>
+  <div class="group"><div class="group-title">ODIN</div>
+<button class="tree-btn active" data-id="dashboard" onclick="showSection(&quot;dashboard&quot;)">Dashboard</button>
+<button class="tree-btn" data-id="core" onclick="showSection(&quot;core&quot;)">Core Architecture</button>
+<button class="tree-btn" data-id="loop" onclick="showSection(&quot;loop&quot;)">Autonomous Loop v68.1 PRO</button>
+</div>
+<div class="group"><div class="group-title">DT System</div>
+<button class="tree-btn" data-id="plan" onclick="showSection(&quot;plan&quot;)">Plan Engine</button>
+<button class="tree-btn" data-id="link" onclick="showSection(&quot;link&quot;)">Core Link Model</button>
+<button class="tree-btn" data-id="language" onclick="showSection(&quot;language&quot;)">Language System</button>
+<button class="tree-btn" data-id="pipeline" onclick="showSection(&quot;pipeline&quot;)">Content Pipeline</button>
+<button class="tree-btn" data-id="platform" onclick="showSection(&quot;platform&quot;)">Platform v0.8 Export / Sync</button>
+</div>
+<div class="group"><div class="group-title">Lesson Systems</div>
+<button class="tree-btn" data-id="ssudt" onclick="showSection(&quot;ssudt&quot;)">ССУДТ</button>
+<button class="tree-btn" data-id="issu" onclick="showSection(&quot;issu&quot;)">ІССУ</button>
+<button class="tree-btn" data-id="factory" onclick="showSection(&quot;factory&quot;)">Lesson Factory</button>
+<button class="tree-btn" data-id="viewer" onclick="showSection(&quot;viewer&quot;)">Lesson Viewer Safe Mode</button>
+</div>
+<div class="group"><div class="group-title">GitHub / Sync</div>
+<button class="tree-btn" data-id="repo" onclick="showSection(&quot;repo&quot;)">Repo Structure</button>
+<button class="tree-btn" data-id="naming" onclick="showSection(&quot;naming&quot;)">File Naming Rules</button>
+<button class="tree-btn" data-id="changelog" onclick="showSection(&quot;changelog&quot;)">Changelog</button>
+<button class="tree-btn" data-id="backup" onclick="showSection(&quot;backup&quot;)">Backup / temp</button>
+</div>
+<div class="group"><div class="group-title">Control</div>
+<button class="tree-btn" data-id="qa" onclick="showSection(&quot;qa&quot;)">QA / Locks</button>
+<button class="tree-btn" data-id="roadmap" onclick="showSection(&quot;roadmap&quot;)">Roadmap / Next Steps</button>
+</div>
+</aside>
 <main class="main">
-<div class="topbar"><div><h2 id="sectionTitle"></h2><p id="sectionSub" class="sub"></p></div><span class="pill ready">READY FOR REVIEW</span></div>
-<section class="card hero"><span class="pill">ODIN v3.1</span><span class="pill">FILLED</span><span class="pill">CONTROL CENTER</span><p><span class="ok">PASS:</span> Інтерфейс більше не пустий: кожен шар має зміст, статус, файли, ризики і наступний крок.</p></section>
-<section class="card"><h2 id="contentTitle"></h2><span id="contentStatus" class="pill"></span><p id="contentSummary"></p></section>
-<section class="card"><h2>Details</h2><div id="details" class="grid"></div></section>
-<section class="card"><h2>Files / Artifacts</h2><div id="files" class="grid"></div></section>
-<section class="card"><h2>Risks</h2><div id="risks" class="grid"></div></section>
-<section class="card"><h2>Next Action</h2><p><code id="nextAction"></code></p></section>
-<section class="card"><h2>GitHub update</h2><p>Завантажити цей HTML як <code>index.html</code>.</p><p>Commit: <code>ODIN v3.1 update: fill control center content</code></p></section>
+  <div class="topbar"><div><h2 id="sectionTitle">Dashboard</h2><p id="sectionSub" class="sub">CONTROL CENTER</p></div><span class="pill ready">SIDEBAR FIXED</span></div>
+  <section class="card hero"><span class="pill">ODIN v3.2</span><span class="pill">FIXED SIDEBAR</span><span class="pill">CONTROL CENTER</span><p><span class="ok">PASS:</span> Бокове меню тепер прописане прямо в HTML і має бути видимим одразу.</p></section>
+  <section class="card"><h2 id="contentTitle">Dashboard</h2><span id="contentStatus" class="pill ready">CONTROL CENTER</span><p id="contentSummary"></p></section>
+  <section class="card"><h2>Details</h2><div id="details" class="grid"></div></section>
+  <section class="card"><h2>Files / Artifacts</h2><div id="files" class="grid"></div></section>
+  <section class="card"><h2>Risks</h2><div id="risks" class="grid"></div></section>
+  <section class="card"><h2>Next Action</h2><p><code id="nextAction"></code></p></section>
+  <section class="card"><h2>GitHub update</h2><p>Завантажити цей HTML як <code>index.html</code>.</p><p>Commit: <code>ODIN v3.2 fix: sidebar tree visible</code></p></section>
 </main>
 </div>
 <script>
-const DATA=JSON.parse(document.getElementById('ODIN_DATA').textContent);
-function renderTree(){
- const tree=DATA.model.tree.map(group=>`<div class="group"><div class="group-title">${group.group}</div>${group.items.map(item=>`<button class="tree-btn" data-id="${item.id}" onclick="showSection('${item.id}')">${item.title}</button>`).join('')}</div>`).join('');
- document.getElementById('tree').innerHTML=tree;
+const SECTIONS = JSON.parse(document.getElementById('ODIN_SECTIONS').textContent);
+function cardList(list, cls) {
+  return (list || []).map(x => `<div class="item"><span class="pill ${cls}">ITEM</span><p>${x}</p></div>`).join('') || '<p class="sub">Немає даних.</p>';
 }
-function cardList(list, cls='ready'){
- return (list||[]).map(x=>`<div class="item"><span class="pill ${cls}">ITEM</span><p>${x}</p></div>`).join('') || '<p class="sub">Немає даних.</p>';
+function showSection(id) {
+  const s = SECTIONS[id] || SECTIONS.dashboard;
+  document.querySelectorAll('.tree-btn').forEach(b => b.classList.toggle('active', b.dataset.id === id));
+  document.getElementById('sectionTitle').textContent = s.title;
+  document.getElementById('sectionSub').textContent = s.status;
+  document.getElementById('contentTitle').textContent = s.title;
+  const status = document.getElementById('contentStatus');
+  status.textContent = s.status;
+  status.className = 'pill ' + (s.status.includes('LOCK') || s.status.includes('READY') || s.status.includes('FIXED') ? 'ready' : s.status.includes('NEEDED') ? 'warn' : 'purple');
+  document.getElementById('contentSummary').textContent = s.summary;
+  document.getElementById('details').innerHTML = cardList(s.details, 'ready');
+  document.getElementById('files').innerHTML = cardList(s.files, 'purple');
+  document.getElementById('risks').innerHTML = cardList(s.risks, 'lock');
+  document.getElementById('nextAction').textContent = s.next || '—';
 }
-function showSection(id){
- const s=DATA.sections[id]||DATA.sections.dashboard;
- document.querySelectorAll('.tree-btn').forEach(b=>b.classList.toggle('active',b.dataset.id===id));
- sectionTitle.textContent=s.title; sectionSub.textContent=s.status; contentTitle.textContent=s.title; contentStatus.textContent=s.status; contentStatus.className='pill '+(s.status.includes('LOCK')||s.status.includes('READY')||s.status.includes('FIXED')?'ready':s.status.includes('NEEDED')?'warn':'purple');
- contentSummary.textContent=s.summary;
- details.innerHTML=cardList(s.details,'ready');
- files.innerHTML=cardList(s.files,'purple');
- risks.innerHTML=cardList(s.risks,'lock');
- nextAction.textContent=s.next||'—';
-}
-renderTree(); showSection('dashboard');
+showSection('dashboard');
 </script>
 </body>
 </html>
