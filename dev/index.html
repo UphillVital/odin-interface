@@ -3,57 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ODIN v3.9.2 MODE CONTROL AUTO-RUN</title>
+  <title>ODIN v3.10 REAL INTEGRATION</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="wrap">
     <section class="panel hero">
-      <div class="badge">ODIN v3.9.2</div>
-      <h1>MODE CONTROL / AUTO-RUN GUARD</h1>
+      <div class="badge">ODIN v3.10</div>
+      <h1>REAL INTEGRATION</h1>
       <p class="muted">
-        Керівний шар ODIN: СОН → QA → NN → PLAN → BUILD → TEST → FIX → GIT.
-        Перед великим кроком система не дозволяє йти далі без режимної перевірки.
+        Один pipeline: INPUT → MODE GUARD → ENGINE → HARD QA → UI CONTROL → EXPORT.
       </p>
     </section>
 
     <section class="grid">
       <div class="panel">
-        <h2>Запуск дії</h2>
-        <label for="actionName">Назва великої дії</label>
-        <input id="actionName" value="v3.10 REAL INTEGRATION">
+        <h2>Lesson Input</h2>
 
-        <label for="actionGoal">Ціль</label>
-        <textarea id="actionGoal">Обʼєднати UI CONTROL + REAL ENGINE + HARD QA + EXPORT в один живий ODIN pipeline.</textarea>
+        <label for="title">Назва уроку</label>
+        <input id="title" value="Відокремлювані дієслова">
 
-        <button id="runGuardBtn" type="button">Запустити AUTO-RUN GUARD</button>
+        <label for="goal">Ціль уроку</label>
+        <textarea id="goal">Зрозуміти правило відокремлюваних дієслів, порядок слів у простому реченні, різницю між дослівним і смисловим перекладом та навчитися будувати власні приклади.</textarea>
+
+        <label for="examples">Приклади: DE | ДП | СД</label>
+        <textarea id="examples">Ich stehe um sechs Uhr auf.|Я встаю о шостій годині вгору.|Я встаю о шостій годині.
+Mach bitte die Tür zu!|Зроби будь ласка двері до!|Закрий, будь ласка, двері!
+Wir kaufen heute im Supermarkt ein.|Ми купуємо сьогодні в супермаркеті всередину.|Ми сьогодні закуповуємось у супермаркеті.
+Ruf mich bitte später an.|Подзвони мене будь ласка пізніше на.|Подзвони мені, будь ласка, пізніше.
+Ich räume mein Zimmer auf.|Я прибираю мою кімнату вгору.|Я прибираю свою кімнату.</textarea>
+
+        <label for="vocab">Словник: DE | UA</label>
+        <textarea id="vocab">aufstehen|вставати
+zumachen|закривати
+einkaufen|закуповуватись
+anrufen|телефонувати
+aufräumen|прибирати</textarea>
+
+        <button id="runBtn" type="button">Створити урок через ODIN Pipeline</button>
         <button id="clearBtn" class="secondary" type="button">Очистити</button>
       </div>
 
       <div class="panel">
-        <h2>Current Gate</h2>
-        <div id="currentGate" class="gate waiting">WAITING</div>
+        <h2>Status</h2>
+        <pre id="log">WAITING</pre>
 
-        <h2>Decision</h2>
-        <div id="decision" class="decision muted">Очікування запуску.</div>
+        <h2>QA Report</h2>
+        <div id="qaBox"><p class="muted">QA зʼявиться після запуску.</p></div>
+
+        <h2>Export</h2>
+        <div id="download"></div>
       </div>
     </section>
 
     <section class="panel">
-      <h2>Mode Pipeline</h2>
-      <div id="modeList" class="mode-list"></div>
+      <h2>UI Control</h2>
+      <div class="controls">
+        <button id="toggleDpBtn" type="button">Показати/Сховати ДП</button>
+        <button id="toggleSdBtn" type="button">Показати/Сховати СД</button>
+        <button id="modeDeBtn" type="button">Тільки DE</button>
+        <button id="modeFullBtn" type="button">Повний режим</button>
+      </div>
+      <p class="muted">Кнопки працюють після створення уроку.</p>
     </section>
 
-    <section class="grid">
-      <div class="panel">
-        <h2>Execution Log</h2>
-        <pre id="log">WAITING</pre>
-      </div>
-
-      <div class="panel">
-        <h2>Git Commands</h2>
-        <pre id="gitBox">Після успішного guard тут будуть команди.</pre>
-      </div>
+    <section class="panel">
+      <h2>Preview</h2>
+      <iframe id="preview" title="Lesson preview"></iframe>
     </section>
   </main>
 
