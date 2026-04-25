@@ -1,4 +1,4 @@
-const ODIN_STORAGE_KEY = "odin_lessons_v3_18";
+const ODIN_STORAGE_KEY = "odin_lessons_v3_18_1";
 let REVIEW_FILTER = "ALL";
 let TOPIC_FILTER = "ALL";
 let LEVEL_FILTER = "ALL";
@@ -18,7 +18,6 @@ function parseRows(raw,parts){return String(raw||"").split(/\n+/).map(l=>l.trim(
 function collectInput(){return{title:getValue("title"),topic:getValue("topic")||"General",level:getValue("level")||"A1",goal:getValue("goal"),examples:parseRows(getValue("examples"),3),vocab:parseRows(getValue("vocab"),2)}}
 function runModeGuard(){log("MODE_GUARD_STARTED");["SON","QA","NN","PLAN","BUILD","TEST","FIX","GIT"].forEach(m=>log("MODE_OK: "+m));log("MODE_GUARD_PASSED");return true}
 
-/* LANGUAGE HIGHLIGHT CORE — not template/UI highlight */
 const LANGUAGE_HIGHLIGHT_RULES = {
   topicParticles:["auf","zu","ein","an"],
   subjects:["ich","du","er","sie","es","wir","ihr"],
@@ -36,25 +35,6 @@ function renderLanguageHighlightedGerman(sentence){
     return '<span class="'+cls+'">'+esc(part)+'</span>';
   }).join("");
 }
-function lessonEmbeddedLanguageHighlightScript(){
-  return [
-    '<script>',
-    '(function(){',
-    'function apply(mode){',
-    'document.body.classList.remove("dt-lang-topic-mode","dt-lang-all-mode","dt-lang-off");',
-    'if(mode==="OFF"){document.body.classList.add("dt-lang-off");return;}',
-    'if(mode==="ALL"){document.body.classList.add("dt-lang-all-mode");return;}',
-    'document.body.classList.add("dt-lang-topic-mode");',
-    '}',
-    'document.addEventListener("click",function(e){',
-    'if(e.target.classList.contains("mini-toggle")){var card=e.target.closest(".example-card");card.querySelector(".translation-wrap").classList.toggle("local-hidden");}',
-    'if(e.target.dataset&&e.target.dataset.langHighlight){apply(e.target.dataset.langHighlight);}',
-    '});',
-    'window.addEventListener("DOMContentLoaded",function(){apply("TOPIC");});',
-    '})();',
-    '<\\/script>'
-  ].join("");
-}
 function lessonLanguageHighlightCss(){
   return [
     '.dt-lang-token{border-radius:7px;padding:1px 4px}',
@@ -66,6 +46,28 @@ function lessonLanguageHighlightCss(){
     'body.dt-lang-all-mode .dt-lang-verb{background:#dcfce7;outline:1px solid #22c55e}',
     '.lesson-lang-btn{border:0;border-radius:10px;padding:8px 10px;background:#facc15;color:#422006;font-weight:800;cursor:pointer;margin:4px}'
   ].join("");
+}
+function lessonEmbeddedLanguageHighlightScript(){
+  return `<script>
+(function(){
+  function applyLanguageMode(mode){
+    document.body.classList.remove("dt-lang-topic-mode","dt-lang-all-mode","dt-lang-off");
+    if(mode==="OFF"){document.body.classList.add("dt-lang-off");return;}
+    if(mode==="ALL"){document.body.classList.add("dt-lang-all-mode");return;}
+    document.body.classList.add("dt-lang-topic-mode");
+  }
+  document.addEventListener("click",function(e){
+    if(e.target.classList.contains("mini-toggle")){
+      var card=e.target.closest(".example-card");
+      var wrap=card ? card.querySelector(".translation-wrap") : null;
+      if(wrap) wrap.classList.toggle("local-hidden");
+    }
+    var mode=e.target.getAttribute("data-lang-highlight");
+    if(mode) applyLanguageMode(mode);
+  });
+  applyLanguageMode("TOPIC");
+})();
+<\/script>`;
 }
 
 function buildLesson(model){
@@ -86,7 +88,7 @@ function buildLesson(model){
  '<section id="language-highlight-controls"><h2>💡 Мовна підсвітка</h2><button class="lesson-lang-btn" type="button" data-lang-highlight="TOPIC">Topic</button><button class="lesson-lang-btn" type="button" data-lang-highlight="ALL">All Rules</button><button class="lesson-lang-btn" type="button" data-lang-highlight="OFF">OFF</button></section>',
  '<section><h2>1. Ціль уроку</h2><p>'+esc(model.goal)+'</p></section><section><h2>2. Основне правило</h2><p>Відокремлювана частка у простому реченні часто переходить у кінець.</p></section>',
  '<section><h2>3. Приклади з ДП і СД</h2>'+examplesHtml+'</section><section><h2>4. Словник</h2><table><thead><tr><th>№</th><th>DE</th><th>UA</th></tr></thead><tbody>'+vocabHtml+'</tbody></table></section>',
- '<section><h2>5. Практика</h2><p>Тема: <b>'+esc(model.topic)+'</b>. Рівень: <b>'+esc(model.level)+'</b>.</p></section><section><h2>QA marker</h2><p>Урок пройшов ODIN v3.18 LANGUAGE HIGHLIGHT CORE.</p></section>',
+ '<section><h2>5. Практика</h2><p>Тема: <b>'+esc(model.topic)+'</b>. Рівень: <b>'+esc(model.level)+'</b>.</p></section><section><h2>QA marker</h2><p>Урок пройшов ODIN v3.18.1 INTERNAL LESSON LAMP FIX.</p></section>',
  lessonEmbeddedLanguageHighlightScript(),
  '</body></html>'
  ].join("");
@@ -100,11 +102,12 @@ function hardQaCheck(model,html){const messages=[];const error=t=>messages.push(
  if(!html.includes("QA marker"))error("HTML не містить QA marker.");
  if(!html.includes("dt-lang-token"))error("LANGUAGE HIGHLIGHT CORE: немає мовних токенів.");
  if(!html.includes("data-lang-highlight"))error("LANGUAGE HIGHLIGHT CORE: немає внутрішніх кнопок уроку.");
- info("LANGUAGE HIGHLIGHT CORE ready: підсвітка вбудована в lesson HTML.");
+ if(!html.includes("applyLanguageMode"))error("INTERNAL LESSON LAMP: немає внутрішнього скрипта перемикання.");
+ info("INTERNAL LESSON LAMP fixed: кнопки Topic / All Rules / OFF вбудовані в HTML уроку.");
  const hasErrors=messages.some(m=>m.level==="ERROR"),hasWarnings=messages.some(m=>m.level==="WARNING");return{passed:!hasErrors,hasWarnings,messages}}
 
 function renderQaReport(r){const rows=r.messages.map(m=>'<div class="qa-item '+(m.level==="ERROR"?"qa-error":m.level==="WARNING"?"qa-warning":"qa-info")+'"><b>'+m.level+':</b> '+esc(m.text)+'</div>').join("");const s=r.passed?(r.hasWarnings?"QA_PASSED_WITH_WARNINGS":"QA_PASSED"):"QA_FAILED_EXPORT_BLOCKED";document.getElementById("qaBox").innerHTML=rows+'<div class="qa-item summary '+(r.passed?"qa-pass":"qa-error")+'">'+s+'</div>'}
-function renderDownload(html){const blob=new Blob([html],{type:"text/html;charset=utf-8"});const url=URL.createObjectURL(blob);document.getElementById("download").innerHTML='<a class="download" href="'+url+'" download="odin_lesson_v3_18.html">Завантажити урок</a>'}
+function renderDownload(html){const blob=new Blob([html],{type:"text/html;charset=utf-8"});const url=URL.createObjectURL(blob);document.getElementById("download").innerHTML='<a class="download" href="'+url+'" download="odin_lesson_v3_18_1.html">Завантажити урок</a>'}
 function setPreviewHtml(html){const f=document.getElementById("preview");f.onload=function(){applyMode();applyLanguageHighlightMode(ODIN_STATE.languageHighlightMode||"TOPIC")};f.srcdoc=html}
 function getPreviewDocument(){const f=document.getElementById("preview");return f.contentDocument||f.contentWindow.document}
 function applyMode(){if(!ODIN_STATE.lessonCreated){log("INFO: спочатку створи урок.");return}const d=getPreviewDocument();if(!d||!d.body){setTimeout(applyMode,80);return}d.querySelectorAll(".dp").forEach(e=>e.style.display=ODIN_STATE.showDP?"block":"none");d.querySelectorAll(".sd").forEach(e=>e.style.display=ODIN_STATE.showSD?"block":"none")}
@@ -139,6 +142,6 @@ function smartPriority(lesson){const s=lesson.reviewStatus||"NEW";const c=lesson
 function showSmartReview(){const lessons=getLessons();const box=document.getElementById("smartReviewBox");if(!lessons.length){box.innerHTML='<p class="muted">Немає збережених уроків.</p>';return}const ranked=lessons.map((lesson,index)=>({lesson,index,priority:smartPriority(lesson)})).sort((a,b)=>b.priority.score-a.priority.score).slice(0,5);box.innerHTML=ranked.map(item=>'<div class="smart-card"><h3>'+esc(item.lesson.title)+' <span class="status-pill '+statusClass(item.lesson.reviewStatus||"NEW")+'">'+esc(item.lesson.reviewStatus||"NEW")+'</span></h3><div class="lesson-meta">'+esc(item.lesson.topic||"General")+' · '+esc(item.lesson.level||"A1")+'</div><div class="priority-score">Priority: '+item.priority.score+'%</div><div class="reason">'+item.priority.reasons.map(esc).join("<br>")+'</div><button data-action="open" data-index="'+item.index+'">Відкрити</button><button data-action="auto" data-index="'+item.index+'">Auto Progress</button></div>').join("");dataLog("SMART_REVIEW_READY")}
 
 function clearAll(){clearLog();document.getElementById("qaBox").innerHTML='<p class="muted">QA зʼявиться після запуску.</p>';document.getElementById("download").innerHTML="";document.getElementById("preview").srcdoc="";ODIN_STATE={lessonCreated:false,showDP:true,showSD:true,languageHighlightMode:"TOPIC",lastHtml:"",lastModel:null,lastQa:null}}
-function executeOdinAction(){clearAll();log("RUNNING");runModeGuard();const model=collectInput();ODIN_STATE.lastModel=model;log("PLAN_DONE");log("PIPELINE_DONE");const html=buildLesson(model);ODIN_STATE.lastHtml=html;setPreviewHtml(html);ODIN_STATE.lessonCreated=true;log("LESSON_DONE");const report=hardQaCheck(model,html);ODIN_STATE.lastQa=report;renderQaReport(report);log(report.passed?(report.hasWarnings?"QA_PASSED_WITH_WARNINGS":"QA_PASSED"):"QA_FAILED");if(!report.passed){document.getElementById("download").innerHTML='<div class="qa-item qa-error">EXPORT BLOCKED</div>';log("EXPORT_BLOCKED");return}renderDownload(html);log("EXPORT_DONE");log("LANGUAGE_HIGHLIGHT_CORE_READY");log("DONE")}
+function executeOdinAction(){clearAll();log("RUNNING");runModeGuard();const model=collectInput();ODIN_STATE.lastModel=model;log("PLAN_DONE");log("PIPELINE_DONE");const html=buildLesson(model);ODIN_STATE.lastHtml=html;setPreviewHtml(html);ODIN_STATE.lessonCreated=true;log("LESSON_DONE");const report=hardQaCheck(model,html);ODIN_STATE.lastQa=report;renderQaReport(report);log(report.passed?(report.hasWarnings?"QA_PASSED_WITH_WARNINGS":"QA_PASSED"):"QA_FAILED");if(!report.passed){document.getElementById("download").innerHTML='<div class="qa-item qa-error">EXPORT BLOCKED</div>';log("EXPORT_BLOCKED");return}renderDownload(html);log("EXPORT_DONE");log("INTERNAL_LESSON_LAMP_FIX_READY");log("DONE")}
 function bind(){document.getElementById("runBtn").addEventListener("click",executeOdinAction);document.getElementById("saveBtn").addEventListener("click",saveCurrentLesson);document.getElementById("clearBtn").addEventListener("click",clearAll);document.getElementById("toggleDpBtn").addEventListener("click",toggleDP);document.getElementById("toggleSdBtn").addEventListener("click",toggleSD);document.getElementById("modeStudyBtn").addEventListener("click",modeStudy);document.getElementById("modeTestBtn").addEventListener("click",modeTest);document.getElementById("modeFullBtn").addEventListener("click",modeFull);document.getElementById("langTopicBtn").addEventListener("click",()=>applyLanguageHighlightMode("TOPIC"));document.getElementById("langAllBtn").addEventListener("click",()=>applyLanguageHighlightMode("ALL"));document.getElementById("langOffBtn").addEventListener("click",()=>applyLanguageHighlightMode("OFF"));document.getElementById("refreshLessonsBtn").addEventListener("click",()=>{renderFilters();renderProgress();renderLessonsList()});document.getElementById("clearLessonsBtn").addEventListener("click",clearSavedLessons);document.getElementById("filterAllBtn").addEventListener("click",()=>setFilter("ALL"));document.getElementById("filterNewBtn").addEventListener("click",()=>setFilter("NEW"));document.getElementById("filterReviewBtn").addEventListener("click",()=>setFilter("REVIEW"));document.getElementById("filterLearnedBtn").addEventListener("click",()=>setFilter("LEARNED"));document.getElementById("filterMasteredBtn").addEventListener("click",()=>setFilter("MASTERED"));document.getElementById("topicFilter").addEventListener("change",e=>setTopicFilter(e.target.value));document.getElementById("levelFilter").addEventListener("change",e=>setLevelFilter(e.target.value));document.getElementById("smartReviewBtn").addEventListener("click",showSmartReview);document.getElementById("lessonsList").addEventListener("click",e=>{const b=e.target.closest("button[data-action]");if(!b)return;const i=Number(b.dataset.index);if(b.dataset.action==="open")openLesson(i);if(b.dataset.action==="export")exportSavedLesson(i);if(b.dataset.action==="delete")deleteLesson(i);if(b.dataset.action==="status")setReviewStatus(i,b.dataset.status);if(b.dataset.action==="auto")autoProgress(i)});document.getElementById("smartReviewBox").addEventListener("click",e=>{const b=e.target.closest("button[data-action]");if(!b)return;const i=Number(b.dataset.index);if(b.dataset.action==="open")openLesson(i);if(b.dataset.action==="auto")autoProgress(i)})}
-document.addEventListener("DOMContentLoaded",()=>{bind();renderFilters();renderProgress();renderLessonsList();dataLog("APP_READY_v3.18_LANGUAGE_HIGHLIGHT_CORE")});
+document.addEventListener("DOMContentLoaded",()=>{bind();renderFilters();renderProgress();renderLessonsList();dataLog("APP_READY_v3.18.1_INTERNAL_LESSON_LAMP_FIX")});
