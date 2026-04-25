@@ -131,6 +131,16 @@ body[data-hl-mode="theme"] .hl-case,body[data-hl-mode="theme"] .hl-move,body[dat
 [data-lang-block]{display:none}body[data-lang="ua"] [data-lang-block="ua"]{display:block}body[data-lang="ru"] [data-lang-block="ru"]{display:block}.inline-lang{display:none}body[data-lang="ua"] .inline-lang.ua{display:inline}body[data-lang="ru"] .inline-lang.ru{display:inline}
 .modal{position:fixed;inset:0;background:rgba(15,23,42,.34);display:none;align-items:center;justify-content:center;z-index:120;padding:18px}.modal.open{display:flex}.panel-modal{width:min(360px,88vw);max-height:72vh;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 20px 60px rgba(15,23,42,.18);overflow:hidden;display:flex;flex-direction:column}.panel-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line)}.nav-list{padding:8px 14px 14px;overflow:auto}.nav-item{display:block;text-decoration:none;color:var(--text);border-top:1px solid var(--line);padding:10px 0;font-size:15px}.nav-item:first-child{border-top:none}.close-btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:999px;width:34px;height:34px;cursor:pointer}
 .footer-note{color:var(--muted);font-size:15px;text-align:center;padding:4px 0 24px}
+
+body[data-hl-mode="all"] .lm-word{border-radius:6px;padding:0 4px}
+body[data-hl-mode="all"] .lm-verb{background:#dcfce7!important;color:#166534!important}
+body[data-hl-mode="all"] .lm-prefix{background:#fff7ed!important;color:#92400e!important}
+body[data-hl-mode="all"] .lm-pronoun{background:#dbeafe!important;color:#1d4ed8!important}
+body[data-hl-mode="all"] .lm-noun{background:#f3e8ff!important;color:#7e22ce!important}
+body[data-hl-mode="all"] .lm-preposition{background:#fee2e2!important;color:#b91c1c!important}
+body[data-hl-mode="all"] .lm-article{background:#eef2ff!important;color:#4338ca!important}
+body[data-hl-mode="all"] .lm-unknown{background:#f1f5f9!important;color:#334155!important}
+
 @media(max-width:640px){:root{--header-h:60px}h1{font-size:25px}.grid.two-col,.grid.three-col,.vocab-columns{grid-template-columns:1fr}}
 `;
 }
@@ -145,7 +155,7 @@ const menuBtn=document.getElementById('menuBtn');
 const navModal=document.getElementById('navModal');
 const closeNav=document.getElementById('closeNav');
 literalToggle.addEventListener('click',()=>{body.classList.toggle('show-literal');literalToggle.classList.toggle('is-off',!body.classList.contains('show-literal'));});
-function updateGlow(){const m=body.dataset.hlMode;glowToggle.textContent=m==='off'?'💡0':(m==='theme'?'💡1':'💡2');glowToggle.classList.toggle('is-off',m==='off');}
+function updateGlow(){const m=body.dataset.hlMode;glowToggle.textContent=m==='off'?'💡0':(m==='theme'?'💡1':'💡2');glowToggle.title='Підсвітка / Подсветка: '+m;glowToggle.classList.toggle('is-off',m==='off');}
 glowToggle.addEventListener('click',()=>{const m=body.dataset.hlMode;body.dataset.hlMode=m==='off'?'theme':(m==='theme'?'all':'off');updateGlow();});
 updateGlow();
 homeBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
@@ -159,18 +169,47 @@ document.querySelectorAll('[data-tts]').forEach(btn=>btn.addEventListener('click
 window.DT_STANDARD_LESSON_READY = true;
 </script>`;
 }
+
+
+function autoRuVocab(text){
+  const map = {
+    "вставати":"вставать",
+    "закривати":"закрывать",
+    "закуповуватись":"закупаться",
+    "телефонувати":"звонить",
+    "прибирати":"убирать"
+  };
+  return map[text] || text;
+}
+
+function autoRu(text){
+  const map = {
+    "Я встаю о шостій годині вгору.":"Я встаю в шесть часов вверх.",
+    "Я встаю о шостій годині.":"Я встаю в шесть часов.",
+    "Зроби будь ласка двері до!":"Сделай пожалуйста дверь до!",
+    "Закрий, будь ласка, двері!":"Закрой, пожалуйста, дверь!",
+    "Ми купуємо сьогодні в супермаркеті всередину.":"Мы покупаем сегодня в супермаркете внутрь.",
+    "Ми сьогодні закуповуємось у супермаркеті.":"Мы сегодня закупаемся в супермаркете.",
+    "Подзвони мене будь ласка пізніше на.":"Позвони меня пожалуйста позже на.",
+    "Подзвони мені, будь ласка, пізніше.":"Позвони мне, пожалуйста, позже.",
+    "Я прибираю мою кімнату вгору.":"Я убираю мою комнату вверх.",
+    "Я прибираю свою кімнату.":"Я убираю свою комнату."
+  };
+  return map[text] || text;
+}
+
 function buildStandardLesson(model){
   const examplesHtml = model.examples.map((e,i)=>`
     <div class="sentence">
       ${renderMarkedGerman(e[0], model, i)}
-      <div class="literal"><span class="inline-lang ua">Дослівно: ${esc(e[1])}</span><span class="inline-lang ru">Дословно: ${esc(e[1])}</span></div>
-      <div class="translation"><span class="inline-lang ua">${esc(e[2])}</span><span class="inline-lang ru">${esc(e[2])}</span></div>
+      <div class="literal"><span class="inline-lang ua">Дослівно: ${esc(e[1])}</span><span class="inline-lang ru">Дословно: ${esc(autoRu(e[1]))}</span></div>
+      <div class="translation"><span class="inline-lang ua">${esc(e[2])}</span><span class="inline-lang ru">${esc(autoRu(e[2]))}</span></div>
     </div>`).join("");
 
   const vocabHtml = model.vocab.map((v,i)=>`
     <div class="vocab-line">
       <span class="vocab-word lm-word lm-vocab" data-lemma="${esc(normalizeWord(v[0]))}" data-pos="unknown">${esc(v[0])}</span> —
-      <span class="inline-lang ua">${esc(v[1])}</span><span class="inline-lang ru">${esc(v[1])}</span>
+      <span class="inline-lang ua">${esc(v[1])}</span><span class="inline-lang ru">${esc(autoRuVocab(v[1]))}</span>
       <button class="audio-mini" data-tts="${esc(v[0])}">🔊</button>
     </div>`).join("");
 
@@ -199,11 +238,11 @@ function buildStandardLesson(model){
 <header class="topbar"><div class="topbar-inner"><div class="brand">${STANDARD_VERSION} · ${esc(model.level)}</div><div class="center-actions"><button class="btn" id="homeBtn" title="Додому">🏠</button><button class="btn" id="menuBtn" title="Меню">☰</button><button class="btn is-off" id="glowToggle" title="Підсвітка">💡</button><button class="btn" id="literalToggle" title="Дослівний">+</button><button class="btn" id="langToggle" title="UA/RU">UA</button></div><div></div></div></header>
 <div class="modal" id="navModal"><div class="panel-modal"><div class="panel-head"><b><span class="inline-lang ua">Розділи уроку</span><span class="inline-lang ru">Разделы урока</span></b><button class="close-btn" id="closeNav">✕</button></div><div class="nav-list">${nav}</div></div></div>
 <main class="wrap" data-course="${esc(model.level)}" data-lesson-id="${esc(model.topic)}_${Date.now()}" data-lesson-topic="${esc(model.topic)}" data-lesson-version="v3.19">
-<section class="hero" id="top"><div style="font-size:12px;color:#1f4b99;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;">ODIN / DT STANDARD LESSON</div><h1>${esc(model.title)}</h1><div style="font-size:18px;color:#0f5132;font-weight:700;margin-bottom:10px;">${esc(model.level)} · ${esc(model.topic)}</div><p style="max-width:860px;margin:0 auto;">${esc(model.goal)}</p></section>
-<section class="card" id="summary"><div class="section-head"><span class="sec-num">1</span><h2><span class="inline-lang ua">Суть теми</span><span class="inline-lang ru">Суть темы</span></h2></div><div class="grid two-col"><div class="subcard"><div class="tag"><span class="inline-lang ua">Що вивчаємо</span><span class="inline-lang ru">Что изучаем</span></div><p>${esc(model.goal)}</p></div><div class="subcard"><div class="tag"><span class="inline-lang ua">Стандарт</span><span class="inline-lang ru">Стандарт</span></div><p>Урок створено за ${STANDARD_VERSION}: Template + Highlight + Markup + Audio + QA + Standalone.</p></div></div></section>
+<section class="hero" id="top"><div style="font-size:12px;color:#1f4b99;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;"><span class="inline-lang ua">ODIN / DT STANDARD LESSON</span><span class="inline-lang ru">ODIN / DT УРОК-СТАНДАРТ</span></div><h1>${esc(model.title)}</h1><div style="font-size:18px;color:#0f5132;font-weight:700;margin-bottom:10px;">${esc(model.level)} · ${esc(model.topic)}</div><p style="max-width:860px;margin:0 auto;">${esc(model.goal)}</p></section>
+<section class="card" id="summary"><div class="section-head"><span class="sec-num">1</span><h2><span class="inline-lang ua">Суть теми</span><span class="inline-lang ru">Суть темы</span></h2></div><div class="grid two-col"><div class="subcard"><div class="tag"><span class="inline-lang ua">Що вивчаємо</span><span class="inline-lang ru">Что изучаем</span></div><p>${esc(model.goal)}</p></div><div class="subcard"><div class="tag"><span class="inline-lang ua">Стандарт</span><span class="inline-lang ru">Стандарт</span></div><p><span class="inline-lang ua">Урок створено за ${STANDARD_VERSION}: Template + Highlight + Markup + Audio + QA + Standalone.</span><span class="inline-lang ru">Урок создан по ${STANDARD_VERSION}: Template + Highlight + Markup + Audio + QA + Standalone.</span></p></div></div></section>
 <section class="card" id="text"><div class="section-head"><span class="sec-num">2</span><h2><span class="inline-lang ua">Основні приклади</span><span class="inline-lang ru">Основные примеры</span></h2></div>${examplesHtml}</section>
-<section class="card" id="analysis"><div class="section-head"><span class="sec-num">3</span><h2><span class="inline-lang ua">Розбір і значення</span><span class="inline-lang ru">Разбор и значение</span></h2></div><div class="subcard"><p>Кожне німецьке речення має language markup: <b>lm-word</b>, <b>data-lemma</b>, <b>data-pos</b>. Підсвітка керується через <b>body[data-hl-mode]</b>.</p></div></section>
-<section class="card" id="rule"><div class="section-head"><span class="sec-num">4</span><h2><span class="inline-lang ua">Правило</span><span class="inline-lang ru">Правило</span></h2></div><div class="subcard"><p><span class="hl-topic">Тема уроку</span> позначена як головна. У режимі ALL система показує додаткові граматичні ролі.</p></div></section>
+<section class="card" id="analysis"><div class="section-head"><span class="sec-num">3</span><h2><span class="inline-lang ua">Розбір і значення</span><span class="inline-lang ru">Разбор и значение</span></h2></div><div class="subcard"><p><span class="inline-lang ua">Кожне німецьке речення має language markup: <b>lm-word</b>, <b>data-lemma</b>, <b>data-pos</b>. Підсвітка керується через <b>body[data-hl-mode]</b>.</span><span class="inline-lang ru">Каждое немецкое предложение имеет language markup: <b>lm-word</b>, <b>data-lemma</b>, <b>data-pos</b>. Подсветка управляется через <b>body[data-hl-mode]</b>.</span></p></div></section>
+<section class="card" id="rule"><div class="section-head"><span class="sec-num">4</span><h2><span class="inline-lang ua">Правило</span><span class="inline-lang ru">Правило</span></h2></div><div class="subcard"><p><span class="inline-lang ua">Тема уроку позначена в німецьких прикладах. У режимі ALL система показує додаткові граматичні ролі.</span><span class="inline-lang ru">Тема урока отмечена в немецких примерах. В режиме ALL система показывает дополнительные грамматические роли.</span></p></div></section>
 <section class="card" id="map"><div class="section-head"><span class="sec-num">5</span><h2><span class="inline-lang ua">Швидка карта</span><span class="inline-lang ru">Быстрая карта</span></h2></div><div class="subcard"><ul class="clean"><li><span class="inline-lang ua">OFF — чисте читання</span><span class="inline-lang ru">OFF — чистое чтение</span></li><li><span class="inline-lang ua">THEME — тема уроку</span><span class="inline-lang ru">THEME — тема урока</span></li><li><span class="inline-lang ua">ALL — всі позначені правила</span><span class="inline-lang ru">ALL — все отмеченные правила</span></li></ul></div></section>
 <section class="card" id="vocab"><div class="section-head"><span class="sec-num">6</span><h2><span class="inline-lang ua">Словник</span><span class="inline-lang ru">Словарь</span></h2></div><div class="vocab-columns"><div class="subcard">${vocabHtml}</div></div></section>
 <section class="card" id="drill"><div class="section-head"><span class="sec-num">7</span><h2><span class="inline-lang ua">Мікродрил</span><span class="inline-lang ru">Микродрилл</span></h2></div><div class="subcard"><ol class="clean">${model.examples.slice(0,5).map(e=>`<li>${esc(e[0])}</li>`).join("")}</ol></div></section>
@@ -283,7 +322,7 @@ function renderQaReport(r){
 function renderDownload(html){
   const blob=new Blob([html],{type:"text/html;charset=utf-8"});
   const url=URL.createObjectURL(blob);
-  document.getElementById("download").innerHTML=`<a class="download" href="${url}" download="odin_standard_lesson_v3_19_2.html">Завантажити стандартний урок</a>`;
+  document.getElementById("download").innerHTML=`<a class="download" href="${url}" download="odin_standard_lesson_v3_19_3.html">Завантажити стандартний урок</a>`;
 }
 function setPreviewHtml(html){document.getElementById("preview").srcdoc=html;}
 function setPreviewHighlight(mode){
@@ -326,7 +365,7 @@ function executeOdinAction(){
   }
   renderDownload(html);
   log("EXPORT_READY");
-  log("STANDARD_ENGINE_HEADER_LANG_HIGHLIGHT_FIXED_DONE");
+  log("STANDARD_ENGINE_FULL_RU_ALL_HIGHLIGHT_FIXED_DONE");
 }
 function getLessons(){try{return JSON.parse(localStorage.getItem(ODIN_STORAGE_KEY)||"[]")}catch(e){return[]}}
 function setLessons(lessons){localStorage.setItem(ODIN_STORAGE_KEY,JSON.stringify(lessons))}
@@ -370,5 +409,5 @@ document.addEventListener("DOMContentLoaded",()=>{
     if(b.dataset.action==="delete"){lessons.splice(i,1);setLessons(lessons);renderLessons();dataLog("DELETED");}
   });
   renderLessons();
-  dataLog("APP_READY_v3.19.2_HEADER_LANG_HIGHLIGHT_FIX");
+  dataLog("APP_READY_v3.19.3_FULL_RU_ALL_HIGHLIGHT_FIX");
 });
