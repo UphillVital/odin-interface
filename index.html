@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ODIN Interface v1.1 — Sync Tab</title>
+<title>ODIN Interface v2 — Full Integration</title>
 <style>
 :root {
   --bg:#f5f7fb; --card:#fff; --text:#132033; --muted:#64748b; --line:#dbe5f2;
@@ -14,7 +14,7 @@
 *{box-sizing:border-box}
 body{margin:0;background:linear-gradient(180deg,#f8fbff 0%,var(--bg) 100%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
 header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);padding:12px;backdrop-filter:blur(12px)}
-.wrap,main{max-width:1180px;margin:auto} main{padding:14px}
+.wrap,main{max-width:1200px;margin:auto} main{padding:14px}
 .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:10px}
 .logo{width:44px;height:44px;border-radius:16px;background:linear-gradient(135deg,#111827,var(--purple));color:white;display:grid;place-items:center;font-weight:950}
@@ -24,59 +24,101 @@ nav button{border:1px solid var(--line);background:white;color:var(--text);paddi
 nav button.active{background:#111827;color:white;border-color:#111827}
 .page{display:none} .page.active{display:block}
 .card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px;margin:14px 0;box-shadow:var(--shadow)}
+.hero{background:linear-gradient(135deg,#eff6ff,#f5f3ff)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
 .item,.stat{background:#fbfdff;border:1px solid var(--line);border-radius:20px;padding:15px}
 .stat b{font-size:25px}
 .pill{display:inline-block;background:var(--blue2);color:var(--blue);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:900;margin:2px}
 .ready{background:var(--green2);color:#166534} .next{background:var(--amber2);color:#92400e} .lock{background:var(--red2);color:#991b1b} .purple{background:var(--purple2);color:#5b21b6}
-.ok{color:var(--green);font-weight:900} .bad{color:var(--red);font-weight:900}
+.ok{color:var(--green);font-weight:900} .bad{color:var(--red);font-weight:900} .warn{color:#b45309;font-weight:900}
 .flow{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#0f172a;color:#e5e7eb;border-radius:18px;padding:14px;overflow:auto;white-space:pre-wrap}
 code{background:#f1f5f9;border-radius:7px;padding:2px 5px} li{margin:6px 0}
 @media(max-width:700px){main{padding:10px}.card{padding:14px;border-radius:20px}.grid{grid-template-columns:1fr}nav button{font-size:13px;padding:8px 10px}}
 </style>
-<script id="ODIN_INTERFACE_MODEL" type="application/json">{
-  "interface_id": "ODIN_INTERFACE_v1.1_INTEGRATE_SYNC_TAB",
-  "created_at": "2026-04-25T00:39:40",
-  "based_on": [
-    "ODIN_INTERFACE_v1",
-    "ODIN_SYNC_MODEL_v1"
+<script id="ODIN_INTERFACE_V2_MODEL" type="application/json">{
+  "interface_id": "ODIN_INTERFACE_v2_FULL_INTEGRATION",
+  "created_at": "2026-04-25T01:03:31",
+  "status": "full_integration_ready",
+  "purpose": "Single ODIN control-center integrating architecture, autonomous loop, DT platform state, sync, and language system.",
+  "integrated_blocks": [
+    "ODIN v68.1 PRO — Stable Integrated Autonomous Loop",
+    "DT_CORE_ARCHITECTURE_v1",
+    "DT_PLAN_ENGINE_v1",
+    "DT_CORE_LINK_MODEL_v1",
+    "DT_LESSON_FACTORY_v1",
+    "DT_LESSON_VIEWER_v1_ISSU_SAFE_MODE",
+    "DT_PLATFORM_v0.8_EXPORT_SYNC",
+    "DT_LANGUAGE_SYSTEM_v1",
+    "ODIN_SYNC_MODEL_v1",
+    "ODIN_INTERFACE_v1.1_SYNC_TAB"
   ],
-  "purpose": "ODIN Interface with integrated Sync tab for GitHub / HTML / JSON / MD / Changelog / ZIP workflow.",
-  "status": "ready_for_github_update",
+  "core_roles": {
+    "DT": "plans",
+    "SSUDT": "creates base lessons",
+    "ISSU": "supports/adapts on-demand",
+    "Platform": "executes learning",
+    "ODIN": "controls, validates, coordinates, protects architecture"
+  },
+  "autonomous_loop": {
+    "source": "ODIN v68.1 PRO — Stable Integrated Autonomous Loop",
+    "loop": [
+      "detect context",
+      "validate against locks",
+      "select next action",
+      "execute or hold",
+      "QA",
+      "changelog",
+      "snapshot if stable"
+    ],
+    "rules": [
+      "No uncontrolled build",
+      "No role mixing",
+      "No architecture change without changelog",
+      "Stable points require explicit fixation",
+      "If risk is high, switch to validation mode"
+    ]
+  },
+  "data_model": {
+    "source_of_truth": "PLAN",
+    "sync_source": "GitHub repo uphillvital/odin-interface",
+    "export_state": "course, topic, lesson, resume, progress, daily_plan",
+    "language_profile": "user_language + target_language + ui_language + course_pair"
+  },
   "tabs": [
     "Dashboard",
-    "Core",
-    "Plan",
+    "Architecture",
+    "Autonomous Loop",
+    "Plan Engine",
     "ССУДТ",
     "ISSU",
     "Platform",
-    "Links",
-    "Export",
-    "Sync",
+    "Link Model",
+    "Language",
+    "Export/Sync",
+    "GitHub Sync",
     "Changelog",
-    "QA"
+    "QA/Risks"
   ],
-  "sync_model": {
-    "primary_source": "GitHub repository: uphillvital/odin-interface",
-    "online_ui": "index.html",
-    "data_truth": "ODIN_INTERFACE_v1.json",
-    "history": "ODIN_INTERFACE_CHANGELOG.md",
-    "backup": "ZIP packages",
-    "next_action": "Upload this HTML as index.html to GitHub repo"
-  },
   "hard_locks": [
-    "GitHub is source of truth",
-    "Do not edit HTML without changelog",
-    "Do not change architecture only in HTML",
-    "Do not upload secrets/passwords/API keys",
-    "Create ZIP backup after stable changes"
+    "DT plans; SSUDT creates; ISSU supports; Platform executes; ODIN controls.",
+    "PLAN is source of truth.",
+    "Platform does not decide what to learn.",
+    "ISSU is not main course generator.",
+    "Lesson design must not be merged into platform design.",
+    "ISSU/V3 lesson header and internal UX must not be removed.",
+    "Resume is UX state, not learning control.",
+    "Progress is tracked by lesson + topic + course.",
+    "Language switching affects presentation layer, not plan/progress logic.",
+    "GitHub is source of truth for ODIN interface files.",
+    "No meaningful update without changelog."
   ],
-  "qa": {
-    "sync_tab_added": "PASS",
-    "odin_v1_preserved": "PASS",
-    "sync_rules_visible": "PASS",
-    "github_update_ready": "PASS"
-  }
+  "next_recommended_steps": [
+    "Upload v2 HTML as index.html to GitHub Pages",
+    "Commit: ODIN v2 full integration",
+    "Review v2 online",
+    "Fix ODIN_INTERFACE_v2 STABLE",
+    "Then move to DT_CONTENT_PIPELINE_v1 or product UX validation"
+  ]
 }</script>
 </head>
 <body>
@@ -86,93 +128,94 @@ code{background:#f1f5f9;border-radius:7px;padding:2px 5px} li{margin:6px 0}
       <div class="brand">
         <div class="logo">O</div>
         <div>
-          <h1>ODIN Interface v1.1</h1>
-          <p class="sub">Control Center + інтегрована вкладка Sync</p>
+          <h1>ODIN Interface v2</h1>
+          <p class="sub">Full Integration: Loop + DT v0.8 + Language + Core Control</p>
         </div>
       </div>
-      <span class="pill ready">SYNC TAB READY</span>
+      <span class="pill ready">FULL INTEGRATION</span>
     </div>
     <nav>
-      <button class="active" onclick="tab('dashboard',this)">Dashboard</button><button class="" onclick="tab('core',this)">Core</button><button class="" onclick="tab('plan',this)">Plan</button><button class="" onclick="tab('factory',this)">ССУДТ</button><button class="" onclick="tab('issu',this)">ISSU</button><button class="" onclick="tab('platform',this)">Platform</button><button class="" onclick="tab('links',this)">Links</button><button class="" onclick="tab('export',this)">Export</button><button class="" onclick="tab('sync',this)">Sync</button><button class="" onclick="tab('changelog',this)">Changelog</button><button class="" onclick="tab('qa',this)">QA</button>
+      <button class="active" onclick="tab('dashboard',this)">Dashboard</button><button class="" onclick="tab('architecture',this)">Architecture</button><button class="" onclick="tab('loop',this)">Autonomous Loop</button><button class="" onclick="tab('plan',this)">Plan Engine</button><button class="" onclick="tab('ssudt',this)">ССУДТ</button><button class="" onclick="tab('issu',this)">ISSU</button><button class="" onclick="tab('platform',this)">Platform</button><button class="" onclick="tab('links',this)">Link Model</button><button class="" onclick="tab('language',this)">Language</button><button class="" onclick="tab('export',this)">Export/Sync</button><button class="" onclick="tab('github',this)">GitHub Sync</button><button class="" onclick="tab('changelog',this)">Changelog</button><button class="" onclick="tab('qa',this)">QA/Risks</button>
     </nav>
   </div>
 </header>
 
 <main>
-<section class="card">
-  <span class="pill">ODIN</span><span class="pill">v1.1</span><span class="pill ready">SYNC INTEGRATED</span>
-  <p><span class="ok">PASS:</span> Sync Model інтегровано прямо в ODIN Interface.</p>
+<section class="card hero">
+  <span class="pill ">ODIN v2</span><span class="pill ">v68.1 LOOP</span><span class="pill ">DT v0.8</span><span class="pill ">LANG v1</span>
+  <p><span class="ok">PASS:</span> Усе ключове зібрано в одному ODIN control-center.</p>
 </section>
 
 <section id="dashboard" class="page active">
   <div class="card"><h2>Dashboard</h2><div class="grid">
-    <div class="stat"><div>Core</div><b>LOCKED</b></div>
-    <div class="stat"><div>Sync</div><b>READY</b></div>
-    <div class="stat"><div>GitHub</div><b>LIVE</b></div>
-    <div class="stat"><div>Next</div><b>LANG</b></div>
+    <div class="stat"><div>Architecture</div><b>LOCKED</b></div>
+    <div class="stat"><div>Autonomous Loop</div><b>v68.1</b></div>
+    <div class="stat"><div>Export/Sync</div><b>v0.8</b></div>
+    <div class="stat"><div>Language</div><b>v1</b></div>
   </div></div>
-  <div class="card"><h2>Modules</h2><div class="grid">
-    <div class="item"><span class="pill purple">locked</span><h3>DT_CORE_ARCHITECTURE_v1</h3><p>Ролі системи зафіксовані.</p></div><div class="item"><span class="pill ready">ready</span><h3>DT_PLAN_ENGINE_v1</h3><p>ДТ планує курс.</p></div><div class="item"><span class="pill ready">fixed</span><h3>DT_CORE_LINK_MODEL_v1</h3><p>PLAN ↔ TOPIC ↔ LESSON ↔ PROGRESS.</p></div><div class="item"><span class="pill ready">ready</span><h3>DT_LESSON_FACTORY_v1</h3><p>ССУДТ / ІССУ / ІШ / V3 pipeline.</p></div><div class="item"><span class="pill ready">ready</span><h3>DT_LESSON_VIEWER_v1</h3><p>ISSU Safe Mode.</p></div><div class="item"><span class="pill ready">ready</span><h3>DT_PLATFORM_v0.8_EXPORT_SYNC</h3><p>Core state export/import.</p></div><div class="item"><span class="pill ready">integrated</span><h3>ODIN_SYNC_MODEL_v1</h3><p>Sync rules now inside ODIN UI.</p></div><div class="item"><span class="pill next">next</span><h3>DT_LANGUAGE_SYSTEM_v1</h3><p>Мовна система ще попереду.</p></div>
+  <div class="card"><h2>Integrated Blocks</h2><div class="grid">
+    <div class="item"><span class="pill ready">INTEGRATED</span><h3>ODIN v68.1 PRO — Stable Integrated Autonomous Loop</h3></div><div class="item"><span class="pill ready">INTEGRATED</span><h3>DT_CORE_ARCHITECTURE_v1</h3></div><div class="item"><span class="pill ready">INTEGRATED</span><h3>DT_PLAN_ENGINE_v1</h3></div><div class="item"><span class="pill ready">INTEGRATED</span><h3>DT_CORE_LINK_MODEL_v1</h3></div><div class="item"><span class="pill ready">INTEGRATED</span><h3>DT_LESSON_FACTORY_v1</h3></div><div class="item"><span class="pill ready">INTEGRATED</span><h3>DT_LESSON_VIEWER_v1_ISSU_SAFE_MODE</h3></div><div class="item"><span class="pill ready">INTEGRATED</span><h3>DT_PLATFORM_v0.8_EXPORT_SYNC</h3></div><div class="item"><span class="pill ready">INTEGRATED</span><h3>DT_LANGUAGE_SYSTEM_v1</h3></div><div class="item"><span class="pill ready">INTEGRATED</span><h3>ODIN_SYNC_MODEL_v1</h3></div><div class="item"><span class="pill ready">INTEGRATED</span><h3>ODIN_INTERFACE_v1.1_SYNC_TAB</h3></div>
   </div></div>
 </section>
 
-<section id="core" class="page"><div class="card"><h2>Core Architecture</h2><div class="flow">ДТ = планує
-ССУДТ = створює
-ІССУ = підсилює / адаптує
-Платформа = виконує
-ODIN = контролює / валідовує / координує</div></div></section>
+<section id="architecture" class="page"><div class="card"><h2>Core Architecture</h2><div class="flow">DT = планує
+ССУДТ = створює базові уроки
+ІССУ = підсилює / адаптує on-demand
+Platform = виконує навчання
+ODIN = контролює / валідовує / координує / захищає архітектуру</div></div></section>
 
-<section id="plan" class="page"><div class="card"><h2>Plan Engine</h2><p><b>PLAN = source of truth.</b></p><div class="flow">COURSE → LEVEL → MODULE → TOPIC → LESSON → DAY</div></div></section>
-<section id="factory" class="page"><div class="card"><h2>Lesson Factory / ССУДТ</h2><p>ССУДТ створює базові уроки курсу за планом ДТ.</p></div></section>
-<section id="issu" class="page"><div class="card"><h2>ISSU Support</h2><p>ІССУ — on-demand support: фото, домашка, слабкі теми. Завжди привʼязується до topic_id.</p></div></section>
-<section id="platform" class="page"><div class="card"><h2>Platform / Execution</h2><p>Платформа виконує: lessons, review, progress, daily plan, AI. Вона не вирішує що вчити.</p></div></section>
+<section id="loop" class="page">
+  <div class="card"><h2>ODIN v68.1 PRO — Stable Integrated Autonomous Loop</h2>
+    <div class="flow">→ detect context
+→ validate against locks
+→ select next action
+→ execute or hold
+→ QA
+→ changelog
+→ snapshot if stable</div>
+  </div>
+  <div class="card"><h2>Loop Rules</h2><ul><li>No uncontrolled build</li><li>No role mixing</li><li>No architecture change without changelog</li><li>Stable points require explicit fixation</li><li>If risk is high, switch to validation mode</li></ul></div>
+</section>
+
+<section id="plan" class="page"><div class="card"><h2>DT Plan Engine</h2><p><b>PLAN = source of truth.</b></p><div class="flow">COURSE → LEVEL → MODULE → TOPIC → LESSON → DAY</div></div></section>
+
+<section id="ssudt" class="page"><div class="card"><h2>ССУДТ</h2><p>Створює базові уроки курсу по плану: base, practice, review. Не планує курс.</p></div></section>
+
+<section id="issu" class="page"><div class="card"><h2>ISSU</h2><p>On-demand support: фото, домашка, слабка тема. Завжди привʼязується до topic_id.</p></div></section>
+
+<section id="platform" class="page"><div class="card"><h2>DT Platform</h2><p>Виконує навчання: уроки, review, progress, daily plan, AI. Не вирішує що вчити.</p></div></section>
+
 <section id="links" class="page"><div class="card"><h2>Core Link Model</h2><div class="flow">PLAN ↔ TOPIC ↔ LESSON ↔ PLATFORM ↔ REVIEW ↔ PROGRESS
 
 active_lesson_id = from PLAN
 resume_position = UX only
 progress = lesson + topic + course
 support_lesson = ISSU + topic_id</div></div></section>
-<section id="export" class="page"><div class="card"><h2>Export / Sync Data</h2><p>Експортується core state: course, active topic, active lesson, resume, progress, daily plan, changelog.</p></div></section>
 
-<section id="sync" class="page">
-  <div class="card">
-    <h2>Sync Model</h2>
-    <p><b>Source of truth:</b> <code>GitHub repository: uphillvital/odin-interface</code></p>
-    <div class="grid">
-      <div class="item"><span class="pill">UI</span><h3>index.html</h3><p>Online ODIN Interface через GitHub Pages.</p></div>
-      <div class="item"><span class="pill">DATA</span><h3>ODIN_INTERFACE_v1.json</h3><p>Структурна модель системи.</p></div>
-      <div class="item"><span class="pill">DOC</span><h3>ODIN_INTERFACE_v1.md</h3><p>Пояснення для людини.</p></div>
-      <div class="item"><span class="pill">HISTORY</span><h3>CHANGELOG</h3><p>Історія змін і контроль версій.</p></div>
-      <div class="item"><span class="pill">BACKUP</span><h3>ZIP</h3><p>Recovery package після stable-точок.</p></div>
-    </div>
-  </div>
-  <div class="card">
-    <h2>Update Protocol</h2>
-    <ol>
-      <li>Визначити, що змінюється.</li>
-      <li>Якщо змінюється структура — спочатку JSON.</li>
-      <li>Якщо змінюється інтерфейс — оновити index.html.</li>
-      <li>Якщо змінюється пояснення — оновити MD.</li>
-      <li>Кожна суттєва зміна → changelog.</li>
-      <li>Commit у GitHub з чітким повідомленням.</li>
-      <li>Перевірити GitHub Pages.</li>
-      <li>Після stable — створити ZIP backup.</li>
-    </ol>
-  </div>
-  <div class="card">
-    <h2>Hard Locks</h2>
-    <ul>
-      <li><span class="bad">LOCK:</span> Не редагувати HTML без changelog.</li>
-      <li><span class="bad">LOCK:</span> Не змінювати архітектуру тільки в HTML.</li>
-      <li><span class="bad">LOCK:</span> Не завантажувати паролі/API keys/secrets.</li>
-      <li><span class="bad">LOCK:</span> Не покладатися тільки на локальні файли.</li>
-      <li><span class="bad">LOCK:</span> Не перезаписувати stable без backup.</li>
-    </ul>
-  </div>
+<section id="language" class="page">
+  <div class="card"><h2>DT Language System v1</h2><div class="grid">
+    <div class="item"><h3>user_language</h3><p>Мова пояснень і перекладів.</p></div>
+    <div class="item"><h3>target_language</h3><p>Мова, яку вивчаємо.</p></div>
+    <div class="item"><h3>ui_language</h3><p>Мова інтерфейсу.</p></div>
+    <div class="item"><h3>course_pair</h3><p>Напрям курсу, наприклад UA-DE.</p></div>
+  </div></div>
+  <div class="card"><h2>Language Rule</h2><p><b>Language switching changes presentation layer, not plan/progress logic.</b></p></div>
 </section>
 
-<section id="changelog" class="page"><div class="card"><h2>Changelog</h2><p>v1.1: інтегровано Sync tab у ODIN Interface.</p><p>Commit message: <code>ODIN v1.1 update: integrate sync tab</code></p></div></section>
-<section id="qa" class="page"><div class="card"><h2>QA</h2><ul><li><span class="ok">PASS</span> — v1 збережено.</li><li><span class="ok">PASS</span> — Sync tab додано.</li><li><span class="ok">PASS</span> — GitHub workflow видно в інтерфейсі.</li><li><span class="ok">PASS</span> — готово до upload як <code>index.html</code>.</li></ul></div></section>
+<section id="export" class="page"><div class="card"><h2>DT Platform v0.8 — Export / Sync</h2><p>Export state: course, active topic, active lesson, resume, progress, daily plan, changelog.</p><div class="flow">dt_core_state_v1
+dt_progress_v1
+dt_daily_plan_v1</div></div></section>
+
+<section id="github" class="page"><div class="card"><h2>GitHub Sync</h2><p><b>Source:</b> <code>uphillvital/odin-interface</code></p><ol><li>Update JSON if structure changes.</li><li>Update index.html if UI changes.</li><li>Update MD if explanation changes.</li><li>Update changelog.</li><li>Commit.</li><li>Verify GitHub Pages.</li><li>Create ZIP after stable.</li></ol></div></section>
+
+<section id="changelog" class="page"><div class="card"><h2>Changelog</h2><p>v2: Full integration of ODIN loop, DT v0.8 export/sync, and language system.</p><p>Commit message: <code>ODIN v2 full integration</code></p></div></section>
+
+<section id="qa" class="page">
+  <div class="card"><h2>QA / Hard Locks</h2><div class="grid">
+    <div class="item"><span class="pill lock">LOCK</span><p>DT plans; SSUDT creates; ISSU supports; Platform executes; ODIN controls.</p></div><div class="item"><span class="pill lock">LOCK</span><p>PLAN is source of truth.</p></div><div class="item"><span class="pill lock">LOCK</span><p>Platform does not decide what to learn.</p></div><div class="item"><span class="pill lock">LOCK</span><p>ISSU is not main course generator.</p></div><div class="item"><span class="pill lock">LOCK</span><p>Lesson design must not be merged into platform design.</p></div><div class="item"><span class="pill lock">LOCK</span><p>ISSU/V3 lesson header and internal UX must not be removed.</p></div><div class="item"><span class="pill lock">LOCK</span><p>Resume is UX state, not learning control.</p></div><div class="item"><span class="pill lock">LOCK</span><p>Progress is tracked by lesson + topic + course.</p></div><div class="item"><span class="pill lock">LOCK</span><p>Language switching affects presentation layer, not plan/progress logic.</p></div><div class="item"><span class="pill lock">LOCK</span><p>GitHub is source of truth for ODIN interface files.</p></div><div class="item"><span class="pill lock">LOCK</span><p>No meaningful update without changelog.</p></div>
+  </div></div>
+  <div class="card"><h2>Next</h2><ol><li>Upload v2 HTML as index.html to GitHub Pages</li><li>Commit: ODIN v2 full integration</li><li>Review v2 online</li><li>Fix ODIN_INTERFACE_v2 STABLE</li><li>Then move to DT_CONTENT_PIPELINE_v1 or product UX validation</li></ol></div>
+</section>
 </main>
 
 <script>
