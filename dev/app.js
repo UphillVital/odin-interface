@@ -7,6 +7,10 @@ function esc(value) {
     .replaceAll("'", "&#039;");
 }
 
+function getValue(id) {
+  return document.getElementById(id).value.trim();
+}
+
 function log(message) {
   const box = document.getElementById("log");
   if (box.textContent === "WAITING") box.textContent = "";
@@ -20,6 +24,90 @@ function parseRows(raw, expectedParts) {
     .filter(Boolean)
     .map(line => line.split("|").map(part => part.trim()))
     .filter(parts => parts.length >= expectedParts);
+}
+
+function normalizeModel() {
+  return {
+    title: getValue("title"),
+    goal: getValue("goal"),
+    examples: parseRows(getValue("examples"), 3),
+    vocab: parseRows(getValue("vocab"), 2)
+  };
+}
+
+function findDuplicates(list, getKey) {
+  const seen = new Set();
+  const duplicates = [];
+  list.forEach(item => {
+    const key = getKey(item).toLowerCase().trim();
+    if (seen.has(key)) duplicates.push(key);
+    seen.add(key);
+  });
+  return duplicates;
+}
+
+function hardQaCheck(model, html) {
+  const messages = [];
+
+  function error(text) {
+    messages.push({ level: "ERROR", text });
+  }
+
+  function warning(text) {
+    messages.push({ level: "WARNING", text });
+  }
+
+  function info(text) {
+    messages.push({ level: "INFO", text });
+  }
+
+  if (model.title.length < 3) error("Назва уроку занадто коротка або відсутня.");
+  if (model.goal.length < 40) error("Ціль уроку має бути розширеною: мінімум 40 символів.");
+  if (model.examples.length < 5) error("Потрібно мінімум 5 прикладів для HARD QA.");
+  if (model.vocab.length < 5) error("Потрібно мінімум 5 слів у словнику.");
+
+  model.examples.forEach((example, index) => {
+    const n = index + 1;
+    if (!example[0] || example[0].length < 4) error("Приклад " + n + ": DE речення відсутнє або занадто коротке.");
+    if (!example[1] || example[1].length < 4) error("Приклад " + n + ": ДП відсутній або занадто короткий.");
+    if (!example[2] || example[2].length < 4) error("Приклад " + n + ": СД відсутній або занадто короткий.");
+
+    if (example[0] && !/[.!?]$/.test(example[0])) {
+      warning("Приклад " + n + ": DE речення бажано завершувати крапкою, ! або ?.");
+    }
+
+    if (example[1] === example[2]) {
+      warning("Приклад " + n + ": ДП і СД однакові. Можливо, смисловий переклад треба зробити природнішим.");
+    }
+  });
+
+  model.vocab.forEach((word, index) => {
+    const n = index + 1;
+    if (!word[0] || word[0].length < 2) error("Словник " + n + ": DE слово відсутнє.");
+    if (!word[1] || word[1].length < 2) error("Словник " + n + ": UA переклад відсутній.");
+  });
+
+  const duplicateExamples = findDuplicates(model.examples, item => item[0] || "");
+  if (duplicateExamples.length > 0) error("Є дублікати прикладів DE: " + duplicateExamples.join(", "));
+
+  const duplicateVocab = findDuplicates(model.vocab, item => item[0] || "");
+  if (duplicateVocab.length > 0) warning("Є дублікати у словнику: " + duplicateVocab.join(", "));
+
+  if (!html.includes("QA marker")) error("HTML не містить QA marker.");
+  if (!html.includes("5. Практика")) error("HTML не містить блок практики.");
+  if (!html.includes("3. Приклади")) error("HTML не містить блок прикладів.");
+  if (!html.includes("4. Словник")) error("HTML не містить блок словника.");
+
+  info("Авто-нормалізація: порожні рядки прибрано, пробіли обрізано.");
+
+  const hasErrors = messages.some(m => m.level === "ERROR");
+  const hasWarnings = messages.some(m => m.level === "WARNING");
+
+  return {
+    passed: !hasErrors,
+    hasWarnings,
+    messages
+  };
 }
 
 function buildLesson(model) {
@@ -60,69 +148,56 @@ function buildLesson(model) {
     '</head>',
     '<body>',
     '<h1>' + esc(model.title) + '</h1>',
-    '<span class="badge">ODIN v3.8.1 QA 100</span>',
+    '<span class="badge">ODIN v3.8.2 HARD QA</span>',
     '<section id="goal"><h2>1. Ціль уроку</h2><p>' + esc(model.goal) + '</p></section>',
     '<section id="rule"><h2>2. Основне правило</h2><p>Відокремлювана частка у простому реченні часто переходить у кінець.</p></section>',
     '<section id="examples"><h2>3. Приклади з ДП і СД</h2>' + examplesHtml + '</section>',
     '<section id="vocab"><h2>4. Словник</h2><table><thead><tr><th>№</th><th>DE</th><th>UA</th></tr></thead><tbody>' + vocabHtml + '</tbody></table></section>',
     '<section id="practice"><h2>5. Практика</h2><p>Закрий переклади і відтвори німецькі речення самостійно.</p></section>',
-    '<section id="qa-marker"><h2>QA marker</h2><p>Урок пройшов ODIN QA SYSTEM 100.</p></section>',
+    '<section id="qa-marker"><h2>QA marker</h2><p>Урок пройшов ODIN HARD QA SYSTEM.</p></section>',
     '</body>',
     '</html>'
   ].join("");
 }
 
-function qaCheck(model, html) {
-  const checks = [
-    { name: "Назва уроку є", passed: model.title.length >= 3 },
-    { name: "Ціль уроку є", passed: model.goal.length >= 20 },
-    { name: "Є мінімум 3 приклади", passed: model.examples.length >= 3 },
-    { name: "Кожен приклад має DE", passed: model.examples.every(e => e[0] && e[0].length > 2) },
-    { name: "Кожен приклад має ДП", passed: model.examples.every(e => e[1] && e[1].length > 2) },
-    { name: "Кожен приклад має СД", passed: model.examples.every(e => e[2] && e[2].length > 2) },
-    { name: "Є мінімум 3 слова в словнику", passed: model.vocab.length >= 3 },
-    { name: "Кожне слово має DE і UA", passed: model.vocab.every(v => v[0] && v[1]) },
-    { name: "Є блок правила", passed: html.includes("2. Основне правило") },
-    { name: "Є блок практики", passed: html.includes("5. Практика") },
-    { name: "Є QA marker", passed: html.includes("QA marker") }
-  ];
-  return checks;
-}
+function renderQaReport(report) {
+  const rows = report.messages.map(message => {
+    const cssClass =
+      message.level === "ERROR" ? "qa-error" :
+      message.level === "WARNING" ? "qa-warning" :
+      "qa-info";
 
-function renderQA(checks) {
-  const passed = checks.every(check => check.passed);
-  const rows = checks.map(check => {
-    return '<div class="qa-item ' + (check.passed ? "pass" : "fail") + '">' +
-      (check.passed ? "✔" : "✘") + " " + esc(check.name) +
-      '</div>';
+    return '<div class="qa-item ' + cssClass + '"><b>' + message.level + ':</b> ' + esc(message.text) + '</div>';
   }).join("");
 
-  document.getElementById("qaBox").innerHTML =
-    rows +
-    '<div class="qa-item ' + (passed ? "pass" : "fail") + '"><b>' +
-    (passed ? "QA_PASSED" : "QA_FAILED") +
-    '</b></div>';
+  const summaryClass = report.passed ? "qa-pass" : "qa-error";
+  const summaryText = report.passed
+    ? (report.hasWarnings ? "QA_PASSED_WITH_WARNINGS" : "QA_PASSED")
+    : "QA_FAILED_EXPORT_BLOCKED";
 
-  return passed;
+  document.getElementById("qaBox").innerHTML =
+    rows + '<div class="qa-item summary ' + summaryClass + '">' + summaryText + '</div>';
 }
 
 function renderDownload(html) {
   const blob = new Blob([html], { type: "text/html;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   document.getElementById("download").innerHTML =
-    '<a class="download" href="' + url + '" download="odin_lesson_v3_8_1.html">Завантажити урок</a>';
+    '<a class="download" href="' + url + '" download="odin_lesson_v3_8_2.html">Завантажити урок</a>';
+}
+
+function clearAll() {
+  document.getElementById("log").textContent = "";
+  document.getElementById("qaBox").innerHTML = '<p class="muted">QA зʼявиться після запуску.</p>';
+  document.getElementById("download").innerHTML = "";
+  document.getElementById("preview").srcdoc = "";
 }
 
 function runOdin() {
   clearAll();
-  log("RUNNING");
 
-  const model = {
-    title: document.getElementById("title").value.trim(),
-    goal: document.getElementById("goal").value.trim(),
-    examples: parseRows(document.getElementById("examples").value, 3),
-    vocab: parseRows(document.getElementById("vocab").value, 2)
-  };
+  log("RUNNING");
+  const model = normalizeModel();
 
   log("PLAN_DONE");
   log("PIPELINE_DONE");
@@ -131,13 +206,13 @@ function runOdin() {
   document.getElementById("preview").srcdoc = html;
   log("LESSON_DONE");
 
-  const checks = qaCheck(model, html);
-  const passed = renderQA(checks);
-  log(passed ? "QA_PASSED" : "QA_FAILED");
+  const report = hardQaCheck(model, html);
+  renderQaReport(report);
+  log(report.passed ? (report.hasWarnings ? "QA_PASSED_WITH_WARNINGS" : "QA_PASSED") : "QA_FAILED");
 
-  if (!passed) {
+  if (!report.passed) {
     document.getElementById("download").innerHTML =
-      '<div class="qa-item fail">EXPORT BLOCKED: QA_FAILED</div>';
+      '<div class="qa-item qa-error">EXPORT BLOCKED: HARD QA FAILED</div>';
     log("EXPORT_BLOCKED");
     return;
   }
@@ -145,14 +220,6 @@ function runOdin() {
   renderDownload(html);
   log("EXPORT_DONE");
   log("DONE");
-}
-
-function clearAll() {
-  document.getElementById("log").textContent = "";
-  document.getElementById("qaBox").innerHTML =
-    '<p class="muted">QA зʼявиться після запуску.</p>';
-  document.getElementById("download").innerHTML = "";
-  document.getElementById("preview").srcdoc = "";
 }
 
 document.addEventListener("DOMContentLoaded", function () {

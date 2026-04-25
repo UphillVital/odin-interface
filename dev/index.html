@@ -3,15 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ODIN v3.8.1 QA SYSTEM 100 SPLIT</title>
+  <title>ODIN v3.8.2 HARD QA SYSTEM</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="wrap">
     <section class="panel">
-      <div class="badge">ODIN v3.8.1</div>
-      <h1>QA SYSTEM 100 — SPLIT VERSION</h1>
-      <p class="muted">HTML, CSS і JavaScript розділені. Це прибирає ризик появи JS-коду внизу сторінки.</p>
+      <div class="badge">ODIN v3.8.2</div>
+      <h1>HARD QA SYSTEM</h1>
+      <p class="muted">
+        Жорсткий QA-контур: ERROR блокує export, WARNING показує ризики, INFO дає підказки.
+      </p>
     </section>
 
     <section class="grid">
@@ -22,17 +24,21 @@
         <input id="title" value="Відокремлювані дієслова">
 
         <label for="goal">Ціль уроку</label>
-        <textarea id="goal">Зрозуміти правило відокремлюваних дієслів, порядок слів і різницю між дослівним та смисловим перекладом.</textarea>
+        <textarea id="goal">Зрозуміти правило відокремлюваних дієслів, порядок слів у простому реченні, різницю між дослівним і смисловим перекладом та навчитися будувати власні приклади.</textarea>
 
         <label for="examples">Приклади: DE | ДП | СД</label>
         <textarea id="examples">Ich stehe um sechs Uhr auf.|Я встаю о шостій годині вгору.|Я встаю о шостій годині.
-Mach die Tür zu!|Зроби двері до!|Закрий двері!
-Wir kaufen heute ein.|Ми купуємо сьогодні всередину.|Ми сьогодні закуповуємось.</textarea>
+Mach bitte die Tür zu!|Зроби будь ласка двері до!|Закрий, будь ласка, двері!
+Wir kaufen heute im Supermarkt ein.|Ми купуємо сьогодні в супермаркеті всередину.|Ми сьогодні закуповуємось у супермаркеті.
+Ruf mich bitte später an.|Подзвони мене будь ласка пізніше на.|Подзвони мені, будь ласка, пізніше.
+Ich räume mein Zimmer auf.|Я прибираю мою кімнату вгору.|Я прибираю свою кімнату.</textarea>
 
         <label for="vocab">Словник: DE | UA</label>
         <textarea id="vocab">aufstehen|вставати
 zumachen|закривати
-einkaufen|закуповуватись</textarea>
+einkaufen|закуповуватись
+anrufen|телефонувати
+aufräumen|прибирати</textarea>
 
         <button id="runBtn" type="button">Створити урок</button>
         <button id="clearBtn" class="secondary" type="button">Очистити</button>
@@ -42,7 +48,7 @@ einkaufen|закуповуватись</textarea>
         <h2>Status</h2>
         <pre id="log">WAITING</pre>
 
-        <h2>QA Checklist</h2>
+        <h2>HARD QA Report</h2>
         <div id="qaBox"><p class="muted">QA зʼявиться після запуску.</p></div>
 
         <h2>Export</h2>
