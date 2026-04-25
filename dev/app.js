@@ -16,8 +16,8 @@ function esc(value){
     .replaceAll("'","&#039;");
 }
 function getValue(id){return document.getElementById(id).value.trim();}
-function log(message){const box=document.getElementById("log");if(box.textContent==="WAITING")box.textContent="";box.textContent+=message+"\\n";}
-function dataLog(message){const box=document.getElementById("dataLog");if(box.textContent==="DATA_WAITING")box.textContent="";box.textContent+=message+"\\n";}
+function log(message){const box=document.getElementById("log");if(box.textContent==="WAITING")box.textContent="";box.textContent+=message+"\n";}
+function dataLog(message){const box=document.getElementById("dataLog");if(box.textContent==="DATA_WAITING")box.textContent="";box.textContent+=message+"\n";}
 function parseRows(raw,parts){return String(raw||"").split(/\n+/).map(l=>l.trim()).filter(Boolean).map(l=>l.split("|").map(p=>p.trim())).filter(p=>p.length>=parts);}
 function collectInput(){return{title:getValue("title"),topic:getValue("topic")||"general",level:getValue("level")||"A1",goal:getValue("goal"),examples:parseRows(getValue("examples"),3),vocab:parseRows(getValue("vocab"),2)};}
 
@@ -154,7 +154,8 @@ navModal.addEventListener('click',e=>{if(e.target===navModal)navModal.classList.
 document.querySelectorAll('.nav-item').forEach(a=>a.addEventListener('click',()=>navModal.classList.remove('open')));
 function speak(text){if(!('speechSynthesis' in window)){alert('Озвучка не підтримується.');return;}window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='de-DE';u.rate=0.95;window.speechSynthesis.speak(u);}
 document.querySelectorAll('[data-tts]').forEach(btn=>btn.addEventListener('click',()=>speak(btn.getAttribute('data-tts'))));
-<\\/script>`;
+window.DT_STANDARD_LESSON_READY = true;
+</script>`;
 }
 function buildStandardLesson(model){
   const examplesHtml = model.examples.map((e,i)=>`
@@ -271,7 +272,7 @@ function renderQaReport(r){
 function renderDownload(html){
   const blob=new Blob([html],{type:"text/html;charset=utf-8"});
   const url=URL.createObjectURL(blob);
-  document.getElementById("download").innerHTML=`<a class="download" href="${url}" download="odin_standard_lesson_v3_19.html">Завантажити стандартний урок</a>`;
+  document.getElementById("download").innerHTML=`<a class="download" href="${url}" download="odin_standard_lesson_v3_19_1.html">Завантажити стандартний урок</a>`;
 }
 function setPreviewHtml(html){document.getElementById("preview").srcdoc=html;}
 function setPreviewHighlight(mode){
@@ -314,7 +315,7 @@ function executeOdinAction(){
   }
   renderDownload(html);
   log("EXPORT_READY");
-  log("STANDARD_ENGINE_DONE");
+  log("STANDARD_ENGINE_SCRIPT_FIXED_DONE");
 }
 function getLessons(){try{return JSON.parse(localStorage.getItem(ODIN_STORAGE_KEY)||"[]")}catch(e){return[]}}
 function setLessons(lessons){localStorage.setItem(ODIN_STORAGE_KEY,JSON.stringify(lessons))}
@@ -358,5 +359,5 @@ document.addEventListener("DOMContentLoaded",()=>{
     if(b.dataset.action==="delete"){lessons.splice(i,1);setLessons(lessons);renderLessons();dataLog("DELETED");}
   });
   renderLessons();
-  dataLog("APP_READY_v3.19_STANDARD_ENGINE");
+  dataLog("APP_READY_v3.19.1_SCRIPT_FIX");
 });
