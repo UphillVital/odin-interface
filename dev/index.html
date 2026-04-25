@@ -1,67 +1,35 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ODIN v3.8.2 HARD QA SYSTEM</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ODIN v3.9 UI CONTROL</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="wrap">
-    <section class="panel">
-      <div class="badge">ODIN v3.8.2</div>
-      <h1>HARD QA SYSTEM</h1>
-      <p class="muted">
-        Жорсткий QA-контур: ERROR блокує export, WARNING показує ризики, INFO дає підказки.
-      </p>
-    </section>
 
-    <section class="grid">
-      <div class="panel">
-        <h2>Lesson Input</h2>
+<div class="wrap">
 
-        <label for="title">Назва уроку</label>
-        <input id="title" value="Відокремлювані дієслова">
+<div class="panel">
+<h1>ODIN v3.9 UI CONTROL SYSTEM</h1>
+<button onclick="generateLesson()">Створити урок</button>
 
-        <label for="goal">Ціль уроку</label>
-        <textarea id="goal">Зрозуміти правило відокремлюваних дієслів, порядок слів у простому реченні, різницю між дослівним і смисловим перекладом та навчитися будувати власні приклади.</textarea>
+<div class="controls">
+<button onclick="toggleDP()">Показати/Сховати ДП</button>
+<button onclick="toggleSD()">Показати/Сховати СД</button>
+<button onclick="modeDE()">Тільки DE</button>
+<button onclick="modeFull()">Повний режим</button>
+</div>
 
-        <label for="examples">Приклади: DE | ДП | СД</label>
-        <textarea id="examples">Ich stehe um sechs Uhr auf.|Я встаю о шостій годині вгору.|Я встаю о шостій годині.
-Mach bitte die Tür zu!|Зроби будь ласка двері до!|Закрий, будь ласка, двері!
-Wir kaufen heute im Supermarkt ein.|Ми купуємо сьогодні в супермаркеті всередину.|Ми сьогодні закуповуємось у супермаркеті.
-Ruf mich bitte später an.|Подзвони мене будь ласка пізніше на.|Подзвони мені, будь ласка, пізніше.
-Ich räume mein Zimmer auf.|Я прибираю мою кімнату вгору.|Я прибираю свою кімнату.</textarea>
+</div>
 
-        <label for="vocab">Словник: DE | UA</label>
-        <textarea id="vocab">aufstehen|вставати
-zumachen|закривати
-einkaufen|закуповуватись
-anrufen|телефонувати
-aufräumen|прибирати</textarea>
+<div class="panel">
+<iframe id="preview"></iframe>
+</div>
 
-        <button id="runBtn" type="button">Створити урок</button>
-        <button id="clearBtn" class="secondary" type="button">Очистити</button>
-      </div>
+</div>
 
-      <div class="panel">
-        <h2>Status</h2>
-        <pre id="log">WAITING</pre>
+<script src="app.js"></script>
 
-        <h2>HARD QA Report</h2>
-        <div id="qaBox"><p class="muted">QA зʼявиться після запуску.</p></div>
-
-        <h2>Export</h2>
-        <div id="download"></div>
-      </div>
-    </section>
-
-    <section class="panel">
-      <h2>Preview</h2>
-      <iframe id="preview" title="Lesson preview"></iframe>
-    </section>
-  </main>
-
-  <script src="app.js"></script>
 </body>
 </html>
