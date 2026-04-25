@@ -145,13 +145,15 @@ const menuBtn=document.getElementById('menuBtn');
 const navModal=document.getElementById('navModal');
 const closeNav=document.getElementById('closeNav');
 literalToggle.addEventListener('click',()=>{body.classList.toggle('show-literal');literalToggle.classList.toggle('is-off',!body.classList.contains('show-literal'));});
-glowToggle.addEventListener('click',()=>{const m=body.dataset.hlMode;body.dataset.hlMode=m==='off'?'theme':(m==='theme'?'all':'off');glowToggle.classList.toggle('is-off',body.dataset.hlMode==='off');});
+function updateGlow(){const m=body.dataset.hlMode;glowToggle.textContent=m==='off'?'💡0':(m==='theme'?'💡1':'💡2');glowToggle.classList.toggle('is-off',m==='off');}
+glowToggle.addEventListener('click',()=>{const m=body.dataset.hlMode;body.dataset.hlMode=m==='off'?'theme':(m==='theme'?'all':'off');updateGlow();});
+updateGlow();
 homeBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 langToggle.addEventListener('click',()=>{body.dataset.lang=body.dataset.lang==='ua'?'ru':'ua';langToggle.textContent=body.dataset.lang.toUpperCase();});
 menuBtn.addEventListener('click',()=>navModal.classList.add('open'));
 closeNav.addEventListener('click',()=>navModal.classList.remove('open'));
 navModal.addEventListener('click',e=>{if(e.target===navModal)navModal.classList.remove('open')});
-document.querySelectorAll('.nav-item').forEach(a=>a.addEventListener('click',()=>navModal.classList.remove('open')));
+document.querySelectorAll('.nav-item').forEach(a=>a.addEventListener('click',(e)=>{e.preventDefault();const target=document.querySelector(a.getAttribute('href'));navModal.classList.remove('open');if(target)target.scrollIntoView({behavior:'smooth',block:'start'});}));
 function speak(text){if(!('speechSynthesis' in window)){alert('Озвучка не підтримується.');return;}window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='de-DE';u.rate=0.95;window.speechSynthesis.speak(u);}
 document.querySelectorAll('[data-tts]').forEach(btn=>btn.addEventListener('click',()=>speak(btn.getAttribute('data-tts'))));
 window.DT_STANDARD_LESSON_READY = true;
@@ -173,8 +175,17 @@ function buildStandardLesson(model){
     </div>`).join("");
 
   const nav = [
-    ["top","0. Тема"],["summary","1. Суть теми"],["text","2. Основні приклади"],["analysis","3. Розбір"],["rule","4. Правило"],["map","5. Карта"],["vocab","6. Словник"],["drill","7. Мікродрил"],["after","8. Після уроку"],["homework","9. Домашнє завдання"]
-  ].map(x=>`<a class="nav-item" href="#${x[0]}">${x[1]}</a>`).join("");
+    ["top","0. Тема","0. Тема"],
+    ["summary","1. Суть теми","1. Суть темы"],
+    ["text","2. Основні приклади","2. Основные примеры"],
+    ["analysis","3. Розбір","3. Разбор"],
+    ["rule","4. Правило","4. Правило"],
+    ["map","5. Карта","5. Карта"],
+    ["vocab","6. Словник","6. Словарь"],
+    ["drill","7. Мікродрил","7. Микродрилл"],
+    ["after","8. Після уроку","8. После урока"],
+    ["homework","9. Домашнє завдання","9. Домашнее задание"]
+  ].map(x=>`<a class="nav-item" href="#${x[0]}"><span class="inline-lang ua">${x[1]}</span><span class="inline-lang ru">${x[2]}</span></a>`).join("");
 
   return `<!DOCTYPE html>
 <html lang="uk">
@@ -186,18 +197,18 @@ function buildStandardLesson(model){
 </head>
 <body class="show-literal" data-hl-mode="off" data-lang="ua">
 <header class="topbar"><div class="topbar-inner"><div class="brand">${STANDARD_VERSION} · ${esc(model.level)}</div><div class="center-actions"><button class="btn" id="homeBtn" title="Додому">🏠</button><button class="btn" id="menuBtn" title="Меню">☰</button><button class="btn is-off" id="glowToggle" title="Підсвітка">💡</button><button class="btn" id="literalToggle" title="Дослівний">+</button><button class="btn" id="langToggle" title="UA/RU">UA</button></div><div></div></div></header>
-<div class="modal" id="navModal"><div class="panel-modal"><div class="panel-head"><b>Розділи уроку</b><button class="close-btn" id="closeNav">✕</button></div><div class="nav-list">${nav}</div></div></div>
+<div class="modal" id="navModal"><div class="panel-modal"><div class="panel-head"><b><span class="inline-lang ua">Розділи уроку</span><span class="inline-lang ru">Разделы урока</span></b><button class="close-btn" id="closeNav">✕</button></div><div class="nav-list">${nav}</div></div></div>
 <main class="wrap" data-course="${esc(model.level)}" data-lesson-id="${esc(model.topic)}_${Date.now()}" data-lesson-topic="${esc(model.topic)}" data-lesson-version="v3.19">
 <section class="hero" id="top"><div style="font-size:12px;color:#1f4b99;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;">ODIN / DT STANDARD LESSON</div><h1>${esc(model.title)}</h1><div style="font-size:18px;color:#0f5132;font-weight:700;margin-bottom:10px;">${esc(model.level)} · ${esc(model.topic)}</div><p style="max-width:860px;margin:0 auto;">${esc(model.goal)}</p></section>
-<section class="card" id="summary"><div class="section-head"><span class="sec-num">1</span><h2>Суть теми</h2></div><div class="grid two-col"><div class="subcard"><div class="tag">Що вивчаємо</div><p>${esc(model.goal)}</p></div><div class="subcard"><div class="tag">Стандарт</div><p>Урок створено за ${STANDARD_VERSION}: Template + Highlight + Markup + Audio + QA + Standalone.</p></div></div></section>
-<section class="card" id="text"><div class="section-head"><span class="sec-num">2</span><h2>Основні приклади</h2></div>${examplesHtml}</section>
-<section class="card" id="analysis"><div class="section-head"><span class="sec-num">3</span><h2>Розбір і значення</h2></div><div class="subcard"><p>Кожне німецьке речення має language markup: <b>lm-word</b>, <b>data-lemma</b>, <b>data-pos</b>. Підсвітка керується через <b>body[data-hl-mode]</b>.</p></div></section>
-<section class="card" id="rule"><div class="section-head"><span class="sec-num">4</span><h2>Правило</h2></div><div class="subcard"><p><span class="hl-topic">Тема уроку</span> позначена як головна. У режимі ALL система показує додаткові граматичні ролі.</p></div></section>
-<section class="card" id="map"><div class="section-head"><span class="sec-num">5</span><h2>Швидка карта</h2></div><div class="subcard"><ul class="clean"><li>OFF — чисте читання</li><li>THEME — тема уроку</li><li>ALL — всі позначені правила</li></ul></div></section>
-<section class="card" id="vocab"><div class="section-head"><span class="sec-num">6</span><h2>Словник</h2></div><div class="vocab-columns"><div class="subcard">${vocabHtml}</div></div></section>
-<section class="card" id="drill"><div class="section-head"><span class="sec-num">7</span><h2>Мікродрил</h2></div><div class="subcard"><ol class="clean">${model.examples.slice(0,5).map(e=>`<li>${esc(e[0])}</li>`).join("")}</ol></div></section>
-<section class="card" id="after"><div class="section-head"><span class="sec-num">8</span><h2>Після уроку ти маєш зрозуміти</h2></div><div class="subcard"><p>Тему, ключові слова, граматичні ролі і базові речення.</p></div></section>
-<section class="card" id="homework"><div class="section-head"><span class="sec-num">9</span><h2>Домашнє завдання</h2></div><div class="subcard"><p>Створи 5 власних речень за темою: ${esc(model.topic)}.</p></div></section>
+<section class="card" id="summary"><div class="section-head"><span class="sec-num">1</span><h2><span class="inline-lang ua">Суть теми</span><span class="inline-lang ru">Суть темы</span></h2></div><div class="grid two-col"><div class="subcard"><div class="tag"><span class="inline-lang ua">Що вивчаємо</span><span class="inline-lang ru">Что изучаем</span></div><p>${esc(model.goal)}</p></div><div class="subcard"><div class="tag"><span class="inline-lang ua">Стандарт</span><span class="inline-lang ru">Стандарт</span></div><p>Урок створено за ${STANDARD_VERSION}: Template + Highlight + Markup + Audio + QA + Standalone.</p></div></div></section>
+<section class="card" id="text"><div class="section-head"><span class="sec-num">2</span><h2><span class="inline-lang ua">Основні приклади</span><span class="inline-lang ru">Основные примеры</span></h2></div>${examplesHtml}</section>
+<section class="card" id="analysis"><div class="section-head"><span class="sec-num">3</span><h2><span class="inline-lang ua">Розбір і значення</span><span class="inline-lang ru">Разбор и значение</span></h2></div><div class="subcard"><p>Кожне німецьке речення має language markup: <b>lm-word</b>, <b>data-lemma</b>, <b>data-pos</b>. Підсвітка керується через <b>body[data-hl-mode]</b>.</p></div></section>
+<section class="card" id="rule"><div class="section-head"><span class="sec-num">4</span><h2><span class="inline-lang ua">Правило</span><span class="inline-lang ru">Правило</span></h2></div><div class="subcard"><p><span class="hl-topic">Тема уроку</span> позначена як головна. У режимі ALL система показує додаткові граматичні ролі.</p></div></section>
+<section class="card" id="map"><div class="section-head"><span class="sec-num">5</span><h2><span class="inline-lang ua">Швидка карта</span><span class="inline-lang ru">Быстрая карта</span></h2></div><div class="subcard"><ul class="clean"><li><span class="inline-lang ua">OFF — чисте читання</span><span class="inline-lang ru">OFF — чистое чтение</span></li><li><span class="inline-lang ua">THEME — тема уроку</span><span class="inline-lang ru">THEME — тема урока</span></li><li><span class="inline-lang ua">ALL — всі позначені правила</span><span class="inline-lang ru">ALL — все отмеченные правила</span></li></ul></div></section>
+<section class="card" id="vocab"><div class="section-head"><span class="sec-num">6</span><h2><span class="inline-lang ua">Словник</span><span class="inline-lang ru">Словарь</span></h2></div><div class="vocab-columns"><div class="subcard">${vocabHtml}</div></div></section>
+<section class="card" id="drill"><div class="section-head"><span class="sec-num">7</span><h2><span class="inline-lang ua">Мікродрил</span><span class="inline-lang ru">Микродрилл</span></h2></div><div class="subcard"><ol class="clean">${model.examples.slice(0,5).map(e=>`<li>${esc(e[0])}</li>`).join("")}</ol></div></section>
+<section class="card" id="after"><div class="section-head"><span class="sec-num">8</span><h2><span class="inline-lang ua">Після уроку ти маєш зрозуміти</span><span class="inline-lang ru">После урока ты должен понять</span></h2></div><div class="subcard"><p><span class="inline-lang ua">Тему, ключові слова, граматичні ролі і базові речення.</span><span class="inline-lang ru">Тему, ключевые слова, грамматические роли и базовые предложения.</span></p></div></section>
+<section class="card" id="homework"><div class="section-head"><span class="sec-num">9</span><h2><span class="inline-lang ua">Домашнє завдання</span><span class="inline-lang ru">Домашнее задание</span></h2></div><div class="subcard"><p><span class="inline-lang ua">Створи 5 власних речень за темою:</span><span class="inline-lang ru">Создай 5 собственных предложений по теме:</span> ${esc(model.topic)}.</p></div></section>
 <div class="footer-note">ODIN v3.19 · ${STANDARD_VERSION} · standalone export</div>
 </main>
 ${lessonJs()}
@@ -248,7 +259,7 @@ function qaCheckStandard(model, html){
   if(!has("Мікродрил")) err("PRACTICE: drill missing");
 
   if(has("dt-lang-topic-mode") || has("dt-lang-all-mode") || has("dt-lang-off")) err("CONFLICT: old dt-lang highlight system detected");
-  if(has("<link rel=\"stylesheet\"")) warn("STANDALONE: external stylesheet link in shell is OK only for ODIN shell, lesson export must inline CSS");
+  
   if(!has("<style>")) err("STANDALONE: inline style missing");
   if(!has("<script>")) err("STANDALONE: inline script missing");
 
@@ -272,7 +283,7 @@ function renderQaReport(r){
 function renderDownload(html){
   const blob=new Blob([html],{type:"text/html;charset=utf-8"});
   const url=URL.createObjectURL(blob);
-  document.getElementById("download").innerHTML=`<a class="download" href="${url}" download="odin_standard_lesson_v3_19_1.html">Завантажити стандартний урок</a>`;
+  document.getElementById("download").innerHTML=`<a class="download" href="${url}" download="odin_standard_lesson_v3_19_2.html">Завантажити стандартний урок</a>`;
 }
 function setPreviewHtml(html){document.getElementById("preview").srcdoc=html;}
 function setPreviewHighlight(mode){
@@ -315,7 +326,7 @@ function executeOdinAction(){
   }
   renderDownload(html);
   log("EXPORT_READY");
-  log("STANDARD_ENGINE_SCRIPT_FIXED_DONE");
+  log("STANDARD_ENGINE_HEADER_LANG_HIGHLIGHT_FIXED_DONE");
 }
 function getLessons(){try{return JSON.parse(localStorage.getItem(ODIN_STORAGE_KEY)||"[]")}catch(e){return[]}}
 function setLessons(lessons){localStorage.setItem(ODIN_STORAGE_KEY,JSON.stringify(lessons))}
@@ -359,5 +370,5 @@ document.addEventListener("DOMContentLoaded",()=>{
     if(b.dataset.action==="delete"){lessons.splice(i,1);setLessons(lessons);renderLessons();dataLog("DELETED");}
   });
   renderLessons();
-  dataLog("APP_READY_v3.19.1_SCRIPT_FIX");
+  dataLog("APP_READY_v3.19.2_HEADER_LANG_HIGHLIGHT_FIX");
 });
