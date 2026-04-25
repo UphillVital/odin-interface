@@ -1,7 +1,8 @@
 {
   "interface_id": "ODIN_INTERFACE_v2_FULL_INTEGRATION",
-  "created_at": "2026-04-25T01:03:31",
-  "status": "full_integration_ready",
+  "created_at": "2026-04-25T01:26:25",
+  "status": "stable_candidate",
+  "github_repo": "uphillvital/odin-interface",
   "purpose": "Single ODIN control-center integrating architecture, autonomous loop, DT platform state, sync, and language system.",
   "integrated_blocks": [
     "ODIN v68.1 PRO — Stable Integrated Autonomous Loop",
@@ -12,8 +13,7 @@
     "DT_LESSON_VIEWER_v1_ISSU_SAFE_MODE",
     "DT_PLATFORM_v0.8_EXPORT_SYNC",
     "DT_LANGUAGE_SYSTEM_v1",
-    "ODIN_SYNC_MODEL_v1",
-    "ODIN_INTERFACE_v1.1_SYNC_TAB"
+    "ODIN_SYNC_MODEL_v1"
   ],
   "core_roles": {
     "DT": "plans",
@@ -22,46 +22,6 @@
     "Platform": "executes learning",
     "ODIN": "controls, validates, coordinates, protects architecture"
   },
-  "autonomous_loop": {
-    "source": "ODIN v68.1 PRO — Stable Integrated Autonomous Loop",
-    "loop": [
-      "detect context",
-      "validate against locks",
-      "select next action",
-      "execute or hold",
-      "QA",
-      "changelog",
-      "snapshot if stable"
-    ],
-    "rules": [
-      "No uncontrolled build",
-      "No role mixing",
-      "No architecture change without changelog",
-      "Stable points require explicit fixation",
-      "If risk is high, switch to validation mode"
-    ]
-  },
-  "data_model": {
-    "source_of_truth": "PLAN",
-    "sync_source": "GitHub repo uphillvital/odin-interface",
-    "export_state": "course, topic, lesson, resume, progress, daily_plan",
-    "language_profile": "user_language + target_language + ui_language + course_pair"
-  },
-  "tabs": [
-    "Dashboard",
-    "Architecture",
-    "Autonomous Loop",
-    "Plan Engine",
-    "ССУДТ",
-    "ISSU",
-    "Platform",
-    "Link Model",
-    "Language",
-    "Export/Sync",
-    "GitHub Sync",
-    "Changelog",
-    "QA/Risks"
-  ],
   "hard_locks": [
     "DT plans; SSUDT creates; ISSU supports; Platform executes; ODIN controls.",
     "PLAN is source of truth.",
@@ -75,11 +35,13 @@
     "GitHub is source of truth for ODIN interface files.",
     "No meaningful update without changelog."
   ],
-  "next_recommended_steps": [
-    "Upload v2 HTML as index.html to GitHub Pages",
-    "Commit: ODIN v2 full integration",
-    "Review v2 online",
-    "Fix ODIN_INTERFACE_v2 STABLE",
-    "Then move to DT_CONTENT_PIPELINE_v1 or product UX validation"
-  ]
+  "repo_structure": [
+    "index.html",
+    "ODIN_INTERFACE_v2_FULL_INTEGRATION.json",
+    "ODIN_INTERFACE_v2_FULL_INTEGRATION.md",
+    "ODIN_INTERFACE_v2_CHANGELOG.md",
+    "README.md",
+    "temp/"
+  ],
+  "commit_message": "ODIN v2 full integration clean repo"
 }
