@@ -1,530 +1,499 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ODIN Interface v3.3</title>
-<style>
-:root{--bg:#f5f7fb;--card:#fff;--text:#132033;--muted:#64748b;--line:#dbe5f2;--blue:#2563eb;--blue2:#dbeafe;--green:#16a34a;--green2:#dcfce7;--red:#dc2626;--red2:#fee2e2;--amber:#f59e0b;--amber2:#fef3c7;--purple:#7c3aed;--purple2:#ede9fe;--shadow:0 12px 30px rgba(15,23,42,.08)}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#f8fbff 0%,var(--bg) 100%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
-.app{display:grid;grid-template-columns:310px 1fr;min-height:100vh}.sidebar{position:sticky;top:0;height:100vh;overflow:auto;background:#0f172a;color:#e5e7eb;padding:16px;border-right:1px solid #111827}
-.logo{display:flex;align-items:center;gap:10px;margin-bottom:16px}.mark{width:42px;height:42px;border-radius:16px;background:linear-gradient(135deg,#2563eb,#7c3aed);display:grid;place-items:center;color:white;font-weight:950}
-.logo h1{font-size:18px;margin:0}.logo p{margin:2px 0 0;color:#94a3b8;font-size:12px}.group{margin:14px 0}.group-title{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8;margin:10px 0 6px}
-.tree-btn{width:100%;text-align:left;border:1px solid transparent;background:transparent;color:#e5e7eb;border-radius:12px;padding:9px 10px;cursor:pointer;font-weight:750;margin:2px 0}.tree-btn:hover{background:#1e293b}.tree-btn.active{background:#dbeafe;color:#1d4ed8}
-.main{padding:18px;max-width:1180px;width:100%;margin:0 auto}.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
-h2{margin:0 0 8px}.sub{color:var(--muted);font-size:13px;margin:0}.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px;margin:14px 0;box-shadow:var(--shadow)}.hero{background:linear-gradient(135deg,#eff6ff,#f5f3ff)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.item,.stat{background:#fbfdff;border:1px solid var(--line);border-radius:20px;padding:15px}.stat b{font-size:24px}
-.pill{display:inline-block;background:var(--blue2);color:var(--blue);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:900;margin:2px}.ready{background:var(--green2);color:#166534}.lock{background:var(--red2);color:#991b1b}.warn{background:var(--amber2);color:#92400e}.purple{background:var(--purple2);color:#5b21b6}.ok{color:var(--green);font-weight:900}.bad{color:var(--red);font-weight:900}code{background:#f1f5f9;border-radius:7px;padding:2px 5px}
-.actions{display:flex;gap:8px;flex-wrap:wrap}.action-btn{border:0;background:#111827;color:white;border-radius:13px;padding:10px 12px;font-weight:900;cursor:pointer}.action-btn.secondary{background:#2563eb}.action-btn.warn{background:#f59e0b;color:#111827}.action-btn.danger{background:#dc2626}
-.log{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#0f172a;color:#e5e7eb;border-radius:18px;padding:14px;overflow:auto;max-height:260px;white-space:pre-wrap}
-@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto;max-height:48vh}.main{padding:12px}}
-</style>
-<script id="ODIN_SECTIONS" type="application/json">{
-  "dashboard": {
-    "title": "Dashboard",
-    "status": "LIVE CONTROL CENTER",
-    "summary": "ODIN v3.3 додає Actions Layer: інтерфейс вже не тільки показує, а має живі кнопки, статуси і лог дій.",
-    "details": [
-      "Live status cards",
-      "Action buttons",
-      "Execution log",
-      "Local state in browser",
-      "Без реального небезпечного виконання — тільки контрольний шар"
-    ],
-    "files": [
-      "index.html",
-      "ODIN_INTERFACE_v3_3_ACTIONS_LAYER.json",
-      "ODIN_INTERFACE_v3_3_ACTIONS_LAYER.md",
-      "ODIN_INTERFACE_v3_3_CHANGELOG.md",
-      "README.md",
-      "temp/"
-    ],
-    "risks": [
-      "Кнопки поки симулюють дії, не запускають реальні build-процеси"
-    ],
-    "next": "Після GitHub update перевірити Actions Layer."
-  },
-  "actions": {
-    "title": "Actions Layer",
-    "status": "NEW",
-    "summary": "Живий шар керування: RUN, CHECK, BUILD, FIX, SNAPSHOT, LOG.",
-    "details": [
-      "RUN: імітує запуск обраного процесу.",
-      "CHECK: виконує QA-перевірку стану.",
-      "BUILD: створює запис наміру build.",
-      "FIX: створює запис про виправлення.",
-      "SNAPSHOT: фіксує поточний стан в localStorage.",
-      "RESET LOG: очищає локальний лог."
-    ],
-    "files": [
-      "localStorage: odin_v3_3_log",
-      "localStorage: odin_v3_3_state"
-    ],
-    "risks": [
-      "Це ще не backend",
-      "Дії не змінюють GitHub автоматично"
-    ],
-    "next": "Пізніше підключити actions до реальних pipeline-команд."
-  },
-  "core": {
-    "title": "Core Architecture",
-    "status": "LOCKED",
-    "summary": "Базова архітектура продукту.",
-    "details": [
-      "DT = Plan Engine.",
-      "ССУДТ = Base Lesson Factory.",
-      "ІССУ = Support Module.",
-      "Platform = Execution Layer.",
-      "ODIN = Control Layer."
-    ],
-    "files": [
-      "DT_CORE_ARCHITECTURE_v1"
-    ],
-    "risks": [
-      "Змішування ролей"
-    ],
-    "next": "Не змінювати без validation."
-  },
-  "loop": {
-    "title": "Autonomous Loop v68.1 PRO",
-    "status": "INTEGRATED",
-    "summary": "Автономний цикл ODIN для контролю процесів.",
-    "details": [
-      "Detect context",
-      "Validate against locks",
-      "Select next action",
-      "Execute or hold",
-      "QA",
-      "Changelog",
-      "Snapshot if stable"
-    ],
-    "files": [
-      "ODIN v68.1 PRO"
-    ],
-    "risks": [
-      "Будувати без validation"
-    ],
-    "next": "Використовувати перед великими build."
-  },
-  "plan": {
-    "title": "DT Plan Engine",
-    "status": "CORE READY",
-    "summary": "ДТ планує курс. PLAN = source of truth.",
-    "details": [
-      "Користувач задає ціль.",
-      "DT створює roadmap.",
-      "Plan визначає active_topic_id і active_lesson_id.",
-      "Platform не вирішує, що вчити."
-    ],
-    "files": [
-      "DT_PLAN_ENGINE_v1"
-    ],
-    "risks": [
-      "Уроки без прив’язки до плану"
-    ],
-    "next": "Пізніше створити реальний план по Schritte Plus Neu."
-  },
-  "link": {
-    "title": "Core Link Model",
-    "status": "FIXED",
-    "summary": "Зв’язує PLAN ↔ TOPIC ↔ LESSON ↔ PLATFORM ↔ REVIEW ↔ PROGRESS.",
-    "details": [
-      "active_lesson_id приходить з PLAN.",
-      "resume_position — UX, не логіка навчання.",
-      "progress: lesson + topic + course.",
-      "Support lesson має topic_id."
-    ],
-    "files": [
-      "DT_CORE_LINK_MODEL_v1"
-    ],
-    "risks": [
-      "Відсутність topic_id"
-    ],
-    "next": "Реалізувати у DT Platform."
-  },
-  "language": {
-    "title": "Language System",
-    "status": "v1 READY",
-    "summary": "Мовна система керує мовами.",
-    "details": [
-      "user_language",
-      "target_language",
-      "ui_language",
-      "course_pair",
-      "DE + DP + SD policy"
-    ],
-    "files": [
-      "DT_LANGUAGE_SYSTEM_v1"
-    ],
-    "risks": [
-      "Змішати UI language і target language"
-    ],
-    "next": "Інтегрувати profile в lesson generator."
-  },
-  "pipeline": {
-    "title": "Content Pipeline",
-    "status": "v1 READY",
-    "summary": "Система виробництва уроків від плану до платформи.",
-    "details": [
-      "DT_PLAN_ENGINE → TOPIC → SSUDT lessons → optional ISSU support → QA → Content Index → Platform → Progress.",
-      "Lesson types: base, practice, review, support.",
-      "Жоден урок не входить у Content Index без QA PASS."
-    ],
-    "files": [
-      "DT_CONTENT_PIPELINE_v1"
-    ],
-    "risks": [
-      "Генерувати урок без QA"
-    ],
-    "next": "RUN FIRST REAL PIPELINE після стабілізації ODIN UI."
-  },
-  "platform": {
-    "title": "Platform v0.8 Export / Sync",
-    "status": "READY",
-    "summary": "DT Platform v0.8 зберігає і переносить core state.",
-    "details": [
-      "course",
-      "active topic",
-      "active lesson",
-      "resume",
-      "progress",
-      "daily plan"
-    ],
-    "files": [
-      "DT_PLATFORM_v0_8_EXPORT_SYNC"
-    ],
-    "risks": [
-      "Експортувати неповний стан"
-    ],
-    "next": "Пізніше підключити до реального DT app."
-  },
-  "ssudt": {
-    "title": "ССУДТ",
-    "status": "BASE FACTORY",
-    "summary": "Система створення базових уроків Deutsch Trainer.",
-    "details": [
-      "Працює за планом ДТ.",
-      "Створює base/practice/review lessons.",
-      "DE + DP + SD, підсвітка, словник, практика, voice/audio, QA."
-    ],
-    "files": [
-      "DT_LESSON_FACTORY_v1",
-      "DT_CONTENT_PIPELINE_v1"
-    ],
-    "risks": [
-      "ССУДТ почне змінювати PLAN"
-    ],
-    "next": "Перевірити на першій реальній темі."
-  },
-  "issu": {
-    "title": "ІССУ",
-    "status": "SUPPORT MODULE",
-    "summary": "Додаткові уроки по фото/домашці/слабкій темі.",
-    "details": [
-      "Не основа курсу.",
-      "Support lessons.",
-      "Кожен support lesson має topic_id і reason."
-    ],
-    "files": [
-      "DT_LESSON_VIEWER_v1_ISSU_SAFE_MODE"
-    ],
-    "risks": [
-      "ІССУ замінює ССУДТ"
-    ],
-    "next": "Пізніше зробити Add support lesson."
-  },
-  "factory": {
-    "title": "Lesson Factory",
-    "status": "READY",
-    "summary": "Міст між ІССУ/ІШ/V3-шаблоном і DT Platform.",
-    "details": [
-      "Кожен урок проходить через Lesson Factory.",
-      "Генерує HTML + manifest + QA.",
-      "Фіксує source: SSUDT або ISSU."
-    ],
-    "files": [
-      "DT_LESSON_FACTORY_v1"
-    ],
-    "risks": [
-      "Пряме додавання уроків без factory"
-    ],
-    "next": "Підключити до pipeline run."
-  },
-  "viewer": {
-    "title": "Lesson Viewer Safe Mode",
-    "status": "READY",
-    "summary": "Безпечне відкриття уроків без ламання дизайну уроку.",
-    "details": [
-      "Платформа = оболонка.",
-      "Урок = самостійний модуль.",
-      "Viewer відкриває урок ізоляційно."
-    ],
-    "files": [
-      "DT_LESSON_VIEWER_v1_ISSU_SAFE_MODE"
-    ],
-    "risks": [
-      "Подвійні header-и"
-    ],
-    "next": "Пізніше full lesson focus mode."
-  },
-  "repo": {
-    "title": "Repo Structure",
-    "status": "LOCKED",
-    "summary": "Правила структури GitHub репозиторію.",
-    "details": [
-      "У root тільки актуальна версія.",
-      "index.html = активний онлайн-інтерфейс.",
-      "temp/ = архів старих файлів."
-    ],
-    "files": [
-      "index.html",
-      "JSON",
-      "MD",
-      "CHANGELOG",
-      "README.md",
-      "temp/"
-    ],
-    "risks": [
-      "Багато версій у root"
-    ],
-    "next": "Залишити в root тільки v3.3 набір."
-  },
-  "naming": {
-    "title": "File Naming Rules",
-    "status": "NEEDED",
-    "summary": "Правила назв, щоб не плутатись.",
-    "details": [
-      "Активний сайт завжди index.html.",
-      "Артефакти мають versioned names.",
-      "Старі versioned files → temp/.",
-      "Якщо новий HTML має стати сайтом — я пишу це прямо."
-    ],
-    "files": [
-      "ODIN_FILE_NAMING_AND_REPO_RULES_v1 — optional"
-    ],
-    "risks": [
-      "Неправильний файл стає index.html"
-    ],
-    "next": "За потреби зробити naming lock."
-  },
-  "changelog": {
-    "title": "Changelog",
-    "status": "REQUIRED",
-    "summary": "Історія змін системи.",
-    "details": [
-      "Що змінилось.",
-      "Чому змінилось.",
-      "Статус.",
-      "Наступний крок.",
-      "Stable lock."
-    ],
-    "files": [
-      "ODIN_INTERFACE_v3_3_CHANGELOG.md"
-    ],
-    "risks": [
-      "Зміни без історії"
-    ],
-    "next": "Після перевірки v3.3 додати STABLE запис."
-  },
-  "backup": {
-    "title": "Backup / temp",
-    "status": "ARCHIVE",
-    "summary": "Архів і recovery зона.",
-    "details": [
-      "temp/ — старі файли.",
-      "ZIP — recovery package.",
-      "Root чистий, temp може містити історію."
-    ],
-    "files": [
-      "temp/",
-      "*_PACKAGE.zip"
-    ],
-    "risks": [
-      "Видалити стабільну точку"
-    ],
-    "next": "Підтримувати temp як архів."
-  },
-  "qa": {
-    "title": "QA / Locks",
-    "status": "ACTIVE",
-    "summary": "Hard locks і QA правила.",
-    "details": [
-      "PLAN is source of truth.",
-      "ODIN controls, not replaces.",
-      "Platform executes, not generates.",
-      "ISSU supports, not replaces SSUDT.",
-      "No meaningful change without changelog.",
-      "No secrets/passwords/API keys in repo."
-    ],
-    "files": [
-      "ODIN_INTERFACE_v3_3_CHANGELOG.md"
-    ],
-    "risks": [
-      "Рух без QA"
-    ],
-    "next": "Після GitHub update — review."
-  },
-  "roadmap": {
-    "title": "Roadmap / Next Steps",
-    "status": "NEXT",
-    "summary": "Що робити після завершення інтерфейсу.",
-    "details": [
-      "1. Завантажити v3.3 як index.html.",
-      "2. Перевірити Actions Layer.",
-      "3. Зафіксувати ODIN_INTERFACE_v3.3 STABLE.",
-      "4. Потім — перший реальний pipeline run."
-    ],
-    "files": [
-      "index.html",
-      "ODIN_INTERFACE_v3_3_*"
-    ],
-    "risks": [
-      "Знову піти в новий модуль до завершення UI"
-    ],
-    "next": "GitHub update + review."
-  }
-}</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ODIN_INTERFACE_v3.6_REAL_EXPORT_DOWNLOAD</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --card: #1f2937;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --accent: #38bdf8;
+      --ok: #22c55e;
+      --warn: #f59e0b;
+      --err: #ef4444;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #020617, #111827);
+      color: var(--text);
+      padding: 20px;
+    }
+
+    .odin-shell {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 20px;
+      border-radius: 20px;
+      background: rgba(17, 24, 39, 0.92);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+      margin-bottom: 20px;
+    }
+
+    h1, h2, h3 { margin-top: 0; }
+
+    .badge {
+      display: inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.15);
+      color: #7dd3fc;
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    @media (min-width: 800px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .panel {
+      background: rgba(17, 24, 39, 0.92);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 16px 44px rgba(0,0,0,0.28);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    button, .download-btn {
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-weight: 800;
+      cursor: pointer;
+      background: var(--accent);
+      color: #082f49;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+    }
+
+    button.secondary {
+      background: #334155;
+      color: var(--text);
+    }
+
+    button:active, .download-btn:active {
+      transform: translateY(1px);
+    }
+
+    #odin-current-status {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: var(--card);
+      font-weight: 900;
+      letter-spacing: .3px;
+      margin-bottom: 14px;
+    }
+
+    .odin-log-item {
+      padding: 12px;
+      border-radius: 14px;
+      background: var(--card);
+      margin-bottom: 10px;
+      border-left: 4px solid #64748b;
+    }
+
+    .odin-log-DONE, .odin-log-EXPORT_DONE { border-left-color: var(--ok); }
+    .odin-log-ERROR { border-left-color: var(--err); }
+    .odin-log-RUNNING { border-left-color: var(--warn); }
+
+    .odin-log-item strong {
+      color: var(--muted);
+      margin-right: 8px;
+      font-size: 13px;
+    }
+
+    .odin-log-item span {
+      font-weight: 900;
+    }
+
+    .odin-log-item p {
+      margin: 6px 0 0;
+      color: #e5e7eb;
+    }
+
+    .export-card {
+      background: #0b1220;
+      border: 1px solid rgba(56,189,248,.28);
+      border-radius: 18px;
+      padding: 14px;
+      margin-top: 12px;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: #020617;
+      border-radius: 14px;
+      padding: 12px;
+      color: #d1d5db;
+      max-height: 320px;
+      overflow: auto;
+    }
+
+    .muted { color: var(--muted); }
+  </style>
 </head>
 <body>
-<div class="app">
-<aside class="sidebar">
-  <div class="logo"><div class="mark">O</div><div><h1>ODIN v3.3</h1><p>Actions Layer</p></div></div>
-  <div class="group"><div class="group-title">ODIN</div>
-<button class="tree-btn active" data-id="dashboard" onclick="showSection(&quot;dashboard&quot;)">Dashboard</button>
-<button class="tree-btn" data-id="actions" onclick="showSection(&quot;actions&quot;)">Actions Layer</button>
-<button class="tree-btn" data-id="core" onclick="showSection(&quot;core&quot;)">Core Architecture</button>
-<button class="tree-btn" data-id="loop" onclick="showSection(&quot;loop&quot;)">Autonomous Loop v68.1 PRO</button>
-</div>
-<div class="group"><div class="group-title">DT System</div>
-<button class="tree-btn" data-id="plan" onclick="showSection(&quot;plan&quot;)">Plan Engine</button>
-<button class="tree-btn" data-id="link" onclick="showSection(&quot;link&quot;)">Core Link Model</button>
-<button class="tree-btn" data-id="language" onclick="showSection(&quot;language&quot;)">Language System</button>
-<button class="tree-btn" data-id="pipeline" onclick="showSection(&quot;pipeline&quot;)">Content Pipeline</button>
-<button class="tree-btn" data-id="platform" onclick="showSection(&quot;platform&quot;)">Platform v0.8 Export / Sync</button>
-</div>
-<div class="group"><div class="group-title">Lesson Systems</div>
-<button class="tree-btn" data-id="ssudt" onclick="showSection(&quot;ssudt&quot;)">ССУДТ</button>
-<button class="tree-btn" data-id="issu" onclick="showSection(&quot;issu&quot;)">ІССУ</button>
-<button class="tree-btn" data-id="factory" onclick="showSection(&quot;factory&quot;)">Lesson Factory</button>
-<button class="tree-btn" data-id="viewer" onclick="showSection(&quot;viewer&quot;)">Lesson Viewer Safe Mode</button>
-</div>
-<div class="group"><div class="group-title">GitHub / Sync</div>
-<button class="tree-btn" data-id="repo" onclick="showSection(&quot;repo&quot;)">Repo Structure</button>
-<button class="tree-btn" data-id="naming" onclick="showSection(&quot;naming&quot;)">File Naming Rules</button>
-<button class="tree-btn" data-id="changelog" onclick="showSection(&quot;changelog&quot;)">Changelog</button>
-<button class="tree-btn" data-id="backup" onclick="showSection(&quot;backup&quot;)">Backup / temp</button>
-</div>
-<div class="group"><div class="group-title">Control</div>
-<button class="tree-btn" data-id="qa" onclick="showSection(&quot;qa&quot;)">QA / Locks</button>
-<button class="tree-btn" data-id="roadmap" onclick="showSection(&quot;roadmap&quot;)">Roadmap / Next Steps</button>
-</div>
-</aside>
-<main class="main">
-  <div class="topbar"><div><h2 id="sectionTitle">Dashboard</h2><p id="sectionSub" class="sub">LIVE CONTROL CENTER</p></div><span class="pill ready">ACTIONS READY</span></div>
-  <section class="card hero"><span class="pill">ODIN v3.3</span><span class="pill">ACTIONS LAYER</span><span class="pill">LIVE LOG</span><p><span class="ok">PASS:</span> ODIN тепер має живі дії, статуси і лог.</p></section>
+  <main class="odin-shell">
+    <header>
+      <div class="badge">ODIN v3.6</div>
+      <h1>ODIN_INTERFACE_v3.6_REAL_EXPORT_DOWNLOAD</h1>
+      <p class="muted">
+        Живий ланцюг: ACTION → PLAN → PIPELINE → LESSON → QA → EXPORT → DOWNLOAD.
+      </p>
+    </header>
 
-  <section class="card">
-    <h2>Actions</h2>
-    <div class="actions">
-      <button class="action-btn secondary" onclick="doAction('RUN')">RUN</button>
-      <button class="action-btn secondary" onclick="doAction('CHECK')">CHECK</button>
-      <button class="action-btn" onclick="doAction('BUILD')">BUILD</button>
-      <button class="action-btn warn" onclick="doAction('FIX')">FIX</button>
-      <button class="action-btn" onclick="doAction('SNAPSHOT')">SNAPSHOT</button>
-      <button class="action-btn danger" onclick="resetLog()">RESET LOG</button>
-    </div>
-  </section>
+    <section class="grid">
+      <div class="panel">
+        <h2>Actions</h2>
+        <p class="muted">Тестова дія запускає весь Execution Bridge і створює реальний файл.</p>
 
-  <section class="card">
-    <h2>Live Status</h2>
-    <div class="grid">
-      <div class="stat"><div>Last Action</div><b id="lastAction">—</b></div>
-      <div class="stat"><div>Status</div><b id="liveStatus">IDLE</b></div>
-      <div class="stat"><div>Log Items</div><b id="logCount">0</b></div>
-      <div class="stat"><div>Selected Layer</div><b id="selectedLayer">Dashboard</b></div>
-    </div>
-  </section>
+        <div class="button-row">
+          <button onclick="executeOdinAction({
+            type: 'CREATE_LESSON',
+            payload: {
+              title: 'Тестовий урок ODIN',
+              topic: 'Execution Bridge',
+              level: 'A1-A2'
+            }
+          })">Запустити CREATE_LESSON</button>
 
-  <section class="card"><h2 id="contentTitle">Dashboard</h2><span id="contentStatus" class="pill ready">CONTROL CENTER</span><p id="contentSummary"></p></section>
-  <section class="card"><h2>Details</h2><div id="details" class="grid"></div></section>
-  <section class="card"><h2>Files / Artifacts</h2><div id="files" class="grid"></div></section>
-  <section class="card"><h2>Risks</h2><div id="risks" class="grid"></div></section>
-  <section class="card"><h2>Next Action</h2><p><code id="nextAction"></code></p></section>
-  <section class="card"><h2>Execution Log</h2><div id="logBox" class="log"></div></section>
-  <section class="card"><h2>GitHub update</h2><p>Завантажити цей HTML як <code>index.html</code>.</p><p>Commit: <code>ODIN v3.3 update: actions layer</code></p></section>
-</main>
-</div>
-<script>
-const SECTIONS = JSON.parse(document.getElementById('ODIN_SECTIONS').textContent);
-const LOG_KEY = 'odin_v3_3_log';
-const STATE_KEY = 'odin_v3_3_state';
-let currentSection = 'dashboard';
+          <button class="secondary" onclick="ODIN_EXECUTION_LOG.clear(); ODIN_UI.clearExport();">
+            Очистити
+          </button>
+        </div>
+      </div>
 
-function now(){ return new Date().toLocaleString(); }
-function getLog(){ try{ return JSON.parse(localStorage.getItem(LOG_KEY)) || []; } catch(e){ return []; } }
-function saveLog(log){ localStorage.setItem(LOG_KEY, JSON.stringify(log)); }
-function addLog(type, message){
-  const log = getLog();
-  log.unshift({ time: now(), type, layer: currentSection, message });
-  saveLog(log.slice(0,80));
-  renderLog();
-}
-function renderLog(){
-  const log = getLog();
-  document.getElementById('logCount').textContent = log.length;
-  document.getElementById('logBox').textContent = log.length ? log.map(x => `[${x.time}] ${x.type} @ ${x.layer} — ${x.message}`).join('\n') : 'Лог порожній.';
-}
-function cardList(list, cls) {
-  return (list || []).map(x => `<div class="item"><span class="pill ${cls}">ITEM</span><p>${x}</p></div>`).join('') || '<p class="sub">Немає даних.</p>';
-}
-function showSection(id) {
-  currentSection = id;
-  const s = SECTIONS[id] || SECTIONS.dashboard;
-  document.querySelectorAll('.tree-btn').forEach(b => b.classList.toggle('active', b.dataset.id === id));
-  document.getElementById('sectionTitle').textContent = s.title;
-  document.getElementById('sectionSub').textContent = s.status;
-  document.getElementById('selectedLayer').textContent = s.title;
-  document.getElementById('contentTitle').textContent = s.title;
-  const status = document.getElementById('contentStatus');
-  status.textContent = s.status;
-  status.className = 'pill ' + (s.status.includes('LOCK') || s.status.includes('READY') || s.status.includes('FIXED') ? 'ready' : s.status.includes('NEEDED') ? 'warn' : 'purple');
-  document.getElementById('contentSummary').textContent = s.summary;
-  document.getElementById('details').innerHTML = cardList(s.details, 'ready');
-  document.getElementById('files').innerHTML = cardList(s.files, 'purple');
-  document.getElementById('risks').innerHTML = cardList(s.risks, 'lock');
-  document.getElementById('nextAction').textContent = s.next || '—';
-}
-function doAction(action){
-  document.getElementById('lastAction').textContent = action;
-  if(action === 'CHECK'){
-    document.getElementById('liveStatus').textContent = 'QA PASS';
-    addLog(action, 'QA перевірка виконана. Критичних блокерів не виявлено в статичному інтерфейсі.');
-  } else if(action === 'RUN'){
-    document.getElementById('liveStatus').textContent = 'RUN RECORDED';
-    addLog(action, 'Запуск процесу зафіксовано в ODIN log.');
-  } else if(action === 'BUILD'){
-    document.getElementById('liveStatus').textContent = 'BUILD INTENT';
-    addLog(action, 'Намір build зафіксовано. Реальний build виконується через ChatGPT/file package, не через GitHub Pages.');
-  } else if(action === 'FIX'){
-    document.getElementById('liveStatus').textContent = 'FIX RECORDED';
-    addLog(action, 'Fix-запит зафіксовано. Потрібен review перед зміною stable.');
-  } else if(action === 'SNAPSHOT'){
-    const snapshot = { time: now(), section: currentSection, status: document.getElementById('liveStatus').textContent, logCount: getLog().length };
-    localStorage.setItem(STATE_KEY, JSON.stringify(snapshot));
-    document.getElementById('liveStatus').textContent = 'SNAPSHOT SAVED';
-    addLog(action, 'Snapshot збережено у localStorage.');
-  }
-}
-function resetLog(){
-  if(confirm('Очистити ODIN log у цьому браузері?')){
-    localStorage.removeItem(LOG_KEY);
-    document.getElementById('lastAction').textContent = 'RESET';
-    document.getElementById('liveStatus').textContent = 'LOG RESET';
-    renderLog();
-  }
-}
-showSection('dashboard');
-renderLog();
-</script>
+      <div class="panel">
+        <h2>Execution Status</h2>
+        <div id="odin-current-status">WAITING</div>
+
+        <h3>Export</h3>
+        <div id="odin-export-result">
+          <p class="muted">Після EXPORT_DONE тут зʼявиться кнопка завантаження.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" style="margin-top:16px;">
+      <h2>Execution Log</h2>
+      <div id="odin-execution-log"></div>
+    </section>
+
+    <section class="panel" style="margin-top:16px;">
+      <h2>Result Preview</h2>
+      <pre id="odin-result-preview">Очікування запуску...</pre>
+    </section>
+  </main>
+
+  <script>
+    const ODIN_EXECUTION_STATUS = {
+      WAITING: "WAITING",
+      RUNNING: "RUNNING",
+      PLAN_DONE: "PLAN_DONE",
+      PIPELINE_DONE: "PIPELINE_DONE",
+      LESSON_DONE: "LESSON_DONE",
+      QA_DONE: "QA_DONE",
+      EXPORT_DONE: "EXPORT_DONE",
+      DONE: "DONE",
+      ERROR: "ERROR"
+    };
+
+    const ODIN_EXECUTION_LOG = {
+      items: [],
+
+      add(status, message, data = null) {
+        const entry = {
+          time: new Date().toLocaleTimeString(),
+          status,
+          message,
+          data
+        };
+
+        this.items.push(entry);
+        ODIN_UI.renderExecutionLog(this.items);
+        return entry;
+      },
+
+      clear() {
+        this.items = [];
+        ODIN_UI.renderExecutionLog(this.items);
+        document.getElementById("odin-result-preview").textContent = "Очікування запуску...";
+      }
+    };
+
+    const ODIN_PLAN_LAYER = {
+      create(action) {
+        return {
+          id: "PLAN_" + Date.now(),
+          actionType: action.type,
+          goal: "Create downloadable result through ODIN layers",
+          input: action.payload,
+          requiredLayers: ["PLAN", "PIPELINE", "LESSON", "QA", "EXPORT"]
+        };
+      }
+    };
+
+    const ODIN_PIPELINE_LAYER = {
+      build(plan) {
+        return {
+          id: "PIPELINE_" + Date.now(),
+          planId: plan.id,
+          steps: [
+            { layer: "LESSON", task: "Generate lesson content" },
+            { layer: "QA", task: "Validate result" },
+            { layer: "EXPORT", task: "Build downloadable HTML file" }
+          ],
+          input: plan.input
+        };
+      }
+    };
+
+    const ODIN_LESSON_LAYER = {
+      execute(pipeline) {
+        const title = pipeline.input?.title || "ODIN Lesson";
+        const topic = pipeline.input?.topic || "ODIN";
+        const level = pipeline.input?.level || "A1-A2";
+
+        const lessonHtml = `<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>${escapeHtml(title)}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; padding: 24px; max-width: 900px; margin: auto; }
+    .card { border: 1px solid #ddd; border-radius: 16px; padding: 18px; margin: 16px 0; }
+    .de { font-weight: 800; }
+    .literal { color: #475569; }
+    .ua { color: #0f172a; }
+  </style>
+</head>
+<body>
+  <h1>${escapeHtml(title)}</h1>
+  <p><strong>Тема:</strong> ${escapeHtml(topic)}</p>
+  <p><strong>Рівень:</strong> ${escapeHtml(level)}</p>
+
+  <div class="card">
+    <h2>Приклад</h2>
+    <p class="de">Ich starte den ODIN-Prozess.</p>
+    <p class="literal">Я запускаю ODIN-процес.</p>
+    <p class="ua">Я запускаю процес ODIN.</p>
+  </div>
+
+  <div class="card">
+    <h2>QA</h2>
+    <p>Структура, переклад, приклад і експорт присутні.</p>
+  </div>
+</body>
+</html>`;
+
+        return {
+          status: "LESSON_READY",
+          title,
+          topic,
+          level,
+          html: lessonHtml
+        };
+      }
+    };
+
+    const ODIN_QA_LAYER = {
+      check(lessonResult) {
+        const checks = [
+          { name: "HTML exists", passed: Boolean(lessonResult.html) },
+          { name: "Title exists", passed: Boolean(lessonResult.title) },
+          { name: "German example exists", passed: lessonResult.html.includes("Ich starte") },
+          { name: "Ukrainian translation exists", passed: lessonResult.html.includes("Я запускаю") }
+        ];
+
+        const passed = checks.every(check => check.passed);
+
+        if (!passed) {
+          throw new Error("QA failed: export blocked");
+        }
+
+        return {
+          status: "QA_PASSED",
+          lesson: lessonResult,
+          checks
+        };
+      }
+    };
+
+    const ODIN_EXPORT_LAYER = {
+      create(qaResult) {
+        const safeTitle = (qaResult.lesson.title || "odin_result")
+          .toLowerCase()
+          .replace(/[^a-zа-яіїєґ0-9]+/gi, "_")
+          .replace(/^_+|_+$/g, "");
+
+        const filename = `${safeTitle || "odin_result"}_v3_6.html`;
+
+        return {
+          status: "EXPORT_READY",
+          filename,
+          mime: "text/html;charset=utf-8",
+          content: qaResult.lesson.html,
+          size: qaResult.lesson.html.length
+        };
+      }
+    };
+
+    const ODIN_EXECUTION_BRIDGE_v1_1 = {
+      run(action) {
+        try {
+          ODIN_EXECUTION_LOG.clear();
+          ODIN_UI.clearExport();
+
+          ODIN_EXECUTION_LOG.add("RUNNING", "Execution started", action);
+
+          const plan = ODIN_PLAN_LAYER.create(action);
+          ODIN_EXECUTION_LOG.add("PLAN_DONE", "Plan created", plan);
+
+          const pipeline = ODIN_PIPELINE_LAYER.build(plan);
+          ODIN_EXECUTION_LOG.add("PIPELINE_DONE", "Pipeline built", pipeline);
+
+          const lessonResult = ODIN_LESSON_LAYER.execute(pipeline);
+          ODIN_EXECUTION_LOG.add("LESSON_DONE", "Lesson layer executed", lessonResult);
+
+          const qaResult = ODIN_QA_LAYER.check(lessonResult);
+          ODIN_EXECUTION_LOG.add("QA_DONE", "QA completed", qaResult);
+
+          const exportResult = ODIN_EXPORT_LAYER.create(qaResult);
+          ODIN_EXECUTION_LOG.add("EXPORT_DONE", "Export created", exportResult);
+
+          const result = {
+            status: "DONE",
+            action,
+            plan,
+            pipeline,
+            lessonResult,
+            qaResult,
+            exportResult
+          };
+
+          ODIN_EXECUTION_LOG.add("DONE", "Execution finished successfully", result);
+
+          return result;
+        } catch (error) {
+          ODIN_EXECUTION_LOG.add("ERROR", error.message, { message: error.message });
+
+          return {
+            status: "ERROR",
+            error: error.message
+          };
+        }
+      }
+    };
+
+    const ODIN_UI = {
+      renderExecutionLog(items) {
+        const log = document.getElementById("odin-execution-log");
+        const current = document.getElementById("odin-current-status");
+
+        if (!log || !current) return;
+
+        const last = items[items.length - 1];
+        current.textContent = last ? last.status : "WAITING";
+
+        log.innerHTML = items.map(item => `
+          <div class="odin-log-item odin-log-${item.status}">
+            <strong>${item.time}</strong>
+            <span>${item.status}</span>
+            <p>${item.message}</p>
+          </div>
+        `).join("");
+      },
+
+      renderExecutionResult(result) {
+        document.getElementById("odin-result-preview").textContent =
+          JSON.stringify({
+            status: result.status,
+            filename: result.exportResult?.filename,
+            qa: result.qaResult?.status,
+            checks: result.qaResult?.checks
+          }, null, 2);
+
+        if (result.exportResult) {
+          this.renderExportDownload(result.exportResult);
+        }
+      },
+
+      renderExecutionError(error) {
+        document.getElementById("odin-result-preview").textContent =
+          typeof error === "string" ? error : JSON.stringify(error, null, 2);
+      },
+
+      renderExportDownload(exportResult) {
+        const box = document.getElementById("odin-export-result");
+        const blob = new Blob([exportResult.content], { type: exportResult.mime });
+        const url = URL.createObjectURL(blob);
+
+        box.innerHTML = `
+          <div class="export-card">
+            <h3>Файл готовий</h3>
+            <p><strong>Назва:</strong> ${escapeHtml(exportResult.filename)}</p>
+            <p><strong>Розмір:</strong> ${exportResult.size} символів</p>
+            <a class="download-btn" href="${url}" download="${escapeHtml(exportResult.filename)}">
+              Завантажити результат
+            </a>
+          </div>
+        `;
+      },
+
+      clearExport() {
+        const box = document.getElementById("odin-export-result");
+        box.innerHTML = `<p class="muted">Після EXPORT_DONE тут зʼявиться кнопка завантаження.</p>`;
+      }
+    };
+
+    function executeOdinAction(action) {
+      const result = ODIN_EXECUTION_BRIDGE_v1_1.run(action);
+
+      if (result.status === "ERROR") {
+        ODIN_UI.renderExecutionError(result.error);
+      } else {
+        ODIN_UI.renderExecutionResult(result);
+      }
+
+      return result;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+  </script>
 </body>
 </html>
