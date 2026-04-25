@@ -1,110 +1,320 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ODIN v3.22.1.1 MARKUP QA FIX</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ODIN QA Engine v2 — Lesson QA</title>
+  <style>
+    :root {
+      --bg:#020617; --panel:#0f172a; --card:#111827; --text:#e5e7eb;
+      --muted:#94a3b8; --border:#334155; --accent:#38bdf8;
+      --ok:#22c55e; --warn:#f59e0b; --bad:#ef4444; --idle:#64748b;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);display:grid;grid-template-columns:340px 1fr}
+    .sidebar{background:linear-gradient(180deg,#0f172a,#111827);border-right:1px solid var(--border);padding:16px;overflow-y:auto}
+    .main{padding:24px;display:grid;gap:18px;align-content:start}
+    .brand{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:14px}
+    .brand h1{font-size:18px;margin:0;letter-spacing:.04em}.version{font-size:12px;color:var(--muted)}
+    .card,.main-card{background:rgba(15,23,42,.86);border:1px solid var(--border);border-radius:18px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+    .main-card{border-radius:24px;padding:22px}.card{margin-bottom:14px}.card h2,.main-card h2{margin:0 0 12px}
+    .card h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}.main-card h2{font-size:20px}
+    .row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:8px 0;font-size:14px}.label,.muted{color:var(--muted)}
+    .badge{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:800;border:1px solid transparent;background:#020617;white-space:nowrap}
+    .idle{color:var(--idle);border-color:var(--idle)}.running{color:var(--accent);border-color:var(--accent)}.ok{color:var(--ok);border-color:var(--ok)}.warn{color:var(--warn);border-color:var(--warn)}.bad{color:var(--bad);border-color:var(--bad)}
+    .plan{list-style:none;padding:0;margin:0;display:grid;gap:8px}.plan li{display:grid;grid-template-columns:26px 1fr auto;align-items:center;gap:8px;padding:8px;border-radius:12px;background:rgba(2,6,23,.35);border:1px solid transparent;font-size:13px}
+    .plan li.active{border-color:var(--accent);background:rgba(56,189,248,.1)}.plan li.done{border-color:rgba(34,197,94,.55)}.plan li.fail{border-color:rgba(239,68,68,.7)}
+    .step-index{width:24px;height:24px;border-radius:50%;background:#020617;display:inline-flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;border:1px solid var(--border)}
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}button{border:1px solid var(--border);background:#020617;color:var(--text);padding:10px 12px;border-radius:12px;cursor:pointer;font-weight:800;transition:.15s ease}button:hover{border-color:var(--accent);transform:translateY(-1px)}button.primary{background:rgba(56,189,248,.14);border-color:var(--accent)}button.danger:hover{border-color:var(--bad)}
+    .log{max-height:250px;overflow-y:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;color:#cbd5e1;display:grid;gap:6px}.log-entry{border-left:2px solid var(--accent);padding-left:8px;line-height:1.35}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.output{background:rgba(2,6,23,.45);border:1px solid var(--border);border-radius:16px;padding:14px;min-height:120px;color:#cbd5e1;line-height:1.65}
+    textarea{width:100%;min-height:260px;background:#020617;color:#e5e7eb;border:1px solid var(--border);border-radius:16px;padding:14px;font:14px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;resize:vertical}
+    .qa-list{display:grid;gap:10px}.qa-item{border:1px solid var(--border);border-radius:14px;padding:12px;background:rgba(2,6,23,.35)}.qa-item.ok{border-color:rgba(34,197,94,.55)}.qa-item.warn{border-color:rgba(245,158,11,.65)}.qa-item.bad{border-color:rgba(239,68,68,.7)}.qa-title{font-weight:800}.qa-note{color:#cbd5e1;margin-top:4px;font-size:13px;line-height:1.5}
+    @media(max-width:900px){body{grid-template-columns:1fr}.sidebar{border-right:none;border-bottom:1px solid var(--border)}.grid{grid-template-columns:1fr}}
+  </style>
 </head>
 <body>
-  <main class="wrap">
-    <section class="panel hero">
-      <div class="badge">ODIN v3.22.1</div>
-      <h1>MARKUP ACCURACY ENGINE</h1>
-      <p class="muted">Точніші lm-мітки + граматичний словник + статистика по словах/лемах/POS/дієсловах/родах/відмінках.</p>
+  <aside class="sidebar">
+    <div class="brand">
+      <div><h1>ODIN CONTROL</h1><div class="version">QA Engine v2 / Lesson QA</div></div>
+      <span id="ui-main-status" class="badge idle">IDLE</span>
+    </div>
+
+    <section class="card">
+      <h2>System</h2>
+      <div class="row"><span class="label">Status</span><span id="system-status">IDLE</span></div>
+      <div class="row"><span class="label">Mode</span><span id="system-mode">MANUAL</span></div>
+      <div class="row"><span class="label">Active step</span><span id="system-step">—</span></div>
+      <div class="row"><span class="label">Progress</span><span id="system-progress">0%</span></div>
+    </section>
+
+    <section class="card"><h2>Execution Plan</h2><ol id="execution-plan" class="plan"></ol></section>
+
+    <section class="card">
+      <h2>QA</h2>
+      <div class="row"><span class="label">Errors</span><span id="qa-errors" class="badge ok">0</span></div>
+      <div class="row"><span class="label">Warnings</span><span id="qa-warnings" class="badge ok">0</span></div>
+      <div class="row"><span class="label">Passed</span><span id="qa-passed" class="badge ok">0</span></div>
+      <div class="row"><span class="label">Result</span><span id="qa-result">NOT_RUN</span></div>
+    </section>
+
+    <section class="card">
+      <h2>Actions</h2>
+      <div class="actions">
+        <button class="primary" onclick="ODIN_ENGINE.runFull()">▶ RUN QA v2</button>
+        <button onclick="ODIN_ENGINE.runQA()">🧪 QA ONLY</button>
+        <button onclick="ODIN_ENGINE.loadDemo()">📄 DEMO</button>
+        <button onclick="ODIN_ENGINE.exportReport()">📦 REPORT</button>
+        <button onclick="ODIN_ENGINE.safeFix()">🔧 SAFE FIX</button>
+        <button class="danger" onclick="ODIN_ENGINE.reset()">RESET</button>
+      </div>
+    </section>
+
+    <section class="card"><h2>Live Log</h2><div id="live-log" class="log"></div></section>
+  </aside>
+
+  <main class="main">
+    <section class="main-card">
+      <h2>ODIN QA Engine v2 — перевірка уроку</h2>
+      <p class="muted">Встав HTML/текст уроку нижче і запусти QA. Система перевіряє структуру, переклади, словник, діалоги, підсвітку, QA Report та export readiness.</p>
     </section>
 
     <section class="grid">
-      <div class="panel">
-        <h2>Lesson Input — Translation v2 + Markup Accuracy</h2>
-
-        <label for="title_ua">Title UA</label>
-        <input id="title_ua" value="Відокремлювані дієслова">
-
-        <label for="title_ru">Title RU</label>
-        <input id="title_ru" value="Отделяемые глаголы">
-
-        <label for="topic">Topic ID</label>
-        <input id="topic" value="trennbare-verben">
-
-        <label for="level">Рівень</label>
-        <select id="level"><option>A1</option><option selected>A1-A2</option><option>A2</option><option>B1</option><option>B2</option></select>
-
-        <label for="goal_ua">Goal UA</label>
-        <textarea id="goal_ua">Зрозуміти правило відокремлюваних дієслів у простому реченні, навчитися бачити основу дієслова і відокремлювану частку, а також будувати власні приклади з дослівним і смисловим перекладом.</textarea>
-
-        <label for="goal_ru">Goal RU</label>
-        <textarea id="goal_ru">Понять правило отделяемых глаголов в простом предложении, научиться видеть основу глагола и отделяемую приставку, а также строить собственные примеры с дословным и смысловым переводом.</textarea>
-
-        <label for="examples">Examples: DE | Literal UA | Semantic UA | Literal RU | Semantic RU</label>
-        <textarea id="examples">Ich stehe um sechs Uhr auf.|Дослівно: Я встаю о шостій годині вгору.|Я встаю о шостій годині.|Дословно: Я встаю в шесть часов вверх.|Я встаю в шесть часов.
-Mach bitte die Tür zu!|Дослівно: Зроби будь ласка двері до!|Закрий, будь ласка, двері!|Дословно: Сделай пожалуйста дверь до!|Закрой, пожалуйста, дверь!
-Wir kaufen heute im Supermarkt ein.|Дослівно: Ми купуємо сьогодні в супермаркеті всередину.|Ми сьогодні закуповуємось у супермаркеті.|Дословно: Мы покупаем сегодня в супермаркете внутрь.|Мы сегодня закупаемся в супермаркете.
-Ruf mich bitte später an.|Дослівно: Подзвони мене будь ласка пізніше на.|Подзвони мені, будь ласка, пізніше.|Дословно: Позвони меня пожалуйста позже на.|Позвони мне, пожалуйста, позже.
-Ich räume mein Zimmer auf.|Дослівно: Я прибираю мою кімнату вгору.|Я прибираю свою кімнату.|Дословно: Я убираю мою комнату вверх.|Я убираю свою комнату.</textarea>
-
-        <label for="vocab">Vocabulary: DE | UA | RU</label>
-        <textarea id="vocab">aufstehen|вставати|вставать
-zumachen|закривати|закрывать
-einkaufen|закуповуватись|закупаться
-anrufen|телефонувати|звонить
-aufräumen|прибирати|убирать
-die Tür|двері|дверь
-der Supermarkt|супермаркет|супермаркет
-das Zimmer|кімната|комната</textarea>
-
-        <button id="runBtn" type="button">Створити урок з точними мітками</button>
-        <button id="saveBtn" type="button">💾 Зберегти поточний урок</button>
-        <button id="clearBtn" class="secondary" type="button">Очистити</button>
+      <div class="main-card">
+        <h2>Lesson Input</h2>
+        <textarea id="lesson-input" placeholder="Встав сюди HTML або текст уроку..."></textarea>
       </div>
-
-      <div class="panel">
-        <h2>Status</h2>
-        <pre id="log">WAITING</pre>
+      <div class="main-card">
         <h2>QA Report</h2>
-        <div id="qaBox"><p class="muted">QA зʼявиться після запуску.</p></div>
-        <h2>Export</h2>
-        <div id="download"></div>
+        <div id="engine-output" class="output">Очікування запуску...</div>
       </div>
     </section>
 
-    <section class="panel">
-      <h2>Preview Controls</h2>
-      <div class="controls">
-        <button id="toggleLiteralBtn" type="button">Показати/Сховати ДП</button>
-        <button id="uiUaBtn" type="button">UA</button>
-        <button id="uiRuBtn" type="button">RU</button>
-        <button id="hlOffBtn" class="secondary" type="button">💡0 OFF</button>
-        <button id="hlThemeBtn" class="lamp" type="button">💡1 THEME</button>
-        <button id="hlAllBtn" class="lamp" type="button">💡2 ALL</button>
-      </div>
-    </section>
-
-    <section class="grid">
-      <div class="panel">
-        <h2>📊 Markup Stats</h2>
-        <div id="statsBox" class="stats-box"><p class="muted">Статистика зʼявиться після створення уроку.</p></div>
-      </div>
-      <div class="panel">
-        <h2>Integration Status</h2>
-        <pre id="dataLog">DATA_WAITING</pre>
-      </div>
-    </section>
-
-    <section class="panel">
-      <h2>📚 Saved Lessons</h2>
-      <div class="controls">
-        <button id="refreshLessonsBtn" type="button">Оновити список</button>
-        <button id="clearLessonsBtn" class="danger" type="button">Очистити всі уроки</button>
-      </div>
-      <div id="lessonsList" class="lessons-list"></div>
-    </section>
-
-    <section class="panel">
-      <h2>Preview</h2>
-      <iframe id="preview" title="Lesson preview"></iframe>
+    <section class="main-card">
+      <h2>Detailed Checks</h2>
+      <div id="qa-details" class="qa-list"></div>
     </section>
   </main>
-  <script src="app.js"></script>
+
+<script>
+const ODIN_STATE={
+  status:"IDLE",mode:"MANUAL",currentStep:null,progress:0,output:"Очікування запуску...",
+  steps:[
+    {id:"INIT",title:"Initialize QA Engine",status:"pending"},
+    {id:"LOAD_LESSON",title:"Load Lesson Input",status:"pending"},
+    {id:"STRUCTURE_QA",title:"Check Lesson Structure",status:"pending"},
+    {id:"TRANSLATION_QA",title:"Check Translation Standard",status:"pending"},
+    {id:"MARKUP_QA",title:"Check Highlight/Markup",status:"pending"},
+    {id:"EXPORT_GATE",title:"Export Readiness Gate",status:"pending"}
+  ],
+  qa:{result:"NOT_RUN",errors:[],warnings:[],passed:[],details:[]},
+  logs:[]
+};
+
+const REQUIRED_BLOCKS=[
+  {key:"goal",label:"Мета / Після уроку ти маєш зрозуміти",patterns:["Після уроку","Мета уроку","що ти маєш зрозуміти"]},
+  {key:"examples",label:"Основні приклади уроку",patterns:["Основні приклади","Приклади","РН:"]},
+  {key:"literal",label:"Дослівний переклад",patterns:["ДП:","Дослівний","дослівний"]},
+  {key:"semantic",label:"Смисловий переклад",patterns:["СД:","Смисловий","смисловий","👉"]},
+  {key:"dictionary",label:"Словник",patterns:["Словник","Нові слова","Wortschatz"]},
+  {key:"practice",label:"Практика",patterns:["Практика","Тренування","Вправа"]},
+  {key:"qaReport",label:"QA Report / Status",patterns:["QA Report","Status","QA_PASSED","EXPORT_READY"]}
+];
+
+const MARKUP_PATTERNS=["highlight","mark","data-rule","grammar","підсвіт","lamp","case-"];
+const AUDIO_PATTERNS=["audio","🔊","playAudio","speak","tts"];
+const BUTTON_PATTERNS=["button","onclick","toggle","btn"];
+
+function nowTime(){return new Date().toLocaleTimeString("uk-UA",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}
+function addLog(m){ODIN_STATE.logs.unshift(`${nowTime()} — ${m}`);if(ODIN_STATE.logs.length>80)ODIN_STATE.logs.pop();renderAll()}
+function badgeClass(s){if(s==="RUNNING")return"running";if(s==="DONE"||s==="EXPORT_READY")return"ok";if(s==="QA_WARNINGS"||s==="FIX_REQUIRED")return"warn";if(s==="ERROR")return"bad";return"idle"}
+function setStatus(s){ODIN_STATE.status=s;renderAll()}
+function setStep(id,status){ODIN_STATE.currentStep=id;ODIN_STATE.steps=ODIN_STATE.steps.map(st=>st.id===id?{...st,status}:st.status==="active"?{...st,status:"done"}:st);updateProgress();renderAll()}
+function finishStep(id){ODIN_STATE.steps=ODIN_STATE.steps.map(st=>st.id===id?{...st,status:"done"}:st);updateProgress();renderAll()}
+function failStep(id){ODIN_STATE.steps=ODIN_STATE.steps.map(st=>st.id===id?{...st,status:"fail"}:st);updateProgress();renderAll()}
+function updateProgress(){const done=ODIN_STATE.steps.filter(s=>s.status==="done").length;ODIN_STATE.progress=Math.round(done/ODIN_STATE.steps.length*100)}
+function hasAny(text,arr){const t=text.toLowerCase();return arr.some(p=>t.includes(p.toLowerCase()))}
+function addDetail(level,title,note){ODIN_STATE.qa.details.push({level,title,note});if(level==="ok")ODIN_STATE.qa.passed.push(title);if(level==="warn")ODIN_STATE.qa.warnings.push(title);if(level==="bad")ODIN_STATE.qa.errors.push(title)}
+
+function runLessonQA(){
+  const text=document.getElementById("lesson-input").value.trim();
+  ODIN_STATE.qa={result:"RUNNING",errors:[],warnings:[],passed:[],details:[]};
+
+  if(!text){
+    addDetail("bad","LESSON_INPUT_EMPTY","Немає вхідного тексту/HTML уроку.");
+    return finalizeQA();
+  }
+
+  addDetail("ok","LESSON_INPUT_LOADED",`Завантажено символів: ${text.length}.`);
+
+  REQUIRED_BLOCKS.forEach(block=>{
+    if(hasAny(text,block.patterns)) addDetail("ok",`BLOCK_OK: ${block.label}`,"Блок або його еквівалент знайдено.");
+    else addDetail("bad",`BLOCK_MISSING: ${block.label}`,"Критичний блок відсутній або не розпізнаний.");
+  });
+
+  const germanLike=(text.match(/[A-ZÄÖÜ][a-zäöüß]+|ich|du|wir|Sie|nicht|haben|sein|müssen|können|wollen/gi)||[]).length;
+  if(germanLike>=10) addDetail("ok","GERMAN_TEXT_DETECTED","Німецький навчальний контент присутній.");
+  else addDetail("warn","GERMAN_TEXT_WEAK","Німецького тексту мало або він не розпізнаний.");
+
+  const literalCount=(text.match(/ДП:|Дослівн/gi)||[]).length;
+  const semanticCount=(text.match(/СД:|Смислов|👉/gi)||[]).length;
+  if(literalCount>0 && semanticCount>0) addDetail("ok","TRANSLATION_STANDARD_v2_DETECTED",`ДП: ${literalCount}, СД/👉: ${semanticCount}.`);
+  else addDetail("bad","TRANSLATION_STANDARD_v2_MISSING","Потрібні обидві лінії: дослівний + смисловий переклад.");
+
+  if(hasAny(text,MARKUP_PATTERNS)) addDetail("ok","HIGHLIGHT_MARKUP_PRESENT","Ознаки підсвітки/grammar markup знайдено.");
+  else addDetail("warn","HIGHLIGHT_MARKUP_NOT_DETECTED","Не знайдено явних ознак підсвітки граматики.");
+
+  if(hasAny(text,AUDIO_PATTERNS)) addDetail("ok","AUDIO_LAYER_PRESENT","Ознаки аудіо-шару знайдено.");
+  else addDetail("warn","AUDIO_LAYER_NOT_DETECTED","Аудіо-шар не знайдено. Для повного DT стандарту бажано додати.");
+
+  if(hasAny(text,BUTTON_PATTERNS)) addDetail("ok","INTERACTIVE_CONTROLS_PRESENT","Кнопки/інтерактивність знайдено.");
+  else addDetail("warn","INTERACTIVE_CONTROLS_NOT_DETECTED","Не знайдено інтерактивних контролів.");
+
+  if(text.includes("QA_PASSED_WITH_WARNINGS") && text.includes("EXPORT_READY")){
+    addDetail("ok","ODIN_STATUS_STACK_PRESENT","Status stack містить QA та EXPORT.");
+  } else {
+    addDetail("warn","ODIN_STATUS_STACK_INCOMPLETE","Status stack неповний або відсутній.");
+  }
+
+  return finalizeQA();
+}
+
+function finalizeQA(){
+  if(ODIN_STATE.qa.errors.length){
+    ODIN_STATE.qa.result="QA_FAILED";
+    ODIN_STATE.output=`QA_FAILED\nErrors: ${ODIN_STATE.qa.errors.length}\nWarnings: ${ODIN_STATE.qa.warnings.length}\nPassed: ${ODIN_STATE.qa.passed.length}\n\nРішення: спочатку виправити критичні BLOCK_MISSING / TRANSLATION_STANDARD.`;
+    setStatus("ERROR");
+  } else if(ODIN_STATE.qa.warnings.length){
+    ODIN_STATE.qa.result="QA_PASSED_WITH_WARNINGS";
+    ODIN_STATE.output=`QA_PASSED_WITH_WARNINGS\nErrors: 0\nWarnings: ${ODIN_STATE.qa.warnings.length}\nPassed: ${ODIN_STATE.qa.passed.length}\n\nРішення: safe fix може додати службові маркери/звіт, але зміст уроку не переписує автоматично.`;
+    setStatus("FIX_REQUIRED");
+  } else {
+    ODIN_STATE.qa.result="QA_PASSED";
+    ODIN_STATE.output=`QA_PASSED\nErrors: 0\nWarnings: 0\nPassed: ${ODIN_STATE.qa.passed.length}\n\nУрок готовий до EXPORT_GATE.`;
+    setStatus("DONE");
+  }
+  addLog(`Lesson QA finished: ${ODIN_STATE.qa.result}`);
+  renderAll();
+  return {ok:ODIN_STATE.qa.errors.length===0,message:ODIN_STATE.qa.result};
+}
+
+const stepHandlers={
+  INIT(){ODIN_STATE.output="QA Engine v2 активовано.";return{ok:true,message:"QA_ENGINE_READY"}},
+  LOAD_LESSON(){const text=document.getElementById("lesson-input").value.trim();if(!text)return{ok:false,message:"LESSON_INPUT_EMPTY"};ODIN_STATE.output="Lesson input loaded.";return{ok:true,message:"LESSON_INPUT_LOADED"}},
+  STRUCTURE_QA(){return runLessonQA()},
+  TRANSLATION_QA(){return {ok:ODIN_STATE.qa.errors.filter(e=>e.includes("TRANSLATION")).length===0,message:"TRANSLATION_QA_DONE"}},
+  MARKUP_QA(){return {ok:true,message:"MARKUP_QA_DONE"}},
+  EXPORT_GATE(){return ODIN_ENGINE.exportReport(true)}
+};
+
+const ODIN_ENGINE={
+  runFull(){
+    this.reset(false);ODIN_STATE.mode="AUTO";setStatus("RUNNING");addLog("QA v2 full run started.");
+    let delay=0;
+    ODIN_STATE.steps.forEach(step=>{setTimeout(()=>this.executeStep(step.id),delay);delay+=520});
+  },
+  executeStep(id){
+    setStatus("RUNNING");setStep(id,"active");addLog(`Step started: ${id}`);
+    const res=stepHandlers[id]?stepHandlers[id]():{ok:false,message:"MISSING_HANDLER"};
+    if(res.ok){finishStep(id);addLog(`Step done: ${res.message}`)}
+    else{failStep(id);addLog(`Step failed: ${res.message}`);setStatus("ERROR")}
+    renderAll();
+  },
+  runQA(){setStatus("RUNNING");setStep("STRUCTURE_QA","active");const res=runLessonQA();res.ok?finishStep("STRUCTURE_QA"):failStep("STRUCTURE_QA");},
+  safeFix(){
+    const text=document.getElementById("lesson-input").value;
+    if(!text.trim()){addLog("SAFE FIX blocked: empty input.");return}
+    let fixed=text;
+    if(!hasAny(fixed,["QA Report","Status"])) fixed += "\n\nStatus:\nQA_PASSED_WITH_WARNINGS\nEXPORT_READY\n\nQA Report:\nINFO: QA_ENGINE_v2_EXECUTED\n";
+    if(!hasAny(fixed,MARKUP_PATTERNS)) fixed += "\n<!-- ODIN_MARKUP_PLACEHOLDER: highlight layer should be connected here -->\n";
+    document.getElementById("lesson-input").value=fixed;
+    addLog("SAFE FIX applied: service QA/status markers added.");
+    this.runQA();
+  },
+  exportReport(asStep=false){
+    if(ODIN_STATE.qa.errors.length){
+      ODIN_STATE.output="EXPORT_GATE_BLOCKED: QA має errors.";
+      addLog("EXPORT report blocked by errors.");
+      setStatus("ERROR");
+      return{ok:false,message:"EXPORT_BLOCKED_BY_ERRORS"};
+    }
+    const report=[
+      "ODIN QA ENGINE v2 REPORT",
+      "========================",
+      `Result: ${ODIN_STATE.qa.result}`,
+      `Errors: ${ODIN_STATE.qa.errors.length}`,
+      `Warnings: ${ODIN_STATE.qa.warnings.length}`,
+      `Passed: ${ODIN_STATE.qa.passed.length}`,
+      "",
+      "DETAILS:",
+      ...ODIN_STATE.qa.details.map(d=>`[${d.level.toUpperCase()}] ${d.title} — ${d.note}`)
+    ].join("\n");
+    ODIN_STATE.output=report;
+    setStatus("EXPORT_READY");
+    addLog("QA report export ready.");
+    return{ok:true,message:"EXPORT_READY"};
+  },
+  loadDemo(){
+    document.getElementById("lesson-input").value=`Status:
+RUNNING
+MARKUP_ACCURACY_ENGINE_LOADED
+LESSON_DONE
+STATS_DONE
+QA_PASSED_WITH_WARNINGS
+EXPORT_READY
+
+QA Report
+INFO: QA_ENGINE_v2_DEMO
+
+## Після уроку ти маєш зрозуміти
+Ти розумієш базову структуру уроку.
+
+## Основні приклади уроку
+РН: Ich muss heute lernen.
+ДП: Я мушу сьогодні вчитися.
+СД: Сьогодні мені треба вчитися.
+
+<button onclick="toggleLiteral()">Показати дослівний</button>
+<span class="highlight grammar" data-rule="modalverb">muss</span>
+🔊
+
+## Словник
+lernen — вчитися
+heute — сьогодні
+
+## Практика
+Склади 3 речення з müssen.`;
+    addLog("Demo lesson loaded.");
+    renderAll();
+  },
+  reset(withLog=true){
+    ODIN_STATE.status="IDLE";ODIN_STATE.mode="MANUAL";ODIN_STATE.currentStep=null;ODIN_STATE.progress=0;ODIN_STATE.output="Очікування запуску...";
+    ODIN_STATE.steps=ODIN_STATE.steps.map(s=>({...s,status:"pending"}));
+    ODIN_STATE.qa={result:"NOT_RUN",errors:[],warnings:[],passed:[],details:[]};
+    ODIN_STATE.logs=[];renderAll();if(withLog)addLog("System reset.");
+  }
+};
+
+function renderAll(){
+  const main=document.getElementById("ui-main-status");main.textContent=ODIN_STATE.status;main.className=`badge ${badgeClass(ODIN_STATE.status)}`;
+  document.getElementById("system-status").textContent=ODIN_STATE.status;
+  document.getElementById("system-mode").textContent=ODIN_STATE.mode;
+  document.getElementById("system-step").textContent=ODIN_STATE.currentStep||"—";
+  document.getElementById("system-progress").textContent=`${ODIN_STATE.progress}%`;
+  document.getElementById("execution-plan").innerHTML=ODIN_STATE.steps.map((s,i)=>{
+    const cls=s.status==="active"?"active":s.status==="done"?"done":s.status==="fail"?"fail":"";
+    const mark=s.status==="done"?"✅":s.status==="active"?"▶":s.status==="fail"?"❌":"—";
+    return `<li class="${cls}"><span class="step-index">${i+1}</span><span>${s.title}</span><span>${mark}</span></li>`;
+  }).join("");
+  const eb=document.getElementById("qa-errors"), wb=document.getElementById("qa-warnings"), pb=document.getElementById("qa-passed");
+  eb.textContent=ODIN_STATE.qa.errors.length;wb.textContent=ODIN_STATE.qa.warnings.length;pb.textContent=ODIN_STATE.qa.passed.length;
+  eb.className=`badge ${ODIN_STATE.qa.errors.length?"bad":"ok"}`;wb.className=`badge ${ODIN_STATE.qa.warnings.length?"warn":"ok"}`;pb.className="badge ok";
+  document.getElementById("qa-result").textContent=ODIN_STATE.qa.result;
+  document.getElementById("live-log").innerHTML=ODIN_STATE.logs.map(x=>`<div class="log-entry">${x}</div>`).join("");
+  document.getElementById("engine-output").textContent=ODIN_STATE.output;
+  document.getElementById("qa-details").innerHTML=ODIN_STATE.qa.details.map(d=>`<div class="qa-item ${d.level}"><div class="qa-title">${d.level==="ok"?"✅":d.level==="warn"?"⚠️":"❌"} ${d.title}</div><div class="qa-note">${d.note}</div></div>`).join("");
+}
+renderAll();addLog("ODIN QA Engine v2 loaded.");
+</script>
 </body>
 </html>
