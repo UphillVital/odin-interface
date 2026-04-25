@@ -3,6 +3,7 @@ let ODIN_STATE = {
   showDP: true,
   showSD: true,
   uxMode: "FULL",
+  highlightMode: "TOPIC",
   lastHtml: "",
   lastModel: null,
   lastQa: null
@@ -57,11 +58,50 @@ function runModeGuard(actionName) {
   return true;
 }
 
+function tokenizeGerman(sentence) {
+  return String(sentence || "").split(/(\s+)/).map(part => {
+    if (/^\s+$/.test(part)) return { text: part, type: "space" };
+    return { text: part, type: "word" };
+  });
+}
+
+function normalizeToken(token) {
+  return String(token || "").replace(/[.,!?;:]/g, "").toLowerCase();
+}
+
+const TOPIC_PARTICLES = ["auf", "zu", "ein", "an"];
+const SUBJECT_WORDS = ["ich", "du", "er", "sie", "es", "wir", "ihr"];
+const VERB_FORMS = ["stehe", "mach", "kaufen", "ruf", "räume", "steht", "machst", "kauft", "ruft"];
+
+function renderGermanWithHighlight(sentence) {
+  const tokens = tokenizeGerman(sentence);
+  return tokens.map((token, index) => {
+    if (token.type === "space") return token.text;
+
+    const clean = normalizeToken(token.text);
+    let cls = "token";
+
+    if (TOPIC_PARTICLES.includes(clean)) {
+      cls += " hl-topic";
+    }
+
+    if (SUBJECT_WORDS.includes(clean)) {
+      cls += " hl-subject";
+    }
+
+    if (VERB_FORMS.includes(clean)) {
+      cls += " hl-verb";
+    }
+
+    return '<span class="' + cls + '">' + esc(token.text) + '</span>';
+  }).join("");
+}
+
 function buildLesson(model) {
   const examplesHtml = model.examples.map((example, index) => {
     return [
       '<article class="example-card" data-example="' + index + '">',
-      '<h3>' + (index + 1) + '. <span class="de">' + esc(example[0]) + '</span></h3>',
+      '<h3>' + (index + 1) + '. <span class="de">' + renderGermanWithHighlight(example[0]) + '</span></h3>',
       '<div class="translation-wrap">',
       '<p class="dp"><b>ДП:</b> ' + esc(example[1]) + '</p>',
       '<p class="sd"><b>СД:</b> ' + esc(example[2]) + '</p>',
@@ -99,19 +139,32 @@ function buildLesson(model) {
     '.translation-wrap{transition:.2s}',
     '.translation-wrap.local-hidden{display:none}',
     '.mini-toggle{border:0;border-radius:10px;padding:8px 10px;background:#e0f2fe;color:#075985;font-weight:800;cursor:pointer}',
+    '.token{border-radius:7px;padding:1px 4px}',
+    'body.hl-off .token{background:transparent!important;outline:none!important}',
+    'body.hl-topic-mode .hl-topic{background:#fef3c7;outline:1px solid #f59e0b}',
+    'body.hl-topic-mode .hl-subject,body.hl-topic-mode .hl-verb{background:transparent;outline:none}',
+    'body.hl-all-mode .hl-topic{background:#fef3c7;outline:1px solid #f59e0b}',
+    'body.hl-all-mode .hl-subject{background:#dbeafe;outline:1px solid #60a5fa}',
+    'body.hl-all-mode .hl-verb{background:#dcfce7;outline:1px solid #22c55e}',
+    '.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}',
+    '.legend span{border-radius:999px;padding:5px 9px;font-weight:800;font-size:13px}',
+    '.legend-topic{background:#fef3c7;color:#92400e}',
+    '.legend-subject{background:#dbeafe;color:#1d4ed8}',
+    '.legend-verb{background:#dcfce7;color:#166534}',
     'table{width:100%;border-collapse:collapse}td,th{border-bottom:1px solid #e2e8f0;padding:8px;text-align:left}',
-    '.badge{display:inline-block;background:#e0f2fe;color:#075985;border-radius:999px;padding:5px 9px;font-weight:800}',
+    '.badge{display:inline-block;background:#fef3c7;color:#92400e;border-radius:999px;padding:5px 9px;font-weight:800}',
     '</style>',
     '</head>',
-    '<body>',
+    '<body class="hl-topic-mode">',
     '<h1>' + esc(model.title) + '</h1>',
-    '<span class="badge">ODIN v3.11 UX CONTROL</span>',
+    '<span class="badge">💡 ODIN v3.12 GRAMMAR HIGHLIGHT</span>',
+    '<div class="legend"><span class="legend-topic">Topic: separable particle</span><span class="legend-subject">Subject</span><span class="legend-verb">Verb</span></div>',
     '<section id="goal"><h2>1. Ціль уроку</h2><p>' + esc(model.goal) + '</p></section>',
-    '<section id="rule"><h2>2. Основне правило</h2><p>Відокремлювана частка у простому реченні часто переходить у кінець.</p></section>',
+    '<section id="rule"><h2>2. Основне правило</h2><p>Відокремлювана частка у простому реченні часто переходить у кінець. Лампа підсвічує цю частку.</p></section>',
     '<section id="examples"><h2>3. Приклади з ДП і СД</h2>' + examplesHtml + '</section>',
     '<section id="vocab"><h2>4. Словник</h2><table><thead><tr><th>№</th><th>DE</th><th>UA</th></tr></thead><tbody>' + vocabHtml + '</tbody></table></section>',
     '<section id="practice"><h2>5. Практика</h2><p>Натискай на приклади, приховуй переклади і відтвори німецькі речення самостійно.</p></section>',
-    '<section id="qa-marker"><h2>QA marker</h2><p>Урок пройшов ODIN v3.11 UX PIPELINE.</p></section>',
+    '<section id="qa-marker"><h2>QA marker</h2><p>Урок пройшов ODIN v3.12 HIGHLIGHT PIPELINE.</p></section>',
     '<script>',
     'document.addEventListener("click",function(e){',
     'if(e.target.classList.contains("mini-toggle")){',
@@ -173,8 +226,9 @@ function hardQaCheck(model, html) {
   if (!html.includes("5. Практика")) error("HTML не містить блок практики.");
   if (!html.includes("3. Приклади")) error("HTML не містить блок прикладів.");
   if (!html.includes("4. Словник")) error("HTML не містить блок словника.");
+  if (!html.includes("hl-topic")) error("HTML не містить highlight markup.");
 
-  info("UX layer додано: глобальні режими + локальний toggle прикладу.");
+  info("Highlight layer додано: TOPIC / ALL / OFF.");
 
   const hasErrors = messages.some(m => m.level === "ERROR");
   const hasWarnings = messages.some(m => m.level === "WARNING");
@@ -205,7 +259,7 @@ function renderDownload(html) {
   const blob = new Blob([html], { type: "text/html;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   document.getElementById("download").innerHTML =
-    '<a class="download" href="' + url + '" download="odin_lesson_v3_11.html">Завантажити урок</a>';
+    '<a class="download" href="' + url + '" download="odin_lesson_v3_12.html">Завантажити урок</a>';
 }
 
 function getPreviewDocument() {
@@ -234,6 +288,35 @@ function applyMode() {
   });
 }
 
+function applyHighlightMode(mode) {
+  if (!ODIN_STATE.lessonCreated) {
+    log("INFO: спочатку створи урок.");
+    return;
+  }
+
+  const doc = getPreviewDocument();
+  if (!doc || !doc.body) {
+    log("ERROR: preview document not available");
+    return;
+  }
+
+  doc.body.classList.remove("hl-topic-mode", "hl-all-mode", "hl-off");
+
+  if (mode === "TOPIC") {
+    doc.body.classList.add("hl-topic-mode");
+    ODIN_STATE.highlightMode = "TOPIC";
+    log("LAMP_TOPIC_MODE");
+  } else if (mode === "ALL") {
+    doc.body.classList.add("hl-all-mode");
+    ODIN_STATE.highlightMode = "ALL";
+    log("LAMP_ALL_RULES_MODE");
+  } else {
+    doc.body.classList.add("hl-off");
+    ODIN_STATE.highlightMode = "OFF";
+    log("LAMP_OFF");
+  }
+}
+
 function toggleDP() {
   ODIN_STATE.showDP = !ODIN_STATE.showDP;
   applyMode();
@@ -251,6 +334,7 @@ function modeStudy() {
   ODIN_STATE.showSD = true;
   ODIN_STATE.uxMode = "STUDY";
   applyMode();
+  applyHighlightMode("TOPIC");
   log("MODE_STUDY");
 }
 
@@ -259,6 +343,7 @@ function modeTest() {
   ODIN_STATE.showSD = false;
   ODIN_STATE.uxMode = "TEST";
   applyMode();
+  applyHighlightMode("OFF");
   log("MODE_TEST_ONLY_DE");
 }
 
@@ -267,6 +352,7 @@ function modeFull() {
   ODIN_STATE.showSD = true;
   ODIN_STATE.uxMode = "FULL";
   applyMode();
+  applyHighlightMode("ALL");
   log("MODE_FULL");
 }
 
@@ -279,6 +365,7 @@ function clearAll() {
   ODIN_STATE.showDP = true;
   ODIN_STATE.showSD = true;
   ODIN_STATE.uxMode = "FULL";
+  ODIN_STATE.highlightMode = "TOPIC";
   ODIN_STATE.lastHtml = "";
   ODIN_STATE.lastModel = null;
   ODIN_STATE.lastQa = null;
@@ -288,7 +375,7 @@ function executeOdinAction() {
   clearAll();
 
   log("RUNNING");
-  runModeGuard("v3.11 UX CONTROL LAYER");
+  runModeGuard("v3.12 GRAMMAR HIGHLIGHT LAMP");
 
   const model = collectInput();
   ODIN_STATE.lastModel = model;
@@ -316,7 +403,7 @@ function executeOdinAction() {
 
   renderDownload(html);
   log("EXPORT_DONE");
-  log("UX_CONTROL_READY");
+  log("HIGHLIGHT_LAYER_READY");
   log("DONE");
 }
 
@@ -328,4 +415,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("modeStudyBtn").addEventListener("click", modeStudy);
   document.getElementById("modeTestBtn").addEventListener("click", modeTest);
   document.getElementById("modeFullBtn").addEventListener("click", modeFull);
+  document.getElementById("lampBtn").addEventListener("click", function () { applyHighlightMode("TOPIC"); });
+  document.getElementById("lampAllBtn").addEventListener("click", function () { applyHighlightMode("ALL"); });
+  document.getElementById("lampOffBtn").addEventListener("click", function () { applyHighlightMode("OFF"); });
 });

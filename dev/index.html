@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ODIN v3.11 UX CONTROL LAYER</title>
+  <title>ODIN v3.12 GRAMMAR HIGHLIGHT LAMP</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="wrap">
     <section class="panel hero">
-      <div class="badge">ODIN v3.11</div>
-      <h1>UX CONTROL LAYER</h1>
+      <div class="badge">ODIN v3.12</div>
+      <h1>GRAMMAR HIGHLIGHT SYSTEM — 💡 ЛАМПА</h1>
       <p class="muted">
-        v3.11 додає UX-рівень поверх v3.10: режими навчання, клік по прикладу, керування ДП/СД, плавна взаємодія.
+        v3.12 додає grammar highlight layer поверх v3.11: лампа, режим теми уроку, режим усіх правил, OFF.
       </p>
     </section>
 
@@ -57,17 +57,19 @@ aufräumen|прибирати</textarea>
     </section>
 
     <section class="panel">
-      <h2>UX Control</h2>
+      <h2>UX + Highlight Control</h2>
       <div class="controls">
         <button id="toggleDpBtn" type="button">Показати/Сховати ДП</button>
         <button id="toggleSdBtn" type="button">Показати/Сховати СД</button>
         <button id="modeStudyBtn" type="button">Study Mode</button>
         <button id="modeTestBtn" type="button">Test Mode</button>
         <button id="modeFullBtn" type="button">Full Mode</button>
+        <button id="lampBtn" class="lamp" type="button">💡 Лампа: Topic</button>
+        <button id="lampAllBtn" class="lamp" type="button">💡 All Rules</button>
+        <button id="lampOffBtn" class="secondary" type="button">Highlight OFF</button>
       </div>
       <p class="muted">
-        Study Mode: DE + СД. Test Mode: тільки DE. Full Mode: DE + ДП + СД.
-        У preview можна клікати по прикладу, щоб показати/сховати переклади саме цього прикладу.
+        Topic: підсвічує відокремлювану частку. All Rules: додає підмет/дієслово/частку. OFF: прибирає підсвітку.
       </p>
     </section>
 
