@@ -3,34 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ODIN v3.9.1 UI CONTROL FIX</title>
+  <title>ODIN v3.9.2 MODE CONTROL AUTO-RUN</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="wrap">
-    <section class="panel">
-      <div class="badge">ODIN v3.9.1 FIX</div>
-      <h1>UI CONTROL SYSTEM</h1>
-      <p class="muted">FIX: кнопки підключені через app.js і addEventListener.</p>
+    <section class="panel hero">
+      <div class="badge">ODIN v3.9.2</div>
+      <h1>MODE CONTROL / AUTO-RUN GUARD</h1>
+      <p class="muted">
+        Керівний шар ODIN: СОН → QA → NN → PLAN → BUILD → TEST → FIX → GIT.
+        Перед великим кроком система не дозволяє йти далі без режимної перевірки.
+      </p>
+    </section>
 
-      <button id="createLessonBtn" type="button">Створити урок</button>
+    <section class="grid">
+      <div class="panel">
+        <h2>Запуск дії</h2>
+        <label for="actionName">Назва великої дії</label>
+        <input id="actionName" value="v3.10 REAL INTEGRATION">
 
-      <div class="controls">
-        <button id="toggleDpBtn" type="button">Показати/Сховати ДП</button>
-        <button id="toggleSdBtn" type="button">Показати/Сховати СД</button>
-        <button id="modeDeBtn" type="button">Тільки DE</button>
-        <button id="modeFullBtn" type="button">Повний режим</button>
+        <label for="actionGoal">Ціль</label>
+        <textarea id="actionGoal">Обʼєднати UI CONTROL + REAL ENGINE + HARD QA + EXPORT в один живий ODIN pipeline.</textarea>
+
+        <button id="runGuardBtn" type="button">Запустити AUTO-RUN GUARD</button>
+        <button id="clearBtn" class="secondary" type="button">Очистити</button>
+      </div>
+
+      <div class="panel">
+        <h2>Current Gate</h2>
+        <div id="currentGate" class="gate waiting">WAITING</div>
+
+        <h2>Decision</h2>
+        <div id="decision" class="decision muted">Очікування запуску.</div>
       </div>
     </section>
 
     <section class="panel">
-      <h2>Status</h2>
-      <pre id="log">WAITING</pre>
+      <h2>Mode Pipeline</h2>
+      <div id="modeList" class="mode-list"></div>
     </section>
 
-    <section class="panel">
-      <h2>Preview</h2>
-      <iframe id="preview" title="Lesson preview"></iframe>
+    <section class="grid">
+      <div class="panel">
+        <h2>Execution Log</h2>
+        <pre id="log">WAITING</pre>
+      </div>
+
+      <div class="panel">
+        <h2>Git Commands</h2>
+        <pre id="gitBox">Після успішного guard тут будуть команди.</pre>
+      </div>
     </section>
   </main>
 
