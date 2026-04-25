@@ -1,0 +1,132 @@
+{
+  "interface_id": "ODIN_INTERFACE_v3_SIDEBAR_TREE",
+  "created_at": "2026-04-25T02:37:17",
+  "status": "ready_for_review",
+  "purpose": "ODIN control-center with scalable left sidebar tree and right workspace.",
+  "based_on": [
+    "ODIN_INTERFACE_v2.1_ADD_CONTENT_PIPELINE_TAB",
+    "ODIN_UI_ARCHITECTURE_v3",
+    "ODIN v68.1 PRO — Stable Integrated Autonomous Loop",
+    "DT_PLATFORM_v0.8_EXPORT_SYNC",
+    "DT_LANGUAGE_SYSTEM_v1",
+    "DT_CONTENT_PIPELINE_v1"
+  ],
+  "layout": {
+    "left": "ODIN tree navigation",
+    "right": "selected layer workspace",
+    "mobile": "sidebar collapses above content"
+  },
+  "tree": [
+    {
+      "group": "ODIN",
+      "items": [
+        {
+          "id": "dashboard",
+          "title": "Dashboard"
+        },
+        {
+          "id": "core",
+          "title": "Core Architecture"
+        },
+        {
+          "id": "loop",
+          "title": "Autonomous Loop v68.1 PRO"
+        }
+      ]
+    },
+    {
+      "group": "DT System",
+      "items": [
+        {
+          "id": "plan",
+          "title": "Plan Engine"
+        },
+        {
+          "id": "link",
+          "title": "Core Link Model"
+        },
+        {
+          "id": "language",
+          "title": "Language System"
+        },
+        {
+          "id": "pipeline",
+          "title": "Content Pipeline"
+        },
+        {
+          "id": "platform",
+          "title": "Platform v0.8 Export / Sync"
+        }
+      ]
+    },
+    {
+      "group": "Lesson Systems",
+      "items": [
+        {
+          "id": "ssudt",
+          "title": "ССУДТ"
+        },
+        {
+          "id": "issu",
+          "title": "ІССУ"
+        },
+        {
+          "id": "factory",
+          "title": "Lesson Factory"
+        },
+        {
+          "id": "viewer",
+          "title": "Lesson Viewer Safe Mode"
+        }
+      ]
+    },
+    {
+      "group": "GitHub / Sync",
+      "items": [
+        {
+          "id": "repo",
+          "title": "Repo Structure"
+        },
+        {
+          "id": "naming",
+          "title": "File Naming Rules"
+        },
+        {
+          "id": "changelog",
+          "title": "Changelog"
+        },
+        {
+          "id": "backup",
+          "title": "Backup / temp"
+        }
+      ]
+    },
+    {
+      "group": "Control",
+      "items": [
+        {
+          "id": "qa",
+          "title": "QA / Locks"
+        },
+        {
+          "id": "roadmap",
+          "title": "Roadmap / Next Steps"
+        }
+      ]
+    }
+  ],
+  "hard_locks": [
+    "Left tree is navigation only; it must not change core logic.",
+    "ODIN controls and validates; it does not replace DT, SSUDT, ISSU, or Platform.",
+    "PLAN remains source of truth.",
+    "Only active GitHub Pages file is index.html.",
+    "Old files go to temp/.",
+    "No meaningful change without changelog.",
+    "No secrets/passwords/API keys in repository."
+  ],
+  "github_update": {
+    "rename_html_to": "index.html",
+    "commit_message": "ODIN v3 update: sidebar tree architecture"
+  },
+  "next_recommended_step": "ODIN_INTERFACE_v3_REVIEW_AND_STRUCTURE_LOCK"
+}
