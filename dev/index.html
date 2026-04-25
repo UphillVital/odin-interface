@@ -3,15 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ODIN v3.17.4.1 PROGRESSION PARSE FIX</title>
+  <title>ODIN v3.18 LANGUAGE HIGHLIGHT CORE</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="wrap">
     <section class="panel hero">
-      <div class="badge">ODIN v3.17.4</div>
-      <h1>SMART REVIEW SYSTEM — EXPORT LAMP EMBED</h1>
-      <p class="muted">Новий шар: система сама пропонує, що повторити зараз, на основі статусу, повторень і прогресу.</p>
+      <div class="badge">ODIN v3.18</div>
+      <h1>LANGUAGE HIGHLIGHT CORE</h1>
+      <p class="muted">
+        Архітектурне розділення: TEMPLATE HIGHLIGHT ≠ LANGUAGE HIGHLIGHT.
+        Мовна підсвітка вбудовується прямо в HTML уроку.
+      </p>
     </section>
 
     <section class="grid">
@@ -68,17 +71,18 @@ aufräumen|прибирати</textarea>
     </section>
 
     <section class="panel">
-      <h2>UX + Highlight Control</h2>
+      <h2>UX + LANGUAGE Highlight Control</h2>
       <div class="controls">
         <button id="toggleDpBtn" type="button">Показати/Сховати ДП</button>
         <button id="toggleSdBtn" type="button">Показати/Сховати СД</button>
         <button id="modeStudyBtn" type="button">Study Mode</button>
         <button id="modeTestBtn" type="button">Test Mode</button>
         <button id="modeFullBtn" type="button">Full Mode</button>
-        <button id="lampBtn" class="lamp" type="button">💡 Лампа: Topic</button>
-        <button id="lampAllBtn" class="lamp" type="button">💡 All Rules</button>
-        <button id="lampOffBtn" class="secondary" type="button">Highlight OFF</button>
+        <button id="langTopicBtn" class="lamp" type="button">💡 Language: Topic</button>
+        <button id="langAllBtn" class="lamp" type="button">💡 Language: All Rules</button>
+        <button id="langOffBtn" class="secondary" type="button">Language Highlight OFF</button>
       </div>
+      <p class="muted">Ці кнопки керують саме мовною підсвіткою всередині уроку, не UI-шаблоном.</p>
     </section>
 
     <section class="grid">
@@ -105,19 +109,12 @@ aufräumen|прибирати</textarea>
       </div>
 
       <div class="panel">
-        <h2>Progression Status</h2>
+        <h2>Smart Review / Data Status</h2>
+        <div class="controls">
+          <button id="smartReviewBtn" type="button">Що мені вчити зараз?</button>
+        </div>
+        <div id="smartReviewBox" class="smart-review-box"></div>
         <pre id="dataLog">DATA_WAITING</pre>
-      </div>
-    </section>
-
-
-    <section class="panel">
-      <h2>🧠 Smart Review</h2>
-      <div class="controls">
-        <button id="smartReviewBtn" type="button">Що мені вчити зараз?</button>
-      </div>
-      <div id="smartReviewBox" class="smart-review-box">
-        <p class="muted">Після натискання ODIN покаже уроки з найвищим пріоритетом повторення.</p>
       </div>
     </section>
 
