@@ -171,6 +171,15 @@ window.DT_STANDARD_LESSON_READY = true;
 }
 
 
+
+function autoRuGoal(text){
+  const map = {
+    "Зрозуміти правило відокремлюваних дієслів у простому реченні, навчитися бачити основу дієслова і відокремлювану частку, а також будувати власні приклади з дослівним і смисловим перекладом.":
+    "Понять правило отделяемых глаголов в простом предложении, научиться видеть основу глагола и отделяемую приставку, а также строить собственные примеры с дословным и смысловым переводом."
+  };
+  return map[text] || text;
+}
+
 function autoRuVocab(text){
   const map = {
     "вставати":"вставать",
@@ -239,7 +248,7 @@ function buildStandardLesson(model){
 <div class="modal" id="navModal"><div class="panel-modal"><div class="panel-head"><b><span class="inline-lang ua">Розділи уроку</span><span class="inline-lang ru">Разделы урока</span></b><button class="close-btn" id="closeNav">✕</button></div><div class="nav-list">${nav}</div></div></div>
 <main class="wrap" data-course="${esc(model.level)}" data-lesson-id="${esc(model.topic)}_${Date.now()}" data-lesson-topic="${esc(model.topic)}" data-lesson-version="v3.19">
 <section class="hero" id="top"><div style="font-size:12px;color:#1f4b99;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;"><span class="inline-lang ua">ODIN / DT STANDARD LESSON</span><span class="inline-lang ru">ODIN / DT УРОК-СТАНДАРТ</span></div><h1>${esc(model.title)}</h1><div style="font-size:18px;color:#0f5132;font-weight:700;margin-bottom:10px;">${esc(model.level)} · ${esc(model.topic)}</div><p style="max-width:860px;margin:0 auto;">${esc(model.goal)}</p></section>
-<section class="card" id="summary"><div class="section-head"><span class="sec-num">1</span><h2><span class="inline-lang ua">Суть теми</span><span class="inline-lang ru">Суть темы</span></h2></div><div class="grid two-col"><div class="subcard"><div class="tag"><span class="inline-lang ua">Що вивчаємо</span><span class="inline-lang ru">Что изучаем</span></div><p>${esc(model.goal)}</p></div><div class="subcard"><div class="tag"><span class="inline-lang ua">Стандарт</span><span class="inline-lang ru">Стандарт</span></div><p><span class="inline-lang ua">Урок створено за ${STANDARD_VERSION}: Template + Highlight + Markup + Audio + QA + Standalone.</span><span class="inline-lang ru">Урок создан по ${STANDARD_VERSION}: Template + Highlight + Markup + Audio + QA + Standalone.</span></p></div></div></section>
+<section class="card" id="summary"><div class="section-head"><span class="sec-num">1</span><h2><span class="inline-lang ua">Суть теми</span><span class="inline-lang ru">Суть темы</span></h2></div><div class="grid two-col"><div class="subcard"><div class="tag"><span class="inline-lang ua">Що вивчаємо</span><span class="inline-lang ru">Что изучаем</span></div><p><span class="inline-lang ua">${esc(model.goal)}</span><span class="inline-lang ru">${esc(autoRuGoal(model.goal))}</span></p></div><div class="subcard"><div class="tag"><span class="inline-lang ua">Стандарт</span><span class="inline-lang ru">Стандарт</span></div><p><span class="inline-lang ua">Урок створено за ${STANDARD_VERSION}: Template + Highlight + Markup + Audio + QA + Standalone.</span><span class="inline-lang ru">Урок создан по ${STANDARD_VERSION}: Template + Highlight + Markup + Audio + QA + Standalone.</span></p></div></div></section>
 <section class="card" id="text"><div class="section-head"><span class="sec-num">2</span><h2><span class="inline-lang ua">Основні приклади</span><span class="inline-lang ru">Основные примеры</span></h2></div>${examplesHtml}</section>
 <section class="card" id="analysis"><div class="section-head"><span class="sec-num">3</span><h2><span class="inline-lang ua">Розбір і значення</span><span class="inline-lang ru">Разбор и значение</span></h2></div><div class="subcard"><p><span class="inline-lang ua">Кожне німецьке речення має language markup: <b>lm-word</b>, <b>data-lemma</b>, <b>data-pos</b>. Підсвітка керується через <b>body[data-hl-mode]</b>.</span><span class="inline-lang ru">Каждое немецкое предложение имеет language markup: <b>lm-word</b>, <b>data-lemma</b>, <b>data-pos</b>. Подсветка управляется через <b>body[data-hl-mode]</b>.</span></p></div></section>
 <section class="card" id="rule"><div class="section-head"><span class="sec-num">4</span><h2><span class="inline-lang ua">Правило</span><span class="inline-lang ru">Правило</span></h2></div><div class="subcard"><p><span class="inline-lang ua">Тема уроку позначена в німецьких прикладах. У режимі ALL система показує додаткові граматичні ролі.</span><span class="inline-lang ru">Тема урока отмечена в немецких примерах. В режиме ALL система показывает дополнительные грамматические роли.</span></p></div></section>
@@ -322,7 +331,7 @@ function renderQaReport(r){
 function renderDownload(html){
   const blob=new Blob([html],{type:"text/html;charset=utf-8"});
   const url=URL.createObjectURL(blob);
-  document.getElementById("download").innerHTML=`<a class="download" href="${url}" download="odin_standard_lesson_v3_19_3.html">Завантажити стандартний урок</a>`;
+  document.getElementById("download").innerHTML=`<a class="download" href="${url}" download="odin_standard_lesson_v3_19_4.html">Завантажити стандартний урок</a>`;
 }
 function setPreviewHtml(html){document.getElementById("preview").srcdoc=html;}
 function setPreviewHighlight(mode){
@@ -365,7 +374,7 @@ function executeOdinAction(){
   }
   renderDownload(html);
   log("EXPORT_READY");
-  log("STANDARD_ENGINE_FULL_RU_ALL_HIGHLIGHT_FIXED_DONE");
+  log("STANDARD_ENGINE_HERO_RU_FIXED_DONE");
 }
 function getLessons(){try{return JSON.parse(localStorage.getItem(ODIN_STORAGE_KEY)||"[]")}catch(e){return[]}}
 function setLessons(lessons){localStorage.setItem(ODIN_STORAGE_KEY,JSON.stringify(lessons))}
@@ -409,5 +418,5 @@ document.addEventListener("DOMContentLoaded",()=>{
     if(b.dataset.action==="delete"){lessons.splice(i,1);setLessons(lessons);renderLessons();dataLog("DELETED");}
   });
   renderLessons();
-  dataLog("APP_READY_v3.19.3_FULL_RU_ALL_HIGHLIGHT_FIX");
+  dataLog("APP_READY_v3.19.4_HERO_RU_FIX");
 });
