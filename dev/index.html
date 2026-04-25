@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ODIN QA Engine v2 — Lesson QA</title>
+  <title>ODIN QA Engine v2 — Lesson QA + Lesson Preview</title>
   <style>
     :root {
       --bg:#020617; --panel:#0f172a; --card:#111827; --text:#e5e7eb;
@@ -30,13 +30,18 @@
     .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.output{background:rgba(2,6,23,.45);border:1px solid var(--border);border-radius:16px;padding:14px;min-height:120px;color:#cbd5e1;line-height:1.65}
     textarea{width:100%;min-height:260px;background:#020617;color:#e5e7eb;border:1px solid var(--border);border-radius:16px;padding:14px;font:14px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;resize:vertical}
     .qa-list{display:grid;gap:10px}.qa-item{border:1px solid var(--border);border-radius:14px;padding:12px;background:rgba(2,6,23,.35)}.qa-item.ok{border-color:rgba(34,197,94,.55)}.qa-item.warn{border-color:rgba(245,158,11,.65)}.qa-item.bad{border-color:rgba(239,68,68,.7)}.qa-title{font-weight:800}.qa-note{color:#cbd5e1;margin-top:4px;font-size:13px;line-height:1.5}
+
+    /* ODIN LESSON PREVIEW INTEGRATION v3.26 */
+    .lesson-preview-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .lesson-frame{width:100%;height:720px;border:1px solid var(--border);border-radius:18px;background:#fff}
+    @media(max-width:900px){.lesson-frame{height:560px}}
     @media(max-width:900px){body{grid-template-columns:1fr}.sidebar{border-right:none;border-bottom:1px solid var(--border)}.grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
   <aside class="sidebar">
     <div class="brand">
-      <div><h1>ODIN CONTROL</h1><div class="version">QA Engine v2 / Lesson QA</div></div>
+      <div><h1>ODIN CONTROL</h1><div class="version">QA Engine v2 / Lesson QA + Preview</div></div>
       <span id="ui-main-status" class="badge idle">IDLE</span>
     </div>
 
@@ -65,6 +70,8 @@
         <button onclick="ODIN_ENGINE.runQA()">🧪 QA ONLY</button>
         <button onclick="ODIN_ENGINE.loadDemo()">📄 DEMO</button>
         <button onclick="ODIN_ENGINE.exportReport()">📦 REPORT</button>
+        <button onclick="ODIN_ENGINE.loadLessonV2()">📥 LOAD V2</button>
+        <button onclick="ODIN_ENGINE.openLessonV2()">↗ OPEN V2</button>
         <button onclick="ODIN_ENGINE.safeFix()">🔧 SAFE FIX</button>
         <button class="danger" onclick="ODIN_ENGINE.reset()">RESET</button>
       </div>
@@ -94,6 +101,19 @@
       <h2>Detailed Checks</h2>
       <div id="qa-details" class="qa-list"></div>
     </section>
+
+    <!-- ODIN LESSON INTEGRATION v3.26 BEGIN -->
+    <section class="main-card">
+      <h2>Lesson Preview — HEADER_LOCK 1:1</h2>
+      <p class="muted">Тут відкривається збережений урок <code>lesson_v2.html</code>. Файл має лежати поруч із цим index.html у папці <code>dev/</code>.</p>
+      <div class="lesson-preview-toolbar">
+        <button onclick="ODIN_ENGINE.loadLessonV2()">📥 Завантажити lesson_v2.html</button>
+        <button onclick="ODIN_ENGINE.openLessonV2()">↗ Відкрити окремо</button>
+      </div>
+      <br>
+      <iframe id="lesson-v2-frame" class="lesson-frame" title="Lesson v2 preview"></iframe>
+    </section>
+    <!-- ODIN LESSON INTEGRATION v3.26 END -->
   </main>
 
 <script>
@@ -286,6 +306,17 @@ heute — сьогодні
 Склади 3 речення з müssen.`;
     addLog("Demo lesson loaded.");
     renderAll();
+  },
+
+  loadLessonV2(){
+    const frame=document.getElementById("lesson-v2-frame");
+    if(!frame){addLog("LESSON V2 frame not found.");return}
+    frame.src="lesson_v2.html";
+    addLog("lesson_v2.html loaded into preview frame.");
+  },
+  openLessonV2(){
+    window.open("lesson_v2.html","_blank");
+    addLog("lesson_v2.html opened in new tab.");
   },
   reset(withLog=true){
     ODIN_STATE.status="IDLE";ODIN_STATE.mode="MANUAL";ODIN_STATE.currentStep=null;ODIN_STATE.progress=0;ODIN_STATE.output="Очікування запуску...";
