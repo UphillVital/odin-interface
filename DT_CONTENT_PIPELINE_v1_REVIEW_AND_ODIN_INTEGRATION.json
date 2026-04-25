@@ -1,0 +1,44 @@
+{
+  "review_id": "DT_CONTENT_PIPELINE_v1_REVIEW_AND_ODIN_INTEGRATION",
+  "created_at": "2026-04-25T02:13:03",
+  "status": "READY_FOR_ODIN_UPDATE",
+  "source_module": "DT_CONTENT_PIPELINE_v1",
+  "target_interface": "ODIN_INTERFACE_v2",
+  "purpose": "Validate DT Content Pipeline v1 and prepare ODIN Interface integration block.",
+  "qa_result": {
+    "plan_to_topic_flow": "PASS",
+    "topic_to_lessons_binding": "PASS",
+    "lesson_types_defined": "PASS",
+    "ssudt_role_preserved": "PASS",
+    "issu_role_preserved": "PASS",
+    "qa_gates_defined": "PASS",
+    "content_index_output_defined": "PASS",
+    "platform_execution_boundary_preserved": "PASS",
+    "odin_control_boundary_preserved": "PASS"
+  },
+  "odin_integration_tab": {
+    "tab_name": "Content Pipeline",
+    "position_after": "Language",
+    "purpose": "Show Plan → Topic → SSUDT/ISSU → QA → Content Index → Platform flow inside ODIN.",
+    "must_show": [
+      "pipeline status",
+      "flow",
+      "lesson types",
+      "topic binding model",
+      "mandatory QA",
+      "hard locks",
+      "outputs",
+      "next action"
+    ]
+  },
+  "hard_locks": [
+    "Pipeline does not replace Plan Engine.",
+    "SSUDT creates base/practice/review lessons only from plan topics.",
+    "ISSU creates support lessons only with topic_id binding.",
+    "No lesson enters Content Index without QA PASS.",
+    "Platform executes lessons; it does not generate them.",
+    "ODIN controls/validates; it does not become the lesson factory.",
+    "Every pipeline update requires changelog entry."
+  ],
+  "next_recommended_step": "ODIN_INTERFACE_v2.1_ADD_CONTENT_PIPELINE_TAB"
+}
