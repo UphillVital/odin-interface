@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ODIN HEADER_LOCK_v1 Tool</title>
+<style>
+:root{--bg:#020617;--card:#0f172a;--text:#e5e7eb;--muted:#94a3b8;--border:#334155;--accent:#38bdf8;--ok:#22c55e;--bad:#ef4444;--warn:#f59e0b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}.wrap{max-width:1100px;margin:auto;padding:22px}.card{background:rgba(15,23,42,.88);border:1px solid var(--border);border-radius:22px;padding:18px;margin:14px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}textarea{width:100%;min-height:320px;background:#020617;color:#e5e7eb;border:1px solid var(--border);border-radius:16px;padding:14px;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}button{border:1px solid var(--border);background:#020617;color:#e5e7eb;border-radius:14px;padding:10px 14px;font-weight:900;cursor:pointer}button:hover{border-color:var(--accent)}.primary{background:rgba(56,189,248,.14);border-color:var(--accent)}.ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--warn)}.out{white-space:pre-wrap;background:#020617;border:1px solid var(--border);border-radius:16px;padding:14px;min-height:160px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.pill{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:4px 9px;color:var(--muted);font-size:12px;margin-right:6px}@media(max-width:850px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>ODIN HEADER_LOCK_v1 Tool</h1>
+    <p><span class="pill">СОН FIX</span><span class="pill">No invention</span><span class="pill">Header 1:1</span></p>
+    <p>Встав сюди еталонний HTML уроку/шаблону з правильною шапкою. Інструмент витягне header, CSS і JS у locked-блок.</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Etalon HTML input</h2>
+      <textarea id="input" placeholder="Встав сюди еталонний HTML з правильною шапкою..."></textarea>
+      <br><br>
+      <button class="primary" onclick="extractLock()">EXTRACT HEADER_LOCK</button>
+      <button onclick="downloadLock()">DOWNLOAD LOCK</button>
+    </div>
+    <div class="card">
+      <h2>HEADER_LOCK_v1 output</h2>
+      <textarea id="lock" placeholder="Тут зʼявиться HEADER_LOCK_v1..."></textarea>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>QA</h2>
+    <div id="qa" class="out">Очікування еталону...</div>
+  </div>
+</div>
+
+<script>
+function hashString(str){
+  let h=0;
+  for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0;}
+  return Math.abs(h).toString(16).toUpperCase();
+}
+
+function between(text,start,end){
+  const a=text.indexOf(start);
+  if(a<0)return "";
+  const b=text.indexOf(end,a);
+  if(b<0)return "";
+  return text.slice(a,b+end.length);
+}
+
+function extractTagBlock(text,tag){
+  const re=new RegExp("<"+tag+"[\\\\s\\\\S]*?<\\\\/"+tag+">","i");
+  const m=text.match(re);
+  return m?m[0]:"";
+}
+
+function extractAllStyle(text){
+  const matches=text.match(/<style[\s\S]*?<\/style>/gi);
+  return matches?matches.join("\\n\\n"):"";
+}
+
+function extractAllScript(text){
+  const matches=text.match(/<script[\s\S]*?<\/script>/gi);
+  return matches?matches.join("\\n\\n"):"";
+}
+
+function extractLock(){
+  const src=document.getElementById("input").value.trim();
+  const qa=[];
+  if(!src){document.getElementById("qa").innerHTML="<span class='bad'>ERROR: input empty</span>";return;}
+
+  const header=extractTagBlock(src,"header");
+  const styles=extractAllStyle(src);
+  const scripts=extractAllScript(src);
+
+  if(header)qa.push("✅ HEADER_FOUND"); else qa.push("❌ HEADER_NOT_FOUND");
+  if(styles)qa.push("✅ STYLE_FOUND"); else qa.push("⚠️ STYLE_NOT_FOUND");
+  if(scripts)qa.push("✅ SCRIPT_FOUND"); else qa.push("⚠️ SCRIPT_NOT_FOUND");
+
+  const fingerprint=hashString(header+"\\n"+styles+"\\n"+scripts);
+  const lock=[
+"<!-- HEADER_LOCK_v1_BEGIN -->",
+"<!-- HEADER_LOCK_ID: ODIN_HEADER_LOCK_v1 -->",
+"<!-- HEADER_LOCK_VERSION: 1.0 -->",
+"<!-- HEADER_LOCK_FINGERPRINT: "+fingerprint+" -->",
+"<!-- HEADER_LOCK_RULE: DO_NOT_REWRITE_DO_NOT_RECONSTRUCT_INSERT_1_TO_1 -->",
+"",
+"<!-- HEADER_CSS_BEGIN -->",
+styles || "<!-- NO_STYLE_FOUND -->",
+"<!-- HEADER_CSS_END -->",
+"",
+"<!-- HEADER_HTML_BEGIN -->",
+header || "<!-- NO_HEADER_FOUND -->",
+"<!-- HEADER_HTML_END -->",
+"",
+"<!-- HEADER_JS_BEGIN -->",
+scripts || "<!-- NO_SCRIPT_FOUND -->",
+"<!-- HEADER_JS_END -->",
+"",
+"<!-- HEADER_LOCK_v1_END -->"
+  ].join("\\n");
+
+  document.getElementById("lock").value=lock;
+  qa.push("FINGERPRINT: "+fingerprint);
+  qa.push("LOCK_STATUS: "+(header?"READY":"BLOCKED"));
+  document.getElementById("qa").textContent=qa.join("\\n");
+}
+
+function downloadLock(){
+  const text=document.getElementById("lock").value;
+  if(!text.trim()){alert("Спочатку EXTRACT HEADER_LOCK");return;}
+  const blob=new Blob([text],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="HEADER_LOCK_v1.txt";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+</script>
+</body>
+</html>
