@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ODIN v3.13.1 DATA INTEGRATED</title>
+  <title>ODIN v3.14 REVIEW SYSTEM</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="wrap">
     <section class="panel hero">
-      <div class="badge">ODIN v3.13.1</div>
-      <h1>DATA LAYER — INTEGRATED</h1>
+      <div class="badge">ODIN v3.14</div>
+      <h1>REVIEW SYSTEM</h1>
       <p class="muted">
-        Реальна інтеграція DATA: урок створюється через pipeline, проходить QA, керується UX/Highlight, зберігається в localStorage і відкривається назад у Preview.
+        Новий шар поверх DATA: збережені уроки мають статус повторення — NEW / REVIEW / LEARNED.
       </p>
     </section>
 
@@ -73,8 +73,12 @@ aufräumen|прибирати</textarea>
 
     <section class="grid">
       <div class="panel">
-        <h2>📚 Saved Lessons</h2>
+        <h2>📚 Saved Lessons + Review</h2>
         <div class="controls">
+          <button id="filterAllBtn" type="button">All</button>
+          <button id="filterNewBtn" type="button">NEW</button>
+          <button id="filterReviewBtn" type="button">REVIEW</button>
+          <button id="filterLearnedBtn" type="button">LEARNED</button>
           <button id="refreshLessonsBtn" type="button">Оновити список</button>
           <button id="clearLessonsBtn" class="danger" type="button">Очистити всі уроки</button>
         </div>
@@ -82,7 +86,7 @@ aufräumen|прибирати</textarea>
       </div>
 
       <div class="panel">
-        <h2>Data Status</h2>
+        <h2>Review Status</h2>
         <pre id="dataLog">DATA_WAITING</pre>
       </div>
     </section>
