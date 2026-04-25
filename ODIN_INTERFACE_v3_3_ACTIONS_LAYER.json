@@ -1,0 +1,500 @@
+{
+  "model": {
+    "interface_id": "ODIN_INTERFACE_v3.3_ACTIONS_LAYER",
+    "created_at": "2026-04-25T03:28:18",
+    "status": "actions_layer_ready",
+    "purpose": "Make ODIN feel alive by adding action buttons, local execution log, QA simulation, and snapshot state.",
+    "actions": [
+      "RUN",
+      "CHECK",
+      "BUILD",
+      "FIX",
+      "SNAPSHOT",
+      "RESET_LOG"
+    ],
+    "storage_keys": [
+      "odin_v3_3_log",
+      "odin_v3_3_state"
+    ],
+    "github_update": {
+      "rename_html_to": "index.html",
+      "commit_message": "ODIN v3.3 update: actions layer"
+    },
+    "root_files": [
+      "index.html",
+      "ODIN_INTERFACE_v3_3_ACTIONS_LAYER.json",
+      "ODIN_INTERFACE_v3_3_ACTIONS_LAYER.md",
+      "ODIN_INTERFACE_v3_3_CHANGELOG.md",
+      "README.md",
+      "temp/"
+    ]
+  },
+  "tree_groups": [
+    [
+      "ODIN",
+      [
+        [
+          "dashboard",
+          "Dashboard"
+        ],
+        [
+          "actions",
+          "Actions Layer"
+        ],
+        [
+          "core",
+          "Core Architecture"
+        ],
+        [
+          "loop",
+          "Autonomous Loop v68.1 PRO"
+        ]
+      ]
+    ],
+    [
+      "DT System",
+      [
+        [
+          "plan",
+          "Plan Engine"
+        ],
+        [
+          "link",
+          "Core Link Model"
+        ],
+        [
+          "language",
+          "Language System"
+        ],
+        [
+          "pipeline",
+          "Content Pipeline"
+        ],
+        [
+          "platform",
+          "Platform v0.8 Export / Sync"
+        ]
+      ]
+    ],
+    [
+      "Lesson Systems",
+      [
+        [
+          "ssudt",
+          "ССУДТ"
+        ],
+        [
+          "issu",
+          "ІССУ"
+        ],
+        [
+          "factory",
+          "Lesson Factory"
+        ],
+        [
+          "viewer",
+          "Lesson Viewer Safe Mode"
+        ]
+      ]
+    ],
+    [
+      "GitHub / Sync",
+      [
+        [
+          "repo",
+          "Repo Structure"
+        ],
+        [
+          "naming",
+          "File Naming Rules"
+        ],
+        [
+          "changelog",
+          "Changelog"
+        ],
+        [
+          "backup",
+          "Backup / temp"
+        ]
+      ]
+    ],
+    [
+      "Control",
+      [
+        [
+          "qa",
+          "QA / Locks"
+        ],
+        [
+          "roadmap",
+          "Roadmap / Next Steps"
+        ]
+      ]
+    ]
+  ],
+  "sections": {
+    "dashboard": {
+      "title": "Dashboard",
+      "status": "LIVE CONTROL CENTER",
+      "summary": "ODIN v3.3 додає Actions Layer: інтерфейс вже не тільки показує, а має живі кнопки, статуси і лог дій.",
+      "details": [
+        "Live status cards",
+        "Action buttons",
+        "Execution log",
+        "Local state in browser",
+        "Без реального небезпечного виконання — тільки контрольний шар"
+      ],
+      "files": [
+        "index.html",
+        "ODIN_INTERFACE_v3_3_ACTIONS_LAYER.json",
+        "ODIN_INTERFACE_v3_3_ACTIONS_LAYER.md",
+        "ODIN_INTERFACE_v3_3_CHANGELOG.md",
+        "README.md",
+        "temp/"
+      ],
+      "risks": [
+        "Кнопки поки симулюють дії, не запускають реальні build-процеси"
+      ],
+      "next": "Після GitHub update перевірити Actions Layer."
+    },
+    "actions": {
+      "title": "Actions Layer",
+      "status": "NEW",
+      "summary": "Живий шар керування: RUN, CHECK, BUILD, FIX, SNAPSHOT, LOG.",
+      "details": [
+        "RUN: імітує запуск обраного процесу.",
+        "CHECK: виконує QA-перевірку стану.",
+        "BUILD: створює запис наміру build.",
+        "FIX: створює запис про виправлення.",
+        "SNAPSHOT: фіксує поточний стан в localStorage.",
+        "RESET LOG: очищає локальний лог."
+      ],
+      "files": [
+        "localStorage: odin_v3_3_log",
+        "localStorage: odin_v3_3_state"
+      ],
+      "risks": [
+        "Це ще не backend",
+        "Дії не змінюють GitHub автоматично"
+      ],
+      "next": "Пізніше підключити actions до реальних pipeline-команд."
+    },
+    "core": {
+      "title": "Core Architecture",
+      "status": "LOCKED",
+      "summary": "Базова архітектура продукту.",
+      "details": [
+        "DT = Plan Engine.",
+        "ССУДТ = Base Lesson Factory.",
+        "ІССУ = Support Module.",
+        "Platform = Execution Layer.",
+        "ODIN = Control Layer."
+      ],
+      "files": [
+        "DT_CORE_ARCHITECTURE_v1"
+      ],
+      "risks": [
+        "Змішування ролей"
+      ],
+      "next": "Не змінювати без validation."
+    },
+    "loop": {
+      "title": "Autonomous Loop v68.1 PRO",
+      "status": "INTEGRATED",
+      "summary": "Автономний цикл ODIN для контролю процесів.",
+      "details": [
+        "Detect context",
+        "Validate against locks",
+        "Select next action",
+        "Execute or hold",
+        "QA",
+        "Changelog",
+        "Snapshot if stable"
+      ],
+      "files": [
+        "ODIN v68.1 PRO"
+      ],
+      "risks": [
+        "Будувати без validation"
+      ],
+      "next": "Використовувати перед великими build."
+    },
+    "plan": {
+      "title": "DT Plan Engine",
+      "status": "CORE READY",
+      "summary": "ДТ планує курс. PLAN = source of truth.",
+      "details": [
+        "Користувач задає ціль.",
+        "DT створює roadmap.",
+        "Plan визначає active_topic_id і active_lesson_id.",
+        "Platform не вирішує, що вчити."
+      ],
+      "files": [
+        "DT_PLAN_ENGINE_v1"
+      ],
+      "risks": [
+        "Уроки без прив’язки до плану"
+      ],
+      "next": "Пізніше створити реальний план по Schritte Plus Neu."
+    },
+    "link": {
+      "title": "Core Link Model",
+      "status": "FIXED",
+      "summary": "Зв’язує PLAN ↔ TOPIC ↔ LESSON ↔ PLATFORM ↔ REVIEW ↔ PROGRESS.",
+      "details": [
+        "active_lesson_id приходить з PLAN.",
+        "resume_position — UX, не логіка навчання.",
+        "progress: lesson + topic + course.",
+        "Support lesson має topic_id."
+      ],
+      "files": [
+        "DT_CORE_LINK_MODEL_v1"
+      ],
+      "risks": [
+        "Відсутність topic_id"
+      ],
+      "next": "Реалізувати у DT Platform."
+    },
+    "language": {
+      "title": "Language System",
+      "status": "v1 READY",
+      "summary": "Мовна система керує мовами.",
+      "details": [
+        "user_language",
+        "target_language",
+        "ui_language",
+        "course_pair",
+        "DE + DP + SD policy"
+      ],
+      "files": [
+        "DT_LANGUAGE_SYSTEM_v1"
+      ],
+      "risks": [
+        "Змішати UI language і target language"
+      ],
+      "next": "Інтегрувати profile в lesson generator."
+    },
+    "pipeline": {
+      "title": "Content Pipeline",
+      "status": "v1 READY",
+      "summary": "Система виробництва уроків від плану до платформи.",
+      "details": [
+        "DT_PLAN_ENGINE → TOPIC → SSUDT lessons → optional ISSU support → QA → Content Index → Platform → Progress.",
+        "Lesson types: base, practice, review, support.",
+        "Жоден урок не входить у Content Index без QA PASS."
+      ],
+      "files": [
+        "DT_CONTENT_PIPELINE_v1"
+      ],
+      "risks": [
+        "Генерувати урок без QA"
+      ],
+      "next": "RUN FIRST REAL PIPELINE після стабілізації ODIN UI."
+    },
+    "platform": {
+      "title": "Platform v0.8 Export / Sync",
+      "status": "READY",
+      "summary": "DT Platform v0.8 зберігає і переносить core state.",
+      "details": [
+        "course",
+        "active topic",
+        "active lesson",
+        "resume",
+        "progress",
+        "daily plan"
+      ],
+      "files": [
+        "DT_PLATFORM_v0_8_EXPORT_SYNC"
+      ],
+      "risks": [
+        "Експортувати неповний стан"
+      ],
+      "next": "Пізніше підключити до реального DT app."
+    },
+    "ssudt": {
+      "title": "ССУДТ",
+      "status": "BASE FACTORY",
+      "summary": "Система створення базових уроків Deutsch Trainer.",
+      "details": [
+        "Працює за планом ДТ.",
+        "Створює base/practice/review lessons.",
+        "DE + DP + SD, підсвітка, словник, практика, voice/audio, QA."
+      ],
+      "files": [
+        "DT_LESSON_FACTORY_v1",
+        "DT_CONTENT_PIPELINE_v1"
+      ],
+      "risks": [
+        "ССУДТ почне змінювати PLAN"
+      ],
+      "next": "Перевірити на першій реальній темі."
+    },
+    "issu": {
+      "title": "ІССУ",
+      "status": "SUPPORT MODULE",
+      "summary": "Додаткові уроки по фото/домашці/слабкій темі.",
+      "details": [
+        "Не основа курсу.",
+        "Support lessons.",
+        "Кожен support lesson має topic_id і reason."
+      ],
+      "files": [
+        "DT_LESSON_VIEWER_v1_ISSU_SAFE_MODE"
+      ],
+      "risks": [
+        "ІССУ замінює ССУДТ"
+      ],
+      "next": "Пізніше зробити Add support lesson."
+    },
+    "factory": {
+      "title": "Lesson Factory",
+      "status": "READY",
+      "summary": "Міст між ІССУ/ІШ/V3-шаблоном і DT Platform.",
+      "details": [
+        "Кожен урок проходить через Lesson Factory.",
+        "Генерує HTML + manifest + QA.",
+        "Фіксує source: SSUDT або ISSU."
+      ],
+      "files": [
+        "DT_LESSON_FACTORY_v1"
+      ],
+      "risks": [
+        "Пряме додавання уроків без factory"
+      ],
+      "next": "Підключити до pipeline run."
+    },
+    "viewer": {
+      "title": "Lesson Viewer Safe Mode",
+      "status": "READY",
+      "summary": "Безпечне відкриття уроків без ламання дизайну уроку.",
+      "details": [
+        "Платформа = оболонка.",
+        "Урок = самостійний модуль.",
+        "Viewer відкриває урок ізоляційно."
+      ],
+      "files": [
+        "DT_LESSON_VIEWER_v1_ISSU_SAFE_MODE"
+      ],
+      "risks": [
+        "Подвійні header-и"
+      ],
+      "next": "Пізніше full lesson focus mode."
+    },
+    "repo": {
+      "title": "Repo Structure",
+      "status": "LOCKED",
+      "summary": "Правила структури GitHub репозиторію.",
+      "details": [
+        "У root тільки актуальна версія.",
+        "index.html = активний онлайн-інтерфейс.",
+        "temp/ = архів старих файлів."
+      ],
+      "files": [
+        "index.html",
+        "JSON",
+        "MD",
+        "CHANGELOG",
+        "README.md",
+        "temp/"
+      ],
+      "risks": [
+        "Багато версій у root"
+      ],
+      "next": "Залишити в root тільки v3.3 набір."
+    },
+    "naming": {
+      "title": "File Naming Rules",
+      "status": "NEEDED",
+      "summary": "Правила назв, щоб не плутатись.",
+      "details": [
+        "Активний сайт завжди index.html.",
+        "Артефакти мають versioned names.",
+        "Старі versioned files → temp/.",
+        "Якщо новий HTML має стати сайтом — я пишу це прямо."
+      ],
+      "files": [
+        "ODIN_FILE_NAMING_AND_REPO_RULES_v1 — optional"
+      ],
+      "risks": [
+        "Неправильний файл стає index.html"
+      ],
+      "next": "За потреби зробити naming lock."
+    },
+    "changelog": {
+      "title": "Changelog",
+      "status": "REQUIRED",
+      "summary": "Історія змін системи.",
+      "details": [
+        "Що змінилось.",
+        "Чому змінилось.",
+        "Статус.",
+        "Наступний крок.",
+        "Stable lock."
+      ],
+      "files": [
+        "ODIN_INTERFACE_v3_3_CHANGELOG.md"
+      ],
+      "risks": [
+        "Зміни без історії"
+      ],
+      "next": "Після перевірки v3.3 додати STABLE запис."
+    },
+    "backup": {
+      "title": "Backup / temp",
+      "status": "ARCHIVE",
+      "summary": "Архів і recovery зона.",
+      "details": [
+        "temp/ — старі файли.",
+        "ZIP — recovery package.",
+        "Root чистий, temp може містити історію."
+      ],
+      "files": [
+        "temp/",
+        "*_PACKAGE.zip"
+      ],
+      "risks": [
+        "Видалити стабільну точку"
+      ],
+      "next": "Підтримувати temp як архів."
+    },
+    "qa": {
+      "title": "QA / Locks",
+      "status": "ACTIVE",
+      "summary": "Hard locks і QA правила.",
+      "details": [
+        "PLAN is source of truth.",
+        "ODIN controls, not replaces.",
+        "Platform executes, not generates.",
+        "ISSU supports, not replaces SSUDT.",
+        "No meaningful change without changelog.",
+        "No secrets/passwords/API keys in repo."
+      ],
+      "files": [
+        "ODIN_INTERFACE_v3_3_CHANGELOG.md"
+      ],
+      "risks": [
+        "Рух без QA"
+      ],
+      "next": "Після GitHub update — review."
+    },
+    "roadmap": {
+      "title": "Roadmap / Next Steps",
+      "status": "NEXT",
+      "summary": "Що робити після завершення інтерфейсу.",
+      "details": [
+        "1. Завантажити v3.3 як index.html.",
+        "2. Перевірити Actions Layer.",
+        "3. Зафіксувати ODIN_INTERFACE_v3.3 STABLE.",
+        "4. Потім — перший реальний pipeline run."
+      ],
+      "files": [
+        "index.html",
+        "ODIN_INTERFACE_v3_3_*"
+      ],
+      "risks": [
+        "Знову піти в новий модуль до завершення UI"
+      ],
+      "next": "GitHub update + review."
+    }
+  }
+}

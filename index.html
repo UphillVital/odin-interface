@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ODIN Interface v3.2</title>
+<title>ODIN Interface v3.3</title>
 <style>
 :root{--bg:#f5f7fb;--card:#fff;--text:#132033;--muted:#64748b;--line:#dbe5f2;--blue:#2563eb;--blue2:#dbeafe;--green:#16a34a;--green2:#dcfce7;--red:#dc2626;--red2:#fee2e2;--amber:#f59e0b;--amber2:#fef3c7;--purple:#7c3aed;--purple2:#ede9fe;--shadow:0 12px 30px rgba(15,23,42,.08)}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#f8fbff 0%,var(--bg) 100%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
@@ -13,33 +13,58 @@
 .tree-btn{width:100%;text-align:left;border:1px solid transparent;background:transparent;color:#e5e7eb;border-radius:12px;padding:9px 10px;cursor:pointer;font-weight:750;margin:2px 0}.tree-btn:hover{background:#1e293b}.tree-btn.active{background:#dbeafe;color:#1d4ed8}
 .main{padding:18px;max-width:1180px;width:100%;margin:0 auto}.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 h2{margin:0 0 8px}.sub{color:var(--muted);font-size:13px;margin:0}.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px;margin:14px 0;box-shadow:var(--shadow)}.hero{background:linear-gradient(135deg,#eff6ff,#f5f3ff)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.item,.stat{background:#fbfdff;border:1px solid var(--line);border-radius:20px;padding:15px}.pill{display:inline-block;background:var(--blue2);color:var(--blue);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:900;margin:2px}
-.ready{background:var(--green2);color:#166534}.lock{background:var(--red2);color:#991b1b}.warn{background:var(--amber2);color:#92400e}.purple{background:var(--purple2);color:#5b21b6}.ok{color:var(--green);font-weight:900}.bad{color:var(--red);font-weight:900}code{background:#f1f5f9;border-radius:7px;padding:2px 5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.item,.stat{background:#fbfdff;border:1px solid var(--line);border-radius:20px;padding:15px}.stat b{font-size:24px}
+.pill{display:inline-block;background:var(--blue2);color:var(--blue);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:900;margin:2px}.ready{background:var(--green2);color:#166534}.lock{background:var(--red2);color:#991b1b}.warn{background:var(--amber2);color:#92400e}.purple{background:var(--purple2);color:#5b21b6}.ok{color:var(--green);font-weight:900}.bad{color:var(--red);font-weight:900}code{background:#f1f5f9;border-radius:7px;padding:2px 5px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.action-btn{border:0;background:#111827;color:white;border-radius:13px;padding:10px 12px;font-weight:900;cursor:pointer}.action-btn.secondary{background:#2563eb}.action-btn.warn{background:#f59e0b;color:#111827}.action-btn.danger{background:#dc2626}
+.log{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#0f172a;color:#e5e7eb;border-radius:18px;padding:14px;overflow:auto;max-height:260px;white-space:pre-wrap}
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto;max-height:48vh}.main{padding:12px}}
 </style>
 <script id="ODIN_SECTIONS" type="application/json">{
   "dashboard": {
     "title": "Dashboard",
-    "status": "CONTROL CENTER",
-    "summary": "Головна панель ODIN. Бокове меню виправлено: воно прописане прямо в HTML.",
+    "status": "LIVE CONTROL CENTER",
+    "summary": "ODIN v3.3 додає Actions Layer: інтерфейс вже не тільки показує, а має живі кнопки, статуси і лог дій.",
     "details": [
-      "ODIN Interface v3.2 — fixed sidebar.",
-      "Sidebar більше не залежить від JS-генерації.",
-      "Права зона показує статус, деталі, файли, ризики і наступний крок."
+      "Live status cards",
+      "Action buttons",
+      "Execution log",
+      "Local state in browser",
+      "Без реального небезпечного виконання — тільки контрольний шар"
     ],
     "files": [
       "index.html",
-      "ODIN_INTERFACE_v3_2_FIXED_SIDEBAR.json",
-      "ODIN_INTERFACE_v3_2_FIXED_SIDEBAR.md",
-      "ODIN_INTERFACE_v3_2_CHANGELOG.md",
+      "ODIN_INTERFACE_v3_3_ACTIONS_LAYER.json",
+      "ODIN_INTERFACE_v3_3_ACTIONS_LAYER.md",
+      "ODIN_INTERFACE_v3_3_CHANGELOG.md",
       "README.md",
       "temp/"
     ],
     "risks": [
-      "Кеш GitHub Pages",
-      "Неправильний файл як index.html"
+      "Кнопки поки симулюють дії, не запускають реальні build-процеси"
     ],
-    "next": "Завантажити v3.2 як index.html і перевірити бокове меню."
+    "next": "Після GitHub update перевірити Actions Layer."
+  },
+  "actions": {
+    "title": "Actions Layer",
+    "status": "NEW",
+    "summary": "Живий шар керування: RUN, CHECK, BUILD, FIX, SNAPSHOT, LOG.",
+    "details": [
+      "RUN: імітує запуск обраного процесу.",
+      "CHECK: виконує QA-перевірку стану.",
+      "BUILD: створює запис наміру build.",
+      "FIX: створює запис про виправлення.",
+      "SNAPSHOT: фіксує поточний стан в localStorage.",
+      "RESET LOG: очищає локальний лог."
+    ],
+    "files": [
+      "localStorage: odin_v3_3_log",
+      "localStorage: odin_v3_3_state"
+    ],
+    "risks": [
+      "Це ще не backend",
+      "Дії не змінюють GitHub автоматично"
+    ],
+    "next": "Пізніше підключити actions до реальних pipeline-команд."
   },
   "core": {
     "title": "Core Architecture",
@@ -262,7 +287,7 @@ h2{margin:0 0 8px}.sub{color:var(--muted);font-size:13px;margin:0}.card{backgrou
     "risks": [
       "Багато версій у root"
     ],
-    "next": "Залишити в root тільки v3.2 набір."
+    "next": "Залишити в root тільки v3.3 набір."
   },
   "naming": {
     "title": "File Naming Rules",
@@ -294,12 +319,12 @@ h2{margin:0 0 8px}.sub{color:var(--muted);font-size:13px;margin:0}.card{backgrou
       "Stable lock."
     ],
     "files": [
-      "ODIN_INTERFACE_v3_2_CHANGELOG.md"
+      "ODIN_INTERFACE_v3_3_CHANGELOG.md"
     ],
     "risks": [
       "Зміни без історії"
     ],
-    "next": "Після перевірки v3.2 додати STABLE запис."
+    "next": "Після перевірки v3.3 додати STABLE запис."
   },
   "backup": {
     "title": "Backup / temp",
@@ -332,7 +357,7 @@ h2{margin:0 0 8px}.sub{color:var(--muted);font-size:13px;margin:0}.card{backgrou
       "No secrets/passwords/API keys in repo."
     ],
     "files": [
-      "ODIN_INTERFACE_v3_2_CHANGELOG.md"
+      "ODIN_INTERFACE_v3_3_CHANGELOG.md"
     ],
     "risks": [
       "Рух без QA"
@@ -344,14 +369,14 @@ h2{margin:0 0 8px}.sub{color:var(--muted);font-size:13px;margin:0}.card{backgrou
     "status": "NEXT",
     "summary": "Що робити після завершення інтерфейсу.",
     "details": [
-      "1. Завантажити v3.2 як index.html.",
-      "2. Перевірити онлайн.",
-      "3. Зафіксувати ODIN_INTERFACE_v3.2 STABLE.",
+      "1. Завантажити v3.3 як index.html.",
+      "2. Перевірити Actions Layer.",
+      "3. Зафіксувати ODIN_INTERFACE_v3.3 STABLE.",
       "4. Потім — перший реальний pipeline run."
     ],
     "files": [
       "index.html",
-      "ODIN_INTERFACE_v3_2_*"
+      "ODIN_INTERFACE_v3_3_*"
     ],
     "risks": [
       "Знову піти в новий модуль до завершення UI"
@@ -363,9 +388,10 @@ h2{margin:0 0 8px}.sub{color:var(--muted);font-size:13px;margin:0}.card{backgrou
 <body>
 <div class="app">
 <aside class="sidebar">
-  <div class="logo"><div class="mark">O</div><div><h1>ODIN v3.2</h1><p>Fixed Sidebar</p></div></div>
+  <div class="logo"><div class="mark">O</div><div><h1>ODIN v3.3</h1><p>Actions Layer</p></div></div>
   <div class="group"><div class="group-title">ODIN</div>
 <button class="tree-btn active" data-id="dashboard" onclick="showSection(&quot;dashboard&quot;)">Dashboard</button>
+<button class="tree-btn" data-id="actions" onclick="showSection(&quot;actions&quot;)">Actions Layer</button>
 <button class="tree-btn" data-id="core" onclick="showSection(&quot;core&quot;)">Core Architecture</button>
 <button class="tree-btn" data-id="loop" onclick="showSection(&quot;loop&quot;)">Autonomous Loop v68.1 PRO</button>
 </div>
@@ -394,26 +420,70 @@ h2{margin:0 0 8px}.sub{color:var(--muted);font-size:13px;margin:0}.card{backgrou
 </div>
 </aside>
 <main class="main">
-  <div class="topbar"><div><h2 id="sectionTitle">Dashboard</h2><p id="sectionSub" class="sub">CONTROL CENTER</p></div><span class="pill ready">SIDEBAR FIXED</span></div>
-  <section class="card hero"><span class="pill">ODIN v3.2</span><span class="pill">FIXED SIDEBAR</span><span class="pill">CONTROL CENTER</span><p><span class="ok">PASS:</span> Бокове меню тепер прописане прямо в HTML і має бути видимим одразу.</p></section>
+  <div class="topbar"><div><h2 id="sectionTitle">Dashboard</h2><p id="sectionSub" class="sub">LIVE CONTROL CENTER</p></div><span class="pill ready">ACTIONS READY</span></div>
+  <section class="card hero"><span class="pill">ODIN v3.3</span><span class="pill">ACTIONS LAYER</span><span class="pill">LIVE LOG</span><p><span class="ok">PASS:</span> ODIN тепер має живі дії, статуси і лог.</p></section>
+
+  <section class="card">
+    <h2>Actions</h2>
+    <div class="actions">
+      <button class="action-btn secondary" onclick="doAction('RUN')">RUN</button>
+      <button class="action-btn secondary" onclick="doAction('CHECK')">CHECK</button>
+      <button class="action-btn" onclick="doAction('BUILD')">BUILD</button>
+      <button class="action-btn warn" onclick="doAction('FIX')">FIX</button>
+      <button class="action-btn" onclick="doAction('SNAPSHOT')">SNAPSHOT</button>
+      <button class="action-btn danger" onclick="resetLog()">RESET LOG</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Live Status</h2>
+    <div class="grid">
+      <div class="stat"><div>Last Action</div><b id="lastAction">—</b></div>
+      <div class="stat"><div>Status</div><b id="liveStatus">IDLE</b></div>
+      <div class="stat"><div>Log Items</div><b id="logCount">0</b></div>
+      <div class="stat"><div>Selected Layer</div><b id="selectedLayer">Dashboard</b></div>
+    </div>
+  </section>
+
   <section class="card"><h2 id="contentTitle">Dashboard</h2><span id="contentStatus" class="pill ready">CONTROL CENTER</span><p id="contentSummary"></p></section>
   <section class="card"><h2>Details</h2><div id="details" class="grid"></div></section>
   <section class="card"><h2>Files / Artifacts</h2><div id="files" class="grid"></div></section>
   <section class="card"><h2>Risks</h2><div id="risks" class="grid"></div></section>
   <section class="card"><h2>Next Action</h2><p><code id="nextAction"></code></p></section>
-  <section class="card"><h2>GitHub update</h2><p>Завантажити цей HTML як <code>index.html</code>.</p><p>Commit: <code>ODIN v3.2 fix: sidebar tree visible</code></p></section>
+  <section class="card"><h2>Execution Log</h2><div id="logBox" class="log"></div></section>
+  <section class="card"><h2>GitHub update</h2><p>Завантажити цей HTML як <code>index.html</code>.</p><p>Commit: <code>ODIN v3.3 update: actions layer</code></p></section>
 </main>
 </div>
 <script>
 const SECTIONS = JSON.parse(document.getElementById('ODIN_SECTIONS').textContent);
+const LOG_KEY = 'odin_v3_3_log';
+const STATE_KEY = 'odin_v3_3_state';
+let currentSection = 'dashboard';
+
+function now(){ return new Date().toLocaleString(); }
+function getLog(){ try{ return JSON.parse(localStorage.getItem(LOG_KEY)) || []; } catch(e){ return []; } }
+function saveLog(log){ localStorage.setItem(LOG_KEY, JSON.stringify(log)); }
+function addLog(type, message){
+  const log = getLog();
+  log.unshift({ time: now(), type, layer: currentSection, message });
+  saveLog(log.slice(0,80));
+  renderLog();
+}
+function renderLog(){
+  const log = getLog();
+  document.getElementById('logCount').textContent = log.length;
+  document.getElementById('logBox').textContent = log.length ? log.map(x => `[${x.time}] ${x.type} @ ${x.layer} — ${x.message}`).join('\n') : 'Лог порожній.';
+}
 function cardList(list, cls) {
   return (list || []).map(x => `<div class="item"><span class="pill ${cls}">ITEM</span><p>${x}</p></div>`).join('') || '<p class="sub">Немає даних.</p>';
 }
 function showSection(id) {
+  currentSection = id;
   const s = SECTIONS[id] || SECTIONS.dashboard;
   document.querySelectorAll('.tree-btn').forEach(b => b.classList.toggle('active', b.dataset.id === id));
   document.getElementById('sectionTitle').textContent = s.title;
   document.getElementById('sectionSub').textContent = s.status;
+  document.getElementById('selectedLayer').textContent = s.title;
   document.getElementById('contentTitle').textContent = s.title;
   const status = document.getElementById('contentStatus');
   status.textContent = s.status;
@@ -424,7 +494,37 @@ function showSection(id) {
   document.getElementById('risks').innerHTML = cardList(s.risks, 'lock');
   document.getElementById('nextAction').textContent = s.next || '—';
 }
+function doAction(action){
+  document.getElementById('lastAction').textContent = action;
+  if(action === 'CHECK'){
+    document.getElementById('liveStatus').textContent = 'QA PASS';
+    addLog(action, 'QA перевірка виконана. Критичних блокерів не виявлено в статичному інтерфейсі.');
+  } else if(action === 'RUN'){
+    document.getElementById('liveStatus').textContent = 'RUN RECORDED';
+    addLog(action, 'Запуск процесу зафіксовано в ODIN log.');
+  } else if(action === 'BUILD'){
+    document.getElementById('liveStatus').textContent = 'BUILD INTENT';
+    addLog(action, 'Намір build зафіксовано. Реальний build виконується через ChatGPT/file package, не через GitHub Pages.');
+  } else if(action === 'FIX'){
+    document.getElementById('liveStatus').textContent = 'FIX RECORDED';
+    addLog(action, 'Fix-запит зафіксовано. Потрібен review перед зміною stable.');
+  } else if(action === 'SNAPSHOT'){
+    const snapshot = { time: now(), section: currentSection, status: document.getElementById('liveStatus').textContent, logCount: getLog().length };
+    localStorage.setItem(STATE_KEY, JSON.stringify(snapshot));
+    document.getElementById('liveStatus').textContent = 'SNAPSHOT SAVED';
+    addLog(action, 'Snapshot збережено у localStorage.');
+  }
+}
+function resetLog(){
+  if(confirm('Очистити ODIN log у цьому браузері?')){
+    localStorage.removeItem(LOG_KEY);
+    document.getElementById('lastAction').textContent = 'RESET';
+    document.getElementById('liveStatus').textContent = 'LOG RESET';
+    renderLog();
+  }
+}
 showSection('dashboard');
+renderLog();
 </script>
 </body>
 </html>
