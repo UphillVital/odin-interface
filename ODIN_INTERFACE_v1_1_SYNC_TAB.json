@@ -1,0 +1,44 @@
+{
+  "interface_id": "ODIN_INTERFACE_v1.1_INTEGRATE_SYNC_TAB",
+  "created_at": "2026-04-25T00:39:40",
+  "based_on": [
+    "ODIN_INTERFACE_v1",
+    "ODIN_SYNC_MODEL_v1"
+  ],
+  "purpose": "ODIN Interface with integrated Sync tab for GitHub / HTML / JSON / MD / Changelog / ZIP workflow.",
+  "status": "ready_for_github_update",
+  "tabs": [
+    "Dashboard",
+    "Core",
+    "Plan",
+    "ССУДТ",
+    "ISSU",
+    "Platform",
+    "Links",
+    "Export",
+    "Sync",
+    "Changelog",
+    "QA"
+  ],
+  "sync_model": {
+    "primary_source": "GitHub repository: uphillvital/odin-interface",
+    "online_ui": "index.html",
+    "data_truth": "ODIN_INTERFACE_v1.json",
+    "history": "ODIN_INTERFACE_CHANGELOG.md",
+    "backup": "ZIP packages",
+    "next_action": "Upload this HTML as index.html to GitHub repo"
+  },
+  "hard_locks": [
+    "GitHub is source of truth",
+    "Do not edit HTML without changelog",
+    "Do not change architecture only in HTML",
+    "Do not upload secrets/passwords/API keys",
+    "Create ZIP backup after stable changes"
+  ],
+  "qa": {
+    "sync_tab_added": "PASS",
+    "odin_v1_preserved": "PASS",
+    "sync_rules_visible": "PASS",
+    "github_update_ready": "PASS"
+  }
+}
