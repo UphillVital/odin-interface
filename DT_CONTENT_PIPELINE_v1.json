@@ -1,0 +1,103 @@
+{
+  "pipeline_id": "DT_CONTENT_PIPELINE_v1",
+  "created_at": "2026-04-25T02:00:21",
+  "status": "ready_for_review",
+  "purpose": "Content production pipeline for Deutsch Trainer: Plan -> Topic -> Lessons -> QA -> Content Index -> Platform.",
+  "controlled_by": "ODIN_INTERFACE_v2_STABLE",
+  "source_of_truth": "DT_PLAN_ENGINE_v1",
+  "flow": [
+    "DT_PLAN_ENGINE creates course plan",
+    "Topic is selected from plan",
+    "SSUDT generates base/practice/review lessons",
+    "ISSU generates support lessons only when needed",
+    "QA validates lesson standard",
+    "Content Index registers lesson metadata",
+    "Platform opens lesson via viewer",
+    "Progress updates lesson/topic/course state"
+  ],
+  "lesson_types": [
+    {
+      "type": "base",
+      "source": "SSUDT",
+      "role": "main explanation lesson for topic"
+    },
+    {
+      "type": "practice",
+      "source": "SSUDT",
+      "role": "training and drills for topic"
+    },
+    {
+      "type": "review",
+      "source": "SSUDT",
+      "role": "topic review and spaced repetition preparation"
+    },
+    {
+      "type": "support",
+      "source": "ISSU",
+      "role": "on-demand photo/homework/weak-topic support"
+    }
+  ],
+  "topic_model": {
+    "topic_id": "de_a1_denn_001",
+    "title": "denn",
+    "level": "A1/A2",
+    "source_order": "Schritte Plus Neu",
+    "lessons": [
+      {
+        "lesson_id": "lesson_de_a1_denn_base_001",
+        "type": "base",
+        "source": "SSUDT",
+        "status": "planned"
+      },
+      {
+        "lesson_id": "lesson_de_a1_denn_practice_001",
+        "type": "practice",
+        "source": "SSUDT",
+        "status": "planned"
+      },
+      {
+        "lesson_id": "lesson_de_a1_denn_review_001",
+        "type": "review",
+        "source": "SSUDT",
+        "status": "planned"
+      },
+      {
+        "lesson_id": "lesson_de_a1_denn_support_001",
+        "type": "support",
+        "source": "ISSU",
+        "status": "optional"
+      }
+    ]
+  },
+  "mandatory_qa": [
+    "Every German sentence has DP + SD",
+    "Full highlight system available",
+    "Dictionary included",
+    "Practice included",
+    "Voice/audio block included where relevant",
+    "Homework or mini-review included",
+    "Lesson manifest embedded",
+    "Lesson linked to topic_id",
+    "Lesson source defined: SSUDT or ISSU",
+    "No platform/lesson CSS mixing"
+  ],
+  "hard_locks": [
+    "PLAN is source of truth.",
+    "SSUDT does not change plan.",
+    "ISSU does not replace base course lessons.",
+    "Platform does not generate lessons.",
+    "Every lesson must bind to topic_id.",
+    "Support lessons must record reason: photo/homework/weak_topic.",
+    "Lesson Viewer must preserve ISSU/ISH/V3 lesson design.",
+    "No lesson enters Content Index without QA PASS.",
+    "Every major pipeline change requires changelog."
+  ],
+  "outputs": [
+    "lesson_html",
+    "lesson_manifest_json",
+    "content_index_entry",
+    "qa_report",
+    "zip_package"
+  ],
+  "next_recommended_step": "DT_CONTENT_PIPELINE_v1_REVIEW_AND_ODIN_INTEGRATION"
+}

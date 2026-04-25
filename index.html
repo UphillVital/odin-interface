@@ -3,201 +3,227 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ODIN Interface v2</title>
+<title>DT Content Pipeline v1</title>
 <style>
 :root {
-  --bg:#f5f7fb; --card:#fff; --text:#132033; --muted:#64748b; --line:#dbe5f2;
-  --blue:#2563eb; --blue2:#dbeafe; --green:#16a34a; --green2:#dcfce7;
-  --red:#dc2626; --red2:#fee2e2; --amber:#f59e0b; --amber2:#fef3c7;
-  --purple:#7c3aed; --purple2:#ede9fe; --shadow:0 12px 30px rgba(15,23,42,.08);
+  --bg:#f5f7fb;--card:#fff;--text:#132033;--muted:#64748b;--line:#dbe5f2;
+  --blue:#2563eb;--blue2:#dbeafe;--green:#16a34a;--green2:#dcfce7;
+  --red:#dc2626;--red2:#fee2e2;--amber:#f59e0b;--amber2:#fef3c7;
+  --purple:#7c3aed;--purple2:#ede9fe;--shadow:0 12px 30px rgba(15,23,42,.08);
 }
 *{box-sizing:border-box}
 body{margin:0;background:linear-gradient(180deg,#f8fbff 0%,var(--bg) 100%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
 header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);padding:12px;backdrop-filter:blur(12px)}
-.wrap,main{max-width:1200px;margin:auto} main{padding:14px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:10px}
-.logo{width:44px;height:44px;border-radius:16px;background:linear-gradient(135deg,#111827,var(--purple));color:white;display:grid;place-items:center;font-weight:950}
-h1{margin:0;font-size:20px} .sub{margin:3px 0 0;color:var(--muted);font-size:13px}
-nav{display:flex;gap:8px;overflow:auto;margin-top:12px;padding-bottom:2px}
-nav button{border:1px solid var(--line);background:white;color:var(--text);padding:9px 12px;border-radius:999px;font-weight:850;cursor:pointer;white-space:nowrap}
-nav button.active{background:#111827;color:white;border-color:#111827}
-.page{display:none} .page.active{display:block}
+.wrap,main{max-width:1120px;margin:auto} main{padding:14px}
+h1{font-size:20px;margin:0} .sub{color:var(--muted);font-size:13px;margin:3px 0 0}
 .card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px;margin:14px 0;box-shadow:var(--shadow)}
 .hero{background:linear-gradient(135deg,#eff6ff,#f5f3ff)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
 .item,.stat{background:#fbfdff;border:1px solid var(--line);border-radius:20px;padding:15px}
 .stat b{font-size:25px}
 .pill{display:inline-block;background:var(--blue2);color:var(--blue);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:900;margin:2px}
-.ready{background:var(--green2);color:#166534} .next{background:var(--amber2);color:#92400e} .lock{background:var(--red2);color:#991b1b} .purple{background:var(--purple2);color:#5b21b6}
-.ok{color:var(--green);font-weight:900} .bad{color:var(--red);font-weight:900} .warn{color:#b45309;font-weight:900}
+.ready{background:var(--green2);color:#166534} .lock{background:var(--red2);color:#991b1b} .purple{background:var(--purple2);color:#5b21b6} .warn{background:var(--amber2);color:#92400e}
+.ok{color:var(--green);font-weight:900} .bad{color:var(--red);font-weight:900}
 .flow{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#0f172a;color:#e5e7eb;border-radius:18px;padding:14px;overflow:auto;white-space:pre-wrap}
 code{background:#f1f5f9;border-radius:7px;padding:2px 5px} li{margin:6px 0}
-@media(max-width:700px){main{padding:10px}.card{padding:14px;border-radius:20px}.grid{grid-template-columns:1fr}nav button{font-size:13px;padding:8px 10px}}
 </style>
-<script id="ODIN_INTERFACE_V2_MODEL" type="application/json">{
-  "interface_id": "ODIN_INTERFACE_v2_FULL_INTEGRATION",
-  "created_at": "2026-04-25T01:26:25",
-  "status": "stable_candidate",
-  "github_repo": "uphillvital/odin-interface",
-  "purpose": "Single ODIN control-center integrating architecture, autonomous loop, DT platform state, sync, and language system.",
-  "integrated_blocks": [
-    "ODIN v68.1 PRO — Stable Integrated Autonomous Loop",
-    "DT_CORE_ARCHITECTURE_v1",
-    "DT_PLAN_ENGINE_v1",
-    "DT_CORE_LINK_MODEL_v1",
-    "DT_LESSON_FACTORY_v1",
-    "DT_LESSON_VIEWER_v1_ISSU_SAFE_MODE",
-    "DT_PLATFORM_v0.8_EXPORT_SYNC",
-    "DT_LANGUAGE_SYSTEM_v1",
-    "ODIN_SYNC_MODEL_v1"
+<script id="DT_CONTENT_PIPELINE_MODEL" type="application/json">{
+  "pipeline_id": "DT_CONTENT_PIPELINE_v1",
+  "created_at": "2026-04-25T02:00:21",
+  "status": "ready_for_review",
+  "purpose": "Content production pipeline for Deutsch Trainer: Plan -> Topic -> Lessons -> QA -> Content Index -> Platform.",
+  "controlled_by": "ODIN_INTERFACE_v2_STABLE",
+  "source_of_truth": "DT_PLAN_ENGINE_v1",
+  "flow": [
+    "DT_PLAN_ENGINE creates course plan",
+    "Topic is selected from plan",
+    "SSUDT generates base/practice/review lessons",
+    "ISSU generates support lessons only when needed",
+    "QA validates lesson standard",
+    "Content Index registers lesson metadata",
+    "Platform opens lesson via viewer",
+    "Progress updates lesson/topic/course state"
   ],
-  "core_roles": {
-    "DT": "plans",
-    "SSUDT": "creates base lessons",
-    "ISSU": "supports/adapts on-demand",
-    "Platform": "executes learning",
-    "ODIN": "controls, validates, coordinates, protects architecture"
+  "lesson_types": [
+    {
+      "type": "base",
+      "source": "SSUDT",
+      "role": "main explanation lesson for topic"
+    },
+    {
+      "type": "practice",
+      "source": "SSUDT",
+      "role": "training and drills for topic"
+    },
+    {
+      "type": "review",
+      "source": "SSUDT",
+      "role": "topic review and spaced repetition preparation"
+    },
+    {
+      "type": "support",
+      "source": "ISSU",
+      "role": "on-demand photo/homework/weak-topic support"
+    }
+  ],
+  "topic_model": {
+    "topic_id": "de_a1_denn_001",
+    "title": "denn",
+    "level": "A1/A2",
+    "source_order": "Schritte Plus Neu",
+    "lessons": [
+      {
+        "lesson_id": "lesson_de_a1_denn_base_001",
+        "type": "base",
+        "source": "SSUDT",
+        "status": "planned"
+      },
+      {
+        "lesson_id": "lesson_de_a1_denn_practice_001",
+        "type": "practice",
+        "source": "SSUDT",
+        "status": "planned"
+      },
+      {
+        "lesson_id": "lesson_de_a1_denn_review_001",
+        "type": "review",
+        "source": "SSUDT",
+        "status": "planned"
+      },
+      {
+        "lesson_id": "lesson_de_a1_denn_support_001",
+        "type": "support",
+        "source": "ISSU",
+        "status": "optional"
+      }
+    ]
   },
+  "mandatory_qa": [
+    "Every German sentence has DP + SD",
+    "Full highlight system available",
+    "Dictionary included",
+    "Practice included",
+    "Voice/audio block included where relevant",
+    "Homework or mini-review included",
+    "Lesson manifest embedded",
+    "Lesson linked to topic_id",
+    "Lesson source defined: SSUDT or ISSU",
+    "No platform/lesson CSS mixing"
+  ],
   "hard_locks": [
-    "DT plans; SSUDT creates; ISSU supports; Platform executes; ODIN controls.",
     "PLAN is source of truth.",
-    "Platform does not decide what to learn.",
-    "ISSU is not main course generator.",
-    "Lesson design must not be merged into platform design.",
-    "ISSU/V3 lesson header and internal UX must not be removed.",
-    "Resume is UX state, not learning control.",
-    "Progress is tracked by lesson + topic + course.",
-    "Language switching affects presentation layer, not plan/progress logic.",
-    "GitHub is source of truth for ODIN interface files.",
-    "No meaningful update without changelog."
+    "SSUDT does not change plan.",
+    "ISSU does not replace base course lessons.",
+    "Platform does not generate lessons.",
+    "Every lesson must bind to topic_id.",
+    "Support lessons must record reason: photo/homework/weak_topic.",
+    "Lesson Viewer must preserve ISSU/ISH/V3 lesson design.",
+    "No lesson enters Content Index without QA PASS.",
+    "Every major pipeline change requires changelog."
   ],
-  "repo_structure": [
-    "index.html",
-    "ODIN_INTERFACE_v2_FULL_INTEGRATION.json",
-    "ODIN_INTERFACE_v2_FULL_INTEGRATION.md",
-    "ODIN_INTERFACE_v2_CHANGELOG.md",
-    "README.md",
-    "temp/"
+  "outputs": [
+    "lesson_html",
+    "lesson_manifest_json",
+    "content_index_entry",
+    "qa_report",
+    "zip_package"
   ],
-  "commit_message": "ODIN v2 full integration clean repo"
+  "next_recommended_step": "DT_CONTENT_PIPELINE_v1_REVIEW_AND_ODIN_INTEGRATION"
 }</script>
 </head>
 <body>
 <header>
   <div class="wrap">
-    <div class="top">
-      <div class="brand">
-        <div class="logo">O</div>
-        <div>
-          <h1>ODIN Interface v2</h1>
-          <p class="sub">Full Integration Clean Repo Checkpoint</p>
-        </div>
-      </div>
-      <span class="pill ready">STABLE CANDIDATE</span>
-    </div>
-    <nav>
-      <button class="active" onclick="tab('dashboard',this)">Dashboard</button>
-      <button onclick="tab('architecture',this)">Architecture</button>
-      <button onclick="tab('loop',this)">Loop</button>
-      <button onclick="tab('dt',this)">DT</button>
-      <button onclick="tab('language',this)">Language</button>
-      <button onclick="tab('sync',this)">Sync</button>
-      <button onclick="tab('qa',this)">QA</button>
-    </nav>
+    <h1>DT_CONTENT_PIPELINE_v1</h1>
+    <p class="sub">Plan → Topic → SSUDT/ISSU Lessons → QA → Content Index → Platform</p>
   </div>
 </header>
 <main>
 <section class="card hero">
-  <span class="pill">ODIN v2</span><span class="pill">v68.1 LOOP</span><span class="pill">DT v0.8</span><span class="pill">LANG v1</span>
-  <p><span class="ok">PASS:</span> Чиста точка фіксації для GitHub repo створена.</p>
+  <span class="pill">CONTENT PIPELINE</span><span class="pill ready">READY FOR REVIEW</span><span class="pill">ODIN CONTROLLED</span>
+  <p><span class="ok">PASS:</span> Pipeline виробництва уроків створено.</p>
 </section>
 
-<section id="dashboard" class="page active">
-  <div class="card"><h2>Dashboard</h2><div class="grid">
-    <div class="stat"><div>Architecture</div><b>LOCKED</b></div>
-    <div class="stat"><div>Loop</div><b>v68.1</b></div>
-    <div class="stat"><div>Export/Sync</div><b>v0.8</b></div>
-    <div class="stat"><div>Language</div><b>v1</b></div>
-  </div></div>
-  <div class="card"><h2>Integrated Blocks</h2><div class="grid">
-    <div class="item"><span class="pill ready">INTEGRATED</span><h3>ODIN v68.1 PRO — Stable Integrated Autonomous Loop</h3></div><div class="item"><span class="pill ready">INTEGRATED</span><h3>DT_CORE_ARCHITECTURE_v1</h3></div><div class="item"><span class="pill ready">INTEGRATED</span><h3>DT_PLAN_ENGINE_v1</h3></div><div class="item"><span class="pill ready">INTEGRATED</span><h3>DT_CORE_LINK_MODEL_v1</h3></div><div class="item"><span class="pill ready">INTEGRATED</span><h3>DT_LESSON_FACTORY_v1</h3></div><div class="item"><span class="pill ready">INTEGRATED</span><h3>DT_LESSON_VIEWER_v1_ISSU_SAFE_MODE</h3></div><div class="item"><span class="pill ready">INTEGRATED</span><h3>DT_PLATFORM_v0.8_EXPORT_SYNC</h3></div><div class="item"><span class="pill ready">INTEGRATED</span><h3>DT_LANGUAGE_SYSTEM_v1</h3></div><div class="item"><span class="pill ready">INTEGRATED</span><h3>ODIN_SYNC_MODEL_v1</h3></div>
-  </div></div>
+<section class="card">
+  <h2>Core Flow</h2>
+  <div class="flow">→ DT_PLAN_ENGINE creates course plan
+→ Topic is selected from plan
+→ SSUDT generates base/practice/review lessons
+→ ISSU generates support lessons only when needed
+→ QA validates lesson standard
+→ Content Index registers lesson metadata
+→ Platform opens lesson via viewer
+→ Progress updates lesson/topic/course state</div>
 </section>
 
-<section id="architecture" class="page">
-  <div class="card"><h2>Core Architecture</h2>
-    <div class="flow">DT = планує
-ССУДТ = створює базові уроки
-ІССУ = підсилює / адаптує on-demand
-Platform = виконує навчання
-ODIN = контролює / валідовує / координує / захищає архітектуру</div>
+<section class="card">
+  <h2>Lesson Types</h2>
+  <div class="grid">
+    <div class="item"><span class="pill">SSUDT</span><h3>base</h3><p>main explanation lesson for topic</p></div><div class="item"><span class="pill">SSUDT</span><h3>practice</h3><p>training and drills for topic</p></div><div class="item"><span class="pill">SSUDT</span><h3>review</h3><p>topic review and spaced repetition preparation</p></div><div class="item"><span class="pill">ISSU</span><h3>support</h3><p>on-demand photo/homework/weak-topic support</p></div>
   </div>
 </section>
 
-<section id="loop" class="page">
-  <div class="card"><h2>ODIN v68.1 PRO — Autonomous Loop</h2>
-    <div class="flow">detect context
-→ validate against locks
-→ select next action
-→ execute or hold
-→ QA
-→ changelog
-→ snapshot if stable</div>
+<section class="card">
+  <h2>Topic Binding Model</h2>
+  <div class="flow">{
+  "topic_id": "de_a1_denn_001",
+  "title": "denn",
+  "level": "A1/A2",
+  "source_order": "Schritte Plus Neu",
+  "lessons": [
+    {
+      "lesson_id": "lesson_de_a1_denn_base_001",
+      "type": "base",
+      "source": "SSUDT",
+      "status": "planned"
+    },
+    {
+      "lesson_id": "lesson_de_a1_denn_practice_001",
+      "type": "practice",
+      "source": "SSUDT",
+      "status": "planned"
+    },
+    {
+      "lesson_id": "lesson_de_a1_denn_review_001",
+      "type": "review",
+      "source": "SSUDT",
+      "status": "planned"
+    },
+    {
+      "lesson_id": "lesson_de_a1_denn_support_001",
+      "type": "support",
+      "source": "ISSU",
+      "status": "optional"
+    }
+  ]
+}</div>
+</section>
+
+<section class="card">
+  <h2>Mandatory QA</h2>
+  <div class="grid">
+    <div class="item"><span class="pill ready">QA</span><p>Every German sentence has DP + SD</p></div><div class="item"><span class="pill ready">QA</span><p>Full highlight system available</p></div><div class="item"><span class="pill ready">QA</span><p>Dictionary included</p></div><div class="item"><span class="pill ready">QA</span><p>Practice included</p></div><div class="item"><span class="pill ready">QA</span><p>Voice/audio block included where relevant</p></div><div class="item"><span class="pill ready">QA</span><p>Homework or mini-review included</p></div><div class="item"><span class="pill ready">QA</span><p>Lesson manifest embedded</p></div><div class="item"><span class="pill ready">QA</span><p>Lesson linked to topic_id</p></div><div class="item"><span class="pill ready">QA</span><p>Lesson source defined: SSUDT or ISSU</p></div><div class="item"><span class="pill ready">QA</span><p>No platform/lesson CSS mixing</p></div>
   </div>
 </section>
 
-<section id="dt" class="page">
-  <div class="card"><h2>DT System</h2>
-    <div class="flow">PLAN = source of truth
-
-PLAN ↔ TOPIC ↔ LESSON ↔ PLATFORM ↔ REVIEW ↔ PROGRESS
-
-active_lesson_id = from PLAN
-resume_position = UX only
-progress = lesson + topic + course
-support_lesson = ISSU + topic_id</div>
+<section class="card">
+  <h2>Hard Locks</h2>
+  <div class="grid">
+    <div class="item"><span class="pill lock">LOCK</span><p>PLAN is source of truth.</p></div><div class="item"><span class="pill lock">LOCK</span><p>SSUDT does not change plan.</p></div><div class="item"><span class="pill lock">LOCK</span><p>ISSU does not replace base course lessons.</p></div><div class="item"><span class="pill lock">LOCK</span><p>Platform does not generate lessons.</p></div><div class="item"><span class="pill lock">LOCK</span><p>Every lesson must bind to topic_id.</p></div><div class="item"><span class="pill lock">LOCK</span><p>Support lessons must record reason: photo/homework/weak_topic.</p></div><div class="item"><span class="pill lock">LOCK</span><p>Lesson Viewer must preserve ISSU/ISH/V3 lesson design.</p></div><div class="item"><span class="pill lock">LOCK</span><p>No lesson enters Content Index without QA PASS.</p></div><div class="item"><span class="pill lock">LOCK</span><p>Every major pipeline change requires changelog.</p></div>
   </div>
 </section>
 
-<section id="language" class="page">
-  <div class="card"><h2>DT Language System v1</h2><div class="grid">
-    <div class="item"><h3>user_language</h3><p>Мова пояснень і перекладів.</p></div>
-    <div class="item"><h3>target_language</h3><p>Мова, яку вивчаємо.</p></div>
-    <div class="item"><h3>ui_language</h3><p>Мова інтерфейсу.</p></div>
-    <div class="item"><h3>course_pair</h3><p>Напрям курсу, наприклад UA-DE.</p></div>
-  </div></div>
-</section>
-
-<section id="sync" class="page">
-  <div class="card"><h2>GitHub Sync</h2>
-    <p><b>Source:</b> <code>uphillvital/odin-interface</code></p>
-    <div class="flow">Root files:
-index.html
-ODIN_INTERFACE_v2_FULL_INTEGRATION.json
-ODIN_INTERFACE_v2_FULL_INTEGRATION.md
-ODIN_INTERFACE_v2_CHANGELOG.md
-README.md
-
-Archive:
-temp/</div>
+<section class="card">
+  <h2>Outputs</h2>
+  <div class="grid">
+    <div class="item"><span class="pill purple">OUTPUT</span><h3>lesson_html</h3></div><div class="item"><span class="pill purple">OUTPUT</span><h3>lesson_manifest_json</h3></div><div class="item"><span class="pill purple">OUTPUT</span><h3>content_index_entry</h3></div><div class="item"><span class="pill purple">OUTPUT</span><h3>qa_report</h3></div><div class="item"><span class="pill purple">OUTPUT</span><h3>zip_package</h3></div>
   </div>
 </section>
 
-<section id="qa" class="page">
-  <div class="card"><h2>Hard Locks</h2><div class="grid">
-    <div class="item"><span class="pill lock">LOCK</span><p>DT plans; SSUDT creates; ISSU supports; Platform executes; ODIN controls.</p></div><div class="item"><span class="pill lock">LOCK</span><p>PLAN is source of truth.</p></div><div class="item"><span class="pill lock">LOCK</span><p>Platform does not decide what to learn.</p></div><div class="item"><span class="pill lock">LOCK</span><p>ISSU is not main course generator.</p></div><div class="item"><span class="pill lock">LOCK</span><p>Lesson design must not be merged into platform design.</p></div><div class="item"><span class="pill lock">LOCK</span><p>ISSU/V3 lesson header and internal UX must not be removed.</p></div><div class="item"><span class="pill lock">LOCK</span><p>Resume is UX state, not learning control.</p></div><div class="item"><span class="pill lock">LOCK</span><p>Progress is tracked by lesson + topic + course.</p></div><div class="item"><span class="pill lock">LOCK</span><p>Language switching affects presentation layer, not plan/progress logic.</p></div><div class="item"><span class="pill lock">LOCK</span><p>GitHub is source of truth for ODIN interface files.</p></div><div class="item"><span class="pill lock">LOCK</span><p>No meaningful update without changelog.</p></div>
-  </div></div>
+<section class="card">
+  <h2>Next</h2>
+  <p><code>DT_CONTENT_PIPELINE_v1_REVIEW_AND_ODIN_INTEGRATION</code></p>
 </section>
 </main>
-
-<script>
-function tab(id,btn){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-}
-</script>
 </body>
 </html>
