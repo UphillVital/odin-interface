@@ -7,8 +7,8 @@ let ODIN_STATE = {lessonCreated:false,showDP:true,showSD:true,uxMode:"FULL",high
 
 function esc(value){return String(value??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
 function getValue(id){return document.getElementById(id).value.trim()}
-function log(message){const box=document.getElementById("log");if(box.textContent==="WAITING")box.textContent="";box.textContent+=message+"\\n"}
-function dataLog(message){const box=document.getElementById("dataLog");if(box.textContent==="DATA_WAITING")box.textContent="";box.textContent+=message+"\\n"}
+function log(message){const box=document.getElementById("log");if(box.textContent==="WAITING")box.textContent="";box.textContent+=message+"\n"}
+function dataLog(message){const box=document.getElementById("dataLog");if(box.textContent==="DATA_WAITING")box.textContent="";box.textContent+=message+"\n"}
 function clearLog(){document.getElementById("log").textContent=""}
 function parseRows(raw,parts){return String(raw||"").split(/\n+/).map(l=>l.trim()).filter(Boolean).map(l=>l.split("|").map(p=>p.trim())).filter(p=>p.length>=parts)}
 function collectInput(){return{title:getValue("title"),topic:getValue("topic")||"General",level:getValue("level")||"A1",goal:getValue("goal"),examples:parseRows(getValue("examples"),3),vocab:parseRows(getValue("vocab"),2)}}
@@ -40,7 +40,7 @@ function hardQaCheck(model,html){const messages=[];const error=t=>messages.push(
  const d=findDuplicates(model.examples,i=>i[0]||""); if(d.length>0)error("Є дублікати прикладів DE: "+d.join(", ")); if(!html.includes("QA marker"))error("HTML не містить QA marker."); info("PROGRESSION layer ready: level + MASTERED + topic progress.");
  const hasErrors=messages.some(m=>m.level==="ERROR"),hasWarnings=messages.some(m=>m.level==="WARNING");return{passed:!hasErrors,hasWarnings,messages}}
 function renderQaReport(r){const rows=r.messages.map(m=>'<div class="qa-item '+(m.level==="ERROR"?"qa-error":m.level==="WARNING"?"qa-warning":"qa-info")+'"><b>'+m.level+':</b> '+esc(m.text)+'</div>').join("");const s=r.passed?(r.hasWarnings?"QA_PASSED_WITH_WARNINGS":"QA_PASSED"):"QA_FAILED_EXPORT_BLOCKED";document.getElementById("qaBox").innerHTML=rows+'<div class="qa-item summary '+(r.passed?"qa-pass":"qa-error")+'">'+s+'</div>'}
-function renderDownload(html){const blob=new Blob([html],{type:"text/html;charset=utf-8"});const url=URL.createObjectURL(blob);document.getElementById("download").innerHTML='<a class="download" href="'+url+'" download="odin_lesson_v3_17.html">Завантажити урок</a>'}
+function renderDownload(html){const blob=new Blob([html],{type:"text/html;charset=utf-8"});const url=URL.createObjectURL(blob);document.getElementById("download").innerHTML='<a class="download" href="'+url+'" download="odin_lesson_v3_17_1.html">Завантажити урок</a>'}
 
 function getPreviewDocument(){const f=document.getElementById("preview");return f.contentDocument||f.contentWindow.document}
 function applyMode(){if(!ODIN_STATE.lessonCreated){log("INFO: спочатку створи урок.");return}const d=getPreviewDocument();if(!d)return;d.querySelectorAll(".dp").forEach(e=>e.style.display=ODIN_STATE.showDP?"block":"none");d.querySelectorAll(".sd").forEach(e=>e.style.display=ODIN_STATE.showSD?"block":"none")}
@@ -64,7 +64,7 @@ function renderFilters(){const topic=document.getElementById("topicFilter");topi
 function calcProgressForTopic(topic){const lessons=getLessons().filter(l=>(l.topic||"General")===topic);if(!lessons.length)return 0;const score=lessons.reduce((sum,l)=>sum+(l.reviewStatus==="MASTERED"?1:l.reviewStatus==="LEARNED"?0.75:l.reviewStatus==="REVIEW"?0.35:0.1),0);return Math.round((score/lessons.length)*100)}
 function renderProgress(){const topics=getTopics();const box=document.getElementById("progressBox");if(!topics.length){box.innerHTML='<p class="muted">Прогрес зʼявиться після збереження уроків.</p>';return}box.innerHTML='<h3>Progress by Topic</h3>'+topics.map(t=>{const p=calcProgressForTopic(t);return '<div class="progress-row"><div class="progress-label"><span>'+esc(t)+'</span><span>'+p+'%</span></div><div class="bar"><div class="fill" style="width:'+p+'%"></div></div></div>'}).join("")}
 function renderLessonsList(){const lessons=getLessons();let f=REVIEW_FILTER==="ALL"?lessons:lessons.filter(l=>(l.reviewStatus||"NEW")===REVIEW_FILTER);f=TOPIC_FILTER==="ALL"?f:f.filter(l=>(l.topic||"General")===TOPIC_FILTER);f=LEVEL_FILTER==="ALL"?f:f.filter(l=>(l.level||"A1")===LEVEL_FILTER);const box=document.getElementById("lessonsList");if(!f.length){box.innerHTML='<p class="muted">Немає уроків для цього фільтра.</p>';dataLog("LESSONS_LIST_EMPTY");return}box.innerHTML=f.map(lesson=>{const i=lessons.findIndex(l=>l.id===lesson.id);const s=lesson.reviewStatus||"NEW";return '<div class="lesson-item"><h3>'+esc(lesson.title)+' <span class="topic-pill">'+esc(lesson.topic||"General")+'</span><span class="level-pill">'+esc(lesson.level||"A1")+'</span><span class="status-pill '+statusClass(s)+'">'+s+'</span></h3><div class="lesson-meta">'+esc(lesson.createdAt)+' · reviews: '+(lesson.reviewCount||0)+' · last: '+esc(lesson.lastReviewed||"—")+'</div><button data-action="open" data-index="'+i+'">Відкрити</button><button data-action="export" data-index="'+i+'">Export</button><button data-action="auto" data-index="'+i+'">Auto Progress</button><button data-action="status" data-status="REVIEW" data-index="'+i+'">REVIEW</button><button data-action="status" data-status="LEARNED" data-index="'+i+'">LEARNED</button><button data-action="status" data-status="MASTERED" data-index="'+i+'">MASTERED</button><button class="danger" data-action="delete" data-index="'+i+'">Видалити</button></div>'}).join("");dataLog("LESSONS_LIST_RENDERED: "+f.length)}
-function openLesson(i){const l=getLessons()[i];if(!l)return;document.getElementById("preview").srcdoc=l.html;ODIN_STATE.lessonCreated=true;ODIN_STATE.lastHtml=l.html;ODIN_STATE.lastModel=l.model;dataLog("LESSON_OPENED: "+l.title)}
+function openLesson(i){const l=getLessons()[i];if(!l)return;setPreviewHtml(l.html);ODIN_STATE.lessonCreated=true;ODIN_STATE.lastHtml=l.html;ODIN_STATE.lastModel=l.model;dataLog("LESSON_OPENED: "+l.title)}
 function exportSavedLesson(i){const l=getLessons()[i];if(!l)return;renderDownload(l.html);dataLog("EXPORT_READY: "+l.title)}
 function deleteLesson(i){const lessons=getLessons();const r=lessons.splice(i,1)[0];setLessons(lessons);dataLog("LESSON_DELETED: "+(r?r.title:i));renderFilters();renderProgress();renderLessonsList()}
 function clearSavedLessons(){localStorage.removeItem(ODIN_STORAGE_KEY);dataLog("ALL_LESSONS_CLEARED");renderFilters();renderProgress();renderLessonsList()}
@@ -73,10 +73,10 @@ function setTopicFilter(v){TOPIC_FILTER=v;dataLog("TOPIC_FILTER_SET: "+v);render
 function setLevelFilter(v){LEVEL_FILTER=v;dataLog("LEVEL_FILTER_SET: "+v);renderLessonsList()}
 
 function clearAll(){clearLog();document.getElementById("qaBox").innerHTML='<p class="muted">QA зʼявиться після запуску.</p>';document.getElementById("download").innerHTML="";document.getElementById("preview").srcdoc="";ODIN_STATE={lessonCreated:false,showDP:true,showSD:true,uxMode:"FULL",highlightMode:"TOPIC",lastHtml:"",lastModel:null,lastQa:null}}
-function executeOdinAction(){clearAll();log("RUNNING");runModeGuard();const model=collectInput();ODIN_STATE.lastModel=model;log("PLAN_DONE");log("PIPELINE_DONE");const html=buildLesson(model);ODIN_STATE.lastHtml=html;document.getElementById("preview").srcdoc=html;ODIN_STATE.lessonCreated=true;log("LESSON_DONE");const report=hardQaCheck(model,html);ODIN_STATE.lastQa=report;renderQaReport(report);log(report.passed?(report.hasWarnings?"QA_PASSED_WITH_WARNINGS":"QA_PASSED"):"QA_FAILED");if(!report.passed){document.getElementById("download").innerHTML='<div class="qa-item qa-error">EXPORT BLOCKED</div>';log("EXPORT_BLOCKED");return}renderDownload(html);log("EXPORT_DONE");log("SMART_REVIEW_LAYER_READY");log("DONE")}
+function executeOdinAction(){clearAll();log("RUNNING");runModeGuard();const model=collectInput();ODIN_STATE.lastModel=model;log("PLAN_DONE");log("PIPELINE_DONE");const html=buildLesson(model);ODIN_STATE.lastHtml=html;setPreviewHtml(html);ODIN_STATE.lessonCreated=true;log("LESSON_DONE");const report=hardQaCheck(model,html);ODIN_STATE.lastQa=report;renderQaReport(report);log(report.passed?(report.hasWarnings?"QA_PASSED_WITH_WARNINGS":"QA_PASSED"):"QA_FAILED");if(!report.passed){document.getElementById("download").innerHTML='<div class="qa-item qa-error">EXPORT BLOCKED</div>';log("EXPORT_BLOCKED");return}renderDownload(html);log("EXPORT_DONE");log("SMART_REVIEW_LAYER_READY_UI_FIXED");log("DONE")}
 
 function bind(){document.getElementById("runBtn").addEventListener("click",executeOdinAction);document.getElementById("saveBtn").addEventListener("click",saveCurrentLesson);document.getElementById("clearBtn").addEventListener("click",clearAll);document.getElementById("toggleDpBtn").addEventListener("click",toggleDP);document.getElementById("toggleSdBtn").addEventListener("click",toggleSD);document.getElementById("modeStudyBtn").addEventListener("click",modeStudy);document.getElementById("modeTestBtn").addEventListener("click",modeTest);document.getElementById("modeFullBtn").addEventListener("click",modeFull);document.getElementById("lampBtn").addEventListener("click",()=>applyHighlightMode("TOPIC"));document.getElementById("lampAllBtn").addEventListener("click",()=>applyHighlightMode("ALL"));document.getElementById("lampOffBtn").addEventListener("click",()=>applyHighlightMode("OFF"));document.getElementById("refreshLessonsBtn").addEventListener("click",()=>{renderFilters();renderProgress();renderLessonsList()});document.getElementById("clearLessonsBtn").addEventListener("click",clearSavedLessons);document.getElementById("filterAllBtn").addEventListener("click",()=>setFilter("ALL"));document.getElementById("filterNewBtn").addEventListener("click",()=>setFilter("NEW"));document.getElementById("filterReviewBtn").addEventListener("click",()=>setFilter("REVIEW"));document.getElementById("filterLearnedBtn").addEventListener("click",()=>setFilter("LEARNED"));document.getElementById("filterMasteredBtn").addEventListener("click",()=>setFilter("MASTERED"));document.getElementById("topicFilter").addEventListener("change",e=>setTopicFilter(e.target.value));document.getElementById("levelFilter").addEventListener("change",e=>setLevelFilter(e.target.value));document.getElementById("lessonsList").addEventListener("click",e=>{const b=e.target.closest("button[data-action]");if(!b)return;const i=Number(b.dataset.index);if(b.dataset.action==="open")openLesson(i);if(b.dataset.action==="export")exportSavedLesson(i);if(b.dataset.action==="delete")deleteLesson(i);if(b.dataset.action==="status")setReviewStatus(i,b.dataset.status);if(b.dataset.action==="auto")autoProgress(i)})}
-document.addEventListener("DOMContentLoaded",()=>{bind();renderFilters();renderProgress();renderLessonsList();dataLog("PARSER_FIX_ACTIVE: newline rows are parsed correctly");dataLog("APP_READY_v3.17_SMART_REVIEW")});
+document.addEventListener("DOMContentLoaded",()=>{bind();renderFilters();renderProgress();renderLessonsList();dataLog("PARSER_FIX_ACTIVE: newline rows are parsed correctly");dataLog("APP_READY_v3.17.1_UI_PREVIEW_FIX")});
 
 
 function smartPriority(lesson) {
@@ -147,5 +147,63 @@ function showSmartReview() {
 document.addEventListener("DOMContentLoaded", function () {
   const smartBtn = document.getElementById("smartReviewBtn");
   if (smartBtn) smartBtn.addEventListener("click", showSmartReview);
-  dataLog("SMART_REVIEW_LAYER_READY");
+  dataLog("SMART_REVIEW_LAYER_READY_UI_FIXED");
 });
+
+
+/* v3.17.1 FIX: iframe may not be ready immediately after srcdoc update */
+function refreshPreviewControls() {
+  if (!ODIN_STATE.lessonCreated) return;
+  setTimeout(function () {
+    applyMode();
+    applyHighlightMode(ODIN_STATE.highlightMode || "TOPIC");
+  }, 80);
+}
+
+function setPreviewHtml(html) {
+  const frame = document.getElementById("preview");
+  frame.onload = function () {
+    refreshPreviewControls();
+  };
+  frame.srcdoc = html;
+}
+
+/* Patch wrapper: make sure generated/opened lessons re-apply UX controls */
+const _odinOriginalApplyMode = applyMode;
+applyMode = function () {
+  if (!ODIN_STATE.lessonCreated) {
+    log("INFO: спочатку створи урок.");
+    return;
+  }
+  const doc = getPreviewDocument();
+  if (!doc || !doc.body) {
+    setTimeout(applyMode, 80);
+    return;
+  }
+  doc.querySelectorAll(".dp").forEach(e => e.style.display = ODIN_STATE.showDP ? "block" : "none");
+  doc.querySelectorAll(".sd").forEach(e => e.style.display = ODIN_STATE.showSD ? "block" : "none");
+};
+
+const _odinOriginalApplyHighlightMode = applyHighlightMode;
+applyHighlightMode = function (mode) {
+  if (!ODIN_STATE.lessonCreated) {
+    log("INFO: спочатку створи урок.");
+    return;
+  }
+  const doc = getPreviewDocument();
+  if (!doc || !doc.body) {
+    setTimeout(function () { applyHighlightMode(mode); }, 80);
+    return;
+  }
+  doc.body.classList.remove("hl-topic-mode", "hl-all-mode", "hl-off");
+  if (mode === "TOPIC") {
+    doc.body.classList.add("hl-topic-mode");
+    ODIN_STATE.highlightMode = "TOPIC";
+  } else if (mode === "ALL") {
+    doc.body.classList.add("hl-all-mode");
+    ODIN_STATE.highlightMode = "ALL";
+  } else {
+    doc.body.classList.add("hl-off");
+    ODIN_STATE.highlightMode = "OFF";
+  }
+};
