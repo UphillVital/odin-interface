@@ -1,147 +1,362 @@
-const ODIN_STORAGE_KEY = "odin_lessons_v3_18_1";
-let REVIEW_FILTER = "ALL";
-let TOPIC_FILTER = "ALL";
-let LEVEL_FILTER = "ALL";
+const ODIN_STORAGE_KEY = "odin_lessons_v3_19_standard_engine";
 
 let ODIN_STATE = {
-  lessonCreated:false, showDP:true, showSD:true,
-  languageHighlightMode:"TOPIC",
-  lastHtml:"", lastModel:null, lastQa:null
+  lessonCreated:false,
+  lastHtml:"",
+  lastModel:null,
+  lastQa:null
 };
 
-function esc(value){return String(value??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function getValue(id){return document.getElementById(id).value.trim()}
-function log(message){const box=document.getElementById("log");if(box.textContent==="WAITING")box.textContent="";box.textContent+=message+"\n"}
-function dataLog(message){const box=document.getElementById("dataLog");if(box.textContent==="DATA_WAITING")box.textContent="";box.textContent+=message+"\n"}
-function clearLog(){document.getElementById("log").textContent=""}
-function parseRows(raw,parts){return String(raw||"").split(/\n+/).map(l=>l.trim()).filter(Boolean).map(l=>l.split("|").map(p=>p.trim())).filter(p=>p.length>=parts)}
-function collectInput(){return{title:getValue("title"),topic:getValue("topic")||"General",level:getValue("level")||"A1",goal:getValue("goal"),examples:parseRows(getValue("examples"),3),vocab:parseRows(getValue("vocab"),2)}}
-function runModeGuard(){log("MODE_GUARD_STARTED");["SON","QA","NN","PLAN","BUILD","TEST","FIX","GIT"].forEach(m=>log("MODE_OK: "+m));log("MODE_GUARD_PASSED");return true}
+function esc(value){
+  return String(value??"")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+function getValue(id){return document.getElementById(id).value.trim();}
+function log(message){const box=document.getElementById("log");if(box.textContent==="WAITING")box.textContent="";box.textContent+=message+"\\n";}
+function dataLog(message){const box=document.getElementById("dataLog");if(box.textContent==="DATA_WAITING")box.textContent="";box.textContent+=message+"\\n";}
+function parseRows(raw,parts){return String(raw||"").split(/\n+/).map(l=>l.trim()).filter(Boolean).map(l=>l.split("|").map(p=>p.trim())).filter(p=>p.length>=parts);}
+function collectInput(){return{title:getValue("title"),topic:getValue("topic")||"general",level:getValue("level")||"A1",goal:getValue("goal"),examples:parseRows(getValue("examples"),3),vocab:parseRows(getValue("vocab"),2)};}
 
-const LANGUAGE_HIGHLIGHT_RULES = {
-  topicParticles:["auf","zu","ein","an"],
-  subjects:["ich","du","er","sie","es","wir","ihr"],
-  verbs:["stehe","mach","kaufen","ruf","räume","steht","machst","kauft","ruft"]
+const STANDARD_VERSION = "DT_LESSON_STANDARD_v1";
+const STANDARD_STACK = [
+  "HIGHLIGHT_STANDARD_CORE_v1",
+  "LESSON_TEMPLATE_STANDARD_v1",
+  "LANGUAGE_MARKUP_STANDARD_v1",
+  "QA_STANDARD_v1"
+];
+
+const VERB_LEMMAS = {
+  "stehe":"aufstehen","mach":"zumachen","kaufen":"einkaufen","ruf":"anrufen","räume":"aufräumen",
+  "bin":"sein","gehe":"gehen","gehen":"gehen","ist":"sein","sind":"sein"
 };
-function langNormalize(token){return String(token||"").replace(/[.,!?;:]/g,"").toLowerCase()}
-function renderLanguageHighlightedGerman(sentence){
-  return String(sentence||"").split(/(\s+)/).map(part=>{
-    if(/^\s+$/.test(part)) return part;
-    const clean=langNormalize(part);
-    let cls="dt-lang-token";
-    if(LANGUAGE_HIGHLIGHT_RULES.topicParticles.includes(clean)) cls+=" dt-lang-topic";
-    if(LANGUAGE_HIGHLIGHT_RULES.subjects.includes(clean)) cls+=" dt-lang-subject";
-    if(LANGUAGE_HIGHLIGHT_RULES.verbs.includes(clean)) cls+=" dt-lang-verb";
-    return '<span class="'+cls+'">'+esc(part)+'</span>';
-  }).join("");
+const PREFIXES = ["auf","zu","ein","an"];
+const SUBJECTS = ["ich","du","er","sie","es","wir","ihr"];
+const ARTICLES = ["der","die","das","dem","den","ein","eine","einen","einem"];
+const PREPOSITIONS = ["in","an","auf","neben","zwischen","vor","hinter","über","unter","bei","zu","zum","zur","im","am","beim"];
+
+function normalizeWord(word){return String(word||"").replace(/[.,!?;:]/g,"").toLowerCase();}
+function cleanTts(text){return String(text||"").replace(/<[^>]+>/g,"").trim();}
+function getPos(word){
+  const w=normalizeWord(word);
+  if(SUBJECTS.includes(w)) return "pronoun";
+  if(VERB_LEMMAS[w]) return "verb";
+  if(PREFIXES.includes(w)) return "verb-prefix";
+  if(ARTICLES.includes(w)) return "article";
+  if(PREPOSITIONS.includes(w)) return "preposition";
+  if(/^[A-ZÄÖÜ]/.test(word)) return "noun";
+  return "unknown";
 }
-function lessonLanguageHighlightCss(){
-  return [
-    '.dt-lang-token{border-radius:7px;padding:1px 4px}',
-    'body.dt-lang-off .dt-lang-token{background:transparent!important;outline:none!important}',
-    'body.dt-lang-topic-mode .dt-lang-topic{background:#fef3c7;outline:1px solid #f59e0b}',
-    'body.dt-lang-topic-mode .dt-lang-subject,body.dt-lang-topic-mode .dt-lang-verb{background:transparent!important;outline:none!important}',
-    'body.dt-lang-all-mode .dt-lang-topic{background:#fef3c7;outline:1px solid #f59e0b}',
-    'body.dt-lang-all-mode .dt-lang-subject{background:#dbeafe;outline:1px solid #60a5fa}',
-    'body.dt-lang-all-mode .dt-lang-verb{background:#dcfce7;outline:1px solid #22c55e}',
-    '.lesson-lang-btn{border:0;border-radius:10px;padding:8px 10px;background:#facc15;color:#422006;font-weight:800;cursor:pointer;margin:4px}'
-  ].join("");
-}
-function lessonEmbeddedLanguageHighlightScript(){
-  return `<script>
-(function(){
-  function applyLanguageMode(mode){
-    document.body.classList.remove("dt-lang-topic-mode","dt-lang-all-mode","dt-lang-off");
-    if(mode==="OFF"){document.body.classList.add("dt-lang-off");return;}
-    if(mode==="ALL"){document.body.classList.add("dt-lang-all-mode");return;}
-    document.body.classList.add("dt-lang-topic-mode");
+function renderLmWord(word, sentenceMeta){
+  const clean=normalizeWord(word);
+  const pos=getPos(word);
+  let cls="lm-word";
+  let attrs=`data-lemma="${esc(clean)}" data-pos="${esc(pos)}"`;
+
+  if(pos==="pronoun"){
+    cls += " lm-pronoun";
+    attrs += ` data-person="${clean==="ich"?"1":clean==="du"?"2":"3"}" data-number="${["wir","ihr"].includes(clean)?"plural":"singular"}" data-case="nominative"`;
+  } else if(pos==="verb"){
+    cls += " lm-verb";
+    const lemma=VERB_LEMMAS[clean] || clean;
+    let type = ["bin","ist","sind"].includes(clean) ? "auxiliary" : PREFIXES.some(p => lemma.startsWith(p)) ? "separable" : "simple";
+    attrs = `data-lemma="${esc(lemma)}" data-pos="verb" data-verb-type="${type}" data-tense="present" data-person="unknown" data-number="unknown"`;
+    if(type==="separable") cls += " lm-separable";
+  } else if(pos==="verb-prefix"){
+    cls += " lm-prefix hl-topic";
+    attrs = `data-lemma="${esc(clean)}" data-pos="verb-prefix" data-prefix="${esc(clean)}" data-role="topic"`;
+  } else if(pos==="article"){
+    cls += " lm-article";
+    const caseGuess = ["dem","der"].includes(clean) ? "dativ" : ["die","den"].includes(clean) ? "akkusativ" : "unknown";
+    attrs += ` data-article-type="definite" data-gender="unknown" data-number="unknown" data-case="${caseGuess}"`;
+  } else if(pos==="preposition"){
+    const role = sentenceMeta.role || "unknown";
+    const question = sentenceMeta.question || "unknown";
+    const gov = question==="wo" ? "dativ" : question==="wohin" ? "akkusativ" : "unknown";
+    cls += ` lm-preposition ${role==="place"?"hl-place":role==="movement"?"hl-move":"hl-topic"}`;
+    attrs += ` data-role="${role}" data-question="${question}" data-governs-case="${gov}"`;
+  } else if(pos==="noun"){
+    cls += " lm-noun";
+    attrs += ` data-gender="unknown" data-number="singular" data-case="${sentenceMeta.caseName||"unknown"}"`;
+  } else {
+    cls += " lm-unknown";
   }
-  document.addEventListener("click",function(e){
-    if(e.target.classList.contains("mini-toggle")){
-      var card=e.target.closest(".example-card");
-      var wrap=card ? card.querySelector(".translation-wrap") : null;
-      if(wrap) wrap.classList.toggle("local-hidden");
-    }
-    var mode=e.target.getAttribute("data-lang-highlight");
-    if(mode) applyLanguageMode(mode);
-  });
-  applyLanguageMode("TOPIC");
-})();
-<\/script>`;
+
+  return `<span class="${cls}" ${attrs}>${esc(word)}</span>`;
+}
+function inferSentenceMeta(sentence){
+  const s = sentence.toLowerCase();
+  const movement = /\b(gehe|gehen|fahre|fahren|laufe|laufen|komm|komme|kommt|ruf|mach)\b/.test(s);
+  const place = /\b(bin|ist|sind|sitzt|steht|wartet|warten)\b/.test(s) && !movement;
+  return {
+    role: movement ? "movement" : place ? "place" : "topic",
+    question: movement ? "wohin" : place ? "wo" : "unknown",
+    caseName: movement ? "akkusativ" : place ? "dativ" : "unknown"
+  };
+}
+function renderMarkedGerman(sentence, model, index){
+  const meta = inferSentenceMeta(sentence);
+  const parts = String(sentence||"").split(/(\s+)/);
+  const html = parts.map(part => {
+    if(/^\s+$/.test(part)) return part;
+    const punctMatch = part.match(/^(.+?)([.,!?;:]*)$/);
+    const word = punctMatch ? punctMatch[1] : part;
+    const punct = punctMatch ? punctMatch[2] : "";
+    return renderLmWord(word, meta) + esc(punct);
+  }).join("");
+
+  return `<div class="de" data-sentence-id="${esc(model.topic)}-S${index+1}" data-topic="${esc(model.topic)}" data-level="${esc(model.level)}" data-grammar="${esc(meta.role)},${esc(meta.question)},${esc(meta.caseName)}">${html}<button class="audio-mini" data-tts="${esc(cleanTts(sentence))}">🔊</button></div>`;
+}
+function lessonCss(){
+  return `
+:root{--bg:#f6f7f9;--card:#ffffff;--text:#1f2937;--muted:#4b5563;--line:#e5e7eb;--accent:#1f4b99;--accent-soft:#eef4ff;--shadow:0 6px 20px rgba(17,24,39,.06);--header-h:64px;--radius:18px;--audio:#0f766e;--audio-soft:#ecfeff}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6} [id]{scroll-margin-top:84px}
+.topbar{position:sticky;top:0;z-index:100;height:var(--header-h);background:rgba(246,247,249,.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar-inner{max-width:1080px;margin:0 auto;height:100%;padding:0 14px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px}
+.brand{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.08em;text-transform:uppercase}.center-actions{display:flex;gap:8px;align-items:center;justify-self:center;flex-wrap:wrap;justify-content:center}
+.btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);border-radius:999px;padding:0;font-size:13px;font-weight:700;cursor:pointer;box-shadow:var(--shadow);width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center}.btn.is-off{background:#f1f2f4;color:#6b7280;border-color:#d1d5db}
+.wrap{max-width:1080px;margin:18px auto 36px;padding:0 14px}.hero,.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}.hero{text-align:center}
+h1,h2,h3{margin:0 0 10px}h1{font-size:30px;line-height:1.15}h2{font-size:22px}.section-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}.sec-num{display:inline-flex;align-items:center;justify-content:center;min-width:38px;height:38px;padding:0 10px;border-radius:999px;background:var(--accent-soft);border:1px solid #dbe7ff;color:var(--accent);font-weight:800;font-size:16px;box-shadow:var(--shadow)}
+.grid,.vocab-columns{display:grid;gap:12px}.grid.two-col{grid-template-columns:repeat(auto-fit,minmax(360px,1fr))}.grid.three-col,.vocab-columns{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.subcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}.tag{display:inline-block;padding:4px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-size:14px;font-weight:700;margin-bottom:8px}
+.sentence,.example,.dialog-row,.vocab-line{border-top:1px solid var(--line);padding:10px 0}.sentence:first-child,.example:first-child,.dialog-row:first-child,.vocab-line:first-child{border-top:none;padding-top:0}
+.de{font-weight:800;font-size:19px;display:flex;gap:6px;align-items:flex-start;flex-wrap:wrap}.literal{display:none;font-size:15px;font-style:italic;margin-top:4px;color:#6b7280}body.show-literal .literal{display:block}.translation{color:var(--muted);margin-top:4px;font-size:17px}
+.audio-mini{appearance:none;border:1px solid #bfe7e5;background:var(--audio-soft);color:var(--audio);border-radius:999px;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow);flex:0 0 auto}
+.hl-topic,.hl-case,.hl-move,.hl-place{border-radius:6px;padding:0 4px}body[data-hl-mode="off"] .hl-topic,body[data-hl-mode="off"] .hl-case,body[data-hl-mode="off"] .hl-move,body[data-hl-mode="off"] .hl-place{background:transparent;color:inherit;box-shadow:none}
+body[data-hl-mode="theme"] .hl-topic,body[data-hl-mode="all"] .hl-topic{background:#fff7ed;color:#92400e}body[data-hl-mode="all"] .hl-case{background:#eef2ff;color:#4338ca}body[data-hl-mode="all"] .hl-move{background:#fee2e2;color:#b91c1c}body[data-hl-mode="all"] .hl-place{background:#ecfeff;color:#0f766e}
+body[data-hl-mode="theme"] .hl-case,body[data-hl-mode="theme"] .hl-move,body[data-hl-mode="theme"] .hl-place{background:transparent;color:inherit;box-shadow:none}
+[data-lang-block]{display:none}body[data-lang="ua"] [data-lang-block="ua"]{display:block}body[data-lang="ru"] [data-lang-block="ru"]{display:block}.inline-lang{display:none}body[data-lang="ua"] .inline-lang.ua{display:inline}body[data-lang="ru"] .inline-lang.ru{display:inline}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.34);display:none;align-items:center;justify-content:center;z-index:120;padding:18px}.modal.open{display:flex}.panel-modal{width:min(360px,88vw);max-height:72vh;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 20px 60px rgba(15,23,42,.18);overflow:hidden;display:flex;flex-direction:column}.panel-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line)}.nav-list{padding:8px 14px 14px;overflow:auto}.nav-item{display:block;text-decoration:none;color:var(--text);border-top:1px solid var(--line);padding:10px 0;font-size:15px}.nav-item:first-child{border-top:none}.close-btn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:999px;width:34px;height:34px;cursor:pointer}
+.footer-note{color:var(--muted);font-size:15px;text-align:center;padding:4px 0 24px}
+@media(max-width:640px){:root{--header-h:60px}h1{font-size:25px}.grid.two-col,.grid.three-col,.vocab-columns{grid-template-columns:1fr}}
+`;
+}
+function lessonJs(){
+  return `<script>
+const body=document.body;
+const literalToggle=document.getElementById('literalToggle');
+const glowToggle=document.getElementById('glowToggle');
+const homeBtn=document.getElementById('homeBtn');
+const langToggle=document.getElementById('langToggle');
+const menuBtn=document.getElementById('menuBtn');
+const navModal=document.getElementById('navModal');
+const closeNav=document.getElementById('closeNav');
+literalToggle.addEventListener('click',()=>{body.classList.toggle('show-literal');literalToggle.classList.toggle('is-off',!body.classList.contains('show-literal'));});
+glowToggle.addEventListener('click',()=>{const m=body.dataset.hlMode;body.dataset.hlMode=m==='off'?'theme':(m==='theme'?'all':'off');glowToggle.classList.toggle('is-off',body.dataset.hlMode==='off');});
+homeBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+langToggle.addEventListener('click',()=>{body.dataset.lang=body.dataset.lang==='ua'?'ru':'ua';langToggle.textContent=body.dataset.lang.toUpperCase();});
+menuBtn.addEventListener('click',()=>navModal.classList.add('open'));
+closeNav.addEventListener('click',()=>navModal.classList.remove('open'));
+navModal.addEventListener('click',e=>{if(e.target===navModal)navModal.classList.remove('open')});
+document.querySelectorAll('.nav-item').forEach(a=>a.addEventListener('click',()=>navModal.classList.remove('open')));
+function speak(text){if(!('speechSynthesis' in window)){alert('Озвучка не підтримується.');return;}window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='de-DE';u.rate=0.95;window.speechSynthesis.speak(u);}
+document.querySelectorAll('[data-tts]').forEach(btn=>btn.addEventListener('click',()=>speak(btn.getAttribute('data-tts'))));
+<\\/script>`;
+}
+function buildStandardLesson(model){
+  const examplesHtml = model.examples.map((e,i)=>`
+    <div class="sentence">
+      ${renderMarkedGerman(e[0], model, i)}
+      <div class="literal"><span class="inline-lang ua">Дослівно: ${esc(e[1])}</span><span class="inline-lang ru">Дословно: ${esc(e[1])}</span></div>
+      <div class="translation"><span class="inline-lang ua">${esc(e[2])}</span><span class="inline-lang ru">${esc(e[2])}</span></div>
+    </div>`).join("");
+
+  const vocabHtml = model.vocab.map((v,i)=>`
+    <div class="vocab-line">
+      <span class="vocab-word lm-word lm-vocab" data-lemma="${esc(normalizeWord(v[0]))}" data-pos="unknown">${esc(v[0])}</span> —
+      <span class="inline-lang ua">${esc(v[1])}</span><span class="inline-lang ru">${esc(v[1])}</span>
+      <button class="audio-mini" data-tts="${esc(v[0])}">🔊</button>
+    </div>`).join("");
+
+  const nav = [
+    ["top","0. Тема"],["summary","1. Суть теми"],["text","2. Основні приклади"],["analysis","3. Розбір"],["rule","4. Правило"],["map","5. Карта"],["vocab","6. Словник"],["drill","7. Мікродрил"],["after","8. Після уроку"],["homework","9. Домашнє завдання"]
+  ].map(x=>`<a class="nav-item" href="#${x[0]}">${x[1]}</a>`).join("");
+
+  return `<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${esc(model.title)}</title>
+<style>${lessonCss()}</style>
+</head>
+<body class="show-literal" data-hl-mode="off" data-lang="ua">
+<header class="topbar"><div class="topbar-inner"><div class="brand">${STANDARD_VERSION} · ${esc(model.level)}</div><div class="center-actions"><button class="btn" id="homeBtn" title="Додому">🏠</button><button class="btn" id="menuBtn" title="Меню">☰</button><button class="btn is-off" id="glowToggle" title="Підсвітка">💡</button><button class="btn" id="literalToggle" title="Дослівний">+</button><button class="btn" id="langToggle" title="UA/RU">UA</button></div><div></div></div></header>
+<div class="modal" id="navModal"><div class="panel-modal"><div class="panel-head"><b>Розділи уроку</b><button class="close-btn" id="closeNav">✕</button></div><div class="nav-list">${nav}</div></div></div>
+<main class="wrap" data-course="${esc(model.level)}" data-lesson-id="${esc(model.topic)}_${Date.now()}" data-lesson-topic="${esc(model.topic)}" data-lesson-version="v3.19">
+<section class="hero" id="top"><div style="font-size:12px;color:#1f4b99;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;">ODIN / DT STANDARD LESSON</div><h1>${esc(model.title)}</h1><div style="font-size:18px;color:#0f5132;font-weight:700;margin-bottom:10px;">${esc(model.level)} · ${esc(model.topic)}</div><p style="max-width:860px;margin:0 auto;">${esc(model.goal)}</p></section>
+<section class="card" id="summary"><div class="section-head"><span class="sec-num">1</span><h2>Суть теми</h2></div><div class="grid two-col"><div class="subcard"><div class="tag">Що вивчаємо</div><p>${esc(model.goal)}</p></div><div class="subcard"><div class="tag">Стандарт</div><p>Урок створено за ${STANDARD_VERSION}: Template + Highlight + Markup + Audio + QA + Standalone.</p></div></div></section>
+<section class="card" id="text"><div class="section-head"><span class="sec-num">2</span><h2>Основні приклади</h2></div>${examplesHtml}</section>
+<section class="card" id="analysis"><div class="section-head"><span class="sec-num">3</span><h2>Розбір і значення</h2></div><div class="subcard"><p>Кожне німецьке речення має language markup: <b>lm-word</b>, <b>data-lemma</b>, <b>data-pos</b>. Підсвітка керується через <b>body[data-hl-mode]</b>.</p></div></section>
+<section class="card" id="rule"><div class="section-head"><span class="sec-num">4</span><h2>Правило</h2></div><div class="subcard"><p><span class="hl-topic">Тема уроку</span> позначена як головна. У режимі ALL система показує додаткові граматичні ролі.</p></div></section>
+<section class="card" id="map"><div class="section-head"><span class="sec-num">5</span><h2>Швидка карта</h2></div><div class="subcard"><ul class="clean"><li>OFF — чисте читання</li><li>THEME — тема уроку</li><li>ALL — всі позначені правила</li></ul></div></section>
+<section class="card" id="vocab"><div class="section-head"><span class="sec-num">6</span><h2>Словник</h2></div><div class="vocab-columns"><div class="subcard">${vocabHtml}</div></div></section>
+<section class="card" id="drill"><div class="section-head"><span class="sec-num">7</span><h2>Мікродрил</h2></div><div class="subcard"><ol class="clean">${model.examples.slice(0,5).map(e=>`<li>${esc(e[0])}</li>`).join("")}</ol></div></section>
+<section class="card" id="after"><div class="section-head"><span class="sec-num">8</span><h2>Після уроку ти маєш зрозуміти</h2></div><div class="subcard"><p>Тему, ключові слова, граматичні ролі і базові речення.</p></div></section>
+<section class="card" id="homework"><div class="section-head"><span class="sec-num">9</span><h2>Домашнє завдання</h2></div><div class="subcard"><p>Створи 5 власних речень за темою: ${esc(model.topic)}.</p></div></section>
+<div class="footer-note">ODIN v3.19 · ${STANDARD_VERSION} · standalone export</div>
+</main>
+${lessonJs()}
+</body>
+</html>`;
 }
 
-function buildLesson(model){
- const examplesHtml=model.examples.map((e,i)=>[
-  '<article class="example-card" data-example="'+i+'">',
-  '<h3>'+(i+1)+'. <span class="de">'+renderLanguageHighlightedGerman(e[0])+'</span></h3>',
-  '<div class="translation-wrap"><p class="dp"><b>ДП:</b> '+esc(e[1])+'</p><p class="sd"><b>СД:</b> '+esc(e[2])+'</p></div>',
-  '<button class="mini-toggle" type="button" onclick="var w=this.closest(\'.example-card\').querySelector(\'.translation-wrap\'); if(w) w.classList.toggle(\'local-hidden\');">Показати/сховати переклад цього прикладу</button>',
-  '</article>'
- ].join("")).join("");
- const vocabHtml=model.vocab.map((v,i)=>'<tr><td>'+(i+1)+'</td><td><b>'+esc(v[0])+'</b></td><td>'+esc(v[1])+'</td></tr>').join("");
- return [
- '<!DOCTYPE html><html lang="uk"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>'+esc(model.title)+'</title><style>',
- 'body{font-family:system-ui;line-height:1.6;padding:20px;max-width:920px;margin:auto;background:#f8fafc;color:#0f172a}section{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:16px;margin:14px 0}.example-card{border-left:5px solid #0284c7;padding:14px;margin:12px 0;background:#fff;border-radius:14px}.de{font-weight:900}.dp{color:#475569}.sd{color:#111827}.translation-wrap.local-hidden{display:none}.mini-toggle{border:0;border-radius:10px;padding:8px 10px;background:#e0f2fe;color:#075985;font-weight:800}table{width:100%;border-collapse:collapse}td,th{border-bottom:1px solid #e2e8f0;padding:8px;text-align:left}.badge{display:inline-block;background:#fef3c7;color:#92400e;border-radius:999px;padding:5px 9px;font-weight:800}',
- lessonLanguageHighlightCss(),
- '</style></head><body class="dt-lang-topic-mode">',
- '<h1>'+esc(model.title)+'</h1><span class="badge">LANGUAGE HIGHLIGHT CORE · '+esc(model.topic)+' · '+esc(model.level)+'</span>',
- '<section id="language-highlight-controls"><h2>💡 Мовна підсвітка</h2><button class="lesson-lang-btn" type="button" onclick="document.body.classList.remove(\'dt-lang-topic-mode\',\'dt-lang-all-mode\',\'dt-lang-off\');document.body.classList.add(\'dt-lang-topic-mode\');">Topic</button><button class="lesson-lang-btn" type="button" onclick="document.body.classList.remove(\'dt-lang-topic-mode\',\'dt-lang-all-mode\',\'dt-lang-off\');document.body.classList.add(\'dt-lang-all-mode\');">All Rules</button><button class="lesson-lang-btn" type="button" onclick="document.body.classList.remove(\'dt-lang-topic-mode\',\'dt-lang-all-mode\',\'dt-lang-off\');document.body.classList.add(\'dt-lang-off\');">OFF</button></section>',
- '<section><h2>1. Ціль уроку</h2><p>'+esc(model.goal)+'</p></section><section><h2>2. Основне правило</h2><p>Відокремлювана частка у простому реченні часто переходить у кінець.</p></section>',
- '<section><h2>3. Приклади з ДП і СД</h2>'+examplesHtml+'</section><section><h2>4. Словник</h2><table><thead><tr><th>№</th><th>DE</th><th>UA</th></tr></thead><tbody>'+vocabHtml+'</tbody></table></section>',
- '<section><h2>5. Практика</h2><p>Тема: <b>'+esc(model.topic)+'</b>. Рівень: <b>'+esc(model.level)+'</b>.</p></section><section><h2>QA marker</h2><p>Урок пройшов ODIN v3.18.2 STANDALONE LANGUAGE HIGHLIGHT FIX.</p></section>',
- lessonEmbeddedLanguageHighlightScript(),
- '</body></html>'
- ].join("");
+function qaCheckStandard(model, html){
+  const errors=[], warnings=[], info=[];
+  const has = s => html.includes(s);
+  const count = s => (html.match(new RegExp(s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g"))||[]).length;
+
+  function err(x){errors.push(x)} function warn(x){warnings.push(x)} function inf(x){info.push(x)}
+
+  if(!has("<!DOCTYPE html>")) err("STRUCTURE: missing DOCTYPE");
+  if(!has("<header class=\"topbar\"")) err("TEMPLATE: missing topbar");
+  if(!has("id=\"menuBtn\"")) err("HEADER: missing menuBtn");
+  if(!has("id=\"glowToggle\"")) err("HEADER: missing glowToggle");
+  if(!has("id=\"literalToggle\"")) err("HEADER: missing literalToggle");
+  if(!has("id=\"langToggle\"")) err("HEADER: missing langToggle");
+  if(!has("id=\"navModal\"")) err("MENU: missing navModal");
+  if(count("class=\"nav-item\"") < 8) err("MENU: too few nav items");
+
+  if(!has("data-hl-mode=\"off\"")) err("HIGHLIGHT: body[data-hl-mode] missing or not default off");
+  if(!has("body[data-hl-mode=\"theme\"]")) err("HIGHLIGHT CSS: theme mode missing");
+  if(!has("body[data-hl-mode=\"all\"]")) err("HIGHLIGHT CSS: all mode missing");
+  if(!has("body[data-hl-mode=\"off\"]")) err("HIGHLIGHT CSS: off mode missing");
+  if(!has("body.dataset.hlMode")) err("HIGHLIGHT JS: dataset switch missing");
+  if(!has("hl-topic")) err("HIGHLIGHT: hl-topic missing");
+
+  if(count("lm-word") < 20) warn("MARKUP: lm-word count below PRO target");
+  if(!has("data-lemma=")) err("MARKUP: data-lemma missing");
+  if(!has("data-pos=")) err("MARKUP: data-pos missing");
+  if(!has("data-pos=\"verb\"")) warn("MARKUP: no verbs detected");
+  if(!has("data-pos=\"noun\"")) warn("MARKUP: no nouns detected");
+
+  if(count("class=\"de\"") < 5) err("SENTENCE: too few .de sentences");
+  if(count("class=\"translation\"") < Math.max(3, model.examples.length * 0.7)) warn("TRANSLATION: translation coverage low");
+  if(count("class=\"literal\"") < 3) warn("TRANSLATION: literal coverage low");
+
+  if(!has("speechSynthesis")) err("AUDIO: speechSynthesis missing");
+  if(!has("SpeechSynthesisUtterance")) err("AUDIO: SpeechSynthesisUtterance missing");
+  if(!has("u.lang='de-DE'")) err("AUDIO: de-DE voice language missing");
+  if(count("data-tts=") < model.examples.length) warn("AUDIO: data-tts coverage low");
+
+  if(count("vocab-word") < 5) err("VOCAB: too few vocab words");
+  if(!has("Домашнє завдання")) err("PRACTICE: homework missing");
+  if(!has("Мікродрил")) err("PRACTICE: drill missing");
+
+  if(has("dt-lang-topic-mode") || has("dt-lang-all-mode") || has("dt-lang-off")) err("CONFLICT: old dt-lang highlight system detected");
+  if(has("<link rel=\"stylesheet\"")) warn("STANDALONE: external stylesheet link in shell is OK only for ODIN shell, lesson export must inline CSS");
+  if(!has("<style>")) err("STANDALONE: inline style missing");
+  if(!has("<script>")) err("STANDALONE: inline script missing");
+
+  inf("STANDARD STACK: " + STANDARD_STACK.join(" + "));
+  inf("DT_LESSON_STANDARD_v1 gate executed");
+
+  return {
+    status: errors.length ? "QA_FAILED" : warnings.length ? "QA_PASSED_WITH_WARNINGS" : "QA_PASSED",
+    passed: errors.length === 0,
+    errors, warnings, info
+  };
+}
+function renderQaReport(r){
+  const rows = [
+    ...r.errors.map(x=>({level:"ERROR",text:x})),
+    ...r.warnings.map(x=>({level:"WARNING",text:x})),
+    ...r.info.map(x=>({level:"INFO",text:x}))
+  ].map(m=>`<div class="qa-item ${m.level==="ERROR"?"qa-error":m.level==="WARNING"?"qa-warning":"qa-info"}"><b>${m.level}:</b> ${esc(m.text)}</div>`).join("");
+  document.getElementById("qaBox").innerHTML = rows + `<div class="qa-item summary ${r.passed?"qa-pass":"qa-error"}">${r.status}</div>`;
+}
+function renderDownload(html){
+  const blob=new Blob([html],{type:"text/html;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  document.getElementById("download").innerHTML=`<a class="download" href="${url}" download="odin_standard_lesson_v3_19.html">Завантажити стандартний урок</a>`;
+}
+function setPreviewHtml(html){document.getElementById("preview").srcdoc=html;}
+function setPreviewHighlight(mode){
+  const doc = document.getElementById("preview").contentDocument;
+  if(!doc || !doc.body){log("INFO: preview not ready");return;}
+  doc.body.dataset.hlMode = mode;
+  log("PREVIEW_HIGHLIGHT_" + mode.toUpperCase());
+}
+function togglePreviewLiteral(){
+  const doc = document.getElementById("preview").contentDocument;
+  if(!doc || !doc.body){log("INFO: preview not ready");return;}
+  doc.body.classList.toggle("show-literal");
+  log("PREVIEW_LITERAL_TOGGLED");
 }
 
-function findDuplicates(list,getKey){const seen=new Set(),dups=[];list.forEach(item=>{const key=getKey(item).toLowerCase().trim();if(key&&seen.has(key))dups.push(key);seen.add(key)});return dups}
-function hardQaCheck(model,html){const messages=[];const error=t=>messages.push({level:"ERROR",text:t});const warning=t=>messages.push({level:"WARNING",text:t});const info=t=>messages.push({level:"INFO",text:t});
- if(model.title.length<3)error("Назва уроку занадто коротка або відсутня."); if(model.topic.length<3)error("Тема уроку відсутня."); if(model.level.length<2)error("Рівень уроку відсутній."); if(model.goal.length<40)error("Ціль уроку має бути розширеною."); if(model.examples.length<5)error("Потрібно мінімум 5 прикладів."); if(model.vocab.length<5)error("Потрібно мінімум 5 слів у словнику.");
- model.examples.forEach((e,i)=>{const n=i+1;if(!e[0]||e[0].length<4)error("Приклад "+n+": DE відсутнє.");if(!e[1]||e[1].length<4)error("Приклад "+n+": ДП відсутній.");if(!e[2]||e[2].length<4)error("Приклад "+n+": СД відсутній.");if(e[1]===e[2])warning("Приклад "+n+": ДП і СД однакові.")});
- const d=findDuplicates(model.examples,i=>i[0]||""); if(d.length>0)error("Є дублікати прикладів DE: "+d.join(", "));
- if(!html.includes("QA marker"))error("HTML не містить QA marker.");
- if(!html.includes("dt-lang-token"))error("LANGUAGE HIGHLIGHT CORE: немає мовних токенів.");
- if(!html.includes("dt-lang-all-mode"))error("LANGUAGE HIGHLIGHT CORE: немає standalone перемикачів підсвітки.");
- if(!html.includes("onclick="))error("STANDALONE LANGUAGE HIGHLIGHT: немає inline перемикачів.");
- info("INTERNAL LESSON LAMP fixed: кнопки Topic / All Rules / OFF вбудовані в HTML уроку.");
- const hasErrors=messages.some(m=>m.level==="ERROR"),hasWarnings=messages.some(m=>m.level==="WARNING");return{passed:!hasErrors,hasWarnings,messages}}
-
-function renderQaReport(r){const rows=r.messages.map(m=>'<div class="qa-item '+(m.level==="ERROR"?"qa-error":m.level==="WARNING"?"qa-warning":"qa-info")+'"><b>'+m.level+':</b> '+esc(m.text)+'</div>').join("");const s=r.passed?(r.hasWarnings?"QA_PASSED_WITH_WARNINGS":"QA_PASSED"):"QA_FAILED_EXPORT_BLOCKED";document.getElementById("qaBox").innerHTML=rows+'<div class="qa-item summary '+(r.passed?"qa-pass":"qa-error")+'">'+s+'</div>'}
-function renderDownload(html){const blob=new Blob([html],{type:"text/html;charset=utf-8"});const url=URL.createObjectURL(blob);document.getElementById("download").innerHTML='<a class="download" href="'+url+'" download="odin_lesson_v3_18_2.html">Завантажити урок</a>'}
-function setPreviewHtml(html){const f=document.getElementById("preview");f.onload=function(){applyMode();applyLanguageHighlightMode(ODIN_STATE.languageHighlightMode||"TOPIC")};f.srcdoc=html}
-function getPreviewDocument(){const f=document.getElementById("preview");return f.contentDocument||f.contentWindow.document}
-function applyMode(){if(!ODIN_STATE.lessonCreated){log("INFO: спочатку створи урок.");return}const d=getPreviewDocument();if(!d||!d.body){setTimeout(applyMode,80);return}d.querySelectorAll(".dp").forEach(e=>e.style.display=ODIN_STATE.showDP?"block":"none");d.querySelectorAll(".sd").forEach(e=>e.style.display=ODIN_STATE.showSD?"block":"none")}
-function applyLanguageHighlightMode(mode){if(!ODIN_STATE.lessonCreated){log("INFO: спочатку створи урок.");return}const d=getPreviewDocument();if(!d||!d.body){setTimeout(()=>applyLanguageHighlightMode(mode),80);return}d.body.classList.remove("dt-lang-topic-mode","dt-lang-all-mode","dt-lang-off");if(mode==="ALL"){d.body.classList.add("dt-lang-all-mode");ODIN_STATE.languageHighlightMode="ALL";log("LANGUAGE_HIGHLIGHT_ALL")}else if(mode==="OFF"){d.body.classList.add("dt-lang-off");ODIN_STATE.languageHighlightMode="OFF";log("LANGUAGE_HIGHLIGHT_OFF")}else{d.body.classList.add("dt-lang-topic-mode");ODIN_STATE.languageHighlightMode="TOPIC";log("LANGUAGE_HIGHLIGHT_TOPIC")}}
-function toggleDP(){ODIN_STATE.showDP=!ODIN_STATE.showDP;applyMode();log(ODIN_STATE.showDP?"DP_VISIBLE":"DP_HIDDEN")}
-function toggleSD(){ODIN_STATE.showSD=!ODIN_STATE.showSD;applyMode();log(ODIN_STATE.showSD?"SD_VISIBLE":"SD_HIDDEN")}
-function modeStudy(){ODIN_STATE.showDP=false;ODIN_STATE.showSD=true;applyMode();applyLanguageHighlightMode("TOPIC");log("MODE_STUDY")}
-function modeTest(){ODIN_STATE.showDP=false;ODIN_STATE.showSD=false;applyMode();applyLanguageHighlightMode("OFF");log("MODE_TEST_ONLY_DE")}
-function modeFull(){ODIN_STATE.showDP=true;ODIN_STATE.showSD=true;applyMode();applyLanguageHighlightMode("ALL");log("MODE_FULL")}
-
+function executeOdinAction(){
+  document.getElementById("log").textContent="";
+  document.getElementById("download").innerHTML="";
+  document.getElementById("qaBox").innerHTML='<p class="muted">QA виконується...</p>';
+  log("RUNNING");
+  log("STANDARD_STACK_LOADED: " + STANDARD_STACK.join(" + "));
+  const model=collectInput();
+  ODIN_STATE.lastModel=model;
+  log("INPUT_DONE");
+  log("GENERATE_STANDARD_TEMPLATE");
+  const html=buildStandardLesson(model);
+  ODIN_STATE.lastHtml=html;
+  setPreviewHtml(html);
+  ODIN_STATE.lessonCreated=true;
+  log("LESSON_DONE");
+  log("QA_STARTED");
+  const qa=qaCheckStandard(model, html);
+  ODIN_STATE.lastQa=qa;
+  renderQaReport(qa);
+  log(qa.status);
+  if(!qa.passed){
+    document.getElementById("download").innerHTML='<div class="qa-item qa-error">EXPORT BLOCKED: QA_FAILED</div>';
+    log("EXPORT_BLOCKED");
+    return;
+  }
+  renderDownload(html);
+  log("EXPORT_READY");
+  log("STANDARD_ENGINE_DONE");
+}
 function getLessons(){try{return JSON.parse(localStorage.getItem(ODIN_STORAGE_KEY)||"[]")}catch(e){return[]}}
-function setLessons(l){localStorage.setItem(ODIN_STORAGE_KEY,JSON.stringify(l))}
-function saveCurrentLesson(){if(!ODIN_STATE.lessonCreated||!ODIN_STATE.lastHtml||!ODIN_STATE.lastQa||!ODIN_STATE.lastQa.passed){dataLog("SAVE_BLOCKED: немає успішного уроку після QA.");return}const lessons=getLessons();const r={id:"lesson_"+Date.now(),title:ODIN_STATE.lastModel.title,topic:ODIN_STATE.lastModel.topic||"General",level:ODIN_STATE.lastModel.level||"A1",createdAt:new Date().toLocaleString(),html:ODIN_STATE.lastHtml,model:ODIN_STATE.lastModel,qaStatus:ODIN_STATE.lastQa.hasWarnings?"QA_PASSED_WITH_WARNINGS":"QA_PASSED",reviewStatus:"NEW",reviewCount:0,lastReviewed:null};lessons.unshift(r);setLessons(lessons);dataLog("LESSON_SAVED: "+r.title);renderFilters();renderProgress();renderLessonsList()}
-function statusClass(s){return s==="MASTERED"?"status-mastered":s==="LEARNED"?"status-learned":s==="REVIEW"?"status-review":"status-new"}
-function nextAutoStatus(lesson){const c=(lesson.reviewCount||0)+1;if(lesson.reviewStatus==="NEW")return"REVIEW";if(lesson.reviewStatus==="REVIEW"&&c>=2)return"LEARNED";if(lesson.reviewStatus==="LEARNED"&&c>=4)return"MASTERED";return lesson.reviewStatus||"NEW"}
-function setReviewStatus(i,s){const lessons=getLessons();if(!lessons[i])return;lessons[i].reviewStatus=s;lessons[i].lastReviewed=new Date().toLocaleString();lessons[i].reviewCount=(lessons[i].reviewCount||0)+1;setLessons(lessons);dataLog("STATUS_SET: "+lessons[i].title+" → "+s);renderProgress();renderLessonsList()}
-function autoProgress(i){const lessons=getLessons();if(!lessons[i])return;setReviewStatus(i,nextAutoStatus(lessons[i]))}
-function getTopics(){return[...new Set(getLessons().map(l=>l.topic||"General"))].sort()}
-function getLevels(){return[...new Set(getLessons().map(l=>l.level||"A1"))].sort()}
-function renderFilters(){const topic=document.getElementById("topicFilter");topic.innerHTML='<option value="ALL">All Topics</option>'+getTopics().map(t=>'<option value="'+esc(t)+'">'+esc(t)+'</option>').join("");topic.value=getTopics().includes(TOPIC_FILTER)?TOPIC_FILTER:"ALL";TOPIC_FILTER=topic.value;const level=document.getElementById("levelFilter");level.innerHTML='<option value="ALL">All Levels</option>'+getLevels().map(l=>'<option value="'+esc(l)+'">'+esc(l)+'</option>').join("");level.value=getLevels().includes(LEVEL_FILTER)?LEVEL_FILTER:"ALL";LEVEL_FILTER=level.value}
-function calcProgressForTopic(topic){const lessons=getLessons().filter(l=>(l.topic||"General")===topic);if(!lessons.length)return 0;const score=lessons.reduce((sum,l)=>sum+(l.reviewStatus==="MASTERED"?1:l.reviewStatus==="LEARNED"?0.75:l.reviewStatus==="REVIEW"?0.35:0.1),0);return Math.round((score/lessons.length)*100)}
-function renderProgress(){const topics=getTopics();const box=document.getElementById("progressBox");if(!topics.length){box.innerHTML='<p class="muted">Прогрес зʼявиться після збереження уроків.</p>';return}box.innerHTML='<h3>Progress by Topic</h3>'+topics.map(t=>{const p=calcProgressForTopic(t);return '<div class="progress-row"><div class="progress-label"><span>'+esc(t)+'</span><span>'+p+'%</span></div><div class="bar"><div class="fill" style="width:'+p+'%"></div></div></div>'}).join("")}
-function renderLessonsList(){const lessons=getLessons();let f=REVIEW_FILTER==="ALL"?lessons:lessons.filter(l=>(l.reviewStatus||"NEW")===REVIEW_FILTER);f=TOPIC_FILTER==="ALL"?f:f.filter(l=>(l.topic||"General")===TOPIC_FILTER);f=LEVEL_FILTER==="ALL"?f:f.filter(l=>(l.level||"A1")===LEVEL_FILTER);const box=document.getElementById("lessonsList");if(!f.length){box.innerHTML='<p class="muted">Немає уроків для цього фільтра.</p>';dataLog("LESSONS_LIST_EMPTY");return}box.innerHTML=f.map(lesson=>{const i=lessons.findIndex(l=>l.id===lesson.id);const s=lesson.reviewStatus||"NEW";return '<div class="lesson-item"><h3>'+esc(lesson.title)+' <span class="topic-pill">'+esc(lesson.topic||"General")+'</span><span class="level-pill">'+esc(lesson.level||"A1")+'</span><span class="status-pill '+statusClass(s)+'">'+s+'</span></h3><div class="lesson-meta">'+esc(lesson.createdAt)+' · reviews: '+(lesson.reviewCount||0)+' · last: '+esc(lesson.lastReviewed||"—")+'</div><button data-action="open" data-index="'+i+'">Відкрити</button><button data-action="export" data-index="'+i+'">Export</button><button data-action="auto" data-index="'+i+'">Auto Progress</button><button data-action="status" data-status="REVIEW" data-index="'+i+'">REVIEW</button><button data-action="status" data-status="LEARNED" data-index="'+i+'">LEARNED</button><button data-action="status" data-status="MASTERED" data-index="'+i+'">MASTERED</button><button class="danger" data-action="delete" data-index="'+i+'">Видалити</button></div>'}).join("");dataLog("LESSONS_LIST_RENDERED: "+f.length)}
-function openLesson(i){const l=getLessons()[i];if(!l)return;setPreviewHtml(l.html);ODIN_STATE.lessonCreated=true;ODIN_STATE.lastHtml=l.html;ODIN_STATE.lastModel=l.model;dataLog("LESSON_OPENED: "+l.title)}
-function exportSavedLesson(i){const l=getLessons()[i];if(!l)return;renderDownload(l.html);dataLog("EXPORT_READY: "+l.title)}
-function deleteLesson(i){const lessons=getLessons();const r=lessons.splice(i,1)[0];setLessons(lessons);dataLog("LESSON_DELETED: "+(r?r.title:i));renderFilters();renderProgress();renderLessonsList()}
-function clearSavedLessons(){localStorage.removeItem(ODIN_STORAGE_KEY);dataLog("ALL_LESSONS_CLEARED");renderFilters();renderProgress();renderLessonsList()}
-function setFilter(f){REVIEW_FILTER=f;dataLog("REVIEW_FILTER_SET: "+f);renderLessonsList()}
-function setTopicFilter(v){TOPIC_FILTER=v;dataLog("TOPIC_FILTER_SET: "+v);renderLessonsList()}
-function setLevelFilter(v){LEVEL_FILTER=v;dataLog("LEVEL_FILTER_SET: "+v);renderLessonsList()}
-function smartPriority(lesson){const s=lesson.reviewStatus||"NEW";const c=lesson.reviewCount||0;let score=s==="NEW"?90:s==="REVIEW"?75:s==="LEARNED"?35:10;if(c===0)score+=35;if(c===1)score+=20;return{score:Math.min(score,100),reasons:[s==="NEW"?"Новий урок ще не закріплений.":s==="REVIEW"?"Позначений як REVIEW.":s==="LEARNED"?"Вивчений, але потребує повторення.":"MASTERED: низький пріоритет."]}}
-function showSmartReview(){const lessons=getLessons();const box=document.getElementById("smartReviewBox");if(!lessons.length){box.innerHTML='<p class="muted">Немає збережених уроків.</p>';return}const ranked=lessons.map((lesson,index)=>({lesson,index,priority:smartPriority(lesson)})).sort((a,b)=>b.priority.score-a.priority.score).slice(0,5);box.innerHTML=ranked.map(item=>'<div class="smart-card"><h3>'+esc(item.lesson.title)+' <span class="status-pill '+statusClass(item.lesson.reviewStatus||"NEW")+'">'+esc(item.lesson.reviewStatus||"NEW")+'</span></h3><div class="lesson-meta">'+esc(item.lesson.topic||"General")+' · '+esc(item.lesson.level||"A1")+'</div><div class="priority-score">Priority: '+item.priority.score+'%</div><div class="reason">'+item.priority.reasons.map(esc).join("<br>")+'</div><button data-action="open" data-index="'+item.index+'">Відкрити</button><button data-action="auto" data-index="'+item.index+'">Auto Progress</button></div>').join("");dataLog("SMART_REVIEW_READY")}
-
-function clearAll(){clearLog();document.getElementById("qaBox").innerHTML='<p class="muted">QA зʼявиться після запуску.</p>';document.getElementById("download").innerHTML="";document.getElementById("preview").srcdoc="";ODIN_STATE={lessonCreated:false,showDP:true,showSD:true,languageHighlightMode:"TOPIC",lastHtml:"",lastModel:null,lastQa:null}}
-function executeOdinAction(){clearAll();log("RUNNING");runModeGuard();const model=collectInput();ODIN_STATE.lastModel=model;log("PLAN_DONE");log("PIPELINE_DONE");const html=buildLesson(model);ODIN_STATE.lastHtml=html;setPreviewHtml(html);ODIN_STATE.lessonCreated=true;log("LESSON_DONE");const report=hardQaCheck(model,html);ODIN_STATE.lastQa=report;renderQaReport(report);log(report.passed?(report.hasWarnings?"QA_PASSED_WITH_WARNINGS":"QA_PASSED"):"QA_FAILED");if(!report.passed){document.getElementById("download").innerHTML='<div class="qa-item qa-error">EXPORT BLOCKED</div>';log("EXPORT_BLOCKED");return}renderDownload(html);log("EXPORT_DONE");log("STANDALONE_LANGUAGE_HIGHLIGHT_READY");log("DONE")}
-function bind(){document.getElementById("runBtn").addEventListener("click",executeOdinAction);document.getElementById("saveBtn").addEventListener("click",saveCurrentLesson);document.getElementById("clearBtn").addEventListener("click",clearAll);document.getElementById("toggleDpBtn").addEventListener("click",toggleDP);document.getElementById("toggleSdBtn").addEventListener("click",toggleSD);document.getElementById("modeStudyBtn").addEventListener("click",modeStudy);document.getElementById("modeTestBtn").addEventListener("click",modeTest);document.getElementById("modeFullBtn").addEventListener("click",modeFull);document.getElementById("langTopicBtn").addEventListener("click",()=>applyLanguageHighlightMode("TOPIC"));document.getElementById("langAllBtn").addEventListener("click",()=>applyLanguageHighlightMode("ALL"));document.getElementById("langOffBtn").addEventListener("click",()=>applyLanguageHighlightMode("OFF"));document.getElementById("refreshLessonsBtn").addEventListener("click",()=>{renderFilters();renderProgress();renderLessonsList()});document.getElementById("clearLessonsBtn").addEventListener("click",clearSavedLessons);document.getElementById("filterAllBtn").addEventListener("click",()=>setFilter("ALL"));document.getElementById("filterNewBtn").addEventListener("click",()=>setFilter("NEW"));document.getElementById("filterReviewBtn").addEventListener("click",()=>setFilter("REVIEW"));document.getElementById("filterLearnedBtn").addEventListener("click",()=>setFilter("LEARNED"));document.getElementById("filterMasteredBtn").addEventListener("click",()=>setFilter("MASTERED"));document.getElementById("topicFilter").addEventListener("change",e=>setTopicFilter(e.target.value));document.getElementById("levelFilter").addEventListener("change",e=>setLevelFilter(e.target.value));document.getElementById("smartReviewBtn").addEventListener("click",showSmartReview);document.getElementById("lessonsList").addEventListener("click",e=>{const b=e.target.closest("button[data-action]");if(!b)return;const i=Number(b.dataset.index);if(b.dataset.action==="open")openLesson(i);if(b.dataset.action==="export")exportSavedLesson(i);if(b.dataset.action==="delete")deleteLesson(i);if(b.dataset.action==="status")setReviewStatus(i,b.dataset.status);if(b.dataset.action==="auto")autoProgress(i)});document.getElementById("smartReviewBox").addEventListener("click",e=>{const b=e.target.closest("button[data-action]");if(!b)return;const i=Number(b.dataset.index);if(b.dataset.action==="open")openLesson(i);if(b.dataset.action==="auto")autoProgress(i)})}
-document.addEventListener("DOMContentLoaded",()=>{bind();renderFilters();renderProgress();renderLessonsList();dataLog("APP_READY_v3.18.2_STANDALONE_LANGUAGE_HIGHLIGHT_FIX")});
+function setLessons(lessons){localStorage.setItem(ODIN_STORAGE_KEY,JSON.stringify(lessons))}
+function saveCurrentLesson(){
+  if(!ODIN_STATE.lessonCreated || !ODIN_STATE.lastQa || !ODIN_STATE.lastQa.passed){dataLog("SAVE_BLOCKED: QA not passed");return;}
+  const lessons=getLessons();
+  lessons.unshift({id:"lesson_"+Date.now(),title:ODIN_STATE.lastModel.title,topic:ODIN_STATE.lastModel.topic,level:ODIN_STATE.lastModel.level,html:ODIN_STATE.lastHtml,createdAt:new Date().toLocaleString(),qa:ODIN_STATE.lastQa.status});
+  setLessons(lessons);
+  dataLog("LESSON_SAVED: " + ODIN_STATE.lastModel.title);
+  renderLessons();
+}
+function renderLessons(){
+  const lessons=getLessons();
+  const box=document.getElementById("lessonsList");
+  if(!lessons.length){box.innerHTML='<p class="muted">Немає збережених уроків.</p>';return;}
+  box.innerHTML=lessons.map((l,i)=>`<div class="lesson-item"><h3>${esc(l.title)}</h3><div class="lesson-meta">${esc(l.createdAt)} · ${esc(l.level)} · ${esc(l.topic)} · ${esc(l.qa)}</div><button data-action="open" data-index="${i}">Відкрити</button><button data-action="export" data-index="${i}">Export</button><button class="danger" data-action="delete" data-index="${i}">Видалити</button></div>`).join("");
+}
+function clearSavedLessons(){localStorage.removeItem(ODIN_STORAGE_KEY);dataLog("ALL_LESSONS_CLEARED");renderLessons();}
+function clearAll(){
+  document.getElementById("log").textContent="WAITING";
+  document.getElementById("qaBox").innerHTML='<p class="muted">QA зʼявиться після запуску.</p>';
+  document.getElementById("download").innerHTML="";
+  document.getElementById("preview").srcdoc="";
+  ODIN_STATE={lessonCreated:false,lastHtml:"",lastModel:null,lastQa:null};
+}
+document.addEventListener("DOMContentLoaded",()=>{
+  document.getElementById("runBtn").addEventListener("click",executeOdinAction);
+  document.getElementById("saveBtn").addEventListener("click",saveCurrentLesson);
+  document.getElementById("clearBtn").addEventListener("click",clearAll);
+  document.getElementById("toggleLiteralBtn").addEventListener("click",togglePreviewLiteral);
+  document.getElementById("hlOffBtn").addEventListener("click",()=>setPreviewHighlight("off"));
+  document.getElementById("hlThemeBtn").addEventListener("click",()=>setPreviewHighlight("theme"));
+  document.getElementById("hlAllBtn").addEventListener("click",()=>setPreviewHighlight("all"));
+  document.getElementById("refreshLessonsBtn").addEventListener("click",renderLessons);
+  document.getElementById("clearLessonsBtn").addEventListener("click",clearSavedLessons);
+  document.getElementById("lessonsList").addEventListener("click",e=>{
+    const b=e.target.closest("button[data-action]"); if(!b)return;
+    const i=Number(b.dataset.index); const lessons=getLessons(); const l=lessons[i]; if(!l)return;
+    if(b.dataset.action==="open"){setPreviewHtml(l.html);dataLog("OPENED: "+l.title);}
+    if(b.dataset.action==="export"){renderDownload(l.html);dataLog("EXPORT_READY: "+l.title);}
+    if(b.dataset.action==="delete"){lessons.splice(i,1);setLessons(lessons);renderLessons();dataLog("DELETED");}
+  });
+  renderLessons();
+  dataLog("APP_READY_v3.19_STANDARD_ENGINE");
+});
