@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ODIN Interface v2.1</title>
+<title>ODIN Interface v3 — Sidebar Tree</title>
 <style>
 :root {
   --bg:#f5f7fb; --card:#fff; --text:#132033; --muted:#64748b; --line:#dbe5f2;
@@ -13,232 +13,458 @@
 }
 *{box-sizing:border-box}
 body{margin:0;background:linear-gradient(180deg,#f8fbff 0%,var(--bg) 100%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
-header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);padding:12px;backdrop-filter:blur(12px)}
-.wrap,main{max-width:1200px;margin:auto} main{padding:14px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:10px}
-.logo{width:44px;height:44px;border-radius:16px;background:linear-gradient(135deg,#111827,var(--purple));color:white;display:grid;place-items:center;font-weight:950}
-h1{margin:0;font-size:20px} .sub{margin:3px 0 0;color:var(--muted);font-size:13px}
-nav{display:flex;gap:8px;overflow:auto;margin-top:12px;padding-bottom:2px}
-nav button{border:1px solid var(--line);background:white;color:var(--text);padding:9px 12px;border-radius:999px;font-weight:850;cursor:pointer;white-space:nowrap}
-nav button.active{background:#111827;color:white;border-color:#111827}
-.page{display:none} .page.active{display:block}
+.app{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow:auto;background:#0f172a;color:#e5e7eb;padding:16px;border-right:1px solid #111827}
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.mark{width:42px;height:42px;border-radius:16px;background:linear-gradient(135deg,#2563eb,#7c3aed);display:grid;place-items:center;color:white;font-weight:950}
+.logo h1{font-size:18px;margin:0}.logo p{margin:2px 0 0;color:#94a3b8;font-size:12px}
+.group{margin:14px 0}
+.group-title{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8;margin:10px 0 6px}
+.tree-btn{width:100%;text-align:left;border:1px solid transparent;background:transparent;color:#e5e7eb;border-radius:12px;padding:9px 10px;cursor:pointer;font-weight:750;margin:2px 0}
+.tree-btn:hover{background:#1e293b}.tree-btn.active{background:#dbeafe;color:#1d4ed8}
+.main{padding:18px;max-width:1180px;width:100%;margin:0 auto}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+h2{margin:0 0 8px}.sub{color:var(--muted);font-size:13px;margin:0}
 .card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px;margin:14px 0;box-shadow:var(--shadow)}
 .hero{background:linear-gradient(135deg,#eff6ff,#f5f3ff)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
 .item,.stat{background:#fbfdff;border:1px solid var(--line);border-radius:20px;padding:15px}
 .stat b{font-size:25px}
 .pill{display:inline-block;background:var(--blue2);color:var(--blue);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:900;margin:2px}
-.ready{background:var(--green2);color:#166534} .lock{background:var(--red2);color:#991b1b} .warn{background:var(--amber2);color:#92400e} .purple{background:var(--purple2);color:#5b21b6}
-.ok{color:var(--green);font-weight:900} .bad{color:var(--red);font-weight:900}
+.ready{background:var(--green2);color:#166534}.lock{background:var(--red2);color:#991b1b}.warn{background:var(--amber2);color:#92400e}.purple{background:var(--purple2);color:#5b21b6}
+.ok{color:var(--green);font-weight:900}.bad{color:var(--red);font-weight:900}
 .flow{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#0f172a;color:#e5e7eb;border-radius:18px;padding:14px;overflow:auto;white-space:pre-wrap}
-code{background:#f1f5f9;border-radius:7px;padding:2px 5px} li{margin:6px 0}
-@media(max-width:700px){main{padding:10px}.card{padding:14px;border-radius:20px}.grid{grid-template-columns:1fr}nav button{font-size:13px;padding:8px 10px}}
+code{background:#f1f5f9;border-radius:7px;padding:2px 5px}
+.mobile-title{display:none}
+@media(max-width:850px){
+  .app{grid-template-columns:1fr}
+  .sidebar{position:relative;height:auto;max-height:45vh}
+  .main{padding:12px}
+  .mobile-title{display:block}
+}
 </style>
-<script id="ODIN_INTERFACE_V2_1_MODEL" type="application/json">{
-  "interface_id": "ODIN_INTERFACE_v2.1_ADD_CONTENT_PIPELINE_TAB",
-  "created_at": "2026-04-25T02:17:06",
-  "status": "ready_for_github_update",
+<script id="ODIN_INTERFACE_V3_MODEL" type="application/json">{
+  "interface_id": "ODIN_INTERFACE_v3_SIDEBAR_TREE",
+  "created_at": "2026-04-25T02:37:17",
+  "status": "ready_for_review",
+  "purpose": "ODIN control-center with scalable left sidebar tree and right workspace.",
   "based_on": [
-    "ODIN_INTERFACE_v2_FULL_INTEGRATION",
-    "DT_CONTENT_PIPELINE_v1",
-    "DT_CONTENT_PIPELINE_v1_REVIEW_AND_ODIN_INTEGRATION"
+    "ODIN_INTERFACE_v2.1_ADD_CONTENT_PIPELINE_TAB",
+    "ODIN_UI_ARCHITECTURE_v3",
+    "ODIN v68.1 PRO — Stable Integrated Autonomous Loop",
+    "DT_PLATFORM_v0.8_EXPORT_SYNC",
+    "DT_LANGUAGE_SYSTEM_v1",
+    "DT_CONTENT_PIPELINE_v1"
   ],
-  "purpose": "Add Content Pipeline tab to ODIN Interface v2.",
-  "new_tab": "Content Pipeline",
-  "pipeline_flow": [
-    "DT_PLAN_ENGINE",
-    "TOPIC",
-    "SSUDT base/practice/review lessons",
-    "optional ISSU support lesson",
-    "QA gate",
-    "Content Index",
-    "Platform",
-    "Progress"
-  ],
-  "lesson_types": [
+  "layout": {
+    "left": "ODIN tree navigation",
+    "right": "selected layer workspace",
+    "mobile": "sidebar collapses above content"
+  },
+  "tree": [
     {
-      "type": "base",
-      "source": "SSUDT",
-      "role": "main explanation lesson"
+      "group": "ODIN",
+      "items": [
+        {
+          "id": "dashboard",
+          "title": "Dashboard"
+        },
+        {
+          "id": "core",
+          "title": "Core Architecture"
+        },
+        {
+          "id": "loop",
+          "title": "Autonomous Loop v68.1 PRO"
+        }
+      ]
     },
     {
-      "type": "practice",
-      "source": "SSUDT",
-      "role": "drills and exercises"
+      "group": "DT System",
+      "items": [
+        {
+          "id": "plan",
+          "title": "Plan Engine"
+        },
+        {
+          "id": "link",
+          "title": "Core Link Model"
+        },
+        {
+          "id": "language",
+          "title": "Language System"
+        },
+        {
+          "id": "pipeline",
+          "title": "Content Pipeline"
+        },
+        {
+          "id": "platform",
+          "title": "Platform v0.8 Export / Sync"
+        }
+      ]
     },
     {
-      "type": "review",
-      "source": "SSUDT",
-      "role": "review and repetition"
+      "group": "Lesson Systems",
+      "items": [
+        {
+          "id": "ssudt",
+          "title": "ССУДТ"
+        },
+        {
+          "id": "issu",
+          "title": "ІССУ"
+        },
+        {
+          "id": "factory",
+          "title": "Lesson Factory"
+        },
+        {
+          "id": "viewer",
+          "title": "Lesson Viewer Safe Mode"
+        }
+      ]
     },
     {
-      "type": "support",
-      "source": "ISSU",
-      "role": "photo/homework/weak-topic support"
+      "group": "GitHub / Sync",
+      "items": [
+        {
+          "id": "repo",
+          "title": "Repo Structure"
+        },
+        {
+          "id": "naming",
+          "title": "File Naming Rules"
+        },
+        {
+          "id": "changelog",
+          "title": "Changelog"
+        },
+        {
+          "id": "backup",
+          "title": "Backup / temp"
+        }
+      ]
+    },
+    {
+      "group": "Control",
+      "items": [
+        {
+          "id": "qa",
+          "title": "QA / Locks"
+        },
+        {
+          "id": "roadmap",
+          "title": "Roadmap / Next Steps"
+        }
+      ]
     }
   ],
-  "mandatory_qa": [
-    "Every German sentence has DP + SD",
-    "Full highlight system available",
-    "Dictionary included",
-    "Practice included",
-    "Voice/audio block included where relevant",
-    "Homework or mini-review included",
-    "Lesson manifest embedded",
-    "Lesson linked to topic_id",
-    "Lesson source defined: SSUDT or ISSU",
-    "No platform/lesson CSS mixing"
-  ],
   "hard_locks": [
-    "Pipeline does not replace Plan Engine.",
-    "SSUDT creates base/practice/review lessons only from plan topics.",
-    "ISSU creates support lessons only with topic_id binding.",
-    "No lesson enters Content Index without QA PASS.",
-    "Platform executes lessons; it does not generate them.",
-    "ODIN controls/validates; it does not become the lesson factory.",
-    "Every pipeline update requires changelog entry."
+    "Left tree is navigation only; it must not change core logic.",
+    "ODIN controls and validates; it does not replace DT, SSUDT, ISSU, or Platform.",
+    "PLAN remains source of truth.",
+    "Only active GitHub Pages file is index.html.",
+    "Old files go to temp/.",
+    "No meaningful change without changelog.",
+    "No secrets/passwords/API keys in repository."
   ],
   "github_update": {
     "rename_html_to": "index.html",
-    "commit_message": "ODIN v2.1 update: add content pipeline tab"
+    "commit_message": "ODIN v3 update: sidebar tree architecture"
   },
-  "next_recommended_step": "ODIN_INTERFACE_v2.1_REVIEW_AND_STABLE"
+  "next_recommended_step": "ODIN_INTERFACE_v3_REVIEW_AND_STRUCTURE_LOCK"
+}</script>
+<script id="ODIN_SECTIONS" type="application/json">{
+  "dashboard": {
+    "title": "Dashboard",
+    "status": "SYSTEM VIEW",
+    "body": "ODIN v3 — scalable control-center. Ліве дерево керує навігацією, права зона показує обраний шар.",
+    "points": [
+      "ODIN Interface v2.1 інтегровано",
+      "Sidebar tree додано",
+      "Готово до перегляду",
+      "Наступний крок: review + structure lock"
+    ]
+  },
+  "core": {
+    "title": "Core Architecture",
+    "status": "LOCKED",
+    "body": "Головна архітектура системи: ДТ планує, ССУДТ створює, ІССУ підсилює, Platform виконує, ODIN контролює.",
+    "points": [
+      "DT = plans",
+      "SSUDT = creates base lessons",
+      "ISSU = support/adaptation",
+      "Platform = execution",
+      "ODIN = control/validation"
+    ]
+  },
+  "loop": {
+    "title": "Autonomous Loop v68.1 PRO",
+    "status": "INTEGRATED",
+    "body": "Стабільний автономний цикл ODIN для контролю процесів.",
+    "points": [
+      "detect context",
+      "validate against locks",
+      "select next action",
+      "execute or hold",
+      "QA",
+      "changelog",
+      "snapshot if stable"
+    ]
+  },
+  "plan": {
+    "title": "DT Plan Engine",
+    "status": "CORE",
+    "body": "PLAN = source of truth. План визначає курс, рівень, тему, активний урок і день.",
+    "points": [
+      "COURSE → LEVEL → MODULE → TOPIC → LESSON → DAY",
+      "Platform не вирішує що вчити",
+      "Progress привʼязаний до plan/topic/lesson"
+    ]
+  },
+  "link": {
+    "title": "Core Link Model",
+    "status": "FIXED",
+    "body": "Звʼязує PLAN ↔ TOPIC ↔ LESSON ↔ PLATFORM ↔ REVIEW ↔ PROGRESS.",
+    "points": [
+      "active_lesson_id = from PLAN",
+      "resume_position = UX only",
+      "progress = lesson + topic + course",
+      "support lesson = ISSU + topic_id"
+    ]
+  },
+  "language": {
+    "title": "Language System",
+    "status": "v1",
+    "body": "Мовна система керує user_language, target_language, ui_language, course_pair.",
+    "points": [
+      "UI language ≠ target language",
+      "Language switching affects presentation layer",
+      "DE + DP + SD policy",
+      "Progress не скидається при зміні UI мови"
+    ]
+  },
+  "pipeline": {
+    "title": "Content Pipeline",
+    "status": "v1",
+    "body": "Pipeline виробництва уроків: Plan → Topic → SSUDT/ISSU → QA → Content Index → Platform.",
+    "points": [
+      "base lessons by SSUDT",
+      "practice lessons by SSUDT",
+      "review lessons by SSUDT",
+      "support lessons by ISSU",
+      "No lesson enters index without QA PASS"
+    ]
+  },
+  "platform": {
+    "title": "Platform v0.8 Export / Sync",
+    "status": "READY",
+    "body": "Платформа експортує/імпортує core state: course, active topic, active lesson, resume, progress, daily plan.",
+    "points": [
+      "dt_core_state_v1",
+      "dt_progress_v1",
+      "dt_daily_plan_v1",
+      "Export/import state JSON"
+    ]
+  },
+  "ssudt": {
+    "title": "ССУДТ",
+    "status": "LESSON FACTORY ROLE",
+    "body": "ССУДТ створює базові уроки курсу відповідно до плану ДТ.",
+    "points": [
+      "base",
+      "practice",
+      "review",
+      "strict QA",
+      "does not change PLAN"
+    ]
+  },
+  "issu": {
+    "title": "ІССУ",
+    "status": "SUPPORT MODULE",
+    "body": "ІССУ — додатковий модуль для фото, домашки, слабких тем.",
+    "points": [
+      "not main course generator",
+      "support lesson must bind to topic_id",
+      "reason: photo/homework/weak_topic"
+    ]
+  },
+  "factory": {
+    "title": "Lesson Factory",
+    "status": "READY",
+    "body": "Міст між ІССУ/ІШ/V3 і платформою ДТ.",
+    "points": [
+      "DT_LESSON_STANDARD_v2.1",
+      "DE + DP + SD",
+      "full highlight",
+      "voice/audio",
+      "QA before export"
+    ]
+  },
+  "viewer": {
+    "title": "Lesson Viewer Safe Mode",
+    "status": "READY",
+    "body": "Безпечний viewer відкриває ІССУ-уроки без змішування CSS/JS із платформою.",
+    "points": [
+      "lesson keeps own header",
+      "platform wrapper only",
+      "iframe/safe mode",
+      "no CSS merging"
+    ]
+  },
+  "repo": {
+    "title": "Repo Structure",
+    "status": "LOCK",
+    "body": "У корені GitHub repo має бути тільки актуальна stable/stable-candidate структура.",
+    "points": [
+      "index.html",
+      "ODIN_INTERFACE_v*_*.json",
+      "ODIN_INTERFACE_v*_*.md",
+      "ODIN_INTERFACE_v*_CHANGELOG.md",
+      "README.md",
+      "temp/"
+    ]
+  },
+  "naming": {
+    "title": "File Naming Rules",
+    "status": "NEEDED",
+    "body": "Правила назв файлів потрібні, щоб не плутатись між пакетами і версіями.",
+    "points": [
+      "Only current online UI = index.html",
+      "Source artifacts keep versioned names",
+      "Old versions move to temp/",
+      "Every new version requires changelog"
+    ]
+  },
+  "changelog": {
+    "title": "Changelog",
+    "status": "REQUIRED",
+    "body": "Кожна суттєва зміна має запис у changelog.",
+    "points": [
+      "what changed",
+      "why changed",
+      "status",
+      "next step",
+      "stable lock"
+    ]
+  },
+  "backup": {
+    "title": "Backup / temp",
+    "status": "ARCHIVE",
+    "body": "temp/ — архів старих файлів, ZIP — recovery backup.",
+    "points": [
+      "do not delete blindly",
+      "move old files to temp/",
+      "keep clean root",
+      "ZIP after stable"
+    ]
+  },
+  "qa": {
+    "title": "QA / Locks",
+    "status": "ACTIVE",
+    "body": "Hard locks захищають систему від хаосу.",
+    "points": [
+      "Left tree is navigation only; it must not change core logic.",
+      "ODIN controls and validates; it does not replace DT, SSUDT, ISSU, or Platform.",
+      "PLAN remains source of truth.",
+      "Only active GitHub Pages file is index.html.",
+      "Old files go to temp/.",
+      "No meaningful change without changelog.",
+      "No secrets/passwords/API keys in repository."
+    ]
+  },
+  "roadmap": {
+    "title": "Roadmap / Next Steps",
+    "status": "NEXT",
+    "body": "Після v3 потрібно переглянути sidebar UX, зафіксувати структуру і перейти до реальних уроків.",
+    "points": [
+      "ODIN_INTERFACE_v3_REVIEW_AND_STRUCTURE_LOCK",
+      "ODIN_FILE_NAMING_AND_REPO_RULES_v1",
+      "DT_CONTENT_PIPELINE real lesson run",
+      "First real course topic"
+    ]
+  }
 }</script>
 </head>
 <body>
-<header>
-  <div class="wrap">
-    <div class="top">
-      <div class="brand">
-        <div class="logo">O</div>
-        <div>
-          <h1>ODIN Interface v2.1</h1>
-          <p class="sub">Full Integration + Content Pipeline Tab</p>
-        </div>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="mark">O</div>
+      <div>
+        <h1>ODIN v3</h1>
+        <p>Sidebar Tree Control</p>
       </div>
-      <span class="pill ready">CONTENT PIPELINE ADDED</span>
     </div>
-    <nav>
-      <button class="active" onclick="tab('dashboard',this)">Dashboard</button><button class="" onclick="tab('architecture',this)">Architecture</button><button class="" onclick="tab('loop',this)">Loop</button><button class="" onclick="tab('dt',this)">DT</button><button class="" onclick="tab('pipeline',this)">Content Pipeline</button><button class="" onclick="tab('language',this)">Language</button><button class="" onclick="tab('sync',this)">Sync</button><button class="" onclick="tab('qa',this)">QA</button>
-    </nav>
-  </div>
-</header>
-
-<main>
-<section class="card hero">
-  <span class="pill">ODIN v2.1</span><span class="pill">CONTENT PIPELINE</span><span class="pill">DT</span><span class="pill">ССУДТ</span>
-  <p><span class="ok">PASS:</span> Content Pipeline додано в головний ODIN Interface.</p>
-</section>
-
-<section id="dashboard" class="page active">
-  <div class="card"><h2>Dashboard</h2><div class="grid">
-    <div class="stat"><div>Architecture</div><b>LOCKED</b></div>
-    <div class="stat"><div>Content Pipeline</div><b>v1</b></div>
-    <div class="stat"><div>Export/Sync</div><b>v0.8</b></div>
-    <div class="stat"><div>Next</div><b>REVIEW</b></div>
-  </div></div>
-</section>
-
-<section id="architecture" class="page">
-  <div class="card"><h2>Core Architecture</h2>
-    <div class="flow">DT = планує
-ССУДТ = створює базові уроки
-ІССУ = підсилює / адаптує on-demand
-Platform = виконує навчання
-ODIN = контролює / валідовує / координує</div>
-  </div>
-</section>
-
-<section id="loop" class="page">
-  <div class="card"><h2>ODIN Loop</h2>
-    <div class="flow">detect context
-→ validate against locks
-→ select next action
-→ execute or hold
-→ QA
-→ changelog
-→ snapshot if stable</div>
-  </div>
-</section>
-
-<section id="dt" class="page">
-  <div class="card"><h2>DT System</h2>
-    <div class="flow">PLAN = source of truth
-
-PLAN ↔ TOPIC ↔ LESSON ↔ PLATFORM ↔ REVIEW ↔ PROGRESS</div>
-  </div>
-</section>
-
-<section id="pipeline" class="page">
-  <div class="card">
-    <h2>Content Pipeline</h2>
-    <p>Pipeline виробництва уроків від плану до платформи.</p>
-    <div class="flow">→ DT_PLAN_ENGINE
-→ TOPIC
-→ SSUDT base/practice/review lessons
-→ optional ISSU support lesson
-→ QA gate
-→ Content Index
-→ Platform
-→ Progress</div>
-  </div>
-  <div class="card">
-    <h2>Lesson Types</h2>
-    <div class="grid">
-      <div class="item"><span class="pill">SSUDT</span><h3>base</h3><p>main explanation lesson</p></div><div class="item"><span class="pill">SSUDT</span><h3>practice</h3><p>drills and exercises</p></div><div class="item"><span class="pill">SSUDT</span><h3>review</h3><p>review and repetition</p></div><div class="item"><span class="pill">ISSU</span><h3>support</h3><p>photo/homework/weak-topic support</p></div>
+    <div id="tree"></div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <h2 id="sectionTitle">Dashboard</h2>
+        <p id="sectionSub" class="sub">ODIN control-center</p>
+      </div>
+      <span class="pill ready">READY FOR REVIEW</span>
     </div>
-  </div>
-  <div class="card">
-    <h2>Mandatory QA</h2>
-    <div class="grid">
-      <div class="item"><span class="pill ready">QA</span><p>Every German sentence has DP + SD</p></div><div class="item"><span class="pill ready">QA</span><p>Full highlight system available</p></div><div class="item"><span class="pill ready">QA</span><p>Dictionary included</p></div><div class="item"><span class="pill ready">QA</span><p>Practice included</p></div><div class="item"><span class="pill ready">QA</span><p>Voice/audio block included where relevant</p></div><div class="item"><span class="pill ready">QA</span><p>Homework or mini-review included</p></div><div class="item"><span class="pill ready">QA</span><p>Lesson manifest embedded</p></div><div class="item"><span class="pill ready">QA</span><p>Lesson linked to topic_id</p></div><div class="item"><span class="pill ready">QA</span><p>Lesson source defined: SSUDT or ISSU</p></div><div class="item"><span class="pill ready">QA</span><p>No platform/lesson CSS mixing</p></div>
-    </div>
-  </div>
-  <div class="card">
-    <h2>Pipeline Locks</h2>
-    <div class="grid">
-      <div class="item"><span class="pill lock">LOCK</span><p>Pipeline does not replace Plan Engine.</p></div><div class="item"><span class="pill lock">LOCK</span><p>SSUDT creates base/practice/review lessons only from plan topics.</p></div><div class="item"><span class="pill lock">LOCK</span><p>ISSU creates support lessons only with topic_id binding.</p></div><div class="item"><span class="pill lock">LOCK</span><p>No lesson enters Content Index without QA PASS.</p></div><div class="item"><span class="pill lock">LOCK</span><p>Platform executes lessons; it does not generate them.</p></div><div class="item"><span class="pill lock">LOCK</span><p>ODIN controls/validates; it does not become the lesson factory.</p></div><div class="item"><span class="pill lock">LOCK</span><p>Every pipeline update requires changelog entry.</p></div>
-    </div>
-  </div>
-</section>
-
-<section id="language" class="page">
-  <div class="card"><h2>Language System</h2><div class="grid">
-    <div class="item"><h3>user_language</h3><p>Мова пояснень і перекладів.</p></div>
-    <div class="item"><h3>target_language</h3><p>Мова, яку вивчаємо.</p></div>
-    <div class="item"><h3>ui_language</h3><p>Мова інтерфейсу.</p></div>
-    <div class="item"><h3>course_pair</h3><p>Напрям курсу, наприклад UA-DE.</p></div>
-  </div></div>
-</section>
-
-<section id="sync" class="page">
-  <div class="card"><h2>GitHub Sync</h2>
-    <p><b>Source:</b> <code>uphillvital/odin-interface</code></p>
-    <p>Upload this HTML as <code>index.html</code>.</p>
-    <p>Commit: <code>ODIN v2.1 update: add content pipeline tab</code></p>
-  </div>
-</section>
-
-<section id="qa" class="page">
-  <div class="card"><h2>QA / Next</h2>
-    <ul>
-      <li><span class="ok">PASS</span> — Content Pipeline tab added.</li>
-      <li><span class="ok">PASS</span> — v2 core preserved.</li>
-      <li><span class="ok">PASS</span> — pipeline locks visible.</li>
-      <li><span class="ok">NEXT</span> — <code>ODIN_INTERFACE_v2.1_REVIEW_AND_STABLE</code></li>
-    </ul>
-  </div>
-</section>
-</main>
+    <section class="card hero">
+      <span class="pill">ODIN v3</span><span class="pill">SIDEBAR TREE</span><span class="pill">ALL LAYERS</span>
+      <p><span class="ok">PASS:</span> Верхнє меню замінено на масштабоване дерево зліва.</p>
+    </section>
+    <section class="card">
+      <h2 id="contentTitle"></h2>
+      <span id="contentStatus" class="pill"></span>
+      <p id="contentBody"></p>
+      <div id="contentFlow" class="flow" style="display:none"></div>
+    </section>
+    <section class="card">
+      <h2>Details</h2>
+      <div id="details" class="grid"></div>
+    </section>
+    <section class="card">
+      <h2>GitHub update</h2>
+      <p>Для GitHub: завантажити цей HTML як <code>index.html</code>.</p>
+      <p>Commit: <code>ODIN v3 update: sidebar tree architecture</code></p>
+    </section>
+  </main>
+</div>
 
 <script>
-function tab(id,btn){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
+const MODEL = JSON.parse(document.getElementById('ODIN_INTERFACE_V3_MODEL').textContent);
+const SECTIONS = JSON.parse(document.getElementById('ODIN_SECTIONS').textContent);
+
+function renderTree(){
+  const tree = document.getElementById('tree');
+  tree.innerHTML = MODEL.tree.map(group => `
+    <div class="group">
+      <div class="group-title">${group.group}</div>
+      ${group.items.map(item => `<button class="tree-btn" data-id="${item.id}" onclick="showSection('${item.id}')">${item.title}</button>`).join('')}
+    </div>
+  `).join('');
 }
+
+function showSection(id){
+  const s = SECTIONS[id] || SECTIONS.dashboard;
+  document.querySelectorAll('.tree-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.id === id));
+  document.getElementById('sectionTitle').textContent = s.title;
+  document.getElementById('sectionSub').textContent = s.status;
+  document.getElementById('contentTitle').textContent = s.title;
+  const st = document.getElementById('contentStatus');
+  st.textContent = s.status;
+  st.className = 'pill ' + (s.status.includes('LOCK') || s.status.includes('FIXED') ? 'ready' : s.status.includes('NEEDED') ? 'warn' : 'purple');
+  document.getElementById('contentBody').textContent = s.body;
+  const flow = document.getElementById('contentFlow');
+  if(s.body.includes('→') || s.title.includes('Architecture') || s.title.includes('Link')) {
+    flow.style.display = 'block';
+    flow.textContent = s.body;
+  } else {
+    flow.style.display = 'none';
+  }
+  document.getElementById('details').innerHTML = (s.points || []).map(p => `<div class="item"><span class="pill ready">ITEM</span><p>${p}</p></div>`).join('');
+}
+
+renderTree();
+showSection('dashboard');
 </script>
 </body>
 </html>
