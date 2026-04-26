@@ -1,0 +1,22 @@
+{
+  "package": "ODIN_14_WORKFLOW_DOCS_PACKAGE_v1",
+  "target": "ODIN_TREE_PROJECT_v1/14_WORKFLOW/",
+  "created_at": "2026-04-26T23:39:51",
+  "type": "documentation_package",
+  "changes_code": false,
+  "files": [
+    "WORKFLOW_OVERVIEW.md",
+    "SON_STAGE.md",
+    "PLAN_STAGE.md",
+    "BUILD_STAGE.md",
+    "TEST_STAGE.md",
+    "QA_STAGE.md",
+    "FIX_STAGE.md",
+    "EXPORT_STAGE.md",
+    "PUSH_STAGE.md",
+    "FIXATION_STAGE.md",
+    "PACKAGE_WORKFLOW.md",
+    "README_14_WORKFLOW.md",
+    "PACKAGE_MANIFEST_14_WORKFLOW.md"
+  ]
+}
