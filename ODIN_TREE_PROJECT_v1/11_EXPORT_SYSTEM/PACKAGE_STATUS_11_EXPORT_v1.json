@@ -1,0 +1,18 @@
+{
+  "package": "ODIN_11_EXPORT_SYSTEM_DOCS_PACKAGE_v1",
+  "target": "ODIN_TREE_PROJECT_v1/11_EXPORT_SYSTEM/",
+  "created_at": "2026-04-26T23:33:26",
+  "type": "documentation_package",
+  "changes_code": false,
+  "files": [
+    "EXPORT_SYSTEM_OVERVIEW.md",
+    "HTML_EXPORT_STANDARD.md",
+    "EXPORT_READY_GATE.md",
+    "DOWNLOAD_LOGIC.md",
+    "PACKAGE_EXPORT.md",
+    "GITHUB_DEPLOY_EXPORT.md",
+    "EXPORT_QA.md",
+    "README_11_EXPORT_SYSTEM.md",
+    "PACKAGE_MANIFEST_11_EXPORT.md"
+  ]
+}
