@@ -1,110 +1,144 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ODIN v3.22 MARKUP ACCURACY ENGINE</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <main class="wrap">
-    <section class="panel hero">
-      <div class="badge">ODIN v3.22</div>
-      <h1>MARKUP ACCURACY ENGINE</h1>
-      <p class="muted">Точніші lm-мітки + граматичний словник + статистика по словах/лемах/POS/дієсловах/родах/відмінках.</p>
-    </section>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ODIN v3.22 MARKUP ACCURACY ENGINE</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <section class="panel hero">
+        <div class="badge">ODIN v3.22</div>
+        <h1>MARKUP ACCURACY ENGINE</h1>
+        <p class="muted">
+          Точніші lm-мітки + граматичний словник + статистика по
+          словах/лемах/POS/дієсловах/родах/відмінках.
+        </p>
+      </section>
 
-    <section class="grid">
-      <div class="panel">
-        <h2>Lesson Input — Translation v2 + Markup Accuracy</h2>
+      <section class="grid">
+        <div class="panel">
+          <h2>Lesson Input — Translation v2 + Markup Accuracy</h2>
 
-        <label for="title_ua">Title UA</label>
-        <input id="title_ua" value="Відокремлювані дієслова">
+          <label for="title_ua">Title UA</label>
+          <input id="title_ua" value="Відокремлювані дієслова" />
 
-        <label for="title_ru">Title RU</label>
-        <input id="title_ru" value="Отделяемые глаголы">
+          <label for="title_ru">Title RU</label>
+          <input id="title_ru" value="Отделяемые глаголы" />
 
-        <label for="topic">Topic ID</label>
-        <input id="topic" value="trennbare-verben">
+          <label for="topic">Topic ID</label>
+          <input id="topic" value="trennbare-verben" />
 
-        <label for="level">Рівень</label>
-        <select id="level"><option>A1</option><option selected>A1-A2</option><option>A2</option><option>B1</option><option>B2</option></select>
+          <label for="level">Рівень</label>
+          <select id="level">
+            <option>A1</option>
+            <option selected>A1-A2</option>
+            <option>A2</option>
+            <option>B1</option>
+            <option>B2</option>
+          </select>
 
-        <label for="goal_ua">Goal UA</label>
-        <textarea id="goal_ua">Зрозуміти правило відокремлюваних дієслів у простому реченні, навчитися бачити основу дієслова і відокремлювану частку, а також будувати власні приклади з дослівним і смисловим перекладом.</textarea>
+          <label for="goal_ua">Goal UA</label>
+          <textarea id="goal_ua">
+Зрозуміти правило відокремлюваних дієслів у простому реченні, навчитися бачити основу дієслова і відокремлювану частку, а також будувати власні приклади з дослівним і смисловим перекладом.</textarea
+          >
 
-        <label for="goal_ru">Goal RU</label>
-        <textarea id="goal_ru">Понять правило отделяемых глаголов в простом предложении, научиться видеть основу глагола и отделяемую приставку, а также строить собственные примеры с дословным и смысловым переводом.</textarea>
+          <label for="goal_ru">Goal RU</label>
+          <textarea id="goal_ru">
+Понять правило отделяемых глаголов в простом предложении, научиться видеть основу глагола и отделяемую приставку, а также строить собственные примеры с дословным и смысловым переводом.</textarea
+          >
 
-        <label for="examples">Examples: DE | Literal UA | Semantic UA | Literal RU | Semantic RU</label>
-        <textarea id="examples">Ich stehe um sechs Uhr auf.|Дослівно: Я встаю о шостій годині вгору.|Я встаю о шостій годині.|Дословно: Я встаю в шесть часов вверх.|Я встаю в шесть часов.
+          <label for="examples"
+            >Examples: DE | Literal UA | Semantic UA | Literal RU | Semantic
+            RU</label
+          >
+          <textarea id="examples">
+Ich stehe um sechs Uhr auf.|Дослівно: Я встаю о шостій годині вгору.|Я встаю о шостій годині.|Дословно: Я встаю в шесть часов вверх.|Я встаю в шесть часов.
 Mach bitte die Tür zu!|Дослівно: Зроби будь ласка двері до!|Закрий, будь ласка, двері!|Дословно: Сделай пожалуйста дверь до!|Закрой, пожалуйста, дверь!
 Wir kaufen heute im Supermarkt ein.|Дослівно: Ми купуємо сьогодні в супермаркеті всередину.|Ми сьогодні закуповуємось у супермаркеті.|Дословно: Мы покупаем сегодня в супермаркете внутрь.|Мы сегодня закупаемся в супермаркете.
 Ruf mich bitte später an.|Дослівно: Подзвони мене будь ласка пізніше на.|Подзвони мені, будь ласка, пізніше.|Дословно: Позвони меня пожалуйста позже на.|Позвони мне, пожалуйста, позже.
-Ich räume mein Zimmer auf.|Дослівно: Я прибираю мою кімнату вгору.|Я прибираю свою кімнату.|Дословно: Я убираю мою комнату вверх.|Я убираю свою комнату.</textarea>
+Ich räume mein Zimmer auf.|Дослівно: Я прибираю мою кімнату вгору.|Я прибираю свою кімнату.|Дословно: Я убираю мою комнату вверх.|Я убираю свою комнату.</textarea
+          >
 
-        <label for="vocab">Vocabulary: DE | UA | RU</label>
-        <textarea id="vocab">aufstehen|вставати|вставать
+          <label for="vocab">Vocabulary: DE | UA | RU</label>
+          <textarea id="vocab">
+aufstehen|вставати|вставать
 zumachen|закривати|закрывать
 einkaufen|закуповуватись|закупаться
 anrufen|телефонувати|звонить
 aufräumen|прибирати|убирать
 die Tür|двері|дверь
 der Supermarkt|супермаркет|супермаркет
-das Zimmer|кімната|комната</textarea>
+das Zimmer|кімната|комната</textarea
+          >
 
-        <button id="runBtn" type="button">Створити урок з точними мітками</button>
-        <button id="saveBtn" type="button">💾 Зберегти поточний урок</button>
-        <button id="clearBtn" class="secondary" type="button">Очистити</button>
-      </div>
+          <button id="runBtn" type="button">
+            Створити урок з точними мітками
+          </button>
+          <button id="saveBtn" type="button">💾 Зберегти поточний урок</button>
+          <button id="clearBtn" class="secondary" type="button">
+            Очистити
+          </button>
+        </div>
 
-      <div class="panel">
-        <h2>Status</h2>
-        <pre id="log">WAITING</pre>
-        <h2>QA Report</h2>
-        <div id="qaBox"><p class="muted">QA зʼявиться після запуску.</p></div>
-        <h2>Export</h2>
-        <div id="download"></div>
-      </div>
-    </section>
+        <div class="panel">
+          <h2>Status</h2>
+          <pre id="log">WAITING</pre>
+          <h2>QA Report</h2>
+          <div id="qaBox"><p class="muted">QA зʼявиться після запуску.</p></div>
+          <h2>Export</h2>
+          <div id="download"></div>
+        </div>
+      </section>
 
-    <section class="panel">
-      <h2>Preview Controls</h2>
-      <div class="controls">
-        <button id="toggleLiteralBtn" type="button">Показати/Сховати ДП</button>
-        <button id="uiUaBtn" type="button">UA</button>
-        <button id="uiRuBtn" type="button">RU</button>
-        <button id="hlOffBtn" class="secondary" type="button">💡0 OFF</button>
-        <button id="hlThemeBtn" class="lamp" type="button">💡1 THEME</button>
-        <button id="hlAllBtn" class="lamp" type="button">💡2 ALL</button>
-      </div>
-    </section>
+      <section class="panel">
+        <h2>Preview Controls</h2>
+        <div class="controls">
+          <button id="toggleLiteralBtn" type="button">
+            Показати/Сховати ДП
+          </button>
+          <button id="uiUaBtn" type="button">UA</button>
+          <button id="uiRuBtn" type="button">RU</button>
+          <button id="hlOffBtn" class="secondary" type="button">💡0 OFF</button>
+          <button id="hlThemeBtn" class="lamp" type="button">💡1 THEME</button>
+          <button id="hlAllBtn" class="lamp" type="button">💡2 ALL</button>
+        </div>
+      </section>
 
-    <section class="grid">
-      <div class="panel">
-        <h2>📊 Markup Stats</h2>
-        <div id="statsBox" class="stats-box"><p class="muted">Статистика зʼявиться після створення уроку.</p></div>
-      </div>
-      <div class="panel">
-        <h2>Integration Status</h2>
-        <pre id="dataLog">DATA_WAITING</pre>
-      </div>
-    </section>
+      <section class="grid">
+        <div class="panel">
+          <h2>📊 Markup Stats</h2>
+          <div id="statsBox" class="stats-box">
+            <p class="muted">Статистика зʼявиться після створення уроку.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <h2>Integration Status</h2>
+          <pre id="dataLog">DATA_WAITING</pre>
+        </div>
+      </section>
 
-    <section class="panel">
-      <h2>📚 Saved Lessons</h2>
-      <div class="controls">
-        <button id="refreshLessonsBtn" type="button">Оновити список</button>
-        <button id="clearLessonsBtn" class="danger" type="button">Очистити всі уроки</button>
-      </div>
-      <div id="lessonsList" class="lessons-list"></div>
-    </section>
+      <section class="panel">
+        <h2>📚 Saved Lessons</h2>
+        <div class="controls">
+          <button id="refreshLessonsBtn" type="button">Оновити список</button>
+          <button id="clearLessonsBtn" class="danger" type="button">
+            Очистити всі уроки
+          </button>
+        </div>
+        <div id="lessonsList" class="lessons-list"></div>
+      </section>
 
-    <section class="panel">
-      <h2>Preview</h2>
-      <iframe id="preview" title="Lesson preview"></iframe>
-    </section>
-  </main>
-  <script src="app.js"></script>
-</body>
+      <section class="panel">
+        <h2>Preview</h2>
+        <iframe id="preview" title="Lesson preview"></iframe>
+      </section>
+    </main>
+    <script src="app.js"></script>
+    <script src="odin_modules.js"></script>
+    <script src="module_qa_engine.js"></script>
+    <script src="module_lesson_engine.js"></script>
+    <script src="module_header_lock.js"></script>
+  </body>
 </html>
