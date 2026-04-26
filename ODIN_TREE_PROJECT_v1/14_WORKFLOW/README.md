@@ -1,0 +1,3 @@
+# 14_WORKFLOW
+
+Workflow: СОН → PLAN → BUILD → TEST → QA → FIX → EXPORT → PUSH → FIXATION.
