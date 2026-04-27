@@ -1,7 +1,7 @@
-# ODIN_ADMIN_V02_PRO_PACKAGE_v1
+# ODIN_ADMIN_V02_1_FILE_VIEWER_PACKAGE_v1
 
 ## Що це
-PRO-каркас ODIN-ADMIN V02.
+Пакет оновлення ODIN-ADMIN V02.1: File Viewer Layer.
 
 ## Куди класти
 Розпакувати всі файли у:
@@ -16,52 +16,55 @@ odin-interface/dev/V02/
 C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\dev\V02\
 ```
 
-## Що буде в папці
+## Що оновлює / додає
 
 ```text
-dev/V02/
-├─ index.html
-├─ login.html
-├─ admin.html
-├─ style.css
-├─ auth.js
-├─ app.js
-├─ odin_tree_data.js
-├─ odin_admin_state.js
-├─ odin_sync.js
-├─ README.md
-├─ PACKAGE_MANIFEST_V02_PRO_v1.md
-└─ PACKAGE_STATUS_V02_PRO_v1.json
+admin.html
+app.js
+style.css
+odin_tree_data.js
+odin_file_viewer.js
+README.md
+PACKAGE_MANIFEST_V02_1_FILE_VIEWER_v1.md
+PACKAGE_STATUS_V02_1_FILE_VIEWER_v1.json
 ```
 
-## Як запустити
-Відкрити:
+## Що зʼявиться
+
+- правий блок File Viewer;
+- metadata вибраного вузла;
+- preview для md/json/html;
+- кнопка OPEN показує content preview;
+- підготовка до майбутнього real fetch;
+- V01 не чіпається.
+
+## Як перевірити
+
+1. Відкрити:
 
 ```text
 dev/V02/index.html
 ```
 
-Логін MVP:
+2. Увійти паролем:
 
 ```text
 ODIN
 ```
 
-## Що робить
-- `index.html` перенаправляє на login або admin;
-- `login.html` дає сторінку входу;
-- `admin.html` показує ODIN-ADMIN;
-- зліва дерево ODIN;
-- справа керування вибраним вузлом;
-- є лог, snapshot, sync;
-- V01 не чіпається.
+3. Вибрати пункт дерева зліва.
+4. Натиснути:
 
-## Важливо
-Це front-end PRO MVP. Пароль у front-end не є справжньою безпекою. Для реальної авторизації потрібен backend або GitHub auth.
+```text
+OPEN
+```
+
+5. Перевірити, що справа зʼявляється File Viewer preview.
 
 ## Git
+
 ```bash
 git add dev/V02/
-git commit -m "v3.43 add ODIN-ADMIN V02 PRO base"
+git commit -m "v3.44 add ODIN-ADMIN V02.1 file viewer layer"
 git push origin dev
 ```

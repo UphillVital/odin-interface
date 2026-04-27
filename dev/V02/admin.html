@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ODIN-ADMIN V02 PRO</title>
+<title>ODIN-ADMIN V02.1 PRO</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
       <div class="mark">O</div>
       <div>
         <h1>ODIN-ADMIN</h1>
-        <p>V02 PRO · Global Control</p>
+        <p>V02.1 · File Viewer Layer</p>
       </div>
     </div>
 
@@ -40,8 +40,9 @@
       <span class="pill">AUTH</span>
       <span class="pill">ADMIN PANEL</span>
       <span class="pill">TREE CONTROL</span>
+      <span class="pill">FILE VIEWER</span>
       <span class="pill">SYNC</span>
-      <p><b>ODIN-ADMIN V02 PRO</b> — живий веб-інтерфейс керування ODIN SYSTEM. База знань: <code>ODIN_TREE_PROJECT_v1</code>.</p>
+      <p><b>ODIN-ADMIN V02.1</b> — живий веб-інтерфейс керування ODIN SYSTEM з першим шаром перегляду файлів.</p>
     </section>
 
     <section class="card">
@@ -73,8 +74,18 @@
     </section>
 
     <section class="card">
+      <h2>File Viewer</h2>
+      <div class="file-meta">
+        <div><b>Path:</b> <code id="viewerPath">—</code></div>
+        <div><b>Type:</b> <code id="viewerType">—</code></div>
+        <div><b>Mode:</b> <code id="viewerMode">preview-map</code></div>
+      </div>
+      <pre id="filePreview" class="file-preview">Натисни OPEN для вибраного вузла.</pre>
+    </section>
+
+    <section class="card">
       <h2>Automation Plan</h2>
-      <pre id="automationPlan" class="log">AUTH → TREE → SELECT → ACTION → LOG → SNAPSHOT</pre>
+      <pre id="automationPlan" class="log">AUTH → TREE → SELECT → OPEN → FILE VIEWER → ACTION → LOG → SNAPSHOT</pre>
     </section>
 
     <section class="card">
@@ -88,6 +99,7 @@
 <script src="odin_admin_state.js"></script>
 <script src="odin_tree_data.js"></script>
 <script src="odin_sync.js"></script>
+<script src="odin_file_viewer.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

@@ -2,7 +2,7 @@ const ODIN_ADMIN = {
   init(){
     this.renderTree();
     this.select("dashboard", true);
-    ODIN_ADMIN_STATE.addLog("BOOT", "ODIN-ADMIN V02 PRO loaded.");
+    ODIN_ADMIN_STATE.addLog("BOOT", "ODIN-ADMIN V02.1 File Viewer loaded.");
     this.render();
   },
   renderTree(){
@@ -33,13 +33,17 @@ const ODIN_ADMIN = {
     ODIN_ADMIN_STATE.addLog(action, msg);
 
     const plan = {
-      OPEN: "OPEN → read selected node → show metadata → future: open file viewer",
+      OPEN: "OPEN → show selected node/file preview → future: real fetch",
       QA: "QA → detect type → run relevant QA module → report",
       BUILD: "BUILD → validate inputs → create package/output",
       EXPORT: "EXPORT → QA gate → downloadable artifact",
       PACKAGE: "PACKAGE → README + MANIFEST + STATUS + ZIP",
       FIX: "FIX → safe patch only → no stable break"
     };
+
+    if(action === "OPEN"){
+      ODIN_FILE_VIEWER.open(s);
+    }
 
     document.getElementById("automationPlan").textContent = plan[action] || msg;
     document.getElementById("systemStatus").textContent = action + "_RECORDED";
