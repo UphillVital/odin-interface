@@ -1,0 +1,9 @@
+{
+  "package": "TEMPLATE_REAL_EXTRACTION_PACKAGE_v1",
+  "source": "odin_markup_accuracy_v3_22_1.html",
+  "created_at": "2026-04-26T23:09:46",
+  "method": "real_etalon_extraction",
+  "invented_template": false,
+  "template_file": "TEMPLATE_BASE_v1.html",
+  "target": "ODIN_TREE_PROJECT_v1/07_UNIFIED_LESSON_TEMPLATE/"
+}

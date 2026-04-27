@@ -1,0 +1,14 @@
+# PACKAGE MANIFEST — TEMPLATE_REAL_EXTRACTION_PACKAGE_v1
+
+## Target
+ODIN_TREE_PROJECT_v1/07_UNIFIED_LESSON_TEMPLATE/
+
+## Files
+- TEMPLATE_BASE_v1.html
+- EXTRACTION_REPORT.md
+- TEMPLATE_RULES.md
+- TEMPLATE_MAP.md
+- PACKAGE_STATUS_TEMPLATE_EXTRACTION_v1.json
+
+## Purpose
+Create the first real ODIN lesson template extracted from the real v3.22.1 etalon.
