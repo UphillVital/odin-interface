@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ODIN-ADMIN V02.4 Template Control</title>
+<title>ODIN-ADMIN V02.5 Package Builder</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
       <div class="mark">O</div>
       <div>
         <h1>ODIN-ADMIN</h1>
-        <p>V02.4 · Template Control</p>
+        <p>V02.5 · Package Builder</p>
       </div>
     </div>
 
@@ -41,7 +41,8 @@
       <span class="pill">GITHUB VIEWER</span>
       <span class="pill">QA LAYER</span>
       <span class="pill">TEMPLATE CONTROL</span>
-      <p><b>ODIN-ADMIN V02.4</b> керує правилами вибору шаблонів і блокує помилкове використання ODIN Interface для уроків.</p>
+      <span class="pill">PACKAGE BUILDER</span>
+      <p><b>ODIN-ADMIN V02.5</b> читає, перевіряє, контролює шаблони і формує package-документи.</p>
     </section>
 
     <section class="card">
@@ -113,8 +114,32 @@
     </section>
 
     <section class="card">
+      <h2>Package Builder</h2>
+      <div class="package-actions">
+        <button onclick="ODIN_PACKAGE_BUILDER.build()">BUILD PACKAGE</button>
+        <button onclick="ODIN_PACKAGE_BUILDER.copy('readme')">COPY README</button>
+        <button onclick="ODIN_PACKAGE_BUILDER.copy('manifest')">COPY MANIFEST</button>
+        <button onclick="ODIN_PACKAGE_BUILDER.copy('status')">COPY STATUS</button>
+      </div>
+      <div class="package-grid">
+        <div class="package-box">
+          <h3>README.md</h3>
+          <pre id="packageReadme">Натисни BUILD PACKAGE.</pre>
+        </div>
+        <div class="package-box">
+          <h3>MANIFEST</h3>
+          <pre id="packageManifest">Натисни BUILD PACKAGE.</pre>
+        </div>
+        <div class="package-box">
+          <h3>STATUS.json</h3>
+          <pre id="packageStatus">Натисни BUILD PACKAGE.</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
       <h2>Automation Plan</h2>
-      <pre id="automationPlan" class="log">AUTH → TREE → OPEN → QA → TEMPLATE CONTROL → LOG</pre>
+      <pre id="automationPlan" class="log">AUTH → TREE → OPEN → QA → TEMPLATE → PACKAGE → LOG</pre>
     </section>
 
     <section class="card">
@@ -132,6 +157,7 @@
 <script src="odin_file_viewer.js"></script>
 <script src="odin_qa_layer.js"></script>
 <script src="odin_template_control.js"></script>
+<script src="odin_package_builder.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

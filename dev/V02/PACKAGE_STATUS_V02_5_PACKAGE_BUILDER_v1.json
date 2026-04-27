@@ -1,0 +1,13 @@
+{
+  "package": "ODIN_ADMIN_V02_5_PACKAGE_BUILDER_PACKAGE_v1",
+  "target": "dev/V02/",
+  "created_at": "2026-04-27T22:14:43",
+  "type": "odin_admin_package_builder_system",
+  "changes_code": true,
+  "has_readme": true,
+  "builder_outputs": [
+    "README.md",
+    "PACKAGE_MANIFEST.md",
+    "PACKAGE_STATUS.json"
+  ]
+}

@@ -2,7 +2,7 @@ const ODIN_ADMIN = {
   init(){
     this.renderTree();
     this.select("dashboard", true);
-    ODIN_ADMIN_STATE.addLog("BOOT", "ODIN-ADMIN V02.4 Template Control loaded.");
+    ODIN_ADMIN_STATE.addLog("BOOT", "ODIN-ADMIN V02.5 Package Builder loaded.");
     this.render();
   },
 
@@ -42,7 +42,7 @@ const ODIN_ADMIN = {
       TEMPLATE: "TEMPLATE → route table → hard lock → router QA",
       BUILD: "BUILD → validate inputs → create package/output",
       EXPORT: "EXPORT → QA gate → downloadable artifact",
-      PACKAGE: "PACKAGE → README + MANIFEST + STATUS + ZIP",
+      PACKAGE: "PACKAGE → README + MANIFEST + STATUS preview",
       FIX: "FIX → safe patch only → no stable break"
     };
 
@@ -60,6 +60,10 @@ const ODIN_ADMIN = {
       ODIN_TEMPLATE_CONTROL.routeCheck();
       ODIN_TEMPLATE_CONTROL.lessonLock();
       document.getElementById("systemStatus").textContent = "TEMPLATE_CONTROL_READY";
+      document.getElementById("systemStatus").className = "pill ready";
+    } else if(action === "PACKAGE"){
+      ODIN_PACKAGE_BUILDER.build();
+      document.getElementById("systemStatus").textContent = "PACKAGE_READY";
       document.getElementById("systemStatus").className = "pill ready";
     } else {
       document.getElementById("systemStatus").textContent = action + "_RECORDED";

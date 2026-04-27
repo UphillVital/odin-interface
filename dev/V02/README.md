@@ -1,7 +1,7 @@
-# ODIN_ADMIN_V02_4_TEMPLATE_CONTROL_PACKAGE_v1
+# ODIN_ADMIN_V02_5_PACKAGE_BUILDER_PACKAGE_v1
 
 ## Що це
-Пакет оновлення ODIN-ADMIN V02.4: Template Control System.
+Пакет оновлення ODIN-ADMIN V02.5: Package Builder System.
 
 ## Куди класти
 Розпакувати всі файли у:
@@ -17,29 +17,34 @@ C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\dev\V02\
 ```
 
 ## Що додає
-- `odin_template_control.js`
-- Template Control блок у `admin.html`
+- `odin_package_builder.js`
+- Package Builder блок у `admin.html`
 - кнопки:
-  - ROUTE CHECK
-  - LESSON LOCK
-  - ADMIN LOCK
-  - ROUTER QA
-- контроль task_type → template
-- hard lock для lesson/photo_lesson/ISSU/SSUDT
-- лог результатів
+  - BUILD PACKAGE
+  - COPY README
+  - COPY MANIFEST
+  - COPY STATUS
+- генерація:
+  - README.md
+  - PACKAGE_MANIFEST_*.md
+  - PACKAGE_STATUS_*.json
+- лог результату
+
+## Важливо
+Це front-end builder. Браузер не записує файли напряму в repo.
+Поки результат показується у вікні Package Builder і копіюється вручну.
+Пізніше можна додати download ZIP або GitHub API.
 
 ## Як перевірити
 1. Відкрити `dev/V02/index.html`
 2. Увійти паролем `ODIN`
-3. Вибрати `Template Router`
-4. Натиснути `OPEN`
-5. Натиснути `QA CHECK`
-6. У блоці `Template Control` натиснути `ROUTE CHECK`
-7. Перевірити, що lesson/photo_lesson веде до `TEMPLATE_BASE_v1.html`
+3. Вибрати вузол зліва
+4. Натиснути `PACKAGE`
+5. У блоці Package Builder має зʼявитись README / MANIFEST / STATUS
 
 ## Git
 ```bash
 git add dev/V02/
-git commit -m "v3.47 add ODIN-ADMIN V02.4 template control system"
+git commit -m "v3.48 add ODIN-ADMIN V02.5 package builder system"
 git push origin dev
 ```
