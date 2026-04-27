@@ -1,4 +1,4 @@
-ссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссссс# PACKAGE MANIFEST — ODIN 15 PACKAGES DOCS v1
+# PACKAGE MANIFEST — ODIN 15 PACKAGES DOCS v1
 
 ## Package
 ODIN_15_PACKAGES_DOCS_PACKAGE_v1
