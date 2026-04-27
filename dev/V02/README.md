@@ -1,7 +1,14 @@
-# ODIN_ADMIN_V02_6_REAL_EXPORT_PACKAGE_v1
+# ODIN_ADMIN_V02_6_STABILIZATION_PACKAGE_v1
 
 ## Що це
-Пакет оновлення ODIN-ADMIN V02.6: Real Export System.
+Пакет стабілізації ODIN-ADMIN V02.6.
+
+## Мета
+Не додавати нові великі функції, а перевірити і зафіксувати поточний повний pipeline:
+
+```text
+READ → QA → CONTROL → PACKAGE → EXPORT → DOWNLOAD
+```
 
 ## Куди класти
 Розпакувати всі файли у:
@@ -17,33 +24,23 @@ C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\dev\V02\
 ```
 
 ## Що додає
-- `odin_export_system.js`
-- Export System блок у `admin.html`
-- кнопки:
-  - PREPARE EXPORT
-  - DOWNLOAD README
-  - DOWNLOAD MANIFEST
-  - DOWNLOAD STATUS
-  - DOWNLOAD EXPORT HTML
-- формує downloadable файли через browser Blob
-- лог export-дій
+- STABILIZATION_CHECKLIST_V02_6_v1.md
+- STABILIZATION_TEST_PLAN_V02_6_v1.md
+- STABILIZATION_STATUS_V02_6_v1.json
+- STABILIZATION_REPORT_TEMPLATE_V02_6_v1.md
+- README.md
 
-## Важливо
-Це front-end export. Браузер створює файли для скачування, але не записує їх автоматично в repo.
-Після скачування файл треба вручну покласти у потрібну папку repo і зробити Git push.
-
-## Як перевірити
-1. Відкрити `dev/V02/index.html`
-2. Увійти паролем `ODIN`
-3. Вибрати вузол зліва
-4. Натиснути `PACKAGE`
-5. Натиснути `EXPORT`
-6. У блоці Export System натиснути `PREPARE EXPORT`
-7. Завантажити README / MANIFEST / STATUS / EXPORT HTML
+## Як виконати стабілізацію
+1. Відкрити `dev/V02/index.html`.
+2. Увійти через пароль `ODIN`.
+3. Пройти checklist.
+4. Заповнити stabilization report.
+5. Якщо все OK — зафіксувати V02.6 як stable base.
+6. Якщо є помилки — не йти в V03, спочатку FIX.
 
 ## Git
 ```bash
 git add dev/V02/
-git commit -m "v3.49 add ODIN-ADMIN V02.6 real export system"
+git commit -m "v3.50 add ODIN-ADMIN V02.6 stabilization package"
 git push origin dev
 ```
