@@ -1,0 +1,9 @@
+{
+  "package": "ODIN_ARCHITECTURE_SEPARATION_PATCH_v1",
+  "target": "ODIN_TREE_PROJECT_v1/00_CORE/",
+  "created_at": "2026-04-27T20:13:12",
+  "type": "core_architecture_patch",
+  "changes_code": false,
+  "template_router": true,
+  "lesson_template_required": "ODIN_TREE_PROJECT_v1/07_UNIFIED_LESSON_TEMPLATE/TEMPLATE_BASE_v1.html"
+}
