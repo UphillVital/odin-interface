@@ -1,0 +1,9 @@
+{
+  "package": "ODIN_ADMIN_V02_4_TEMPLATE_CONTROL_PACKAGE_v1",
+  "target": "dev/V02/",
+  "created_at": "2026-04-27T22:08:35",
+  "type": "odin_admin_template_control_system",
+  "changes_code": true,
+  "has_readme": true,
+  "hard_lock": "lesson/photo_lesson/issu_photo_lesson/ssudt_lesson -> TEMPLATE_BASE_v1.html"
+}

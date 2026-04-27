@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ODIN-ADMIN V02.3 QA</title>
+<title>ODIN-ADMIN V02.4 Template Control</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
       <div class="mark">O</div>
       <div>
         <h1>ODIN-ADMIN</h1>
-        <p>V02.3 · QA Control Layer</p>
+        <p>V02.4 · Template Control</p>
       </div>
     </div>
 
@@ -38,10 +38,10 @@
 
     <section class="card hero">
       <span class="pill">AUTH</span>
-      <span class="pill">TREE CONTROL</span>
-      <span class="pill">GITHUB RAW VIEWER</span>
+      <span class="pill">GITHUB VIEWER</span>
       <span class="pill">QA LAYER</span>
-      <p><b>ODIN-ADMIN V02.3</b> читає файли й виконує базовий QA по вибраному вузлу.</p>
+      <span class="pill">TEMPLATE CONTROL</span>
+      <p><b>ODIN-ADMIN V02.4</b> керує правилами вибору шаблонів і блокує помилкове використання ODIN Interface для уроків.</p>
     </section>
 
     <section class="card">
@@ -59,6 +59,7 @@
       <div class="actions">
         <button onclick="ODIN_ADMIN.run('OPEN')">OPEN</button>
         <button onclick="ODIN_ADMIN.run('QA')">QA CHECK</button>
+        <button onclick="ODIN_ADMIN.run('TEMPLATE')">TEMPLATE</button>
         <button onclick="ODIN_ADMIN.run('BUILD')">BUILD</button>
         <button onclick="ODIN_ADMIN.run('EXPORT')">EXPORT</button>
         <button onclick="ODIN_ADMIN.run('PACKAGE')">PACKAGE</button>
@@ -92,8 +93,28 @@
     </section>
 
     <section class="card">
+      <h2>Template Control</h2>
+      <div class="template-actions">
+        <button onclick="ODIN_TEMPLATE_CONTROL.routeCheck()">ROUTE CHECK</button>
+        <button onclick="ODIN_TEMPLATE_CONTROL.lessonLock()">LESSON LOCK</button>
+        <button onclick="ODIN_TEMPLATE_CONTROL.adminLock()">ADMIN LOCK</button>
+        <button onclick="ODIN_TEMPLATE_CONTROL.routerQA()">ROUTER QA</button>
+      </div>
+      <div class="template-grid">
+        <div class="template-box">
+          <h3>Task Type Router</h3>
+          <pre id="templateRouterView">Натисни ROUTE CHECK.</pre>
+        </div>
+        <div class="template-box">
+          <h3>Hard Lock Status</h3>
+          <pre id="templateLockView">Натисни LESSON LOCK або ADMIN LOCK.</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
       <h2>Automation Plan</h2>
-      <pre id="automationPlan" class="log">AUTH → TREE → SELECT → OPEN → QA → LOG</pre>
+      <pre id="automationPlan" class="log">AUTH → TREE → OPEN → QA → TEMPLATE CONTROL → LOG</pre>
     </section>
 
     <section class="card">
@@ -110,6 +131,7 @@
 <script src="odin_sync.js"></script>
 <script src="odin_file_viewer.js"></script>
 <script src="odin_qa_layer.js"></script>
+<script src="odin_template_control.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
