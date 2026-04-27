@@ -2,9 +2,10 @@ const ODIN_ADMIN = {
   init(){
     this.renderTree();
     this.select("dashboard", true);
-    ODIN_ADMIN_STATE.addLog("BOOT", "ODIN-ADMIN V02.1 File Viewer loaded.");
+    ODIN_ADMIN_STATE.addLog("BOOT", "ODIN-ADMIN V02.2 GitHub File Viewer loaded.");
     this.render();
   },
+
   renderTree(){
     const root = document.getElementById("treeRoot");
     root.innerHTML = ODIN_TREE_DATA.map(group => `
@@ -14,6 +15,7 @@ const ODIN_ADMIN = {
       </div>
     `).join("");
   },
+
   findNode(id){
     for(const group of ODIN_TREE_DATA){
       const item = group.items.find(x => x.id === id);
@@ -21,19 +23,21 @@ const ODIN_ADMIN = {
     }
     return ODIN_TREE_DATA[0].items[0];
   },
+
   select(id, silent=false){
     ODIN_ADMIN_STATE.selected = this.findNode(id);
     document.querySelectorAll(".tree-btn").forEach(btn => btn.classList.toggle("active", btn.dataset.id === id));
     if(!silent) ODIN_ADMIN_STATE.addLog("SELECT", "Selected: " + ODIN_ADMIN_STATE.selected.path);
     this.render();
   },
-  run(action){
+
+  async run(action){
     const s = ODIN_ADMIN_STATE.selected;
     const msg = `${action} requested for ${s.path}`;
     ODIN_ADMIN_STATE.addLog(action, msg);
 
     const plan = {
-      OPEN: "OPEN → show selected node/file preview → future: real fetch",
+      OPEN: "OPEN → GitHub raw fetch → file preview → fallback if unavailable",
       QA: "QA → detect type → run relevant QA module → report",
       BUILD: "BUILD → validate inputs → create package/output",
       EXPORT: "EXPORT → QA gate → downloadable artifact",
@@ -42,7 +46,8 @@ const ODIN_ADMIN = {
     };
 
     if(action === "OPEN"){
-      ODIN_FILE_VIEWER.open(s);
+      const result = await ODIN_FILE_VIEWER.open(s);
+      ODIN_ADMIN_STATE.addLog("OPEN_RESULT", result.ok ? `Loaded from ${result.source}` : `Fallback: ${result.error}`);
     }
 
     document.getElementById("automationPlan").textContent = plan[action] || msg;
@@ -50,11 +55,13 @@ const ODIN_ADMIN = {
     document.getElementById("systemStatus").className = "pill ready";
     this.render();
   },
+
   resetLog(){
     ODIN_ADMIN_STATE.clearLog();
     ODIN_ADMIN_STATE.addLog("RESET", "Admin log reset.");
     this.render();
   },
+
   render(){
     const s = ODIN_ADMIN_STATE.selected;
     document.getElementById("selectedTitle").textContent = s.title;

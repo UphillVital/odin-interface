@@ -1,9 +1,20 @@
-# ODIN_ADMIN_V02_1_FILE_VIEWER_PACKAGE_v1
+# ODIN_ADMIN_V02_2_GITHUB_FILE_VIEWER_PACKAGE_v1
 
 ## Що це
-Пакет оновлення ODIN-ADMIN V02.1: File Viewer Layer.
+
+Пакет оновлення ODIN-ADMIN V02.2: GitHub Raw File Viewer.
+
+## Ціль
+
+Зробити так, щоб кнопка `OPEN` могла відкривати реальний вміст файлів з GitHub repo:
+
+```text
+UphillVital/odin-interface
+branch: dev
+```
 
 ## Куди класти
+
 Розпакувати всі файли у:
 
 ```text
@@ -22,23 +33,30 @@ C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\dev\V02\
 admin.html
 app.js
 style.css
-odin_tree_data.js
 odin_file_viewer.js
+odin_repo_config.js
 README.md
-PACKAGE_MANIFEST_V02_1_FILE_VIEWER_v1.md
-PACKAGE_STATUS_V02_1_FILE_VIEWER_v1.json
+PACKAGE_MANIFEST_V02_2_GITHUB_FILE_VIEWER_v1.md
+PACKAGE_STATUS_V02_2_GITHUB_FILE_VIEWER_v1.json
 ```
 
-## Що зʼявиться
+## Як працює
 
-- правий блок File Viewer;
-- metadata вибраного вузла;
-- preview для md/json/html;
-- кнопка OPEN показує content preview;
-- підготовка до майбутнього real fetch;
-- V01 не чіпається.
+1. Вибираєш вузол у дереві.
+2. Натискаєш `OPEN`.
+3. Якщо це файл (`.md`, `.json`, `.html`, `.js`, `.css`) — система пробує завантажити його через GitHub raw URL.
+4. Якщо це папка — показує metadata.
+5. Якщо GitHub raw не доступний — показує fallback preview.
 
-## Як перевірити
+## Важливо
+
+Для реального читання файлів потрібні:
+- repo доступний з браузера;
+- файл вже запушений у GitHub;
+- правильний branch: `dev`;
+- правильний path.
+
+## Перевірка
 
 1. Відкрити:
 
@@ -46,25 +64,30 @@ PACKAGE_STATUS_V02_1_FILE_VIEWER_v1.json
 dev/V02/index.html
 ```
 
-2. Увійти паролем:
+2. Увійти:
 
 ```text
 ODIN
 ```
 
-3. Вибрати пункт дерева зліва.
+3. Вибрати, наприклад:
+
+```text
+Template Router
+```
+
 4. Натиснути:
 
 ```text
 OPEN
 ```
 
-5. Перевірити, що справа зʼявляється File Viewer preview.
+5. У File Viewer має зʼявитись реальний текст файлу або fallback.
 
 ## Git
 
 ```bash
 git add dev/V02/
-git commit -m "v3.44 add ODIN-ADMIN V02.1 file viewer layer"
+git commit -m "v3.45 add ODIN-ADMIN V02.2 GitHub file viewer"
 git push origin dev
 ```
