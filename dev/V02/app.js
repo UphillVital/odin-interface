@@ -2,7 +2,7 @@ const ODIN_ADMIN = {
   init(){
     this.renderTree();
     this.select("dashboard", true);
-    ODIN_ADMIN_STATE.addLog("BOOT", "ODIN-ADMIN V02.2 GitHub File Viewer loaded.");
+    ODIN_ADMIN_STATE.addLog("BOOT", "ODIN-ADMIN V02.3 QA Layer loaded.");
     this.render();
   },
 
@@ -38,7 +38,7 @@ const ODIN_ADMIN = {
 
     const plan = {
       OPEN: "OPEN → GitHub raw fetch → file preview → fallback if unavailable",
-      QA: "QA → detect type → run relevant QA module → report",
+      QA: "QA → selected node/file → checklist → PASS/WARN/FAIL",
       BUILD: "BUILD → validate inputs → create package/output",
       EXPORT: "EXPORT → QA gate → downloadable artifact",
       PACKAGE: "PACKAGE → README + MANIFEST + STATUS + ZIP",
@@ -50,9 +50,17 @@ const ODIN_ADMIN = {
       ODIN_ADMIN_STATE.addLog("OPEN_RESULT", result.ok ? `Loaded from ${result.source}` : `Fallback: ${result.error}`);
     }
 
+    if(action === "QA"){
+      const qa = ODIN_QA_LAYER.run(s);
+      ODIN_ADMIN_STATE.addLog("QA_RESULT", `${qa.result}: pass=${qa.passed}, warn=${qa.warnings}, err=${qa.errors}`);
+      document.getElementById("systemStatus").textContent = qa.result;
+      document.getElementById("systemStatus").className = "pill ready";
+    } else {
+      document.getElementById("systemStatus").textContent = action + "_RECORDED";
+      document.getElementById("systemStatus").className = "pill ready";
+    }
+
     document.getElementById("automationPlan").textContent = plan[action] || msg;
-    document.getElementById("systemStatus").textContent = action + "_RECORDED";
-    document.getElementById("systemStatus").className = "pill ready";
     this.render();
   },
 
