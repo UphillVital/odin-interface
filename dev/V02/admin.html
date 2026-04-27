@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ODIN-ADMIN V02.5 Package Builder</title>
+<title>ODIN-ADMIN V02.6 Real Export</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
       <div class="mark">O</div>
       <div>
         <h1>ODIN-ADMIN</h1>
-        <p>V02.5 · Package Builder</p>
+        <p>V02.6 · Real Export</p>
       </div>
     </div>
 
@@ -39,10 +39,11 @@
     <section class="card hero">
       <span class="pill">AUTH</span>
       <span class="pill">GITHUB VIEWER</span>
-      <span class="pill">QA LAYER</span>
+      <span class="pill">QA</span>
       <span class="pill">TEMPLATE CONTROL</span>
-      <span class="pill">PACKAGE BUILDER</span>
-      <p><b>ODIN-ADMIN V02.5</b> читає, перевіряє, контролює шаблони і формує package-документи.</p>
+      <span class="pill">PACKAGE</span>
+      <span class="pill">REAL EXPORT</span>
+      <p><b>ODIN-ADMIN V02.6</b> читає, перевіряє, контролює, формує пакети і створює downloadable export-файли.</p>
     </section>
 
     <section class="card">
@@ -62,8 +63,8 @@
         <button onclick="ODIN_ADMIN.run('QA')">QA CHECK</button>
         <button onclick="ODIN_ADMIN.run('TEMPLATE')">TEMPLATE</button>
         <button onclick="ODIN_ADMIN.run('BUILD')">BUILD</button>
-        <button onclick="ODIN_ADMIN.run('EXPORT')">EXPORT</button>
         <button onclick="ODIN_ADMIN.run('PACKAGE')">PACKAGE</button>
+        <button onclick="ODIN_ADMIN.run('EXPORT')">EXPORT</button>
         <button class="warn" onclick="ODIN_ADMIN.run('FIX')">FIX</button>
         <button class="danger" onclick="ODIN_ADMIN.resetLog()">RESET LOG</button>
       </div>
@@ -138,8 +139,23 @@
     </section>
 
     <section class="card">
+      <h2>Export System</h2>
+      <div class="export-actions">
+        <button onclick="ODIN_EXPORT_SYSTEM.prepare()">PREPARE EXPORT</button>
+        <button onclick="ODIN_EXPORT_SYSTEM.download('readme')">DOWNLOAD README</button>
+        <button onclick="ODIN_EXPORT_SYSTEM.download('manifest')">DOWNLOAD MANIFEST</button>
+        <button onclick="ODIN_EXPORT_SYSTEM.download('status')">DOWNLOAD STATUS</button>
+        <button onclick="ODIN_EXPORT_SYSTEM.download('html')">DOWNLOAD EXPORT HTML</button>
+      </div>
+      <div class="export-box">
+        <h3>Export Status</h3>
+        <pre id="exportStatus">Натисни PREPARE EXPORT.</pre>
+      </div>
+    </section>
+
+    <section class="card">
       <h2>Automation Plan</h2>
-      <pre id="automationPlan" class="log">AUTH → TREE → OPEN → QA → TEMPLATE → PACKAGE → LOG</pre>
+      <pre id="automationPlan" class="log">AUTH → TREE → OPEN → QA → TEMPLATE → PACKAGE → EXPORT → DOWNLOAD</pre>
     </section>
 
     <section class="card">
@@ -158,6 +174,7 @@
 <script src="odin_qa_layer.js"></script>
 <script src="odin_template_control.js"></script>
 <script src="odin_package_builder.js"></script>
+<script src="odin_export_system.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

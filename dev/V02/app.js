@@ -2,7 +2,7 @@ const ODIN_ADMIN = {
   init(){
     this.renderTree();
     this.select("dashboard", true);
-    ODIN_ADMIN_STATE.addLog("BOOT", "ODIN-ADMIN V02.5 Package Builder loaded.");
+    ODIN_ADMIN_STATE.addLog("BOOT", "ODIN-ADMIN V02.6 Real Export loaded.");
     this.render();
   },
 
@@ -41,8 +41,8 @@ const ODIN_ADMIN = {
       QA: "QA → selected node/file → checklist → PASS/WARN/FAIL",
       TEMPLATE: "TEMPLATE → route table → hard lock → router QA",
       BUILD: "BUILD → validate inputs → create package/output",
-      EXPORT: "EXPORT → QA gate → downloadable artifact",
       PACKAGE: "PACKAGE → README + MANIFEST + STATUS preview",
+      EXPORT: "EXPORT → prepare downloadable README/MANIFEST/STATUS/HTML",
       FIX: "FIX → safe patch only → no stable break"
     };
 
@@ -64,6 +64,10 @@ const ODIN_ADMIN = {
     } else if(action === "PACKAGE"){
       ODIN_PACKAGE_BUILDER.build();
       document.getElementById("systemStatus").textContent = "PACKAGE_READY";
+      document.getElementById("systemStatus").className = "pill ready";
+    } else if(action === "EXPORT"){
+      ODIN_EXPORT_SYSTEM.prepare();
+      document.getElementById("systemStatus").textContent = "EXPORT_READY";
       document.getElementById("systemStatus").className = "pill ready";
     } else {
       document.getElementById("systemStatus").textContent = action + "_RECORDED";

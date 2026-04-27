@@ -1,7 +1,7 @@
-# ODIN_ADMIN_V02_5_PACKAGE_BUILDER_PACKAGE_v1
+# ODIN_ADMIN_V02_6_REAL_EXPORT_PACKAGE_v1
 
 ## Що це
-Пакет оновлення ODIN-ADMIN V02.5: Package Builder System.
+Пакет оновлення ODIN-ADMIN V02.6: Real Export System.
 
 ## Куди класти
 Розпакувати всі файли у:
@@ -17,34 +17,33 @@ C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\dev\V02\
 ```
 
 ## Що додає
-- `odin_package_builder.js`
-- Package Builder блок у `admin.html`
+- `odin_export_system.js`
+- Export System блок у `admin.html`
 - кнопки:
-  - BUILD PACKAGE
-  - COPY README
-  - COPY MANIFEST
-  - COPY STATUS
-- генерація:
-  - README.md
-  - PACKAGE_MANIFEST_*.md
-  - PACKAGE_STATUS_*.json
-- лог результату
+  - PREPARE EXPORT
+  - DOWNLOAD README
+  - DOWNLOAD MANIFEST
+  - DOWNLOAD STATUS
+  - DOWNLOAD EXPORT HTML
+- формує downloadable файли через browser Blob
+- лог export-дій
 
 ## Важливо
-Це front-end builder. Браузер не записує файли напряму в repo.
-Поки результат показується у вікні Package Builder і копіюється вручну.
-Пізніше можна додати download ZIP або GitHub API.
+Це front-end export. Браузер створює файли для скачування, але не записує їх автоматично в repo.
+Після скачування файл треба вручну покласти у потрібну папку repo і зробити Git push.
 
 ## Як перевірити
 1. Відкрити `dev/V02/index.html`
 2. Увійти паролем `ODIN`
 3. Вибрати вузол зліва
 4. Натиснути `PACKAGE`
-5. У блоці Package Builder має зʼявитись README / MANIFEST / STATUS
+5. Натиснути `EXPORT`
+6. У блоці Export System натиснути `PREPARE EXPORT`
+7. Завантажити README / MANIFEST / STATUS / EXPORT HTML
 
 ## Git
 ```bash
 git add dev/V02/
-git commit -m "v3.48 add ODIN-ADMIN V02.5 package builder system"
+git commit -m "v3.49 add ODIN-ADMIN V02.6 real export system"
 git push origin dev
 ```
