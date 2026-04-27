@@ -1,1 +1,15 @@
-<script>location.href=localStorage.getItem('odin_admin_auth')==='OK'?'admin.html':'login.html'</script>
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ODIN-ADMIN V02</title>
+<script>
+(function(){
+  const ok = localStorage.getItem("odin_admin_auth") === "OK";
+  location.replace(ok ? "admin.html" : "login.html");
+})();
+</script>
+</head>
+<body>ODIN-ADMIN V02...</body>
+</html>

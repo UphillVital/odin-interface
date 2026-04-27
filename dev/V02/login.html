@@ -1,1 +1,22 @@
-<input id='p'><button onclick="if(document.getElementById('p').value==='ODIN'){localStorage.setItem('odin_admin_auth','OK');location='admin.html'}">Login</button>
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ODIN-ADMIN Login</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="login-body">
+<main class="login-card">
+  <div class="mark">O</div>
+  <h1>ODIN-ADMIN</h1>
+  <p class="muted">V02 PRO · Admin Gateway</p>
+  <label for="password">Пароль доступу</label>
+  <input id="password" type="password" placeholder="Введи пароль" onkeydown="if(event.key==='Enter')ODIN_AUTH.login()">
+  <button onclick="ODIN_AUTH.login()">Увійти</button>
+  <p id="loginStatus" class="status-line"></p>
+  <p class="note">MVP-захист: локальний gate у браузері. Для реальної безпеки потрібен backend/GitHub auth.</p>
+</main>
+<script src="auth.js"></script>
+</body>
+</html>
