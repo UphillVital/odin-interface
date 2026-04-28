@@ -1,11 +1,10 @@
-# ODIN_V02_STABLE_CHECKPOINT_PACKAGE_v1
+# ODIN_ADMIN_V03_1_SESSION_MANAGER_FULL_PACKAGE_v1
 
 ## Що це
 
-Пакет фіксації стабільного стану ODIN-ADMIN V02.
+FULL-пакет V03.1 Session Manager.
 
-Цей пакет НЕ додає нову логіку.
-Він документує, що V02.10 працює як стабільна база перед переходом до V03.
+Цей пакет готовий до встановлення без ручного редагування коду.
 
 ## Куди класти
 
@@ -21,53 +20,57 @@ odin-interface/dev/V02/
 C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\dev\V02\
 ```
 
-## Які файли додаються
+## Що замінює / додає
 
 ```text
-ODIN_V02_STATUS.md
-ODIN_V02_STABLE_CHECKPOINT_v1.json
-PACKAGE_MANIFEST_V02_STABLE_CHECKPOINT_v1.md
+index.html
+viewer.js
+session.js
 README.md
+PACKAGE_MANIFEST_V03_1_SESSION_MANAGER_FULL_v1.md
+PACKAGE_STATUS_V03_1_SESSION_MANAGER_FULL_v1.json
 ```
 
-## Що робити
+## Як перевірити
 
-1. Скачати ZIP.
-2. Розпакувати в:
-
-```text
-dev/V02/
-```
-
-3. Перевірити, що зʼявився файл:
-
-```text
-dev/V02/ODIN_V02_STATUS.md
-```
-
-4. Відкрити:
+1. Відкрий:
 
 ```text
 dev/V02/index.html
 ```
 
-5. Перевірити коротко:
-   - дерево видно;
-   - файл відкривається;
-   - `ANALYZE` працює;
-   - `QA` працює;
-   - `USE` працює.
-
-## Очікуваний стан
+2. Зліва вибери файл, наприклад:
 
 ```text
-V02.10 = STABLE
+TEMPLATE_RULES.md
 ```
+
+3. Натисни:
+
+```text
+ANALYZE
+QA
+USE
+```
+
+4. Справа в панелі SESSION має зʼявитись вибраний файл.
+
+5. Перезавантаж сторінку — session має зберегтись.
+
+## Очікуваний результат
+
+```text
+TREE → VIEW → ACTION → SESSION
+```
+
+## Важливо
+
+Для локального відкриття файлів через `fetch` краще запускати через VS Code Live Server.
 
 ## Git
 
 ```bash
 git add dev/V02/
-git commit -m "v3.54 fix ODIN V02 stable checkpoint"
+git commit -m "v3.55 add ODIN V03.1 session manager full package"
 git push origin dev
 ```

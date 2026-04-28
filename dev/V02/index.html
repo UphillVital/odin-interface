@@ -2,25 +2,48 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
-<title>ODIN V02.10 File Actions</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ODIN V03.1 Session Manager</title>
 <style>
-body{display:flex;font-family:Arial,system-ui,sans-serif;margin:0;background:#f5f7fb;color:#132033}
-#tree{width:32%;height:100vh;overflow:auto;background:#0f172a;color:#e5e7eb;padding:12px}
-#viewer{width:68%;height:100vh;overflow:auto;padding:16px}
+:root{--bg:#f5f7fb;--card:#fff;--line:#dbe5f2;--text:#132033;--muted:#64748b}
+*{box-sizing:border-box}
+body{display:flex;font-family:Arial,system-ui,sans-serif;margin:0;background:var(--bg);color:var(--text)}
+#tree{width:30%;height:100vh;overflow:auto;background:#0f172a;color:#e5e7eb;padding:12px}
+#viewer{width:50%;height:100vh;overflow:auto;padding:16px}
+#sessionPanel{width:20%;height:100vh;overflow:auto;background:#fff;border-left:1px solid var(--line);padding:14px}
 .group{font-weight:800;color:#93c5fd;margin:14px 0 6px}
 .file{cursor:pointer;margin:4px 0;padding:7px 9px;border-radius:10px}
 .file:hover{background:#1e293b}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}
+.actions,.session-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}
 button{border:0;background:#111827;color:white;border-radius:12px;padding:9px 12px;font-weight:800;cursor:pointer}
-.blue{background:#2563eb}.green{background:#16a34a}.amber{background:#f59e0b;color:#111827}
+.blue{background:#2563eb}.green{background:#16a34a}.amber{background:#f59e0b;color:#111827}.red{background:#dc2626}
 pre{background:#0b1220;color:#e5e7eb;border-radius:14px;padding:14px;overflow:auto;white-space:pre-wrap;max-height:62vh}
-.card{background:white;border:1px solid #dbe5f2;border-radius:16px;padding:12px;margin:10px 0}
+.card,.session-item{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;margin:10px 0}
+.session-item{background:#f8fafc;font-size:13px}
+.meta{color:var(--muted);font-size:13px}
 </style>
 </head>
 <body>
 <div id="tree"></div>
-<div id="viewer"><h1>ODIN File Viewer + Actions</h1><p>Вибери файл зліва.</p></div>
+
+<div id="viewer">
+  <h1>ODIN V03.1</h1>
+  <p class="meta">TREE → VIEW → ACTION → SESSION</p>
+  <p>Вибери файл зліва.</p>
+</div>
+
+<div id="sessionPanel">
+  <h2>SESSION</h2>
+  <p class="meta">Файли, вибрані через USE, готуються для V03 Lesson Generator.</p>
+  <div class="session-actions">
+    <button onclick="ODIN_SESSION.render()">REFRESH</button>
+    <button class="red" onclick="ODIN_SESSION.clear()">CLEAR</button>
+  </div>
+  <div id="sessionList"></div>
+</div>
+
 <script src="odin_tree_data.js"></script>
+<script src="session.js"></script>
 <script src="viewer.js"></script>
 </body>
 </html>
