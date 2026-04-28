@@ -4,6 +4,14 @@ let CURRENT_FILE=null;
 let CURRENT_TEXT='';
 const USED_KEY='odin_v02_used_files';
 
+function getTreeData(){
+  try{
+    if(typeof ODIN_TREE_DATA !== 'undefined') return ODIN_TREE_DATA;
+  }catch(e){}
+  if(window.ODIN_TREE_DATA) return window.ODIN_TREE_DATA;
+  return null;
+}
+
 function esc(t){return String(t).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')}
 function fetchPath(path){
   if(path.startsWith('ODIN_TREE_PROJECT_v1/')) return '../../'+path;
@@ -25,8 +33,12 @@ function kind(item,text){
 }
 function initTree(){
   treeDiv.innerHTML='<h2>ODIN TREE</h2>';
-  if(!window.ODIN_TREE_DATA){treeDiv.innerHTML+='<p>ODIN_TREE_DATA не знайдено</p>';return;}
-  ODIN_TREE_DATA.forEach(group=>{
+  const data=getTreeData();
+  if(!data){
+    treeDiv.innerHTML+='<p>ODIN_TREE_DATA не знайдено. Перевір, що файл odin_tree_data.js лежить у dev/V02/ і підключений перед viewer.js.</p>';
+    return;
+  }
+  data.forEach(group=>{
     const g=document.createElement('div');g.className='group';g.textContent=group.group;treeDiv.appendChild(g);
     group.items.forEach(item=>{
       const el=document.createElement('div');el.className='file';el.textContent=item.title;el.title=item.path;
