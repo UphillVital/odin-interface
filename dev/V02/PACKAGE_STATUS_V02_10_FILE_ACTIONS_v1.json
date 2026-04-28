@@ -1,0 +1,12 @@
+{
+  "package": "ODIN_ADMIN_V02_10_FILE_ACTIONS_PACKAGE_v1",
+  "target": "dev/V02/",
+  "created_at": "2026-04-28T16:36:45",
+  "type": "file_actions_layer",
+  "actions": [
+    "QA",
+    "ANALYZE",
+    "USE"
+  ],
+  "has_readme": true
+}

@@ -1,0 +1,9 @@
+# PACKAGE MANIFEST — ODIN_ADMIN_V02_10_FILE_ACTIONS_PACKAGE_v1
+
+Target: dev/V02/
+
+Files:
+- README.md
+- index.html
+- viewer.js
+- PACKAGE_STATUS_V02_10_FILE_ACTIONS_v1.json
