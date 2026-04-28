@@ -1,59 +1,73 @@
-# ODIN_ADMIN_V02_10_FILE_ACTIONS_FIX_PACKAGE_v1
+# ODIN_V02_STABLE_CHECKPOINT_PACKAGE_v1
 
 ## Що це
-FIX для V02.10 File Actions.
 
-## Проблема
-На сторінці було:
+Пакет фіксації стабільного стану ODIN-ADMIN V02.
 
-```text
-ODIN_TREE_DATA не знайдено
-```
-
-## Причина
-`odin_tree_data.js` створює:
-
-```js
-const ODIN_TREE_DATA = ...
-```
-
-А старий `viewer.js` шукав тільки:
-
-```js
-window.ODIN_TREE_DATA
-```
-
-У браузері `const` не завжди стає властивістю `window`.
-
-## Виправлення
-Новий `viewer.js` шукає дерево так:
-
-```js
-typeof ODIN_TREE_DATA !== 'undefined'
-```
+Цей пакет НЕ додає нову логіку.
+Він документує, що V02.10 працює як стабільна база перед переходом до V03.
 
 ## Куди класти
-Розпакувати у:
+
+Розпакувати всі файли у:
 
 ```text
 odin-interface/dev/V02/
 ```
 
-Замінити:
+Повний шлях:
 
 ```text
-viewer.js
+C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\dev\V02\
 ```
 
-## Перевірка
-1. Відкрий `dev/V02/index.html`
-2. Зліва має зʼявитися дерево файлів
-3. Клікни `TEMPLATE_RULES.md`
-4. Натисни `ANALYZE`, `QA`, `USE`
+## Які файли додаються
+
+```text
+ODIN_V02_STATUS.md
+ODIN_V02_STABLE_CHECKPOINT_v1.json
+PACKAGE_MANIFEST_V02_STABLE_CHECKPOINT_v1.md
+README.md
+```
+
+## Що робити
+
+1. Скачати ZIP.
+2. Розпакувати в:
+
+```text
+dev/V02/
+```
+
+3. Перевірити, що зʼявився файл:
+
+```text
+dev/V02/ODIN_V02_STATUS.md
+```
+
+4. Відкрити:
+
+```text
+dev/V02/index.html
+```
+
+5. Перевірити коротко:
+   - дерево видно;
+   - файл відкривається;
+   - `ANALYZE` працює;
+   - `QA` працює;
+   - `USE` працює.
+
+## Очікуваний стан
+
+```text
+V02.10 = STABLE
+```
 
 ## Git
+
 ```bash
 git add dev/V02/
-git commit -m "v3.53 fix ODIN-ADMIN V02.10 file actions tree loading"
+git commit -m "v3.54 fix ODIN V02 stable checkpoint"
 git push origin dev
 ```

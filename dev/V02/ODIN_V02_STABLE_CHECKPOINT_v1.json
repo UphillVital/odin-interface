@@ -1,0 +1,28 @@
+{
+  "system": "ODIN-ADMIN",
+  "version": "V02.10",
+  "status": "STABLE",
+  "created_at": "2026-04-28T17:12:41",
+  "pipeline": [
+    "TREE",
+    "VIEW",
+    "ACTION"
+  ],
+  "features": {
+    "tree": true,
+    "file_viewer": true,
+    "file_actions": [
+      "QA",
+      "ANALYZE",
+      "USE"
+    ],
+    "session_use": "localStorage"
+  },
+  "known_limitations": [
+    "No V03 lesson generation yet",
+    "No backend",
+    "Local fetch may require Live Server",
+    "QA is basic"
+  ],
+  "next_step": "V03 LESSON GENERATOR"
+}
