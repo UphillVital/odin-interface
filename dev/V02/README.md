@@ -1,14 +1,7 @@
-# ODIN_ADMIN_V02_6_STABILIZATION_PACKAGE_v1
+# ODIN_ADMIN_V02_7_AUTO_TREE_PACKAGE_v1
 
 ## Що це
-Пакет стабілізації ODIN-ADMIN V02.6.
-
-## Мета
-Не додавати нові великі функції, а перевірити і зафіксувати поточний повний pipeline:
-
-```text
-READ → QA → CONTROL → PACKAGE → EXPORT → DOWNLOAD
-```
+AUTO TREE генератор для ODIN-ADMIN V02.
 
 ## Куди класти
 Розпакувати всі файли у:
@@ -17,30 +10,39 @@ READ → QA → CONTROL → PACKAGE → EXPORT → DOWNLOAD
 odin-interface/dev/V02/
 ```
 
-Повний шлях:
-
+## Як користуватись
+1. Відкрити:
 ```text
-C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\dev\V02\
+dev/V02/auto_tree.html
 ```
 
-## Що додає
-- STABILIZATION_CHECKLIST_V02_6_v1.md
-- STABILIZATION_TEST_PLAN_V02_6_v1.md
-- STABILIZATION_STATUS_V02_6_v1.json
-- STABILIZATION_REPORT_TEMPLATE_V02_6_v1.md
-- README.md
+2. Натиснути:
+```text
+GENERATE TREE
+```
 
-## Як виконати стабілізацію
-1. Відкрити `dev/V02/index.html`.
-2. Увійти через пароль `ODIN`.
-3. Пройти checklist.
-4. Заповнити stabilization report.
-5. Якщо все OK — зафіксувати V02.6 як stable base.
-6. Якщо є помилки — не йти в V03, спочатку FIX.
+3. Натиснути:
+```text
+DOWNLOAD odin_tree_data.js
+```
+
+4. Замінити файл:
+```text
+dev/V02/odin_tree_data.js
+```
+
+5. Оновити ODIN-ADMIN.
+
+## Важливо
+Браузер не може сам просканувати локальну папку без backend.
+Тому v1 працює через файл:
+```text
+odin_file_index.js
+```
 
 ## Git
 ```bash
 git add dev/V02/
-git commit -m "v3.50 add ODIN-ADMIN V02.6 stabilization package"
+git commit -m "v3.51 add ODIN-ADMIN V02.7 auto tree generator"
 git push origin dev
 ```
