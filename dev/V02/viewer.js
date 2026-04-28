@@ -17,6 +17,22 @@ function fetchPath(path){
   return '../../'+path;
 }
 
+async function loadFileText(item){
+  try{
+    const cached = ODIN_SESSION.getCachedContent(item.path);
+    if(cached) return cached;
+    const r=await fetch(fetchPath(item.path),{cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const text=await r.text();
+    ODIN_SESSION.cacheContent(item.path, text);
+    return text;
+  }catch(e){
+    const fallback = `OPEN_WARNING: ${e.message}\nPath: ${item.path}\nПорада: відкрий через VS Code Live Server.`;
+    ODIN_SESSION.cacheContent(item.path, fallback);
+    return fallback;
+  }
+}
+
 function initTree(){
   treeDiv.innerHTML='<h2>ODIN TREE</h2>';
   const data=getTreeData();
@@ -54,17 +70,9 @@ async function openFile(item){
   <div id="actionResult" class="card">Opening...</div>
   <pre id="fileContent">Loading...</pre>`;
 
-  try{
-    const r=await fetch(fetchPath(item.path),{cache:'no-store'});
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    CURRENT_TEXT=await r.text();
-    document.getElementById('fileContent').textContent=CURRENT_TEXT||'(empty file)';
-    document.getElementById('actionResult').textContent='OPEN_OK';
-  }catch(e){
-    CURRENT_TEXT=`OPEN_WARNING: ${e.message}\nPath: ${item.path}\nПорада: відкрий через VS Code Live Server.`;
-    document.getElementById('fileContent').textContent=CURRENT_TEXT;
-    document.getElementById('actionResult').textContent='OPEN_WARNING';
-  }
+  CURRENT_TEXT = await loadFileText(item);
+  document.getElementById('fileContent').textContent=CURRENT_TEXT||'(empty file)';
+  document.getElementById('actionResult').textContent=CURRENT_TEXT.startsWith("OPEN_WARNING") ? "OPEN_WARNING" : "OPEN_OK";
 }
 
 function analyzeFile(){
@@ -108,6 +116,7 @@ function runQA(){
 function useFile(){
   if(!CURRENT_FILE)return;
   CURRENT_FILE.kind = ODIN_SMART_ROUTER.detectKind(CURRENT_FILE);
+  ODIN_SESSION.cacheContent(CURRENT_FILE.path, CURRENT_TEXT);
   const rec = ODIN_SESSION.add(CURRENT_FILE);
 
   document.getElementById('actionResult').innerHTML=`<b>USE_OK → SESSION</b><br>

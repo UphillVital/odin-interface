@@ -1,5 +1,6 @@
 const ODIN_SESSION = {
   key: "odin_v03_session_files",
+  contentKey: "odin_v03_file_content_cache",
 
   get(){
     try { return JSON.parse(localStorage.getItem(this.key)) || []; }
@@ -8,6 +9,20 @@ const ODIN_SESSION = {
 
   save(files){
     localStorage.setItem(this.key, JSON.stringify(files, null, 2));
+  },
+
+  cacheContent(path, text){
+    let cache = {};
+    try { cache = JSON.parse(localStorage.getItem(this.contentKey)) || {}; } catch(e){}
+    cache[path] = text;
+    localStorage.setItem(this.contentKey, JSON.stringify(cache));
+  },
+
+  getCachedContent(path){
+    try {
+      const cache = JSON.parse(localStorage.getItem(this.contentKey)) || {};
+      return cache[path] || "";
+    } catch(e){ return ""; }
   },
 
   add(file){
@@ -38,7 +53,11 @@ const ODIN_SESSION = {
 
   clear(){
     localStorage.removeItem(this.key);
+    localStorage.removeItem(this.contentKey);
+    localStorage.removeItem("odin_v03_extraction");
     this.render();
+    const r = document.getElementById("extractionReport");
+    if(r) r.textContent = "Session cleared.";
   },
 
   render(){
