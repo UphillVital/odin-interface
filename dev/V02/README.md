@@ -1,42 +1,72 @@
-# ODIN_ADMIN_V04_1_LESSON_STORAGE_FULL_PACKAGE_v1
+# ODIN_ADMIN_V04_2_LESSON_TYPES_ENGINE_FULL_PACKAGE_v1
 
 ## Що це
-V04.1 Lesson Storage System.
 
-Архітектура:
+V04.2 Lesson Types Engine.
+
+Цей пакет додає типи уроків:
+
 ```text
-localStorage + export files
+LESSON_FROM_TOPIC
+LESSON_FROM_PHOTO
+LESSON_REVIEW
+LESSON_MIX
 ```
 
 ## Куди класти
+
 Розпакувати всі файли у:
 
 ```text
 odin-interface/dev/V02/
 ```
 
-## Що додає
+## Що додає / замінює
+
 ```text
 index.html
-v041_engine.js
+v042_engine.js
 README.md
-PACKAGE_MANIFEST_V04_1_LESSON_STORAGE_v1.md
-PACKAGE_STATUS_V04_1_LESSON_STORAGE_v1.json
+PACKAGE_MANIFEST_V04_2_LESSON_TYPES_ENGINE_v1.md
+PACKAGE_STATUS_V04_2_LESSON_TYPES_ENGINE_v1.json
 ```
 
 ## Як перевірити
-1. Відкрити `dev/V02/index.html`
-2. Натиснути `AUTO SELECT CORE`
-3. Натиснути `GENERATE LESSON`
-4. Натиснути `SAVE LESSON`
-5. Справа в `LESSON LIBRARY` має зʼявитись урок
-6. Натиснути `LOAD`
-7. Натиснути `EXPORT JSON`
-8. Натиснути `DOWNLOAD HTML`
+
+1. Відкрити:
+
+```text
+dev/V02/index.html
+```
+
+2. Обрати `Lesson Type`.
+
+3. Натиснути:
+
+```text
+ANALYZE TYPE
+```
+
+4. Натиснути:
+
+```text
+GENERATE LESSON
+```
+
+5. Перевірити, що у HTML і QA Report відображається вибраний тип уроку.
+
+6. Натиснути:
+
+```text
+SAVE LESSON
+EXPORT JSON
+DOWNLOAD HTML
+```
 
 ## Git
+
 ```bash
 git add dev/V02/
-git commit -m "v3.61 add ODIN V04.1 lesson storage system"
+git commit -m "v3.62 add ODIN V04.2 lesson types engine"
 git push origin dev
 ```

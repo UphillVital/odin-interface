@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
-<title>ODIN V04.1 Lesson Storage</title>
+<title>ODIN V04.2 Lesson Types Engine</title>
 <style>
 body{margin:0;display:grid;grid-template-columns:260px 1fr 300px;height:100vh;font-family:Arial;background:#f5f7fb;color:#132033}
 aside{background:#0f172a;color:#e5e7eb;overflow:auto;padding:12px}
@@ -14,7 +14,7 @@ main{overflow:auto;padding:16px}
 .card,.item{background:#fff;border:1px solid #dbe5f2;border-radius:16px;padding:14px;margin:12px 0}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
 button{border:0;background:#111827;color:white;border-radius:12px;padding:9px 12px;font-weight:800;cursor:pointer}
-.blue{background:#2563eb}.green{background:#16a34a}.amber{background:#f59e0b;color:#111827}.red{background:#dc2626}
+.blue{background:#2563eb}.green{background:#16a34a}.amber{background:#f59e0b;color:#111827}.red{background:#dc2626}.purple{background:#7c3aed}
 textarea,pre,select{width:100%;border:1px solid #dbe5f2;border-radius:12px;padding:10px;font-family:Consolas,monospace}
 textarea{min-height:90px;background:white;color:#132033}
 pre{background:#0b1220;color:#e5e7eb;white-space:pre-wrap;overflow:auto;max-height:380px}
@@ -24,26 +24,43 @@ pre{background:#0b1220;color:#e5e7eb;white-space:pre-wrap;overflow:auto;max-heig
 <body>
 <aside><h2>ODIN TREE</h2><div id="tree"></div></aside>
 <main>
-<h1>ODIN V04.1 — Lesson Storage</h1>
-<p class="meta">localStorage + export files</p>
+<h1>ODIN V04.2 — Lesson Types Engine</h1>
+<p class="meta">V04.1 storage + V04.2 lesson type routing</p>
+
 <section class="card">
+<h2>Control Panel</h2>
+<label><b>Lesson Type</b></label>
+<select id="lessonType">
+<option value="LESSON_FROM_TOPIC" selected>LESSON_FROM_TOPIC — урок з теми</option>
+<option value="LESSON_FROM_PHOTO">LESSON_FROM_PHOTO — урок по фото / завданню</option>
+<option value="LESSON_REVIEW">LESSON_REVIEW — повторення / закріплення</option>
+<option value="LESSON_MIX">LESSON_MIX — змішаний комплексний урок</option>
+</select>
+<label><b>Mode</b></label>
 <select id="mode"><option value="HYBRID" selected>HYBRID</option><option value="STRUCTURED">STRUCTURED</option><option value="HUMAN">HUMAN</option></select>
+<label><b>Level</b></label>
+<select id="level"><option>A1</option><option selected>A1-A2</option><option>A2</option><option>B1</option><option>B2</option></select>
 <div class="actions">
 <button class="blue" onclick="autoSelect()">AUTO SELECT CORE</button>
+<button class="purple" onclick="analyzeType()">ANALYZE TYPE</button>
 <button class="green" onclick="generateLesson()">GENERATE LESSON</button>
 <button class="green" onclick="saveLesson()">SAVE LESSON</button>
 <button class="amber" onclick="downloadHtml()">DOWNLOAD HTML</button>
 <button class="blue" onclick="exportCurrentJson()">EXPORT JSON</button>
 </div>
 </section>
+
 <section class="card">
 <h2>Lesson Request</h2>
 <textarea id="topic">Відокремлювані дієслова в німецькій мові</textarea>
 <textarea id="task">Зроби живий урок: пояснення, РН/ДП/СД, діалоги, словник, практика, домашнє завдання.</textarea>
 </section>
+
+<section class="card"><h2>Type Analysis</h2><pre id="typeOut">Натисни ANALYZE TYPE.</pre></section>
 <section class="card"><h2>Generated HTML</h2><pre id="out">Натисни GENERATE LESSON.</pre></section>
 <section class="card"><h2>File Viewer</h2><div id="viewer">Вибери файл зліва.</div></section>
 </main>
+
 <section id="library">
 <h2>LESSON LIBRARY</h2>
 <div class="actions"><button onclick="renderLessons()">REFRESH</button><button class="red" onclick="clearLessons()">CLEAR ALL</button></div>
@@ -53,6 +70,6 @@ pre{background:#0b1220;color:#e5e7eb;white-space:pre-wrap;overflow:auto;max-heig
 <div id="sessionList"></div>
 </section>
 <script src="odin_tree_data.js"></script>
-<script src="v041_engine.js"></script>
+<script src="v042_engine.js"></script>
 </body>
 </html>
