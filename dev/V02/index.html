@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
-<title>ODIN V04.3.1 Integrated Live Preview</title>
+<title>ODIN V04.4 Export System Pro</title>
 <style>
 body{margin:0;display:grid;grid-template-columns:260px 1fr 320px;height:100vh;font-family:Arial;background:#f5f7fb;color:#132033}
 aside{background:#0f172a;color:#e5e7eb;overflow:auto;padding:12px}
@@ -20,14 +20,13 @@ textarea{min-height:90px;background:white;color:#132033}
 pre{background:#0b1220;color:#e5e7eb;white-space:pre-wrap;overflow:auto;max-height:260px}
 iframe{width:100%;height:520px;border:1px solid #dbe5f2;border-radius:14px;background:white}
 .meta{color:#64748b;font-size:13px}
-.preview-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 </style>
 </head>
 <body>
 <aside><h2>ODIN TREE</h2><div id="tree"></div></aside>
 <main>
-<h1>ODIN V04.3.1 — Integrated Live Preview</h1>
-<p class="meta">GENERATE → LIVE PREVIEW → SAVE → EXPORT</p>
+<h1>ODIN V04.4 — Export System Pro</h1>
+<p class="meta">GENERATE → LIVE PREVIEW → SAVE → EXPORT PACKAGE</p>
 
 <section class="card">
 <h2>Control Panel</h2>
@@ -50,6 +49,7 @@ iframe{width:100%;height:520px;border:1px solid #dbe5f2;border-radius:14px;backg
 <button class="green" onclick="saveLesson()">SAVE LESSON</button>
 <button class="amber" onclick="downloadHtml()">DOWNLOAD HTML</button>
 <button class="blue" onclick="exportCurrentJson()">EXPORT JSON</button>
+<button class="purple" onclick="exportPackage()">EXPORT PACKAGE</button>
 </div>
 </section>
 
@@ -60,14 +60,12 @@ iframe{width:100%;height:520px;border:1px solid #dbe5f2;border-radius:14px;backg
 </section>
 
 <section class="card">
-<div class="preview-toolbar">
 <h2>LIVE LESSON PREVIEW</h2>
-<span class="meta">Оновлюється автоматично після GENERATE LESSON</span>
-</div>
 <iframe id="lessonPreview" title="Live lesson preview"></iframe>
 </section>
 
 <section class="card"><h2>Generated HTML Code</h2><pre id="out">Натисни GENERATE LESSON.</pre></section>
+<section class="card"><h2>Export Report</h2><pre id="exportOut">Натисни EXPORT PACKAGE.</pre></section>
 <section class="card"><h2>Type Analysis</h2><pre id="typeOut">Натисни ANALYZE TYPE.</pre></section>
 <section class="card"><h2>File Viewer</h2><div id="viewer">Вибери файл зліва.</div></section>
 </main>
@@ -81,6 +79,6 @@ iframe{width:100%;height:520px;border:1px solid #dbe5f2;border-radius:14px;backg
 <div id="sessionList"></div>
 </section>
 <script src="odin_tree_data.js"></script>
-<script src="v0431_engine.js"></script>
+<script src="v044_engine.js"></script>
 </body>
 </html>

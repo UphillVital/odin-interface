@@ -1,10 +1,18 @@
-# ODIN_ADMIN_V04_3_1_INTEGRATED_LIVE_PREVIEW_FULL_PACKAGE_v1
+# ODIN_ADMIN_V04_4_EXPORT_SYSTEM_PRO_FULL_PACKAGE_v1
 
 ## Що це
 
-V04.3.1 Integrated Live Preview.
+V04.4 Export System Pro.
 
-Цей пакет інтегрує LIVE PREVIEW у основний інтерфейс V04.2.
+Цей пакет додає повний product export:
+
+```text
+lesson.html
+lesson.json
+qa_report.json
+meta.json
+README.md
+```
 
 ## Куди класти
 
@@ -18,10 +26,10 @@ odin-interface/dev/V02/
 
 ```text
 index.html
-v0431_engine.js
+v044_engine.js
 README.md
-PACKAGE_MANIFEST_V04_3_1_INTEGRATED_LIVE_PREVIEW_v1.md
-PACKAGE_STATUS_V04_3_1_INTEGRATED_LIVE_PREVIEW_v1.json
+PACKAGE_MANIFEST_V04_4_EXPORT_SYSTEM_PRO_v1.md
+PACKAGE_STATUS_V04_4_EXPORT_SYSTEM_PRO_v1.json
 ```
 
 ## Як перевірити
@@ -38,38 +46,33 @@ dev/V02/index.html
 GENERATE LESSON
 ```
 
-3. У блоці:
-
-```text
-LIVE LESSON PREVIEW
-```
-
-має одразу відобразитися готовий урок.
+3. Перевірити `LIVE LESSON PREVIEW`.
 
 4. Натиснути:
 
 ```text
-REFRESH PREVIEW
+EXPORT PACKAGE
 ```
 
-5. Натиснути:
+5. Має скачати 5 файлів:
 
 ```text
-SAVE LESSON
+lesson.html
+lesson.json
+qa_report.json
+meta.json
+README.md
 ```
 
-6. Натиснути:
+## Важливо
 
-```text
-LOAD
-```
-
-Після LOAD preview має оновитися.
+Через обмеження браузера цей пакет експортує файли окремими завантаженнями.
+ZIP-експорт буде наступним шаром, якщо підключати JSZip або backend.
 
 ## Git
 
 ```bash
 git add dev/V02/
-git commit -m "v3.64 integrate ODIN live lesson preview"
+git commit -m "v3.65 add ODIN V04.4 export system pro"
 git push origin dev
 ```
