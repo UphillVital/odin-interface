@@ -1,155 +1,30 @@
-<!doctype html>
-<html lang="uk">
+
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ODIN V04.6 UI Polish</title>
-<style>
-:root{
-  --bg:#f5f7fb;--panel:#ffffff;--line:#dbe5f2;--text:#132033;--muted:#64748b;
-  --dark:#0f172a;--blue:#2563eb;--green:#16a34a;--amber:#f59e0b;--red:#dc2626;--purple:#7c3aed;
-}
-*{box-sizing:border-box}
-body{margin:0;height:100vh;background:var(--bg);color:var(--text);font-family:Arial,system-ui,sans-serif;display:grid;grid-template-columns:280px 1fr 340px;overflow:hidden}
-aside{background:var(--dark);color:#e5e7eb;overflow:auto;padding:14px}
-main{overflow:auto;padding:18px}
-#right{background:#fff;border-left:1px solid var(--line);overflow:auto;padding:14px}
-h1,h2,h3{margin:0 0 10px}
-.header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:16px;margin:14px 0;box-shadow:0 10px 28px rgba(15,23,42,.05)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
-button{border:0;background:#111827;color:white;border-radius:14px;padding:10px 13px;font-weight:800;cursor:pointer;box-shadow:0 6px 14px rgba(15,23,42,.10)}
-button:hover{filter:brightness(1.08)}
-.blue{background:var(--blue)}.green{background:var(--green)}.amber{background:var(--amber);color:#111827}.red{background:var(--red)}.purple{background:var(--purple)}
-select,textarea,pre{width:100%;border:1px solid var(--line);border-radius:14px;padding:11px;font-family:Consolas,monospace}
-textarea{min-height:86px;resize:vertical;background:white;color:var(--text)}
-pre{background:#0b1220;color:#e5e7eb;white-space:pre-wrap;overflow:auto;max-height:300px}
-iframe{width:100%;height:520px;border:1px solid var(--line);border-radius:16px;background:white}
-.meta{color:var(--muted);font-size:13px}
-.badge{display:inline-block;border-radius:999px;background:#dbeafe;color:#1d4ed8;padding:4px 10px;font-size:12px;font-weight:800;margin:2px}
-.statusbar{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
-.statusbox{background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:10px}
-.statusbox b{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
-.ok{color:#16a34a}.warn{color:#f59e0b}.bad{color:#dc2626}
-.group{font-weight:800;color:#93c5fd;margin:14px 0 6px}
-.file{cursor:pointer;margin:4px 0;padding:8px 9px;border-radius:11px;font-size:13px}
-.file:hover{background:#1e293b}
-.item{background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:11px;margin:10px 0;font-size:13px}
-.toolbar-sticky{position:sticky;top:0;background:linear-gradient(#f5f7fb 85%,rgba(245,247,251,0));z-index:10;padding-bottom:6px}
-@media(max-width:1050px){body{grid-template-columns:1fr;height:auto;overflow:auto}aside,#right{max-height:50vh}.grid2,.statusbar{grid-template-columns:1fr}}
-</style>
+    <meta charset="UTF-8">
+    <title>ODIN V05.1 TEST</title>
 </head>
 <body>
-<aside>
-  <h2>ODIN TREE</h2>
-  <p class="meta">Knowledge base</p>
-  <div id="tree"></div>
-</aside>
 
-<main>
-  <div class="toolbar-sticky">
-    <div class="header">
-      <div>
-        <h1>ODIN V04.6 — UI POLISH</h1>
-        <p class="meta">ENGINE → STORAGE → TYPES → PREVIEW → EXPORT → CONTROL → POLISH</p>
-      </div>
-      <div>
-        <span class="badge">HYBRID DEFAULT</span>
-        <span class="badge">NO BREAK</span>
-        <span class="badge">EXPORT READY</span>
-      </div>
-    </div>
+<h1>ODIN V05.1 TEST</h1>
+<button onclick="testRun()">Запустити тест</button>
 
-    <div class="statusbar">
-      <div class="statusbox"><b>ENGINE</b><span id="stEngine" class="ok">OK</span></div>
-      <div class="statusbox"><b>PREVIEW</b><span id="stPreview" class="warn">WAIT</span></div>
-      <div class="statusbox"><b>QA</b><span id="stQA" class="warn">WAIT</span></div>
-      <div class="statusbox"><b>EXPORT</b><span id="stExport" class="warn">WAIT</span></div>
-    </div>
-  </div>
+<script>
+function testRun() {
+    const result = runExecution("GENERATE_LESSON", {
+        topic: "Test Lesson",
+        description: "ODIN працює"
+    });
+    console.log(result);
+    document.body.innerHTML += result;
+}
+</script>
 
-  <section class="card">
-    <h2>Control Panel Pro</h2>
-    <div class="actions">
-      <button class="green" onclick="preset('FAST')">FAST LESSON</button>
-      <button class="blue" onclick="preset('PRO')">PRO LESSON</button>
-      <button class="purple" onclick="preset('REVIEW')">REVIEW MODE</button>
-      <button class="purple" onclick="preset('MIX')">MIX MODE</button>
-    </div>
-    <div class="grid2">
-      <div>
-        <label><b>Lesson Type</b></label>
-        <select id="lessonType">
-          <option value="LESSON_FROM_TOPIC" selected>LESSON_FROM_TOPIC</option>
-          <option value="LESSON_FROM_PHOTO">LESSON_FROM_PHOTO</option>
-          <option value="LESSON_REVIEW">LESSON_REVIEW</option>
-          <option value="LESSON_MIX">LESSON_MIX</option>
-        </select>
-      </div>
-      <div>
-        <label><b>Mode</b></label>
-        <select id="mode">
-          <option value="HYBRID" selected>HYBRID</option>
-          <option value="STRUCTURED">STRUCTURED</option>
-          <option value="HUMAN">HUMAN</option>
-        </select>
-      </div>
-      <div>
-        <label><b>Level</b></label>
-        <select id="level"><option>A1</option><option selected>A1-A2</option><option>A2</option><option>B1</option><option>B2</option></select>
-      </div>
-      <div>
-        <label><b>Density</b></label>
-        <select id="density"><option value="FAST">FAST</option><option value="PRO" selected>PRO</option><option value="MAX">MAX</option></select>
-      </div>
-    </div>
-    <div class="actions">
-      <button class="blue" onclick="autoSelect()">AUTO SELECT CORE</button>
-      <button class="amber" onclick="qaCheck()">QA CHECK</button>
-      <button class="green" onclick="generateLesson()">GENERATE LESSON</button>
-      <button class="blue" onclick="refreshPreview()">REFRESH PREVIEW</button>
-      <button class="green" onclick="saveLesson()">SAVE LESSON</button>
-      <button class="purple" onclick="exportPackage()">EXPORT PACKAGE</button>
-    </div>
-  </section>
+<script src="src/lesson_builder.js"></script>
+<script src="src/pipeline.js"></script>
+<script src="src/execution_bridge.js"></script>
+<script src="src/control_integration_hook.js"></script>
 
-  <section class="card">
-    <h2>Lesson Request</h2>
-    <textarea id="topic">Відокремлювані дієслова в німецькій мові</textarea>
-    <textarea id="task">Зроби живий урок: пояснення, РН/ДП/СД, діалоги, словник, практика, домашнє завдання.</textarea>
-  </section>
-
-  <section class="card">
-    <h2>Live Lesson Preview</h2>
-    <iframe id="lessonPreview"></iframe>
-  </section>
-
-  <section class="card">
-    <h2>Generated HTML Code</h2>
-    <pre id="out">Натисни GENERATE LESSON.</pre>
-  </section>
-
-  <section class="card">
-    <h2>QA / Export Report</h2>
-    <pre id="reportOut">Поки немає звіту.</pre>
-  </section>
-</main>
-
-<section id="right">
-  <h2>LESSON LIBRARY</h2>
-  <div class="actions"><button onclick="renderLessons()">REFRESH</button><button class="red" onclick="clearLessons()">CLEAR ALL</button></div>
-  <div id="libraryList"></div>
-
-  <h2>SESSION</h2>
-  <div class="actions"><button onclick="renderSession()">REFRESH</button><button class="red" onclick="clearSession()">CLEAR</button></div>
-  <div id="sessionList"></div>
-
-  <h2>File Viewer</h2>
-  <div id="viewer" class="item">Вибери файл зліва.</div>
-</section>
-
-<script src="odin_tree_data.js"></script>
-<script src="v046_engine.js"></script>
 </body>
 </html>
