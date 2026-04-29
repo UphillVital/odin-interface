@@ -1,80 +1,105 @@
-# ODIN_ADMIN_V04_7_FULL_CHECKPOINT_PACKAGE_v1
+# ODIN V05.2 PRO — REAL LESSON GENERATOR
 
-## Що це
+## 1. ЩО ЦЕ
 
-V04.7 FULL CHECKPOINT — фіксація стабільного продуктового стану ODIN-ADMIN V04.
+Це повний пакет V05.2 PRO.
 
-Це НЕ нова функція.
-Це snapshot / lock-пакет, який фіксує:
+Він переводить ODIN з тестового HTML у перший реальний генератор уроку за структурою DT / ІШ.
 
-```text
-V03 → ENGINE
-V04.1 → STORAGE
-V04.2 → LESSON TYPES
-V04.3.1 → LIVE PREVIEW
-V04.4 → EXPORT SYSTEM PRO
-V04.5 → CONTROL PANEL PRO
-V04.6 → UI POLISH
-V04.6.1 → QA EXPORT FIX
-```
+---
 
-## Куди класти
+## 2. ГОЛОВНЕ ПРАВИЛО
 
-Розпакувати всі файли у:
+НЕ чіпати базу:
 
-```text
-odin-interface/dev/V02/
-```
+C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\ODIN_TREE_PROJECT_v1
 
-Повний шлях:
+Працюємо тільки в робочій папці:
 
-```text
-C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\dev\V02\
-```
+C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\dev\V02
 
-## Що додає
+---
 
-```text
-ODIN_V04_FULL_CHECKPOINT.md
-ODIN_V04_ARCHITECTURE.md
-ODIN_V04_SYSTEM_LOCK.md
-ODIN_V04_WORKFLOW_LOCK.md
-ODIN_V04_QA_RULES.md
-ODIN_V04_EXPORT_SPEC.md
-ODIN_V04_CONTROL_LOGIC.md
-ODIN_V04_VERSION_STATE.json
-PACKAGE_MANIFEST_V04_7_FULL_CHECKPOINT_v1.md
-PACKAGE_STATUS_V04_7_FULL_CHECKPOINT_v1.json
-README.md
-```
+## 3. КУДИ КЛАСТИ
 
-## Що робити після розпаковки
+Розпакувати ВМІСТ пакету прямо сюди:
 
-1. Відкрити:
+C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\dev\V02
 
-```text
-dev/V02/index.html
-```
+Після розпакування має бути так:
 
-2. Перевірити workflow:
+dev\V02
+│
+├── index.html
+├── README.md
+├── test_scenario.md
+└── src
+    ├── lesson_builder.js
+    ├── pipeline.js
+    ├── execution_bridge.js
+    └── control_integration_hook.js
 
-```text
-GENERATE LESSON
-QA CHECK
-EXPORT PACKAGE
-```
+---
 
-3. Очікуваний результат:
+## 4. ЩО РОБИТИ
 
-```text
-QA: PASS
-EXPORT: DONE
-```
+1. Відкрити папку:
 
-## Git
+C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\dev\V02
 
-```bash
+2. Відкрити файл:
+
+index.html
+
+3. Натиснути кнопку:
+
+Запустити V05.2 PRO
+
+---
+
+## 5. ОЧІКУВАНИЙ РЕЗУЛЬТАТ
+
+На сторінці має зʼявитися урок:
+
+- Ціль уроку
+- Основне правило
+- Основні приклади уроку
+- ДП — дослівний переклад
+- СД — смисловий переклад
+- Практика
+- Домашнє завдання
+
+У статусі має бути:
+
+STATUS: QA_PASSED
+QA PASS: true
+MISSING: немає
+
+---
+
+## 6. ЩО НЕ ТРЕБА РОБИТИ
+
+Не редагувати index.html вручну.
+Не редагувати script-підключення.
+Не переносити файли в ODIN_TREE_PROJECT_v1.
+Не видаляти папку src.
+Не змінювати V04.7.
+
+---
+
+## 7. ВІДКАТ
+
+Якщо потрібно повернутись до V05.1:
+
+1. Замінити вміст dev\V02 на попередній робочий пакет V05.1.
+2. Або взяти резервну копію dev\V02, якщо вона була зроблена перед копіюванням.
+
+База ODIN_TREE_PROJECT_v1 не чіпається, тому еталон не пошкоджується.
+
+---
+
+## 8. GIT PUSH
+
 git add dev/V02/
-git commit -m "v3.68 fix ODIN V04 full checkpoint"
+git commit -m "V05.2 PRO real lesson generator"
 git push origin dev
-```

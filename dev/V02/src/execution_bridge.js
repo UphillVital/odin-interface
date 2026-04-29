@@ -1,7 +1,10 @@
+/* ODIN V05.2 PRO — EXECUTION BRIDGE */
 
 function runExecution(actionType, payload) {
-    if (actionType === "GENERATE_LESSON") {
-        return runLessonPipeline(payload);
+    switch (actionType) {
+        case "GENERATE_LESSON":
+            return runLessonPipeline(payload);
+        default:
+            throw new Error("UNKNOWN_ACTION: " + actionType);
     }
-    throw new Error("Unknown action");
 }

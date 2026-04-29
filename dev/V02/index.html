@@ -1,30 +1,132 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>ODIN V05.1 TEST</title>
+    <title>ODIN V05.2 PRO — TEST</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #111827;
+            color: #f9fafb;
+        }
+        .app {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        .top {
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 18px;
+            padding: 22px;
+            margin-bottom: 18px;
+        }
+        button {
+            border: 0;
+            border-radius: 12px;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        .status {
+            margin-top: 12px;
+            padding: 12px;
+            background: #0f172a;
+            border-radius: 12px;
+            white-space: pre-wrap;
+        }
+        .lesson-output {
+            background: #f8fafc;
+            color: #111827;
+            border-radius: 18px;
+            padding: 22px;
+            margin-top: 18px;
+        }
+        .lesson-hero {
+            border-bottom: 1px solid #d1d5db;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: #e5e7eb;
+            color: #111827;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .lesson-block {
+            margin: 18px 0;
+            padding: 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            background: white;
+        }
+        .rule-box {
+            padding: 12px;
+            border-radius: 12px;
+            background: #eef2ff;
+            margin-top: 10px;
+        }
+        .example-card {
+            display: grid;
+            grid-template-columns: 42px 1fr;
+            gap: 12px;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            margin: 10px 0;
+            background: #f9fafb;
+        }
+        .example-number {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #111827;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        .de { font-size: 18px; }
+        .literal { color: #92400e; }
+        .semantic { color: #065f46; }
+        .practice-list li { margin: 8px 0; }
+    </style>
 </head>
 <body>
+    <main class="app">
+        <section class="top">
+            <h1>ODIN V05.2 PRO — TEST</h1>
+            <p>Тест живого генератора уроку. Натисни кнопку — система згенерує реальний навчальний блок.</p>
+            <button onclick="runV052Test()">Запустити V05.2 PRO</button>
+            <div class="status" id="status">STATUS: READY</div>
+        </section>
 
-<h1>ODIN V05.1 TEST</h1>
-<button onclick="testRun()">Запустити тест</button>
+        <section id="preview"></section>
+    </main>
 
-<script>
-function testRun() {
-    const result = runExecution("GENERATE_LESSON", {
-        topic: "Test Lesson",
-        description: "ODIN працює"
-    });
-    console.log(result);
-    document.body.innerHTML += result;
-}
-</script>
+    <script src="src/lesson_builder.js"></script>
+    <script src="src/pipeline.js"></script>
+    <script src="src/execution_bridge.js"></script>
+    <script src="src/control_integration_hook.js"></script>
 
-<script src="src/lesson_builder.js"></script>
-<script src="src/pipeline.js"></script>
-<script src="src/execution_bridge.js"></script>
-<script src="src/control_integration_hook.js"></script>
+    <script>
+        function runV052Test() {
+            const result = window.ODIN_V05_2_PRO.runDemoLesson();
+            const status = document.getElementById("status");
+            const preview = document.getElementById("preview");
 
+            status.textContent =
+                "STATUS: " + result.status + "\\n" +
+                "QA PASS: " + result.qa.pass + "\\n" +
+                "MISSING: " + (result.qa.missing.length ? result.qa.missing.join(", ") : "немає");
+
+            preview.innerHTML = result.html;
+        }
+    </script>
 </body>
 </html>
