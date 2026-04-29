@@ -2,67 +2,57 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
-<title>ODIN V03.6 Real Semantic Depth</title>
+<title>ODIN V04.1 Lesson Storage</title>
 <style>
-body{margin:0;display:grid;grid-template-columns:280px 1fr 260px;height:100vh;font-family:Arial,system-ui,sans-serif;background:#f5f7fb;color:#132033}
+body{margin:0;display:grid;grid-template-columns:260px 1fr 300px;height:100vh;font-family:Arial;background:#f5f7fb;color:#132033}
 aside{background:#0f172a;color:#e5e7eb;overflow:auto;padding:12px}
 main{overflow:auto;padding:16px}
-#session{background:#fff;border-left:1px solid #dbe5f2;overflow:auto;padding:12px}
+#library{background:#fff;border-left:1px solid #dbe5f2;overflow:auto;padding:12px}
 .group{font-weight:800;color:#93c5fd;margin:14px 0 6px}
-.file{cursor:pointer;margin:4px 0;padding:7px 9px;border-radius:10px;font-size:13px}
+.file{cursor:pointer;margin:4px 0;padding:7px;border-radius:9px;font-size:13px}
 .file:hover{background:#1e293b}
-.card,.session-item{background:#fff;border:1px solid #dbe5f2;border-radius:16px;padding:14px;margin:12px 0}
+.card,.item{background:#fff;border:1px solid #dbe5f2;border-radius:16px;padding:14px;margin:12px 0}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
 button{border:0;background:#111827;color:white;border-radius:12px;padding:9px 12px;font-weight:800;cursor:pointer}
-.blue{background:#2563eb}.green{background:#16a34a}.amber{background:#f59e0b;color:#111827}.red{background:#dc2626}.purple{background:#7c3aed}
+.blue{background:#2563eb}.green{background:#16a34a}.amber{background:#f59e0b;color:#111827}.red{background:#dc2626}
 textarea,pre,select{width:100%;border:1px solid #dbe5f2;border-radius:12px;padding:10px;font-family:Consolas,monospace}
 textarea{min-height:90px;background:white;color:#132033}
-pre{background:#0b1220;color:#e5e7eb;white-space:pre-wrap;overflow:auto;max-height:420px}
+pre{background:#0b1220;color:#e5e7eb;white-space:pre-wrap;overflow:auto;max-height:380px}
 .meta{color:#64748b;font-size:13px}
-@media(max-width:900px){body{grid-template-columns:1fr;height:auto}aside,#session{height:auto;max-height:45vh}}
 </style>
 </head>
 <body>
 <aside><h2>ODIN TREE</h2><div id="tree"></div></aside>
 <main>
-<h1>ODIN V03.6 — Real Semantic Depth</h1>
-<p class="meta">SESSION → ANALYSIS → SEMANTIC DEPTH → LOCKS → QA → HTML LESSON</p>
-
+<h1>ODIN V04.1 — Lesson Storage</h1>
+<p class="meta">localStorage + export files</p>
 <section class="card">
-<h2>Generation Mode</h2>
-<select id="mode">
-<option value="HYBRID" selected>HYBRID — структура + живість</option>
-<option value="STRUCTURED">STRUCTURED — правило/каркас</option>
-<option value="HUMAN">HUMAN — живе спілкування</option>
-</select>
+<select id="mode"><option value="HYBRID" selected>HYBRID</option><option value="STRUCTURED">STRUCTURED</option><option value="HUMAN">HUMAN</option></select>
 <div class="actions">
-<button class="blue" onclick="ODIN_SMART.autoSelect()">AUTO SELECT CORE</button>
-<button class="purple" onclick="ODIN_ANALYSIS.run()">ANALYZE TOPIC</button>
-<button class="green" onclick="ODIN_GENERATOR.generate()">GENERATE DEEP LESSON</button>
-<button class="amber" onclick="ODIN_GENERATOR.download()">DOWNLOAD HTML</button>
-<button class="red" onclick="ODIN_SESSION.clear()">CLEAR SESSION</button>
+<button class="blue" onclick="autoSelect()">AUTO SELECT CORE</button>
+<button class="green" onclick="generateLesson()">GENERATE LESSON</button>
+<button class="green" onclick="saveLesson()">SAVE LESSON</button>
+<button class="amber" onclick="downloadHtml()">DOWNLOAD HTML</button>
+<button class="blue" onclick="exportCurrentJson()">EXPORT JSON</button>
 </div>
 </section>
-
 <section class="card">
 <h2>Lesson Request</h2>
 <textarea id="topic">Відокремлювані дієслова в німецькій мові</textarea>
-<textarea id="task">Зроби живий урок для українськомовного учня: пояснення, РН/ДП/СД, діалоги, словник, практика, домашнє завдання.</textarea>
+<textarea id="task">Зроби живий урок: пояснення, РН/ДП/СД, діалоги, словник, практика, домашнє завдання.</textarea>
 </section>
-
-<section class="card"><h2>Analysis Report</h2><pre id="analysisOut">Натисни ANALYZE TOPIC.</pre></section>
-<section class="card"><h2>Generated HTML</h2><pre id="out">Натисни GENERATE DEEP LESSON.</pre></section>
+<section class="card"><h2>Generated HTML</h2><pre id="out">Натисни GENERATE LESSON.</pre></section>
 <section class="card"><h2>File Viewer</h2><div id="viewer">Вибери файл зліва.</div></section>
 </main>
-
-<section id="session">
+<section id="library">
+<h2>LESSON LIBRARY</h2>
+<div class="actions"><button onclick="renderLessons()">REFRESH</button><button class="red" onclick="clearLessons()">CLEAR ALL</button></div>
+<div id="libraryList"></div>
 <h2>SESSION</h2>
-<p class="meta">Файли, які бере генератор.</p>
-<div class="actions"><button onclick="ODIN_SESSION.render()">REFRESH</button><button class="red" onclick="ODIN_SESSION.clear()">CLEAR</button></div>
+<div class="actions"><button onclick="renderSession()">REFRESH</button><button class="red" onclick="clearSession()">CLEAR</button></div>
 <div id="sessionList"></div>
 </section>
-
 <script src="odin_tree_data.js"></script>
-<script src="v036_engine.js"></script>
+<script src="v041_engine.js"></script>
 </body>
 </html>
