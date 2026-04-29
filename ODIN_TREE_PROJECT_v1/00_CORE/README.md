@@ -1,57 +1,99 @@
-# ODIN_ARCHITECTURE_SEPARATION_PATCH_v1
+# ODIN V05.0 — SYNC MAP PACKAGE
 
 ## Що це
-Пакет фіксує розділення:
+
+Це безпечний пакет синхронізації між:
 
 ```text
-ODIN_TREE_PROJECT_v1 = база знань / узгоджене ядро
-dev/V02 = живий веб-інтерфейс ODIN-ADMIN
+dev\V02
 ```
 
-Також додає Template Router, щоб уроки завжди використовували правильний шаблон сторінки уроку.
+і
+
+```text
+ODIN_TREE_PROJECT_v1
+```
+
+Пакет потрібен, щоб не будувати паралельну систему в `dev\V02`.
+
+---
 
 ## Куди класти
-Розпакувати всі файли у:
+
+Розпакувати файл:
 
 ```text
-ODIN_TREE_PROJECT_v1/00_CORE/
+ODIN_V05_0_SYNC_MAP_FOR_V02_AND_ODIN_TREE.md
 ```
 
-Повний шлях:
+сюди:
 
 ```text
 C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\ODIN_TREE_PROJECT_v1\00_CORE\
 ```
 
-## Файли
-- ODIN_ARCHITECTURE_SEPARATION_v1.md
-- ODIN_TEMPLATE_ROUTER_v1.md
-- ODIN_TEMPLATE_PRIORITY_POLICY_v1.md
-- PACKAGE_MANIFEST_ARCHITECTURE_SEPARATION_v1.md
-- PACKAGE_STATUS_ARCHITECTURE_SEPARATION_v1.json
-- README.md
-
-## Головне правило
-Для уроків використовувати тільки:
+Розпакувати файл:
 
 ```text
-ODIN_TREE_PROJECT_v1/07_UNIFIED_LESSON_TEMPLATE/TEMPLATE_BASE_v1.html
+test_scenario.md
 ```
 
-Заборонено для уроків:
-- dev/index.html
-- ODIN Interface
-- ODIN-ADMIN
-- admin.html
+сюди:
 
-## Перевірка
-```bash
-dir ODIN_TREE_PROJECT_v1\00_CORE
+```text
+C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\ODIN_TREE_PROJECT_v1\00_CORE\
 ```
+
+Можна також покласти весь пакет у тимчасову папку і вручну перенести тільки ці два `.md` файли в `00_CORE`.
+
+---
+
+## Що НЕ робити
+
+Не класти цей пакет у `dev\V02`.
+
+Не змінювати `dev\V02\index.html`.
+
+Не змінювати `dev\V02\src`.
+
+Не впроваджувати старий V05.3.1 пакет.
+
+---
+
+## Навіщо це потрібно
+
+Цей документ фіксує:
+
+- `dev\V02` = друга версія інтерфейсу ODIN;
+- `ODIN_TREE_PROJECT_v1` = основа ODIN;
+- де лежить справжній шаблон;
+- де lesson engine;
+- де QA;
+- де export;
+- що V05 має бути мостом, а не новою системою.
+
+---
+
+## Після встановлення
+
+Відкрити файл:
+
+```text
+ODIN_TREE_PROJECT_v1\00_CORE\ODIN_V05_0_SYNC_MAP_FOR_V02_AND_ODIN_TREE.md
+```
+
+Перевірити, що логіка відповідає системі.
+
+Після цього можна робити наступний пакет:
+
+```text
+V05.3_REAL_TEMPLATE_CONNECT
+```
+
+---
 
 ## Git
-```bash
-git add ODIN_TREE_PROJECT_v1/00_CORE/
-git commit -m "v3.42 add ODIN architecture separation and template router"
+
+git add ODIN_TREE_PROJECT_v1/
+git commit -m "V05.0 add sync map for V02 and ODIN tree"
 git push origin dev
-```
