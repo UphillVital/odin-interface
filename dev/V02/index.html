@@ -2,9 +2,9 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
-<title>ODIN V04.2 Lesson Types Engine</title>
+<title>ODIN V04.3.1 Integrated Live Preview</title>
 <style>
-body{margin:0;display:grid;grid-template-columns:260px 1fr 300px;height:100vh;font-family:Arial;background:#f5f7fb;color:#132033}
+body{margin:0;display:grid;grid-template-columns:260px 1fr 320px;height:100vh;font-family:Arial;background:#f5f7fb;color:#132033}
 aside{background:#0f172a;color:#e5e7eb;overflow:auto;padding:12px}
 main{overflow:auto;padding:16px}
 #library{background:#fff;border-left:1px solid #dbe5f2;overflow:auto;padding:12px}
@@ -17,15 +17,17 @@ button{border:0;background:#111827;color:white;border-radius:12px;padding:9px 12
 .blue{background:#2563eb}.green{background:#16a34a}.amber{background:#f59e0b;color:#111827}.red{background:#dc2626}.purple{background:#7c3aed}
 textarea,pre,select{width:100%;border:1px solid #dbe5f2;border-radius:12px;padding:10px;font-family:Consolas,monospace}
 textarea{min-height:90px;background:white;color:#132033}
-pre{background:#0b1220;color:#e5e7eb;white-space:pre-wrap;overflow:auto;max-height:380px}
+pre{background:#0b1220;color:#e5e7eb;white-space:pre-wrap;overflow:auto;max-height:260px}
+iframe{width:100%;height:520px;border:1px solid #dbe5f2;border-radius:14px;background:white}
 .meta{color:#64748b;font-size:13px}
+.preview-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 </style>
 </head>
 <body>
 <aside><h2>ODIN TREE</h2><div id="tree"></div></aside>
 <main>
-<h1>ODIN V04.2 — Lesson Types Engine</h1>
-<p class="meta">V04.1 storage + V04.2 lesson type routing</p>
+<h1>ODIN V04.3.1 — Integrated Live Preview</h1>
+<p class="meta">GENERATE → LIVE PREVIEW → SAVE → EXPORT</p>
 
 <section class="card">
 <h2>Control Panel</h2>
@@ -44,6 +46,7 @@ pre{background:#0b1220;color:#e5e7eb;white-space:pre-wrap;overflow:auto;max-heig
 <button class="blue" onclick="autoSelect()">AUTO SELECT CORE</button>
 <button class="purple" onclick="analyzeType()">ANALYZE TYPE</button>
 <button class="green" onclick="generateLesson()">GENERATE LESSON</button>
+<button class="blue" onclick="refreshPreview()">REFRESH PREVIEW</button>
 <button class="green" onclick="saveLesson()">SAVE LESSON</button>
 <button class="amber" onclick="downloadHtml()">DOWNLOAD HTML</button>
 <button class="blue" onclick="exportCurrentJson()">EXPORT JSON</button>
@@ -56,8 +59,16 @@ pre{background:#0b1220;color:#e5e7eb;white-space:pre-wrap;overflow:auto;max-heig
 <textarea id="task">Зроби живий урок: пояснення, РН/ДП/СД, діалоги, словник, практика, домашнє завдання.</textarea>
 </section>
 
+<section class="card">
+<div class="preview-toolbar">
+<h2>LIVE LESSON PREVIEW</h2>
+<span class="meta">Оновлюється автоматично після GENERATE LESSON</span>
+</div>
+<iframe id="lessonPreview" title="Live lesson preview"></iframe>
+</section>
+
+<section class="card"><h2>Generated HTML Code</h2><pre id="out">Натисни GENERATE LESSON.</pre></section>
 <section class="card"><h2>Type Analysis</h2><pre id="typeOut">Натисни ANALYZE TYPE.</pre></section>
-<section class="card"><h2>Generated HTML</h2><pre id="out">Натисни GENERATE LESSON.</pre></section>
 <section class="card"><h2>File Viewer</h2><div id="viewer">Вибери файл зліва.</div></section>
 </main>
 
@@ -70,6 +81,6 @@ pre{background:#0b1220;color:#e5e7eb;white-space:pre-wrap;overflow:auto;max-heig
 <div id="sessionList"></div>
 </section>
 <script src="odin_tree_data.js"></script>
-<script src="v042_engine.js"></script>
+<script src="v0431_engine.js"></script>
 </body>
 </html>

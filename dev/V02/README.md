@@ -1,17 +1,10 @@
-# ODIN_ADMIN_V04_2_LESSON_TYPES_ENGINE_FULL_PACKAGE_v1
+# ODIN_ADMIN_V04_3_1_INTEGRATED_LIVE_PREVIEW_FULL_PACKAGE_v1
 
 ## Що це
 
-V04.2 Lesson Types Engine.
+V04.3.1 Integrated Live Preview.
 
-Цей пакет додає типи уроків:
-
-```text
-LESSON_FROM_TOPIC
-LESSON_FROM_PHOTO
-LESSON_REVIEW
-LESSON_MIX
-```
+Цей пакет інтегрує LIVE PREVIEW у основний інтерфейс V04.2.
 
 ## Куди класти
 
@@ -25,10 +18,10 @@ odin-interface/dev/V02/
 
 ```text
 index.html
-v042_engine.js
+v0431_engine.js
 README.md
-PACKAGE_MANIFEST_V04_2_LESSON_TYPES_ENGINE_v1.md
-PACKAGE_STATUS_V04_2_LESSON_TYPES_ENGINE_v1.json
+PACKAGE_MANIFEST_V04_3_1_INTEGRATED_LIVE_PREVIEW_v1.md
+PACKAGE_STATUS_V04_3_1_INTEGRATED_LIVE_PREVIEW_v1.json
 ```
 
 ## Як перевірити
@@ -39,34 +32,44 @@ PACKAGE_STATUS_V04_2_LESSON_TYPES_ENGINE_v1.json
 dev/V02/index.html
 ```
 
-2. Обрати `Lesson Type`.
-
-3. Натиснути:
-
-```text
-ANALYZE TYPE
-```
-
-4. Натиснути:
+2. Натиснути:
 
 ```text
 GENERATE LESSON
 ```
 
-5. Перевірити, що у HTML і QA Report відображається вибраний тип уроку.
+3. У блоці:
+
+```text
+LIVE LESSON PREVIEW
+```
+
+має одразу відобразитися готовий урок.
+
+4. Натиснути:
+
+```text
+REFRESH PREVIEW
+```
+
+5. Натиснути:
+
+```text
+SAVE LESSON
+```
 
 6. Натиснути:
 
 ```text
-SAVE LESSON
-EXPORT JSON
-DOWNLOAD HTML
+LOAD
 ```
+
+Після LOAD preview має оновитися.
 
 ## Git
 
 ```bash
 git add dev/V02/
-git commit -m "v3.62 add ODIN V04.2 lesson types engine"
+git commit -m "v3.64 integrate ODIN live lesson preview"
 git push origin dev
 ```
