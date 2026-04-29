@@ -1,0 +1,18 @@
+# PACKAGE MANIFEST — ODIN_ADMIN_V04_6_QA_EXPORT_FIX_PACKAGE_v1
+
+## Target
+
+```text
+dev/V02/
+```
+
+## Purpose
+
+Виправити QA CHECK і EXPORT PACKAGE gate у V04.6.
+
+## Files
+
+- README.md
+- v046_engine.js
+- PACKAGE_MANIFEST_V04_6_QA_EXPORT_FIX_v1.md
+- PACKAGE_STATUS_V04_6_QA_EXPORT_FIX_v1.json

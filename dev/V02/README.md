@@ -1,35 +1,57 @@
-# ODIN_ADMIN_V04_4_EXPORT_SYSTEM_PRO_FULL_PACKAGE_v1
+# ODIN_ADMIN_V04_6_QA_EXPORT_FIX_PACKAGE_v1
 
 ## Що це
 
-V04.4 Export System Pro.
+FIX для V04.6 UI Polish.
 
-Цей пакет додає повний product export:
+## Проблема
+
+Після `QA CHECK` було:
 
 ```text
-lesson.html
-lesson.json
-qa_report.json
-meta.json
-README.md
+QA: FAIL
 ```
+
+Після `EXPORT PACKAGE`:
+
+```text
+EXPORT BLOCKED: QA_FAILED
+```
+
+## Причина
+
+QA перевіряла маркери надто грубо й не бачила реальні блоки уроку.
+
+## Виправлення
+
+Новий `v046_engine.js` має надійнішу QA-перевірку:
+
+- TITLE_PRESENT
+- GOAL_BLOCK_PRESENT
+- RULE_BLOCK_PRESENT
+- EXAMPLES_BLOCK_PRESENT
+- RN_PRESENT
+- DP_PRESENT
+- SD_PRESENT
+- DIALOG_PRESENT
+- VOCABULARY_PRESENT
+- PRACTICE_PRESENT
+- HOMEWORK_PRESENT
+- HIGHLIGHT_PRESENT
+- QA_REPORT_PRESENT
 
 ## Куди класти
 
-Розпакувати всі файли у:
+Розпакувати у:
 
 ```text
 odin-interface/dev/V02/
 ```
 
-## Що додає / замінює
+Замінити:
 
 ```text
-index.html
-v044_engine.js
-README.md
-PACKAGE_MANIFEST_V04_4_EXPORT_SYSTEM_PRO_v1.md
-PACKAGE_STATUS_V04_4_EXPORT_SYSTEM_PRO_v1.json
+v046_engine.js
 ```
 
 ## Як перевірити
@@ -46,7 +68,17 @@ dev/V02/index.html
 GENERATE LESSON
 ```
 
-3. Перевірити `LIVE LESSON PREVIEW`.
+3. Натиснути:
+
+```text
+QA CHECK
+```
+
+Очікувано:
+
+```text
+QA: PASS
+```
 
 4. Натиснути:
 
@@ -54,25 +86,12 @@ GENERATE LESSON
 EXPORT PACKAGE
 ```
 
-5. Має скачати 5 файлів:
-
-```text
-lesson.html
-lesson.json
-qa_report.json
-meta.json
-README.md
-```
-
-## Важливо
-
-Через обмеження браузера цей пакет експортує файли окремими завантаженнями.
-ZIP-експорт буде наступним шаром, якщо підключати JSZip або backend.
+Очікувано: скачуються export-файли.
 
 ## Git
 
 ```bash
 git add dev/V02/
-git commit -m "v3.65 add ODIN V04.4 export system pro"
+git commit -m "v3.67 fix ODIN V04.6 QA export gate"
 git push origin dev
 ```
