@@ -1,60 +1,54 @@
-# ODIN_ADMIN_V04_6_QA_EXPORT_FIX_PACKAGE_v1
+# ODIN_ADMIN_V04_7_FULL_CHECKPOINT_PACKAGE_v1
 
 ## Що це
 
-FIX для V04.6 UI Polish.
+V04.7 FULL CHECKPOINT — фіксація стабільного продуктового стану ODIN-ADMIN V04.
 
-## Проблема
-
-Після `QA CHECK` було:
-
-```text
-QA: FAIL
-```
-
-Після `EXPORT PACKAGE`:
+Це НЕ нова функція.
+Це snapshot / lock-пакет, який фіксує:
 
 ```text
-EXPORT BLOCKED: QA_FAILED
+V03 → ENGINE
+V04.1 → STORAGE
+V04.2 → LESSON TYPES
+V04.3.1 → LIVE PREVIEW
+V04.4 → EXPORT SYSTEM PRO
+V04.5 → CONTROL PANEL PRO
+V04.6 → UI POLISH
+V04.6.1 → QA EXPORT FIX
 ```
-
-## Причина
-
-QA перевіряла маркери надто грубо й не бачила реальні блоки уроку.
-
-## Виправлення
-
-Новий `v046_engine.js` має надійнішу QA-перевірку:
-
-- TITLE_PRESENT
-- GOAL_BLOCK_PRESENT
-- RULE_BLOCK_PRESENT
-- EXAMPLES_BLOCK_PRESENT
-- RN_PRESENT
-- DP_PRESENT
-- SD_PRESENT
-- DIALOG_PRESENT
-- VOCABULARY_PRESENT
-- PRACTICE_PRESENT
-- HOMEWORK_PRESENT
-- HIGHLIGHT_PRESENT
-- QA_REPORT_PRESENT
 
 ## Куди класти
 
-Розпакувати у:
+Розпакувати всі файли у:
 
 ```text
 odin-interface/dev/V02/
 ```
 
-Замінити:
+Повний шлях:
 
 ```text
-v046_engine.js
+C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\dev\V02\
 ```
 
-## Як перевірити
+## Що додає
+
+```text
+ODIN_V04_FULL_CHECKPOINT.md
+ODIN_V04_ARCHITECTURE.md
+ODIN_V04_SYSTEM_LOCK.md
+ODIN_V04_WORKFLOW_LOCK.md
+ODIN_V04_QA_RULES.md
+ODIN_V04_EXPORT_SPEC.md
+ODIN_V04_CONTROL_LOGIC.md
+ODIN_V04_VERSION_STATE.json
+PACKAGE_MANIFEST_V04_7_FULL_CHECKPOINT_v1.md
+PACKAGE_STATUS_V04_7_FULL_CHECKPOINT_v1.json
+README.md
+```
+
+## Що робити після розпаковки
 
 1. Відкрити:
 
@@ -62,36 +56,25 @@ v046_engine.js
 dev/V02/index.html
 ```
 
-2. Натиснути:
+2. Перевірити workflow:
 
 ```text
 GENERATE LESSON
-```
-
-3. Натиснути:
-
-```text
 QA CHECK
-```
-
-Очікувано:
-
-```text
-QA: PASS
-```
-
-4. Натиснути:
-
-```text
 EXPORT PACKAGE
 ```
 
-Очікувано: скачуються export-файли.
+3. Очікуваний результат:
+
+```text
+QA: PASS
+EXPORT: DONE
+```
 
 ## Git
 
 ```bash
 git add dev/V02/
-git commit -m "v3.67 fix ODIN V04.6 QA export gate"
+git commit -m "v3.68 fix ODIN V04 full checkpoint"
 git push origin dev
 ```
