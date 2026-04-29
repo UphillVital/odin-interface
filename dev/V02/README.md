@@ -1,105 +1,141 @@
-# ODIN V05.2 PRO — REAL LESSON GENERATOR
+# ODIN_ADMIN_V03_4_CONTENT_EXTRACTION_ENGINE_FULL_PACKAGE_v1
 
-## 1. ЩО ЦЕ
+## Що це
 
-Це повний пакет V05.2 PRO.
+FULL-пакет V03.4 Content Extraction Engine.
 
-Він переводить ODIN з тестового HTML у перший реальний генератор уроку за структурою DT / ІШ.
+Це правильний етап через СОН:
 
----
+```text
+ІШ → TRANSLATION LOCK → HIGHLIGHT SYSTEM → QA ENGINE
+```
 
-## 2. ГОЛОВНЕ ПРАВИЛО
+Пакет робить не просто генерацію HTML, а контрольований generation pipeline з extraction layer.
 
-НЕ чіпати базу:
+## Куди класти
 
-C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\ODIN_TREE_PROJECT_v1
+Розпакувати всі файли у:
 
-Працюємо тільки в робочій папці:
+```text
+odin-interface/dev/V02/
+```
 
-C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\dev\V02
+Повний шлях:
 
----
+```text
+C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\dev\V02\
+```
 
-## 3. КУДИ КЛАСТИ
+## Що замінює / додає
 
-Розпакувати ВМІСТ пакету прямо сюди:
-
-C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\dev\V02
-
-Після розпакування має бути так:
-
-dev\V02
-│
-├── index.html
-├── README.md
-├── test_scenario.md
-└── src
-    ├── lesson_builder.js
-    ├── pipeline.js
-    ├── execution_bridge.js
-    └── control_integration_hook.js
-
----
-
-## 4. ЩО РОБИТИ
-
-1. Відкрити папку:
-
-C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\dev\V02
-
-2. Відкрити файл:
-
+```text
 index.html
+viewer.js
+session.js
+smart_router.js
+content_engine.js
+lesson_generator.js
+README.md
+PACKAGE_MANIFEST_V03_4_CONTENT_EXTRACTION_ENGINE_FULL_v1.md
+PACKAGE_STATUS_V03_4_CONTENT_EXTRACTION_ENGINE_FULL_v1.json
+```
 
-3. Натиснути кнопку:
+## Що робить
 
-Запустити V05.2 PRO
+### 1. AUTO SELECT CORE
 
----
+Додає в SESSION ключові файли:
 
-## 5. ОЧІКУВАНИЙ РЕЗУЛЬТАТ
+- TEMPLATE_BASE_v1.html
+- TEMPLATE_RULES.md
+- TEMPLATE_STRUCTURE.md
+- TRANSLATION_LOCK.md
+- RN_DP_SD_STANDARD.md
+- HIGHLIGHT_SYSTEM_OVERVIEW.md
+- LM_MARKUP_STANDARD.md
+- QA_SYSTEM_OVERVIEW.md
+- QA_STRUCTURE.md
+- QA_TRANSLATION.md
+- QA_MARKUP.md
+- LESSON_STRUCTURE.md
 
-На сторінці має зʼявитися урок:
+### 2. EXTRACT CONTENT
+
+Читає SESSION-файли, витягує:
+
+- kind
+- markers
+- snippets
+- warnings
+- core lock presence
+
+### 3. GENERATE LESSON 100%
+
+Створює HTML урок з блоками:
 
 - Ціль уроку
 - Основне правило
-- Основні приклади уроку
-- ДП — дослівний переклад
-- СД — смисловий переклад
+- Основні приклади
+- Словник
+- Не плутай
 - Практика
 - Домашнє завдання
+- ODIN Extraction
+- QA Report
 
-У статусі має бути:
+## Як перевірити
 
-STATUS: QA_PASSED
-QA PASS: true
-MISSING: немає
+1. Відкрити:
 
----
+```text
+dev/V02/index.html
+```
 
-## 6. ЩО НЕ ТРЕБА РОБИТИ
+2. Натиснути:
 
-Не редагувати index.html вручну.
-Не редагувати script-підключення.
-Не переносити файли в ODIN_TREE_PROJECT_v1.
-Не видаляти папку src.
-Не змінювати V04.7.
+```text
+AUTO SELECT CORE
+```
 
----
+3. Натиснути:
 
-## 7. ВІДКАТ
+```text
+EXTRACT CONTENT
+```
 
-Якщо потрібно повернутись до V05.1:
+4. Ввести тему уроку.
 
-1. Замінити вміст dev\V02 на попередній робочий пакет V05.1.
-2. Або взяти резервну копію dev\V02, якщо вона була зроблена перед копіюванням.
+5. Натиснути:
 
-База ODIN_TREE_PROJECT_v1 не чіпається, тому еталон не пошкоджується.
+```text
+GENERATE LESSON 100%
+```
 
----
+6. Натиснути:
 
-## 8. GIT PUSH
+```text
+DOWNLOAD HTML
+```
 
+## Очікуваний результат
+
+```text
+TREE → VIEW → ACTION → SESSION → SMART ROUTER → CONTENT EXTRACTION → LESSON GENERATOR
+```
+
+## Важливо
+
+Це V03.4.
+Він вже враховує ядро, але глибоке семантичне наповнення з конкретної теми/фото буде наступним рівнем:
+
+```text
+V03.5 SEMANTIC LESSON BUILDER
+```
+
+## Git
+
+```bash
 git add dev/V02/
-git commit -m "V05.2 PRO real lesson generator"
+git commit -m "v3.58 add ODIN V03.4 content extraction engine"
 git push origin dev
+```
