@@ -1,0 +1,1 @@
+window.ODIN_VISUAL_GRAPH={render:()=>alert('Graph loaded OK')};
