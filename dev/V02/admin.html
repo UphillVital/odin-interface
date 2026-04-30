@@ -382,6 +382,22 @@
       <pre id="taskSnapshotBox" class="log">Натисни EXPORT SNAPSHOT.</pre>
     </section>
 
+
+    <section class="card">
+      <h2>Snapshot File Export</h2>
+      <p class="muted">Збереження / відновлення ODIN state, review decisions і task backlog у JSON. Не змінює файли проєкту напряму.</p>
+
+      <div class="actions">
+        <button onclick="ODIN_SNAPSHOT_FILE.exportJSON()">EXPORT SNAPSHOT JSON</button>
+        <button onclick="ODIN_SNAPSHOT_FILE.downloadFile()">DOWNLOAD SNAPSHOT FILE</button>
+        <button onclick="ODIN_SNAPSHOT_FILE.copySnapshot()">COPY SNAPSHOT</button>
+        <button onclick="ODIN_SNAPSHOT_FILE.restoreFromBox()">RESTORE FROM BOX</button>
+      </div>
+
+      <h3>Snapshot JSON</h3>
+      <pre id="snapshotFileBox" class="log">Натисни EXPORT SNAPSHOT JSON.</pre>
+    </section>
+
     <section class="card">
       <h2>Admin Log</h2>
       <pre id="logBox" class="log"></pre>
@@ -409,6 +425,7 @@
 <script src="unknown_review.js"></script>
 <script src="review_to_task.js"></script>
 <script src="task_control.js"></script>
+<script src="snapshot_file.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
