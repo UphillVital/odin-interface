@@ -1,37 +1,35 @@
 # WINDOW MODEL v1
 
-## Standard Window Definition
+Purpose: Define primary ODIN Interface windows/screens as Work Zones.
 
-Each ODIN Interface window must be described like this:
+---
+
+## 1. Primary Windows
+
+| Window | Purpose |
+|---|---|
+| Command Center | Overview, status, active mode, next action |
+| Master Start | Product/scenario launch control |
+| System Map | Live map of ODIN layers and dependencies |
+| OIS | Commands, modes, intent, state, communication |
+| File Workspace | Work with files: editor, diff, approval, package |
+| Products | ODIN product list and variants |
+| Modules | Module registry and improvement tracking |
+| Experiments | Controlled experimental development |
+| Decisions / Locks | Fixed rules, safeguards, non-breaking constraints |
+| Manual | Editable instructions and capabilities guide |
+| Design System | Themes, DNA, components, UI rules |
+
+---
+
+## 2. Window Rule
+
+Every window must answer:
 
 ```text
-Window Name:
-Purpose:
-Inputs:
-Main Actions:
-State Indicators:
-Connected Files:
-Output:
-Risks:
-Do Not Break:
+What is this?
+Why does it exist?
+What can I do here?
+What does it affect?
+What is the next safe step?
 ```
-
-## Initial Windows
-
-### Command Center
-Central control screen.
-
-### System Map
-Shows architecture and relationships.
-
-### OIS
-Controls interaction, commands, modes, state, decisions.
-
-### File Workspace
-Manages working with files: edit, diff, approve, reject, package.
-
-### Experiments
-Safe zone for ideas and prototypes.
-
-### Manual
-Explains usage and possibilities.
