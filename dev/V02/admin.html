@@ -255,6 +255,28 @@
       <pre id="fileMapUnmappedBox" class="log">Немає даних.</pre>
     </section>
 
+
+    <section class="card">
+      <h2>Unknown Detector</h2>
+      <p class="muted">Semantic quality layer: показує слабкі місця карти. Нічого не видаляє, не пише у файли, не робить diff.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Total Unknown</div><b id="unknownTotal">0</b></div>
+        <div class="stat"><div>Weak Match</div><b id="unknownWeak">0</b></div>
+        <div class="stat"><div>No Role</div><b id="unknownNoRole">0</b></div>
+        <div class="stat"><div>Conflict</div><b id="unknownConflict">0</b></div>
+        <div class="stat"><div>Orphan</div><b id="unknownOrphan">0</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_UNKNOWN_DETECTOR.render()">RUN UNKNOWN DETECTOR</button>
+        <button onclick="ODIN_UNKNOWN_DETECTOR.copyReport()">COPY UNKNOWN REPORT</button>
+      </div>
+
+      <h3>Semantic Unknown Report</h3>
+      <pre id="unknownReportBox" class="log">Unknown detector ще не запущено.</pre>
+    </section>
+
     <section class="card">
       <h2>Admin Log</h2>
       <pre id="logBox" class="log"></pre>
@@ -278,6 +300,7 @@
 <script src="task_center.js"></script>
 <script src="file_control.js"></script>
 <script src="file_control_map.js"></script>
+<script src="unknown_detector.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
