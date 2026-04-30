@@ -1,60 +1,152 @@
-/* ODIN V03.7.1 — FILE CONTROL MAP
+/* ODIN V03.7.1.1 — FILE CONTROL MAP EXPANSION
    Призначення:
-   - побудувати view-only карту взаємодії файлів
-   - НЕ видаляти
-   - НЕ писати у файли
-   - НЕ робити diff
+   - розширити semantic map правил
+   - краще розкласти ODIN_TREE_PROJECT_v1 по системних шарах
+   - view-only
+   - без unknown detector / diff / delete
 */
 
 const ODIN_FILE_CONTROL_MAP = {
   rules: [
     {
-      id: "ui-runtime",
-      name: "Lesson Runtime UI",
-      files: ["index.html", "viewer.js", "style.css"],
-      role: "Запуск lesson runtime, preview, робота з engine-екраном."
+      id: "core-system",
+      name: "00 CORE SYSTEM",
+      folder: "ODIN_TREE_PROJECT_v1/00_CORE/",
+      role: "Ядро ODIN: принципи, state, recovery, SON, quality gate, protocol, router policy.",
+      keywords: ["ODIN_CORE", "ODIN_STATE", "ODIN_SON", "ODIN_RECOVERY", "ODIN_100_QUALITY", "ODIN_MEMORY", "ODIN_TEAM", "ODIN_TEMPLATE", "ARCHITECTURE_SEPARATION"]
     },
     {
-      id: "admin-control",
-      name: "Admin / Control Center",
-      files: ["admin.html", "app.js", "odin_admin_state.js", "task_center.js", "file_control.js"],
-      role: "Керування системою, Task Center, File Control, Git proposal."
+      id: "interface-system",
+      name: "01 ODIN INTERFACE SYSTEM",
+      folder: "ODIN_TREE_PROJECT_v1/01_ODIN_INTERFACE/",
+      role: "Інтерфейс ODIN: UI layer, data layer, status stack, execution bridge, export ready.",
+      keywords: ["ODIN_INTERFACE", "ODIN_UI", "ODIN_DATA", "ODIN_EXECUTION", "ODIN_STATUS", "ODIN_EXPORT"]
     },
     {
-      id: "state-events",
-      name: "State + Events",
-      files: ["odin_state.js", "event_bus.js", "odin_state_bridge.js"],
-      role: "Спільний стан, події, синхронізація між index.html та admin.html."
+      id: "module-system",
+      name: "02 MODULE SYSTEM",
+      folder: "ODIN_TREE_PROJECT_v1/02_MODULES/",
+      role: "Модульна система: registry, module system, lesson/export/QA/header modules.",
+      keywords: ["MODULE", "LESSON_ENGINE_MODULE", "QA_ENGINE_MODULE", "EXPORT_MODULE", "HEADER_LOCK_MODULE"]
     },
     {
-      id: "mode-engine",
-      name: "Mode → Engine Bridge",
-      files: ["mode_registry.js", "global_engine_fix.js", "odin_router_adapter.js", "smart_router.js"],
-      role: "MODE запускає існуючий engine через adapter/router."
+      id: "header-lock",
+      name: "03 HEADER LOCK",
+      folder: "ODIN_TREE_PROJECT_v1/03_HEADER_LOCK/",
+      role: "Header lock / правила шапки інтерфейсів і уроків.",
+      keywords: ["HEADER"]
     },
     {
-      id: "lesson-engine",
-      name: "Lesson Engine",
-      files: ["content_engine.js", "lesson_generator.js", "semantic.js"],
-      role: "Extraction, semantic layer, lesson generation."
+      id: "qa-system",
+      name: "04 QA SYSTEM",
+      folder: "ODIN_TREE_PROJECT_v1/04_QA_SYSTEM/",
+      role: "QA система: структура, переклад, markup, audio, final gate.",
+      keywords: ["QA_", "QA_SYSTEM", "FINAL_GATE", "MARKUP", "STRUCTURE", "TRANSLATION"]
     },
     {
-      id: "tree-files",
-      name: "Tree + File View",
-      files: ["auto_tree.html", "odin_auto_tree.js", "odin_tree_data.js", "odin_file_index.js", "odin_file_viewer.js", "odin_files_raw.txt", "ODIN AUTO TREE.txt"],
-      role: "Дерево, індекс файлів, перегляд файлів."
+      id: "lesson-system",
+      name: "05 LESSON SYSTEM",
+      folder: "ODIN_TREE_PROJECT_v1/05_LESSON_SYSTEM/",
+      role: "Lesson system: lesson engine, interface, output, structure, overview.",
+      keywords: ["LESSON_", "LESSON_SYSTEM", "LESSON_ENGINE", "LESSON_OUTPUT", "LESSON_STRUCTURE"]
     },
     {
-      id: "qa-export",
-      name: "QA + Export",
-      files: ["odin_qa_layer.js", "odin_export_system.js", "odin_package_builder.js", "odin_template_control.js"],
-      role: "QA, template control, package/export preview."
+      id: "issu-ssudt",
+      name: "06 ISSU / SSUDT",
+      folder: "ODIN_TREE_PROJECT_v1/06_ISSU_SSUDT/",
+      role: "ІССУ / ССУДТ integration layer.",
+      keywords: ["ISSU", "SSUDT", "ССУДТ", "ІССУ"]
     },
     {
-      id: "docs-status",
-      name: "Docs / Status / Package History",
-      patterns: ["README", "PACKAGE_MANIFEST", "PACKAGE_STATUS", "ODIN_V", "STABILIZATION"],
-      role: "Документація, маніфести, статуси, checkpoints."
+      id: "template-system",
+      name: "07 UNIFIED LESSON TEMPLATE",
+      folder: "ODIN_TREE_PROJECT_v1/07_UNIFIED_LESSON_TEMPLATE/",
+      role: "Unified lesson template: TEMPLATE_BASE, requirements, rules, map, extraction.",
+      keywords: ["TEMPLATE_", "TEMPLATE_BASE", "UNIFIED_TEMPLATE", "EXTRACTION_REPORT"]
+    },
+    {
+      id: "highlight-system",
+      name: "08 HIGHLIGHT SYSTEM",
+      folder: "ODIN_TREE_PROJECT_v1/08_HIGHLIGHT_SYSTEM/",
+      role: "Highlight system: grammar, markup, modes, QA, template integration.",
+      keywords: ["HIGHLIGHT", "LM_MARKUP", "GRAMMAR_HIGHLIGHT", "DATA_ACCURACY"]
+    },
+    {
+      id: "translation-system",
+      name: "09 TRANSLATION SYSTEM",
+      folder: "ODIN_TREE_PROJECT_v1/09_TRANSLATION_SYSTEM/",
+      role: "Translation system: RN/DP/SD, literal/semantic, lock, toggle, QA.",
+      keywords: ["TRANSLATION", "RN_DP_SD", "LITERAL_SEMANTIC"]
+    },
+    {
+      id: "audio-voice-system",
+      name: "10 AUDIO / VOICE SYSTEM",
+      folder: "ODIN_TREE_PROJECT_v1/10_AUDIO_VOICE_SYSTEM/",
+      role: "Audio / voice system: engine, template integration, markup, QA.",
+      keywords: ["AUDIO", "VOICE"]
+    },
+    {
+      id: "export-system",
+      name: "11 EXPORT SYSTEM",
+      folder: "ODIN_TREE_PROJECT_v1/11_EXPORT_SYSTEM/",
+      role: "Export system: download logic, QA, ready gate, GitHub deploy export, HTML/package export.",
+      keywords: ["EXPORT", "DOWNLOAD", "HTML_EXPORT", "GITHUB_DEPLOY", "PACKAGE_EXPORT"]
+    },
+    {
+      id: "git-deployment",
+      name: "12 GIT DEPLOYMENT",
+      folder: "ODIN_TREE_PROJECT_v1/12_GIT_DEPLOYMENT/",
+      role: "Git deployment: branches, checkpoints, push standard, rollback, status, GitHub Pages.",
+      keywords: ["GIT_", "GITHUB", "DEPLOYMENT", "ROLLBACK", "PUSH", "BRANCHES"]
+    },
+    {
+      id: "team-system",
+      name: "13 TEAM SYSTEM",
+      folder: "ODIN_TREE_PROJECT_v1/13_TEAM/",
+      role: "Team system: roles, sync, clerk, critic, assembler, quality rules.",
+      keywords: ["TEAM", "SYNC", "CLERK", "CRITIC", "ASSEMBLER"]
+    },
+    {
+      id: "workflow-system",
+      name: "14 WORKFLOW SYSTEM",
+      folder: "ODIN_TREE_PROJECT_v1/14_WORKFLOW/",
+      role: "Workflow: SON, PLAN, BUILD, TEST, QA, FIX, EXPORT, PUSH, FIXATION, package workflow.",
+      keywords: ["WORKFLOW", "SON_STAGE", "PLAN_STAGE", "BUILD_STAGE", "TEST_STAGE", "FIX_STAGE", "EXPORT_STAGE", "PUSH_STAGE", "FIXATION_STAGE"]
+    },
+    {
+      id: "packages-system",
+      name: "15 PACKAGES SYSTEM",
+      folder: "ODIN_TREE_PROJECT_v1/15_PACKAGES/",
+      role: "Packages system: naming, structure, types, QA, recovery, release packages.",
+      keywords: ["PACKAGE", "PACKAGES", "RECOVERY", "RELEASE"]
+    },
+    {
+      id: "rules-system",
+      name: "16 RULES SYSTEM",
+      folder: "ODIN_TREE_PROJECT_v1/16_RULES/",
+      role: "Rules system: no break, quality 100, package first, truth, user format, git style.",
+      keywords: ["RULE", "NO_BREAK", "QUALITY", "TRUTH", "ETALON", "STOP_AND_ROLLBACK"]
+    },
+    {
+      id: "odin-root",
+      name: "ODIN ROOT FILES",
+      folder: "ODIN_TREE_PROJECT_v1/",
+      rootOnly: true,
+      role: "Root status and navigation files: GIT_PUSH, ODIN_STATUS, ODIN_TREE, system status.",
+      keywords: ["GIT_PUSH", "ODIN_STATUS", "ODIN_TREE", "ODIN_SYSTEM_STATUS"]
+    },
+    {
+      id: "dev-runtime-ui",
+      name: "DEV V02 RUNTIME UI",
+      folder: "dev/V02/",
+      role: "Runtime / admin UI files in dev/V02.",
+      keywords: ["index.html", "admin.html", "viewer.js", "app.js", "style.css", "task_center.js", "file_control.js"]
+    },
+    {
+      id: "docs-status-history",
+      name: "DOCS / STATUS / PACKAGE HISTORY",
+      patterns: ["README", "PACKAGE_MANIFEST", "PACKAGE_STATUS", "STABILIZATION", "CHECKPOINT"],
+      role: "Документація, маніфести, статуси, checkpoints. Застосовується якщо файл не потрапив у точнішу системну групу."
     }
   ],
 
@@ -75,6 +167,43 @@ const ODIN_FILE_CONTROL_MAP = {
     return [];
   },
 
+  matchRule(file) {
+    const path = file.path || "";
+    const title = file.title || path.split("/").pop();
+    const filename = title || path.split("/").pop();
+
+    // First: exact folder groups, except docs fallback
+    const folderRule = this.rules.find(rule => {
+      if (!rule.folder) return false;
+      if (rule.rootOnly) {
+        const withoutRoot = path.replace("ODIN_TREE_PROJECT_v1/", "");
+        return path.startsWith(rule.folder) && !withoutRoot.includes("/");
+      }
+      return path.startsWith(rule.folder);
+    });
+
+    if (folderRule && folderRule.id !== "odin-root") return folderRule;
+
+    // Second: root files
+    if (folderRule && folderRule.id === "odin-root") return folderRule;
+
+    // Third: keyword rules
+    const keywordRule = this.rules.find(rule => {
+      if (!rule.keywords) return false;
+      return rule.keywords.some(k => filename.includes(k) || path.includes(k));
+    });
+    if (keywordRule) return keywordRule;
+
+    // Fourth: docs/status fallback
+    const patternRule = this.rules.find(rule => {
+      if (!rule.patterns) return false;
+      return rule.patterns.some(pattern => filename.includes(pattern) || path.includes(pattern));
+    });
+    if (patternRule) return patternRule;
+
+    return null;
+  },
+
   buildMap() {
     const files = this.getKnownFiles();
     const mapped = [];
@@ -83,13 +212,7 @@ const ODIN_FILE_CONTROL_MAP = {
     files.forEach(file => {
       const path = file.path || "";
       const title = file.title || path.split("/").pop();
-      const filename = title || path.split("/").pop();
-
-      const rule = this.rules.find(rule => {
-        if (rule.files && rule.files.some(name => filename === name || path.endsWith("/" + name) || path.includes(name))) return true;
-        if (rule.patterns && rule.patterns.some(pattern => filename.includes(pattern) || path.includes(pattern))) return true;
-        return false;
-      });
+      const rule = this.matchRule(file);
 
       const record = {
         title,
@@ -106,6 +229,7 @@ const ODIN_FILE_CONTROL_MAP = {
     });
 
     return {
+      version: "V03.7.1.1",
       created_at: new Date().toISOString(),
       total_files: files.length,
       mapped_count: mapped.length,
@@ -143,8 +267,8 @@ const ODIN_FILE_CONTROL_MAP = {
         lines.push("## " + group);
         lines.push("Files: " + files.length);
         lines.push("Role: " + (files[0]?.map_role || ""));
-        files.slice(0, 50).forEach(f => lines.push("  - " + f.path));
-        if (files.length > 50) lines.push("  ... +" + (files.length - 50) + " more");
+        files.slice(0, 80).forEach(f => lines.push("  - " + f.path));
+        if (files.length > 80) lines.push("  ... +" + (files.length - 80) + " more");
         lines.push("");
       });
       box.textContent = lines.join("\n") || "Карта порожня.";
@@ -158,7 +282,7 @@ const ODIN_FILE_CONTROL_MAP = {
 
     if (window.ODIN_STATE) {
       ODIN_STATE.data.tree.file_map = map;
-      ODIN_STATE.log("FILE_MAP_RENDERED", "File interaction map rendered", {
+      ODIN_STATE.log("FILE_MAP_EXPANDED", "Expanded file interaction map rendered", {
         total: map.total_files,
         mapped: map.mapped_count,
         unmapped: map.unmapped_count
@@ -170,7 +294,7 @@ const ODIN_FILE_CONTROL_MAP = {
   copyMap() {
     const box = document.getElementById("fileMapBox");
     const extra = document.getElementById("fileMapUnmappedBox");
-    const text = "FILE CONTROL MAP\n\n" + (box?.textContent || "") + "\n\nUNMAPPED\n" + (extra?.textContent || "");
+    const text = "FILE CONTROL MAP V03.7.1.1\n\n" + (box?.textContent || "") + "\n\nUNMAPPED\n" + (extra?.textContent || "");
     navigator.clipboard?.writeText(text);
   }
 };
