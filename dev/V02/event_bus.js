@@ -1,6 +1,4 @@
-/* ODIN V03.5.2 — EVENT BUS
-   Якщо файл вже існує з V03.5.1, ця версія сумісна.
-*/
+/* ODIN V03.5.3 — EVENT BUS */
 
 const ODIN_EVENT_BUS = window.ODIN_EVENT_BUS || {
   listeners: {},
@@ -11,11 +9,7 @@ const ODIN_EVENT_BUS = window.ODIN_EVENT_BUS || {
   },
 
   emit(eventName, payload = {}) {
-    const event = {
-      name: eventName,
-      payload,
-      time: new Date().toISOString()
-    };
+    const event = { name: eventName, payload, time: new Date().toISOString() };
 
     if (window.ODIN_STATE && typeof ODIN_STATE.handleEvent === "function") {
       ODIN_STATE.handleEvent(event);
@@ -25,10 +19,6 @@ const ODIN_EVENT_BUS = window.ODIN_EVENT_BUS || {
       try { handler(event); }
       catch (error) { console.error("ODIN_EVENT_BUS handler error:", error); }
     });
-
-    if (window.ODIN_ADMIN_STATE && typeof ODIN_ADMIN_STATE.addLog === "function") {
-      ODIN_ADMIN_STATE.addLog("EVENT", eventName);
-    }
 
     return event;
   }

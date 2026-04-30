@@ -1,12 +1,4 @@
-/* ODIN V03.5.2 — ROUTER ADAPTER
-   Призначення:
-   MODE → EVENT BUS → ODIN_STATE → smart_router.js → content_engine.js → lesson_generator.js
-
-   Не замінює:
-   - smart_router.js
-   - content_engine.js
-   - lesson_generator.js
-*/
+/* ODIN V03.5.3 — ROUTER ADAPTER */
 
 const ODIN_ROUTER_ADAPTER = {
   setStatus(text) {
@@ -20,11 +12,11 @@ const ODIN_ROUTER_ADAPTER = {
   },
 
   ensureCoreSession() {
-    if (typeof autoSelect === "function") {
-      autoSelect();
+    if (typeof window.autoSelect === "function") {
+      window.autoSelect();
       this.appendStatus("AUTO SELECT CORE: DONE");
     } else {
-      this.appendStatus("AUTO SELECT CORE: function autoSelect() not found");
+      this.appendStatus("AUTO SELECT CORE: autoSelect not found");
     }
   },
 
@@ -38,22 +30,23 @@ const ODIN_ROUTER_ADAPTER = {
     this.appendStatus("INPUT UPDATED: " + mode.id);
   },
 
+  checkEngineGlobals() {
+    const missing = [];
+
+    if (!window.ODIN_SMART_ROUTER) missing.push("ODIN_SMART_ROUTER");
+    if (!window.ODIN_CONTENT_ENGINE) missing.push("ODIN_CONTENT_ENGINE");
+    if (!window.ODIN_LESSON_GENERATOR) missing.push("ODIN_LESSON_GENERATOR");
+    if (!window.ODIN_SESSION) missing.push("ODIN_SESSION");
+
+    if (missing.length) {
+      throw new Error("Missing engine globals: " + missing.join(", "));
+    }
+  },
+
   async routeToEngine(mode) {
-    if (!window.ODIN_SMART_ROUTER) {
-      throw new Error("ODIN_SMART_ROUTER not found. Перевір smart_router.js.");
-    }
-
-    if (!window.ODIN_CONTENT_ENGINE) {
-      throw new Error("ODIN_CONTENT_ENGINE not found. Перевір content_engine.js.");
-    }
-
-    if (!window.ODIN_LESSON_GENERATOR) {
-      throw new Error("ODIN_LESSON_GENERATOR not found. Перевір lesson_generator.js.");
-    }
-
+    this.checkEngineGlobals();
     this.appendStatus("ROUTER ACTION: " + mode.router_action);
 
-    // smart_router у V03.4 відповідає за autoSelect core через autoSelect().
     this.ensureCoreSession();
 
     if (window.ODIN_EVENT_BUS) {
@@ -62,11 +55,11 @@ const ODIN_ROUTER_ADAPTER = {
     }
 
     this.appendStatus("CONTENT EXTRACTION: START");
-    await ODIN_CONTENT_ENGINE.extract();
+    await window.ODIN_CONTENT_ENGINE.extract();
     this.appendStatus("CONTENT EXTRACTION: DONE");
 
     this.appendStatus("LESSON GENERATOR: START");
-    await ODIN_LESSON_GENERATOR.generate();
+    await window.ODIN_LESSON_GENERATOR.generate();
     this.appendStatus("LESSON GENERATOR: DONE");
 
     if (window.ODIN_EVENT_BUS) {
@@ -110,10 +103,7 @@ const ODIN_ROUTER_ADAPTER = {
       this.appendStatus("ERROR: " + error.message);
 
       if (window.ODIN_EVENT_BUS) {
-        ODIN_EVENT_BUS.emit("ERROR", {
-          message: error.message,
-          mode: modeId
-        });
+        ODIN_EVENT_BUS.emit("ERROR", { message: error.message, mode: modeId });
       }
     }
   }

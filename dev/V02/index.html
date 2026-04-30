@@ -49,7 +49,7 @@ textarea{min-height:110px;font-family:ui-monospace,Menlo,Consolas,monospace}
 
   <section class="card">
     <h2>MODE REGISTRY → ROUTER ADAPTER</h2>
-    <p class="meta">MODE запускає існуючий engine через EVENT BUS → ODIN_STATE → smart_router → content_engine → lesson_generator.</p>
+    <p class="meta">MODE запускає існуючий engine через EVENT BUS → ODIN_STATE → Router Adapter → smart_router → content_engine → lesson_generator.</p>
     <div id="modeRegistryPanel" class="actions">
       <button class="blue" onclick="ODIN_ROUTER_ADAPTER.runMode('MODE_TEST')">MODE TEST</button>
       <button class="green" onclick="ODIN_ROUTER_ADAPTER.runMode('MODE_TOPIC')">MODE TOPIC</button>
@@ -101,13 +101,13 @@ textarea{min-height:110px;font-family:ui-monospace,Menlo,Consolas,monospace}
 <script src="odin_tree_data.js"></script>
 <script src="session.js"></script>
 <script src="smart_router.js"></script>
-<script src="router_global_fix.js"></script>
 <script src="viewer.js"></script>
 <script src="content_engine.js"></script>
 <script src="lesson_generator.js"></script>
 <script src="event_bus.js"></script>
 <script src="odin_state.js"></script>
 <script src="mode_registry.js"></script>
+<script src="global_engine_fix.js"></script>
 <script src="odin_router_adapter.js"></script>
 </body>
 </html>

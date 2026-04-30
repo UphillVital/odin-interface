@@ -1,7 +1,4 @@
-/* ODIN V03.5.2 — MODE REGISTRY
-   MODE не генерує урок сам.
-   MODE описує, що має зробити Router Adapter.
-*/
+/* ODIN V03.5.3 — MODE REGISTRY */
 
 const ODIN_MODE_REGISTRY = {
   modes: {
@@ -18,7 +15,6 @@ const ODIN_MODE_REGISTRY = {
       topic: "ODIN MODE TEST",
       task: "Перевірити запуск engine через Mode Registry та Router Adapter."
     },
-
     MODE_TOPIC: {
       id: "MODE_TOPIC",
       name: "MODE TOPIC",
@@ -30,7 +26,6 @@ const ODIN_MODE_REGISTRY = {
       export_policy: "html_ready",
       router_action: "GENERATE_LESSON_TOPIC"
     },
-
     MODE_PRO: {
       id: "MODE_PRO",
       name: "MODE PRO",
@@ -43,7 +38,6 @@ const ODIN_MODE_REGISTRY = {
       router_action: "GENERATE_LESSON_PRO",
       task: "Створи урок 100% у нашому основному шаблоні з РН / ДП / СД, підсвіткою, QA і домашнім завданням."
     },
-
     MODE_TEMPLATE_STRICT: {
       id: "MODE_TEMPLATE_STRICT",
       name: "TEMPLATE STRICT",
@@ -57,14 +51,8 @@ const ODIN_MODE_REGISTRY = {
       task: "Створи урок строго за TEMPLATE_BASE_v1 / ІШ без відхилень."
     }
   },
-
-  get(id) {
-    return this.modes[id] || null;
-  },
-
-  list() {
-    return Object.values(this.modes);
-  }
+  get(id) { return this.modes[id] || null; },
+  list() { return Object.values(this.modes); }
 };
 
 window.ODIN_MODE_REGISTRY = ODIN_MODE_REGISTRY;

@@ -1,10 +1,7 @@
-/* ODIN V03.5.2 — CORE STATE
-   Сумісна версія з V03.5.1.
-   odin_admin_state.js лишається UI-state + log.
-*/
+/* ODIN V03.5.3 — CORE STATE */
 
 const ODIN_STATE = window.ODIN_STATE || {
-  version: "V03.5.2",
+  version: "V03.5.3",
   storageKey: "odin_core_state_v0351",
 
   data: {
@@ -19,10 +16,7 @@ const ODIN_STATE = window.ODIN_STATE || {
       guards: []
     },
     logs: [],
-    registry: {
-      modes: {},
-      actions: {}
-    },
+    registry: { modes: {}, actions: {} },
     tree: {
       base_path: "ODIN_TREE_PROJECT_v1",
       files: [],
@@ -53,12 +47,7 @@ const ODIN_STATE = window.ODIN_STATE || {
   },
 
   log(type, message, extra = {}) {
-    this.data.logs.unshift({
-      time: new Date().toLocaleString(),
-      type,
-      message,
-      extra
-    });
+    this.data.logs.unshift({ time: new Date().toLocaleString(), type, message, extra });
     this.data.logs = this.data.logs.slice(0, 200);
     this.save();
   },
@@ -75,11 +64,7 @@ const ODIN_STATE = window.ODIN_STATE || {
       tasks: [],
       log: [],
       history: [],
-      context: {
-        input: null,
-        topic: null,
-        files: []
-      },
+      context: { input: null, topic: null, files: [] },
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     };
@@ -90,9 +75,7 @@ const ODIN_STATE = window.ODIN_STATE || {
   },
 
   ensureProject() {
-    const active = this.getActiveProject();
-    if (active) return active;
-    return this.createProject({ name: "ODIN Main Project", type: "ODIN" });
+    return this.getActiveProject() || this.createProject({ name: "ODIN Main Project", type: "ODIN" });
   },
 
   selectProject(projectId) {
@@ -116,11 +99,9 @@ const ODIN_STATE = window.ODIN_STATE || {
   setStage(stage) {
     this.data.system.stage = stage;
     this.data.system.last_action = "STAGE_CHANGED";
-    const project = this.getActiveProject();
-    if (project) {
-      project.stage = stage;
-      project.updated_at = new Date().toISOString();
-    }
+    const project = this.ensureProject();
+    project.stage = stage;
+    project.updated_at = new Date().toISOString();
     this.log("STAGE_CHANGED", stage);
     this.save();
   },
@@ -156,21 +137,11 @@ const ODIN_STATE = window.ODIN_STATE || {
 
   handleEvent(event) {
     switch (event.name) {
-      case "PROJECT_CREATED":
-        this.createProject(event.payload);
-        break;
-      case "PROJECT_SELECTED":
-        this.selectProject(event.payload.project_id);
-        break;
-      case "MODE_SELECTED":
-        this.setMode(event.payload.mode);
-        break;
-      case "STAGE_CHANGED":
-        this.setStage(event.payload.stage);
-        break;
-      case "TASK_CREATED":
-        this.addTask(event.payload);
-        break;
+      case "PROJECT_CREATED": this.createProject(event.payload); break;
+      case "PROJECT_SELECTED": this.selectProject(event.payload.project_id); break;
+      case "MODE_SELECTED": this.setMode(event.payload.mode); break;
+      case "STAGE_CHANGED": this.setStage(event.payload.stage); break;
+      case "TASK_CREATED": this.addTask(event.payload); break;
       case "ENGINE_STARTED":
         this.updateSystem({ status: "RUNNING", last_action: "ENGINE_STARTED" });
         this.log("ENGINE_STARTED", event.payload.mode || "");
