@@ -510,6 +510,32 @@
       <pre id="pushPackageJsonBox" class="log">Натисни BUILD PUSH PACKAGE.</pre>
     </section>
 
+
+    <section class="card">
+      <h2>Project Map Pro</h2>
+      <p class="muted">V03.9: карта системи ODIN — модулі, залежності, ризики, tasks/git/diff/safe/package як один огляд.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Modules</div><b id="projectMapModules">0</b></div>
+        <div class="stat"><div>Links</div><b id="projectMapLinks">0</b></div>
+        <div class="stat"><div>Tasks</div><b id="projectMapTasks">0</b></div>
+        <div class="stat"><div>High Risk</div><b id="projectMapHighRisk">0</b></div>
+        <div class="stat"><div>Push Status</div><b id="projectMapPushStatus">—</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_PROJECT_MAP_PRO.render()">BUILD PROJECT MAP</button>
+        <button onclick="ODIN_PROJECT_MAP_PRO.copyHuman()">COPY HUMAN MAP</button>
+        <button onclick="ODIN_PROJECT_MAP_PRO.copyJson()">COPY JSON MAP</button>
+      </div>
+
+      <h3>Human Project Map</h3>
+      <pre id="projectMapHumanBox" class="log">Натисни BUILD PROJECT MAP.</pre>
+
+      <h3>JSON Project Map</h3>
+      <pre id="projectMapJsonBox" class="log">Натисни BUILD PROJECT MAP.</pre>
+    </section>
+
     <section class="card">
       <h2>Admin Log</h2>
       <pre id="logBox" class="log"></pre>
@@ -541,6 +567,7 @@
 <script src="diff_planner.js"></script>
 <script src="safe_push_checklist.js"></script>
 <script src="push_package_export.js"></script>
+<script src="project_map_pro.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
