@@ -46,6 +46,19 @@ textarea{min-height:110px;font-family:ui-monospace,Menlo,Consolas,monospace}
     </div>
   </section>
 
+
+  <section class="card">
+    <h2>MODE REGISTRY → ROUTER ADAPTER</h2>
+    <p class="meta">MODE запускає існуючий engine через EVENT BUS → ODIN_STATE → smart_router → content_engine → lesson_generator.</p>
+    <div id="modeRegistryPanel" class="actions">
+      <button class="blue" onclick="ODIN_ROUTER_ADAPTER.runMode('MODE_TEST')">MODE TEST</button>
+      <button class="green" onclick="ODIN_ROUTER_ADAPTER.runMode('MODE_TOPIC')">MODE TOPIC</button>
+      <button class="purple" onclick="ODIN_ROUTER_ADAPTER.runMode('MODE_PRO')">MODE PRO</button>
+      <button class="amber" onclick="ODIN_ROUTER_ADAPTER.runMode('MODE_TEMPLATE_STRICT')">TEMPLATE STRICT</button>
+    </div>
+    <pre id="modeStatus">MODE REGISTRY готовий. Обери режим.</pre>
+  </section>
+
   <section class="card">
     <h2>Lesson Input</h2>
     <label><b>Тема уроку</b></label>
@@ -91,5 +104,9 @@ textarea{min-height:110px;font-family:ui-monospace,Menlo,Consolas,monospace}
 <script src="viewer.js"></script>
 <script src="content_engine.js"></script>
 <script src="lesson_generator.js"></script>
+<script src="event_bus.js"></script>
+<script src="odin_state.js"></script>
+<script src="mode_registry.js"></script>
+<script src="odin_router_adapter.js"></script>
 </body>
 </html>

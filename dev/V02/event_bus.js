@@ -1,9 +1,8 @@
-/* ODIN V03.5.1 — EVENT BUS
-   Призначення: єдина система подій для ODIN.
-   Не виконує engine. Не змінює файли напряму.
+/* ODIN V03.5.2 — EVENT BUS
+   Якщо файл вже існує з V03.5.1, ця версія сумісна.
 */
 
-const ODIN_EVENT_BUS = {
+const ODIN_EVENT_BUS = window.ODIN_EVENT_BUS || {
   listeners: {},
 
   on(eventName, handler) {
