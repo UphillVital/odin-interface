@@ -105,3 +105,53 @@ body[data-odin-level="control"][data-advanced-open="false"] .card:not(.odin-keep
 body[data-odin-level="system"] .card {
   display: block;
 }
+
+
+/* V04.0.5.1.1 UI SCROLL + CONTRAST FIX */
+.odin-control-shell {
+  color: #e5e7eb;
+  scroll-margin-top: 18px;
+}
+
+.odin-control-shell h1,
+.odin-control-shell h2,
+.odin-control-shell h3,
+.odin-status-card b,
+.odin-brand h1 {
+  color: #f8fafc !important;
+  opacity: 1 !important;
+}
+
+.odin-brand p,
+.odin-status-card small,
+.odin-control-shell .muted {
+  color: #cbd5e1 !important;
+  opacity: 1 !important;
+}
+
+.odin-status-card {
+  background: rgba(2,6,23,.74);
+  border-color: rgba(148,163,184,.28);
+}
+
+.odin-result .log,
+#odinUiResultBox {
+  color: #e5e7eb;
+  background: rgba(2,6,23,.82);
+  border: 1px solid rgba(148,163,184,.22);
+}
+
+.odin-lang button,
+.odin-levels button,
+.odin-main-actions button,
+.odin-advanced-toggle {
+  user-select: none;
+}
+
+body[data-odin-level="user"] {
+  min-height: 100vh;
+}
+
+body[data-odin-level="control"] {
+  min-height: 100vh;
+}

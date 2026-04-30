@@ -223,11 +223,16 @@ const ODIN_UI_LEVELS = {
   current: "control",
 
   set(level) {
+    const previousScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    const shell = document.querySelector(".odin-control-shell");
+    const shellTopBefore = shell ? shell.getBoundingClientRect().top : null;
+
     this.current = level;
     document.body.setAttribute("data-odin-level", level);
 
     document.querySelectorAll("[data-level-switch]").forEach(btn => {
       btn.classList.toggle("active", btn.getAttribute("data-level-switch") === level);
+      btn.setAttribute("type", "button");
     });
 
     try {
@@ -240,6 +245,22 @@ const ODIN_UI_LEVELS = {
       ODIN_STATE.log?.("UI_LEVEL_SET", level);
       ODIN_STATE.save?.();
     }
+
+    // Scroll stability:
+    // Level switch changes document height. Preserve the user's viewport.
+    requestAnimationFrame(() => {
+      try {
+        if (shell && shellTopBefore !== null) {
+          const shellTopAfter = shell.getBoundingClientRect().top;
+          const delta = shellTopAfter - shellTopBefore;
+          window.scrollTo({ top: Math.max(0, previousScrollY + delta), left: 0, behavior: "auto" });
+        } else {
+          window.scrollTo({ top: previousScrollY, left: 0, behavior: "auto" });
+        }
+      } catch (e) {
+        window.scrollTo(0, previousScrollY);
+      }
+    });
   },
 
   init() {

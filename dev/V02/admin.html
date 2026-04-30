@@ -536,15 +536,15 @@
         </div>
 
         <div class="odin-lang">
-          <button data-lang-switch="ua" onclick="ODIN_I18N.setLang('ua')" data-i18n="lang_ua">UA</button>
-          <button data-lang-switch="en" onclick="ODIN_I18N.setLang('en')" data-i18n="lang_en">EN</button>
+          <button type="button" data-lang-switch="ua" onclick="ODIN_I18N.setLang('ua')" data-i18n="lang_ua">UA</button>
+          <button type="button" data-lang-switch="en" onclick="ODIN_I18N.setLang('en')" data-i18n="lang_en">EN</button>
         </div>
       </div>
 
       <div class="odin-levels">
-        <button data-level-switch="user" onclick="ODIN_UI_LEVELS.set('user')" data-i18n="level_user">Level 1 — User</button>
-        <button data-level-switch="control" onclick="ODIN_UI_LEVELS.set('control')" data-i18n="level_control">Level 2 — Control</button>
-        <button data-level-switch="system" onclick="ODIN_UI_LEVELS.set('system')" data-i18n="level_system">Level 3 — System</button>
+        <button type="button" data-level-switch="user" onclick="ODIN_UI_LEVELS.set('user')" data-i18n="level_user">Level 1 — User</button>
+        <button type="button" data-level-switch="control" onclick="ODIN_UI_LEVELS.set('control')" data-i18n="level_control">Level 2 — Control</button>
+        <button type="button" data-level-switch="system" onclick="ODIN_UI_LEVELS.set('system')" data-i18n="level_system">Level 3 — System</button>
       </div>
 
       <div class="odin-status-grid">
@@ -572,14 +572,14 @@
 
       <h3 data-i18n="main_actions">Main Actions</h3>
       <div class="odin-main-actions">
-        <button onclick="ODIN_BASE_UI.analyze()" data-i18n="btn_analyze">Analyze</button>
-        <button onclick="ODIN_BASE_UI.buildPlan()" data-i18n="btn_build_plan">Build Plan</button>
-        <button onclick="ODIN_BASE_UI.preparePush()" data-i18n="btn_prepare_push">Prepare Push</button>
-        <button onclick="ODIN_BASE_UI.exportPackage()" data-i18n="btn_export">Export</button>
+        <button type="button" onclick="ODIN_BASE_UI.analyze()" data-i18n="btn_analyze">Analyze</button>
+        <button type="button" onclick="ODIN_BASE_UI.buildPlan()" data-i18n="btn_build_plan">Build Plan</button>
+        <button type="button" onclick="ODIN_BASE_UI.preparePush()" data-i18n="btn_prepare_push">Prepare Push</button>
+        <button type="button" onclick="ODIN_BASE_UI.exportPackage()" data-i18n="btn_export">Export</button>
       </div>
 
       <div class="odin-result">
-        <button id="odinAdvancedToggle" class="odin-advanced-toggle" onclick="ODIN_BASE_UI.toggleAdvanced()" data-i18n="show_advanced">Show Advanced</button>
+        <button type="button" id="odinAdvancedToggle" class="odin-advanced-toggle" onclick="ODIN_BASE_UI.toggleAdvanced()" data-i18n="show_advanced">Show Advanced</button>
         <pre id="odinUiResultBox" class="log">UI ready.</pre>
       </div>
     </section>

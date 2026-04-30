@@ -60,6 +60,10 @@ const ODIN_BASE_UI = {
   },
 
   toggleAdvanced() {
+    const previousScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    const shell = document.querySelector(".odin-control-shell");
+    const shellTopBefore = shell ? shell.getBoundingClientRect().top : null;
+
     const body = document.body;
     const open = body.getAttribute("data-advanced-open") === "true";
     body.setAttribute("data-advanced-open", open ? "false" : "true");
@@ -68,6 +72,20 @@ const ODIN_BASE_UI = {
     if (btn && window.ODIN_I18N) {
       btn.textContent = window.ODIN_I18N.t(open ? "show_advanced" : "hide_advanced");
     }
+
+    requestAnimationFrame(() => {
+      try {
+        if (shell && shellTopBefore !== null) {
+          const shellTopAfter = shell.getBoundingClientRect().top;
+          const delta = shellTopAfter - shellTopBefore;
+          window.scrollTo({ top: Math.max(0, previousScrollY + delta), left: 0, behavior: "auto" });
+        } else {
+          window.scrollTo({ top: previousScrollY, left: 0, behavior: "auto" });
+        }
+      } catch (e) {
+        window.scrollTo(0, previousScrollY);
+      }
+    });
   }
 };
 
