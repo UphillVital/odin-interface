@@ -231,6 +231,30 @@
       </div>
     </section>
 
+
+    <section class="card">
+      <h2>File Control Map</h2>
+      <p class="muted">View-only карта взаємодії файлів. Нічого не видаляє, не пише у файли, не робить diff.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Total Files</div><b id="fileMapCount">0</b></div>
+        <div class="stat"><div>Mapped</div><b id="fileMapMapped">0</b></div>
+        <div class="stat"><div>Unmapped</div><b id="fileMapUnmapped">0</b></div>
+        <div class="stat"><div>Mode</div><b>VIEW ONLY</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_FILE_CONTROL_MAP.render()">REFRESH MAP</button>
+        <button onclick="ODIN_FILE_CONTROL_MAP.copyMap()">COPY MAP</button>
+      </div>
+
+      <h3>Interaction Map</h3>
+      <pre id="fileMapBox" class="log">Карта ще не побудована.</pre>
+
+      <h3>Unmapped / Needs Review</h3>
+      <pre id="fileMapUnmappedBox" class="log">Немає даних.</pre>
+    </section>
+
     <section class="card">
       <h2>Admin Log</h2>
       <pre id="logBox" class="log"></pre>
@@ -253,6 +277,7 @@
 <script src="odin_state_bridge.js"></script>
 <script src="task_center.js"></script>
 <script src="file_control.js"></script>
+<script src="file_control_map.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
