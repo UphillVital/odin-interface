@@ -1,30 +1,85 @@
-/* ODIN V03.7.4 — REVIEW → TASK CENTER INTEGRATION
-   Призначення:
-   - confirmed review decisions → tasks
-   - не дублювати задачі
-   - не змінювати файли
-   - не виконувати git
+/* ODIN V03.7.4.1 — REVIEW DECISION SYNC FIX
+   Fix:
+   - стабільно читає confirmed decisions із localStorage
+   - мержить decisions з unknown report
+   - CREATE_TASK / FIX_LATER створюють tasks
+   - DOCUMENT створює tasks тільки через кнопку + DOCUMENT
+   - без дублювання
 */
 
 const ODIN_REVIEW_TO_TASK = {
   taskPrefix: "unknown_review_task::",
+  reviewStorageKey: "odin_unknown_review_v0373",
+
+  getRawDecisions() {
+    try {
+      return JSON.parse(localStorage.getItem(this.reviewStorageKey)) || {};
+    } catch (e) {
+      return {};
+    }
+  },
+
+  getUnknownRows() {
+    let report = null;
+
+    if (window.ODIN_UNKNOWN_DETECTOR && typeof ODIN_UNKNOWN_DETECTOR.analyze === "function") {
+      report = ODIN_UNKNOWN_DETECTOR.analyze();
+    } else if (window.ODIN_STATE?.data?.tree?.unknown_semantic) {
+      report = ODIN_STATE.data.tree.unknown_semantic;
+    }
+
+    return report?.results || [];
+  },
+
+  normalizeRows() {
+    const decisions = this.getRawDecisions();
+    const unknownRows = this.getUnknownRows();
+
+    return unknownRows.map(item => {
+      const saved = decisions[item.path] || null;
+      const action = saved?.action || this.suggestAction(item);
+
+      return {
+        path: item.path,
+        type: item.type,
+        current_group: item.map_group || "—",
+        suggested_action: action,
+        reasons: item.reasons || [],
+        confirmed: !!saved,
+        decision_time: saved?.time || null
+      };
+    });
+  },
 
   getReviewPlan() {
-    if (window.ODIN_UNKNOWN_REVIEW && typeof ODIN_UNKNOWN_REVIEW.buildPlan === "function") {
-      return ODIN_UNKNOWN_REVIEW.buildPlan();
-    }
-
-    if (window.ODIN_STATE?.data?.tree?.unknown_review) {
-      return ODIN_STATE.data.tree.unknown_review;
-    }
+    const rows = this.normalizeRows();
 
     return {
-      version: "V03.7.4",
-      total_items: 0,
-      confirmed: 0,
-      pending: 0,
-      rows: []
+      version: "V03.7.4.1",
+      created_at: new Date().toISOString(),
+      total_items: rows.length,
+      confirmed: rows.filter(x => x.confirmed).length,
+      pending: rows.filter(x => !x.confirmed).length,
+      actions: this.groupBy(rows, "suggested_action"),
+      rows
     };
+  },
+
+  suggestAction(item) {
+    if (item.type === "UNKNOWN_CONFLICT") return "DOCUMENT";
+    if (item.type === "UNKNOWN_ORPHAN") return "CREATE_TASK";
+    if (item.type === "UNKNOWN_NO_ROLE") return "DOCUMENT";
+    if (item.type === "UNKNOWN_WEAK_MATCH") return "FIX_LATER";
+    return "REVIEW";
+  },
+
+  groupBy(items, key) {
+    return items.reduce((acc, item) => {
+      const k = item[key] || "UNKNOWN";
+      if (!acc[k]) acc[k] = 0;
+      acc[k]++;
+      return acc;
+    }, {});
   },
 
   ensureProject() {
@@ -57,7 +112,7 @@ const ODIN_REVIEW_TO_TASK = {
 
   createTaskFromRow(row) {
     const project = this.ensureProject();
-    if (!project) return { ok: false, reason: "ODIN_STATE project not available", row };
+    if (!project) return { ok: false, reason: "ODIN_STATE_PROJECT_NOT_AVAILABLE", row };
 
     const taskId = this.makeTaskId(row);
 
@@ -113,7 +168,7 @@ const ODIN_REVIEW_TO_TASK = {
     });
 
     const report = {
-      version: "V03.7.4",
+      version: "V03.7.4.1",
       created_at: new Date().toISOString(),
       include_document: includeDocument,
       source_total: rows.length,
@@ -131,7 +186,7 @@ const ODIN_REVIEW_TO_TASK = {
 
     if (window.ODIN_STATE) {
       ODIN_STATE.data.tree.review_to_task_report = report;
-      ODIN_STATE.log("REVIEW_TO_TASK_DONE", `created=${report.created}; skipped=${report.skipped}`);
+      ODIN_STATE.log("REVIEW_TO_TASK_DONE", `created=${report.created}; skipped=${report.skipped}; candidates=${report.candidates}`);
       ODIN_STATE.save();
     }
 
@@ -151,12 +206,20 @@ const ODIN_REVIEW_TO_TASK = {
       if (el) el.textContent = String(value);
     };
 
+    const plan = this.getReviewPlan();
+
     if (!report) {
       setText("reviewTaskCreated", 0);
       setText("reviewTaskSkipped", 0);
-      setText("reviewTaskCandidates", 0);
+      setText("reviewTaskCandidates", plan.rows.filter(r => this.shouldCreateTask(r, false)).length);
       const box = document.getElementById("reviewTaskReportBox");
-      if (box) box.textContent = "Review → Task ще не запускався.";
+      if (box) box.textContent = JSON.stringify({
+        status: "READY",
+        note: "Review → Task ще не запускався.",
+        detected_confirmed: plan.confirmed,
+        default_candidates: plan.rows.filter(r => this.shouldCreateTask(r, false)).length,
+        document_candidates: plan.rows.filter(r => this.shouldCreateTask(r, true)).length
+      }, null, 2);
       return;
     }
 
