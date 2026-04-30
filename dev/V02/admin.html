@@ -427,6 +427,34 @@
     </section>
 
 
+
+    <section class="card">
+      <h2>Real Diff Planning</h2>
+      <p class="muted">V03.8.3: logical diff plan from ODIN Git Plan. No auto-exec, no real filesystem diff yet.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Total</div><b id="diffTotal">0</b></div>
+        <div class="stat"><div>Added</div><b id="diffAdded">0</b></div>
+        <div class="stat"><div>Modified</div><b id="diffModified">0</b></div>
+        <div class="stat"><div>Docs</div><b id="diffDocs">0</b></div>
+        <div class="stat"><div>Review</div><b id="diffReview">0</b></div>
+        <div class="stat"><div>High Risk</div><b id="diffHighRisk">0</b></div>
+        <div class="stat"><div>Gate</div><b id="diffGateStatus">—</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_DIFF_PLANNER.render()">BUILD DIFF PLAN</button>
+        <button onclick="ODIN_DIFF_PLANNER.copyHuman()">COPY HUMAN DIFF</button>
+        <button onclick="ODIN_DIFF_PLANNER.copyJson()">COPY JSON DIFF</button>
+      </div>
+
+      <h3>Human Diff Plan</h3>
+      <pre id="diffHumanPlanBox" class="log">Натисни BUILD DIFF PLAN.</pre>
+
+      <h3>JSON Diff Plan</h3>
+      <pre id="diffJsonPlanBox" class="log">Натисни BUILD DIFF PLAN.</pre>
+    </section>
+
     <section class="card">
       <h2>Admin Log</h2>
       <pre id="logBox" class="log"></pre>
@@ -455,6 +483,7 @@
 <script src="review_to_task.js"></script>
 <script src="task_control.js"></script>
 <script src="git_control.js"></script>
+<script src="diff_planner.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
