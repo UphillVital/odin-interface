@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ODIN-ADMIN V02.6 Real Export</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="odin_ui.css">
 </head>
 <body>
 <div class="admin-app">
@@ -500,7 +501,7 @@
     </section>
 
 
-    <section class="card">
+    <section class="card odin-keep-control">
       <h2>Push Package Export</h2>
       <p class="muted">V03.8.6 SAFE PUSH PERSISTENT STATE: фінальний пакет перед ручним push: commands + diff + safe checklist + snapshot. Не виконує git.</p>
 
@@ -526,7 +527,64 @@
       <pre id="pushPackageJsonBox" class="log">Натисни BUILD PUSH PACKAGE.</pre>
     </section>
 
-    <section class="card">
+
+    <section class="card odin-control-shell odin-keep-user odin-keep-control">
+      <div class="odin-topbar">
+        <div class="odin-brand">
+          <h1 data-i18n="app_title">ODIN Control Center</h1>
+          <p data-i18n="app_subtitle">System control core</p>
+        </div>
+
+        <div class="odin-lang">
+          <button data-lang-switch="ua" onclick="ODIN_I18N.setLang('ua')" data-i18n="lang_ua">UA</button>
+          <button data-lang-switch="en" onclick="ODIN_I18N.setLang('en')" data-i18n="lang_en">EN</button>
+        </div>
+      </div>
+
+      <div class="odin-levels">
+        <button data-level-switch="user" onclick="ODIN_UI_LEVELS.set('user')" data-i18n="level_user">Level 1 — User</button>
+        <button data-level-switch="control" onclick="ODIN_UI_LEVELS.set('control')" data-i18n="level_control">Level 2 — Control</button>
+        <button data-level-switch="system" onclick="ODIN_UI_LEVELS.set('system')" data-i18n="level_system">Level 3 — System</button>
+      </div>
+
+      <div class="odin-status-grid">
+        <div class="odin-status-card">
+          <small data-i18n="project">Project</small>
+          <b id="odinUiProject">—</b>
+        </div>
+        <div class="odin-status-card">
+          <small data-i18n="engine_status">Engine Status</small>
+          <b id="odinUiEngineStatus">—</b>
+        </div>
+        <div class="odin-status-card">
+          <small data-i18n="push_status">Push Status</small>
+          <b id="odinUiPushStatus">—</b>
+        </div>
+        <div class="odin-status-card">
+          <small data-i18n="task_count">Task Count</small>
+          <b id="odinUiTaskCount">—</b>
+        </div>
+        <div class="odin-status-card">
+          <small data-i18n="next_step">Next step</small>
+          <b id="odinUiNextStep">—</b>
+        </div>
+      </div>
+
+      <h3 data-i18n="main_actions">Main Actions</h3>
+      <div class="odin-main-actions">
+        <button onclick="ODIN_BASE_UI.analyze()" data-i18n="btn_analyze">Analyze</button>
+        <button onclick="ODIN_BASE_UI.buildPlan()" data-i18n="btn_build_plan">Build Plan</button>
+        <button onclick="ODIN_BASE_UI.preparePush()" data-i18n="btn_prepare_push">Prepare Push</button>
+        <button onclick="ODIN_BASE_UI.exportPackage()" data-i18n="btn_export">Export</button>
+      </div>
+
+      <div class="odin-result">
+        <button id="odinAdvancedToggle" class="odin-advanced-toggle" onclick="ODIN_BASE_UI.toggleAdvanced()" data-i18n="show_advanced">Show Advanced</button>
+        <pre id="odinUiResultBox" class="log">UI ready.</pre>
+      </div>
+    </section>
+
+    <section class="card odin-keep-control">
       <h2>ODIN Engine Core</h2>
       <p class="muted">V04.0.2: Engine Core + Task operations. Старий Task Control не замінюється.</p>
 
@@ -551,7 +609,7 @@
     </section>
 
 
-    <section class="card">
+    <section class="card odin-keep-control">
       <h2>Project Map Pro</h2>
       <p class="muted">V03.9: карта системи ODIN — модулі, залежності, ризики, tasks/git/diff/safe/package як один огляд.</p>
 
@@ -581,7 +639,7 @@
       <pre id="logBox" class="log"></pre>
     </section>
 
-    <section class="card">
+    <section class="card odin-keep-control">
       <h2>Visual Graph</h2>
       <p class="muted">V03.9.3 INTERACTIVE GRAPH PRO: hover/click focus, filters, pipeline highlight, auto-refresh. View-only.</p>
 
@@ -649,5 +707,7 @@
 <script src="project_map_pro.js"></script>
 <script src="app.js"></script>
 <script src="project_visual_graph.js"></script>
+<script src="odin_i18n.js"></script>
+<script src="odin_base_ui.js"></script>
 <script src="odin_engine.js"></script></body>
 </html>
