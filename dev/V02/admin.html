@@ -527,6 +527,28 @@
     </section>
 
 
+
+    <section class="card">
+      <h2>ODIN Engine Core</h2>
+      <p class="muted">V04.0.1: foundation engine layer. Не замінює V03 pipeline, тільки додає центральну точку входу.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Status</div><b id="engineCoreStatus">BOOTING</b></div>
+        <div class="stat"><div>Message</div><b id="engineCoreMessage">—</b></div>
+        <div class="stat"><div>Operations</div><b id="engineCoreOps">0</b></div>
+        <div class="stat"><div>Mode</div><b>FOUNDATION</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_ENGINE.run('engine_test')">ENGINE TEST</button>
+        <button onclick="ODIN_ENGINE.dependencyCheck()">DEPENDENCY CHECK</button>
+        <button onclick="ODIN_ENGINE.copyResult()">COPY ENGINE RESULT</button>
+      </div>
+
+      <h3>Engine Result</h3>
+      <pre id="engineCoreResultBox" class="log">Engine ще не запускався.</pre>
+    </section>
+
     <section class="card">
       <h2>Project Map Pro</h2>
       <p class="muted">V03.9: карта системи ODIN — модулі, залежності, ризики, tasks/git/diff/safe/package як один огляд.</p>
@@ -624,5 +646,6 @@
 <script src="push_package_export.js"></script>
 <script src="project_map_pro.js"></script>
 <script src="app.js"></script>
-<script src="project_visual_graph.js"></script></body>
+<script src="project_visual_graph.js"></script>
+<script src="odin_engine.js"></script></body>
 </html>
