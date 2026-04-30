@@ -194,6 +194,43 @@
       <pre id="executionLogBox" class="log">Поки немає подій.</pre>
     </section>
 
+
+    <section class="card">
+      <h2>File Control B</h2>
+      <p class="muted">ODIN бачить файли, пропонує зміни і генерує Git-команди. Автоматичного видалення або запису немає.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Known Files</div><b id="fileControlCount">0</b></div>
+        <div class="stat"><div>Mode</div><b>PROPOSE ONLY</b></div>
+        <div class="stat"><div>Auto Write</div><b>OFF</b></div>
+        <div class="stat"><div>Confirm</div><b>REQUIRED</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_FILE_CONTROL.render()">REFRESH FILES</button>
+        <button onclick="ODIN_FILE_CONTROL.clearSelection()">CLEAR SELECTION</button>
+        <button onclick="ODIN_FILE_CONTROL.propose('UPDATE')">PROPOSE UPDATE</button>
+        <button onclick="ODIN_FILE_CONTROL.propose('FIX')">PROPOSE FIX</button>
+        <button onclick="ODIN_FILE_CONTROL.propose('DOCS')">PROPOSE DOCS</button>
+        <button class="warn" onclick="ODIN_FILE_CONTROL.propose('REMOVE')">PROPOSE REMOVE</button>
+      </div>
+
+      <h3>Files</h3>
+      <div id="fileControlList" class="log">Натисни REFRESH FILES.</div>
+
+      <h3>Selected Files</h3>
+      <pre id="fileControlSelected" class="log">Нічого не вибрано.</pre>
+
+      <h3>Proposed Change</h3>
+      <pre id="fileControlProposal" class="log">Пропозицій ще немає.</pre>
+
+      <h3>Git Commands</h3>
+      <pre id="gitCommandBox" class="log">Git-команди зʼявляться після PROPOSE.</pre>
+      <div class="actions">
+        <button onclick="ODIN_FILE_CONTROL.copyGitCommands()">COPY GIT COMMANDS</button>
+      </div>
+    </section>
+
     <section class="card">
       <h2>Admin Log</h2>
       <pre id="logBox" class="log"></pre>
@@ -215,6 +252,7 @@
 <script src="odin_state.js"></script>
 <script src="odin_state_bridge.js"></script>
 <script src="task_center.js"></script>
+<script src="file_control.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
