@@ -244,3 +244,119 @@ window.ODIN_ENGINE = ODIN_ENGINE;
 document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => window.ODIN_ENGINE.init(), 900);
 });
+
+
+/* === V04.0.5.2 — UI INTENT OPERATIONS === */
+(function(){
+  if (!window.ODIN_ENGINE) return;
+
+  ODIN_ENGINE.systemSnapshot = function() {
+    let tasks = [];
+    try { tasks = this.getTasks ? this.getTasks() : (ODIN_STATE?.getActiveProject?.()?.tasks || []); } catch(e) {}
+
+    const git = window.ODIN_STATE?.data?.git || {};
+    const diff = git.diff_plan || null;
+    const safe = git.safe_push_checklist || null;
+    const pkg = git.push_package || null;
+
+    return {
+      tasks_total: tasks.length,
+      tasks_open: tasks.filter(t => (t.status || "OPEN") === "OPEN").length,
+      diff_total: diff?.counts?.total || 0,
+      safe_status: safe?.status || "UNKNOWN",
+      package_status: pkg?.status || "UNKNOWN",
+      push_ready: pkg?.status === "READY_FOR_MANUAL_PUSH",
+      timestamp: new Date().toISOString()
+    };
+  };
+
+  ODIN_ENGINE.intentNextStep = function(s) {
+    if (!s.tasks_total) return "CREATE_OR_RESTORE_TASKS";
+    if (!s.diff_total) return "BUILD_PLAN";
+    if (s.safe_status !== "READY_FOR_MANUAL_PUSH") return "PREPARE_PUSH";
+    if (s.package_status !== "READY_FOR_MANUAL_PUSH") return "EXPORT_PACKAGE";
+    return "READY_FOR_MANUAL_PUSH";
+  };
+
+  ODIN_ENGINE.register("ui_analyze", () => {
+    const snapshot = ODIN_ENGINE.systemSnapshot();
+    const next = ODIN_ENGINE.intentNextStep(snapshot);
+    return {
+      status: "OK",
+      message: "UI_ANALYZE_DONE",
+      snapshot,
+      next_step: next
+    };
+  });
+
+  ODIN_ENGINE.register("ui_build_plan", () => {
+    const before = ODIN_ENGINE.systemSnapshot();
+
+    if (!before.tasks_total) {
+      return {
+        status: "BLOCKED",
+        message: "NO_TASKS_FOR_PLAN",
+        snapshot: before,
+        next_step: "CREATE_OR_RESTORE_TASKS"
+      };
+    }
+
+    if (window.ODIN_GIT_CONTROL?.renderPlan) ODIN_GIT_CONTROL.renderPlan();
+    if (window.ODIN_DIFF_PLANNER?.render) ODIN_DIFF_PLANNER.render();
+
+    const after = ODIN_ENGINE.systemSnapshot();
+    return {
+      status: after.diff_total > 0 ? "OK" : "WARN",
+      message: after.diff_total > 0 ? "PLAN_AND_DIFF_READY" : "PLAN_BUILT_BUT_DIFF_EMPTY",
+      before,
+      after,
+      next_step: ODIN_ENGINE.intentNextStep(after)
+    };
+  });
+
+  ODIN_ENGINE.register("ui_prepare_push", () => {
+    const before = ODIN_ENGINE.systemSnapshot();
+
+    if (!before.diff_total) {
+      return {
+        status: "BLOCKED",
+        message: "NO_DIFF_FOR_SAFE_PUSH",
+        snapshot: before,
+        next_step: "BUILD_PLAN"
+      };
+    }
+
+    if (window.ODIN_SAFE_PUSH?.render) ODIN_SAFE_PUSH.render();
+
+    const after = ODIN_ENGINE.systemSnapshot();
+
+    if (after.safe_status === "READY_FOR_MANUAL_PUSH" && window.ODIN_PUSH_PACKAGE_EXPORT?.render) {
+      ODIN_PUSH_PACKAGE_EXPORT.render();
+    }
+
+    const final = ODIN_ENGINE.systemSnapshot();
+
+    return {
+      status: final.package_status === "READY_FOR_MANUAL_PUSH" ? "OK" : "BLOCKED",
+      message: final.package_status === "READY_FOR_MANUAL_PUSH" ? "PUSH_READY" : "SAFE_GATE_NOT_READY",
+      before,
+      after: final,
+      next_step: ODIN_ENGINE.intentNextStep(final)
+    };
+  });
+
+  ODIN_ENGINE.register("ui_export", () => {
+    const before = ODIN_ENGINE.systemSnapshot();
+
+    if (window.ODIN_PUSH_PACKAGE_EXPORT?.render) ODIN_PUSH_PACKAGE_EXPORT.render();
+    const after = ODIN_ENGINE.systemSnapshot();
+
+    return {
+      status: after.package_status === "READY_FOR_MANUAL_PUSH" ? "OK" : "BLOCKED",
+      message: after.package_status === "READY_FOR_MANUAL_PUSH" ? "EXPORT_READY" : "EXPORT_BLOCKED_NOT_READY",
+      before,
+      after,
+      next_step: ODIN_ENGINE.intentNextStep(after)
+    };
+  });
+})();

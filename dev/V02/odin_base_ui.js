@@ -6,52 +6,39 @@ const ODIN_BASE_UI = {
   },
 
   analyze() {
-    const result = {
-      status: "OK",
-      action: "ANALYZE",
-      message: "BASE_ANALYZE_READY",
-      timestamp: new Date().toISOString()
-    };
-
-    if (window.ODIN_ENGINE?.dependencyCheck) {
-      return ODIN_ENGINE.dependencyCheck();
+    if (window.ODIN_ENGINE?.run) {
+      const result = ODIN_ENGINE.run("ui_analyze");
+      this.renderSmartResult(result);
+      if (window.ODIN_I18N) ODIN_I18N.updateSmartPanel();
+      return result;
     }
-
-    this.renderResult(result);
-    return result;
   },
 
   buildPlan() {
     if (window.ODIN_ENGINE?.run) {
-      if (window.ODIN_ENGINE.operations?.task_summary) {
-        return ODIN_ENGINE.run("task_summary");
-      }
-      return ODIN_ENGINE.run("engine_test");
+      const result = ODIN_ENGINE.run("ui_build_plan");
+      this.renderSmartResult(result);
+      if (window.ODIN_I18N) ODIN_I18N.updateSmartPanel();
+      return result;
     }
   },
 
   preparePush() {
-    const result = {
-      status: "INFO",
-      action: "PREPARE_PUSH",
-      message: "V04.0.5.1 base UI only; pipeline actions remain in advanced blocks.",
-      timestamp: new Date().toISOString()
-    };
-    this.renderResult(result);
-    return result;
+    if (window.ODIN_ENGINE?.run) {
+      const result = ODIN_ENGINE.run("ui_prepare_push");
+      this.renderSmartResult(result);
+      if (window.ODIN_I18N) ODIN_I18N.updateSmartPanel();
+      return result;
+    }
   },
 
   exportPackage() {
-    if (window.ODIN_PUSH_PACKAGE_EXPORT?.render) {
-      ODIN_PUSH_PACKAGE_EXPORT.render();
-      return;
+    if (window.ODIN_ENGINE?.run) {
+      const result = ODIN_ENGINE.run("ui_export");
+      this.renderSmartResult(result);
+      if (window.ODIN_I18N) ODIN_I18N.updateSmartPanel();
+      return result;
     }
-    this.renderResult({
-      status: "INFO",
-      action: "EXPORT",
-      message: "Push package export module not available.",
-      timestamp: new Date().toISOString()
-    });
   },
 
   renderResult(result) {

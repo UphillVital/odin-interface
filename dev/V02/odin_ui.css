@@ -155,3 +155,23 @@ body[data-odin-level="user"] {
 body[data-odin-level="control"] {
   min-height: 100vh;
 }
+
+
+/* V04.0.5.2 UI INTENT POLISH */
+#odinUiResultBox {
+  white-space: pre-wrap;
+  line-height: 1.45;
+}
+
+.odin-main-actions button {
+  min-width: 138px;
+  box-shadow: 0 8px 22px rgba(37,99,235,.24);
+}
+
+.odin-status-card b {
+  word-break: break-word;
+}
+
+.odin-status-card:has(#odinUiPushStatus) b {
+  color: #86efac !important;
+}
