@@ -382,31 +382,50 @@
       <pre id="taskSnapshotBox" class="log">Натисни EXPORT SNAPSHOT.</pre>
     </section>
 
-
     <section class="card">
       <h2>Git Control Pro</h2>
-      <p class="muted">Logical Git control на основі ODIN task backlog. Не виконує команди автоматично. Тільки plan + commands.</p>
+      <p class="muted">V03.8.2 PRO: grouped plan, reason per file, custom commit message, clean command preview. No auto-exec.</p>
 
       <div class="grid">
         <div class="stat"><div>Add</div><b id="gitPlanAdd">0</b></div>
         <div class="stat"><div>Update</div><b id="gitPlanUpdate">0</b></div>
         <div class="stat"><div>Docs</div><b id="gitPlanDocs">0</b></div>
         <div class="stat"><div>Review</div><b id="gitPlanReview">0</b></div>
+        <div class="stat"><div>Warnings</div><b id="gitPlanWarnings">0</b></div>
+      </div>
+
+      <div class="actions">
+        <label>Commit message:
+          <input id="gitCommitMessageInput" placeholder="ODIN V03.8.2 git control ..." style="min-width:320px">
+        </label>
+      </div>
+
+      <div class="actions">
+        <label>Exclude path:
+          <input id="gitExcludePathInput" placeholder="ODIN_TREE_PROJECT_v1/..." style="min-width:320px">
+        </label>
+        <button onclick="ODIN_GIT_CONTROL.excludePathFromInput()">EXCLUDE PATH</button>
+        <button onclick="ODIN_GIT_CONTROL.clearExclusions()">CLEAR EXCLUSIONS</button>
       </div>
 
       <div class="actions">
         <button onclick="ODIN_GIT_CONTROL.renderPlan()">BUILD PLAN</button>
         <button onclick="ODIN_GIT_CONTROL.generateCommands()">GENERATE GIT COMMANDS</button>
         <button onclick="ODIN_GIT_CONTROL.copyCommands()">COPY COMMANDS</button>
-        <button onclick="ODIN_GIT_CONTROL.copyPlan()">COPY PLAN</button>
+        <button onclick="ODIN_GIT_CONTROL.copyHumanPlan()">COPY HUMAN PLAN</button>
+        <button onclick="ODIN_GIT_CONTROL.copyPlan()">COPY JSON PLAN</button>
       </div>
 
-      <h3>Change Plan</h3>
-      <pre id="gitPlanBox" class="log">Натисни BUILD PLAN.</pre>
+      <h3>Human Change Plan</h3>
+      <pre id="gitHumanPlanBox" class="log">Натисни BUILD PLAN.</pre>
 
       <h3>Git Commands</h3>
       <pre id="gitCommandsBox" class="log">Натисни GENERATE GIT COMMANDS.</pre>
+
+      <h3>JSON Plan</h3>
+      <pre id="gitPlanBox" class="log">Натисни BUILD PLAN.</pre>
     </section>
+
 
     <section class="card">
       <h2>Admin Log</h2>

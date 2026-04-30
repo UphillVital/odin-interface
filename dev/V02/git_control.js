@@ -1,11 +1,8 @@
-/* ODIN V03.8.1 — GIT CONTROL PRO FULL
-   Призначення:
-   - побудувати logical change plan з ODIN_STATE tasks
-   - згенерувати git commands
-   - нічого не виконувати автоматично
-*/
+/* ODIN V03.8.2 — GIT CONTROL PRO */
 
 const ODIN_GIT_CONTROL = {
+  excluded: new Set(),
+
   getProject() {
     if (!window.ODIN_STATE) return null;
     if (typeof ODIN_STATE.load === "function") ODIN_STATE.load();
@@ -23,20 +20,20 @@ const ODIN_GIT_CONTROL = {
     const type = task.type || "";
     const path = task.path || "";
 
-    if (!path) return null;
-
-    if (action === "CREATE_TASK") return { bucket: "review", path, reason: "CREATE_TASK review item" };
-    if (action === "FIX_LATER") return { bucket: "update", path, reason: "FIX_LATER review item" };
-    if (action === "DOCUMENT") return { bucket: "docs", path, reason: "DOCUMENT review item" };
-    if (type === "FILE_CONTROL") return { bucket: "update", path, reason: "File Control proposal" };
-
-    return { bucket: "review", path, reason: "General task path" };
+    if (!path) return { bucket: "ignored", path: "", reason: "no path", task };
+    if (action === "FIX_LATER") return { bucket: "update", path, reason: "FIX_LATER → update existing file", task };
+    if (action === "DOCUMENT") return { bucket: "docs", path, reason: "DOCUMENT → documentation update", task };
+    if (action === "CREATE_TASK") return { bucket: "review", path, reason: "CREATE_TASK → review/change planning", task };
+    if (type === "FILE_CONTROL") return { bucket: "update", path, reason: "FILE_CONTROL → proposed update", task };
+    if (type === "UNKNOWN_REVIEW") return { bucket: "review", path, reason: "UNKNOWN_REVIEW → review item", task };
+    return { bucket: "review", path, reason: "task path detected → review", task };
   },
 
   buildPlan() {
     const tasks = this.getTasks();
+
     const plan = {
-      version: "V03.8.1",
+      version: "V03.8.2",
       created_at: new Date().toISOString(),
       confirm_required: true,
       auto_exec: false,
@@ -45,15 +42,17 @@ const ODIN_GIT_CONTROL = {
       update: [],
       docs: [],
       review: [],
-      ignored: []
+      ignored: [],
+      warnings: []
     };
 
     const seen = new Set();
 
     tasks.forEach(task => {
       const c = this.classifyTask(task);
-      if (!c || !c.path) {
-        plan.ignored.push({ task: task.name || task.id, reason: "no path" });
+
+      if (!c.path) {
+        plan.ignored.push({ task: task.name || task.id || "UNKNOWN_TASK", reason: c.reason });
         return;
       }
 
@@ -61,81 +60,134 @@ const ODIN_GIT_CONTROL = {
       if (seen.has(key)) return;
       seen.add(key);
 
-      plan[c.bucket].push({
+      const record = {
         path: c.path,
-        task: task.name || task.id,
+        task: task.name || task.id || "UNKNOWN_TASK",
         status: task.status || "UNKNOWN",
         priority: task.priority || "UNKNOWN",
-        reason: c.reason
-      });
+        action: task.action || "UNKNOWN",
+        type: task.type || "UNKNOWN",
+        reason: c.reason,
+        excluded: this.excluded.has(c.path)
+      };
+
+      plan[c.bucket].push(record);
     });
+
+    const allIncluded = this.getIncludedPaths(plan);
+    if (!allIncluded.length) plan.warnings.push("NO_INCLUDED_PATHS");
+    if (allIncluded.length > 10) plan.warnings.push("LARGE_GIT_ADD_SET_" + allIncluded.length);
 
     if (window.ODIN_STATE) {
       ODIN_STATE.data.git = ODIN_STATE.data.git || {};
       ODIN_STATE.data.git.last_plan = plan;
-      ODIN_STATE.log("GIT_CONTROL_PLAN_BUILT", `add=${plan.add.length}; update=${plan.update.length}; docs=${plan.docs.length}; review=${plan.review.length}`);
+      ODIN_STATE.log("GIT_CONTROL_PRO_PLAN_BUILT", `update=${plan.update.length}; docs=${plan.docs.length}; review=${plan.review.length}; included=${allIncluded.length}`);
       ODIN_STATE.save();
     }
 
     return plan;
   },
 
-  uniquePaths(items) {
-    return [...new Set((items || []).map(x => x.path).filter(Boolean))];
+  getIncludedPaths(plan) {
+    return [
+      ...(plan.add || []),
+      ...(plan.update || []),
+      ...(plan.docs || []),
+      ...(plan.review || [])
+    ].filter(item => item.path && !item.excluded)
+     .map(item => item.path)
+     .filter((path, index, arr) => arr.indexOf(path) === index);
+  },
+
+  buildCommitMessage(plan) {
+    const custom = document.getElementById("gitCommitMessageInput")?.value?.trim();
+    if (custom) return custom.replaceAll('"', "'");
+
+    const parts = [];
+    const updateCount = plan.update.filter(x => !x.excluded).length;
+    const docsCount = plan.docs.filter(x => !x.excluded).length;
+    const reviewCount = plan.review.filter(x => !x.excluded).length;
+    const addCount = plan.add.filter(x => !x.excluded).length;
+
+    if (updateCount) parts.push(`update-${updateCount}`);
+    if (docsCount) parts.push(`docs-${docsCount}`);
+    if (reviewCount) parts.push(`review-${reviewCount}`);
+    if (addCount) parts.push(`add-${addCount}`);
+
+    return "ODIN V03.8.2 git control " + (parts.join(" ") || "sync");
   },
 
   buildCommands(plan = null) {
     plan = plan || this.buildPlan();
+    const paths = this.getIncludedPaths(plan);
 
-    const paths = [
-      ...this.uniquePaths(plan.add),
-      ...this.uniquePaths(plan.update),
-      ...this.uniquePaths(plan.docs),
-      ...this.uniquePaths(plan.review)
-    ];
-
-    const unique = [...new Set(paths)];
-
-    if (!unique.length) {
+    if (!paths.length) {
       return [
-        "# No file paths found in ODIN task backlog",
-        "# Create or confirm tasks first, then regenerate Git commands."
+        "# No included file paths found in ODIN task backlog.",
+        "# Create/confirm tasks or remove exclusions, then regenerate commands."
       ];
     }
 
-    const commitMessage = this.commitMessage(plan);
+    const commitMessage = this.buildCommitMessage(plan);
 
     return [
-      "git add " + unique.join(" "),
+      "git add \\",
+      ...paths.map((p, idx) => "  " + p + (idx < paths.length - 1 ? " \\" : "")),
       'git commit -m "' + commitMessage + '"',
       "git push origin dev"
     ];
   },
 
-  commitMessage(plan) {
-    const parts = [];
-    if (plan.update.length) parts.push(`update-${plan.update.length}`);
-    if (plan.docs.length) parts.push(`docs-${plan.docs.length}`);
-    if (plan.review.length) parts.push(`review-${plan.review.length}`);
-    if (plan.add.length) parts.push(`add-${plan.add.length}`);
-
-    return "ODIN V03.8 git control " + (parts.join(" ") || "sync");
-  },
-
   renderPlan() {
     const plan = this.buildPlan();
-    const box = document.getElementById("gitPlanBox");
-    if (box) box.textContent = JSON.stringify(plan, null, 2);
-
-    const commands = this.buildCommands(plan);
-    const cmdBox = document.getElementById("gitCommandsBox");
-    if (cmdBox) cmdBox.textContent = commands.join("\n");
-
     this.updateStats(plan);
+    this.renderHumanPlan(plan);
+
+    const planBox = document.getElementById("gitPlanBox");
+    if (planBox) planBox.textContent = JSON.stringify(plan, null, 2);
+
+    const cmdBox = document.getElementById("gitCommandsBox");
+    if (cmdBox) cmdBox.textContent = this.buildCommands(plan).join("\n");
   },
 
   generateCommands() {
     this.renderPlan();
+  },
+
+  renderHumanPlan(plan) {
+    const box = document.getElementById("gitHumanPlanBox");
+    if (!box) return;
+
+    const lines = [];
+    const renderGroup = (title, items) => {
+      lines.push("## " + title);
+      if (!items.length) {
+        lines.push("  — empty");
+        lines.push("");
+        return;
+      }
+
+      items.forEach(item => {
+        lines.push(`${item.excluded ? "[EXCLUDED]" : "[INCLUDED]"} ${item.path}`);
+        lines.push(`  task: ${item.task}`);
+        lines.push(`  action: ${item.action} | type: ${item.type} | status: ${item.status} | priority: ${item.priority}`);
+        lines.push(`  reason: ${item.reason}`);
+      });
+      lines.push("");
+    };
+
+    renderGroup("UPDATE", plan.update);
+    renderGroup("DOCS", plan.docs);
+    renderGroup("REVIEW", plan.review);
+    renderGroup("ADD", plan.add);
+
+    if (plan.warnings.length) {
+      lines.push("## WARNINGS");
+      plan.warnings.forEach(w => lines.push("  - " + w));
+      lines.push("");
+    }
+
+    box.textContent = lines.join("\n");
   },
 
   updateStats(plan) {
@@ -144,10 +196,25 @@ const ODIN_GIT_CONTROL = {
       if (el) el.textContent = String(value);
     };
 
-    setText("gitPlanAdd", plan.add.length);
-    setText("gitPlanUpdate", plan.update.length);
-    setText("gitPlanDocs", plan.docs.length);
-    setText("gitPlanReview", plan.review.length);
+    setText("gitPlanAdd", plan.add.filter(x => !x.excluded).length);
+    setText("gitPlanUpdate", plan.update.filter(x => !x.excluded).length);
+    setText("gitPlanDocs", plan.docs.filter(x => !x.excluded).length);
+    setText("gitPlanReview", plan.review.filter(x => !x.excluded).length);
+    setText("gitPlanWarnings", plan.warnings.length);
+  },
+
+  excludePathFromInput() {
+    const input = document.getElementById("gitExcludePathInput");
+    const path = input?.value?.trim();
+    if (!path) return;
+    this.excluded.add(path);
+    if (input) input.value = "";
+    this.renderPlan();
+  },
+
+  clearExclusions() {
+    this.excluded.clear();
+    this.renderPlan();
   },
 
   copyCommands() {
@@ -157,6 +224,11 @@ const ODIN_GIT_CONTROL = {
 
   copyPlan() {
     const box = document.getElementById("gitPlanBox");
+    navigator.clipboard?.writeText(box?.textContent || "");
+  },
+
+  copyHumanPlan() {
+    const box = document.getElementById("gitHumanPlanBox");
     navigator.clipboard?.writeText(box?.textContent || "");
   }
 };

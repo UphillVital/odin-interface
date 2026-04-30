@@ -1,0 +1,13 @@
+# PACKAGE MANIFEST — ODIN V03.8.2 GIT CONTROL PRO
+
+## Runtime files
+
+- dev/V02/admin.html
+- dev/V02/git_control.js
+- dev/V02/README_V03_8_2_GIT_CONTROL_PRO.md
+- dev/V02/test_scenario_V03_8_2_GIT_CONTROL_PRO.md
+- dev/V02/PACKAGE_MANIFEST_V03_8_2_GIT_CONTROL_PRO.md
+
+## Base fixation
+
+- ODIN_TREE_PROJECT_v1/14_WORKFLOW/ODIN_V03_8_2_GIT_CONTROL_PRO_FIXATION_v1.md
