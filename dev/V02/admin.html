@@ -455,6 +455,34 @@
       <pre id="diffJsonPlanBox" class="log">Натисни BUILD DIFF PLAN.</pre>
     </section>
 
+
+    <section class="card">
+      <h2>Safe Push Checklist</h2>
+      <p class="muted">V03.8.4: фінальний контроль перед ручним git push. Не виконує команди автоматично.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Status</div><b id="safePushStatus">—</b></div>
+        <div class="stat"><div>Manual Push</div><b id="safePushManual">NO</b></div>
+        <div class="stat"><div>Warnings</div><b id="safePushWarnings">0</b></div>
+        <div class="stat"><div>Auto Push</div><b>OFF</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_SAFE_PUSH.render()">RUN SAFE PUSH CHECK</button>
+        <button onclick="ODIN_SAFE_PUSH.confirmSnapshot()">CONFIRM SNAPSHOT SAVED</button>
+        <button onclick="ODIN_SAFE_PUSH.acceptRisk()">ACCEPT RISK</button>
+        <button onclick="ODIN_SAFE_PUSH.resetGate()">RESET GATE</button>
+        <button onclick="ODIN_SAFE_PUSH.copyChecklist()">COPY CHECKLIST</button>
+        <button onclick="ODIN_SAFE_PUSH.copyJson()">COPY JSON</button>
+      </div>
+
+      <h3>Human Safe Push Checklist</h3>
+      <pre id="safePushHumanBox" class="log">Натисни RUN SAFE PUSH CHECK.</pre>
+
+      <h3>JSON Safe Push Checklist</h3>
+      <pre id="safePushJsonBox" class="log">Натисни RUN SAFE PUSH CHECK.</pre>
+    </section>
+
     <section class="card">
       <h2>Admin Log</h2>
       <pre id="logBox" class="log"></pre>
@@ -484,6 +512,7 @@
 <script src="task_control.js"></script>
 <script src="git_control.js"></script>
 <script src="diff_planner.js"></script>
+<script src="safe_push_checklist.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
