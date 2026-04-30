@@ -526,28 +526,30 @@
       <pre id="pushPackageJsonBox" class="log">Натисни BUILD PUSH PACKAGE.</pre>
     </section>
 
-
-
     <section class="card">
       <h2>ODIN Engine Core</h2>
-      <p class="muted">V04.0.1: foundation engine layer. Не замінює V03 pipeline, тільки додає центральну точку входу.</p>
+      <p class="muted">V04.0.2: Engine Core + Task operations. Старий Task Control не замінюється.</p>
 
       <div class="grid">
         <div class="stat"><div>Status</div><b id="engineCoreStatus">BOOTING</b></div>
         <div class="stat"><div>Message</div><b id="engineCoreMessage">—</b></div>
         <div class="stat"><div>Operations</div><b id="engineCoreOps">0</b></div>
-        <div class="stat"><div>Mode</div><b>FOUNDATION</b></div>
+        <div class="stat"><div>Mode</div><b>TASK CONNECT</b></div>
       </div>
 
       <div class="actions">
         <button onclick="ODIN_ENGINE.run('engine_test')">ENGINE TEST</button>
         <button onclick="ODIN_ENGINE.dependencyCheck()">DEPENDENCY CHECK</button>
+        <button onclick="ODIN_ENGINE.run('task_refresh')">ENGINE TASK REFRESH</button>
+        <button onclick="ODIN_ENGINE.run('task_summary')">ENGINE TASK SUMMARY</button>
+        <button onclick="ODIN_ENGINE.run('task_snapshot')">ENGINE TASK SNAPSHOT</button>
         <button onclick="ODIN_ENGINE.copyResult()">COPY ENGINE RESULT</button>
       </div>
 
       <h3>Engine Result</h3>
       <pre id="engineCoreResultBox" class="log">Engine ще не запускався.</pre>
     </section>
+
 
     <section class="card">
       <h2>Project Map Pro</h2>
