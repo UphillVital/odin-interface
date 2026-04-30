@@ -1,11 +1,60 @@
-/* ODIN V03.8.4 — SAFE PUSH CHECKLIST
-   Final manual gate before git push.
-   No auto-exec.
+/* ODIN V03.8.6 — SAFE PUSH PERSISTENT STATE FIX
+   Fix:
+   - snapshot_saved / risk_accepted are persisted into ODIN_STATE.data.git.safe_push_flags
+   - check() reads persisted flags
+   - Push Package can now see READY_FOR_MANUAL_PUSH after rebuild/reload
+   - no auto git execution
 */
 
 const ODIN_SAFE_PUSH = {
   acceptedRisk: false,
   snapshotConfirmed: false,
+
+  ensureFlags() {
+    if (!window.ODIN_STATE) return {
+      snapshot_saved: this.snapshotConfirmed,
+      risk_accepted: this.acceptedRisk
+    };
+
+    if (typeof ODIN_STATE.load === "function") ODIN_STATE.load();
+
+    ODIN_STATE.data = ODIN_STATE.data || {};
+    ODIN_STATE.data.git = ODIN_STATE.data.git || {};
+    ODIN_STATE.data.git.safe_push_flags = ODIN_STATE.data.git.safe_push_flags || {
+      snapshot_saved: false,
+      risk_accepted: false,
+      updated_at: null
+    };
+
+    return ODIN_STATE.data.git.safe_push_flags;
+  },
+
+  saveFlags(flags) {
+    if (!window.ODIN_STATE) return;
+
+    ODIN_STATE.data = ODIN_STATE.data || {};
+    ODIN_STATE.data.git = ODIN_STATE.data.git || {};
+    ODIN_STATE.data.git.safe_push_flags = {
+      ...ODIN_STATE.data.git.safe_push_flags,
+      ...flags,
+      updated_at: new Date().toISOString()
+    };
+
+    ODIN_STATE.save?.();
+  },
+
+  getFlags() {
+    const flags = this.ensureFlags();
+
+    this.snapshotConfirmed = !!flags.snapshot_saved;
+    this.acceptedRisk = !!flags.risk_accepted;
+
+    return {
+      snapshot_saved: this.snapshotConfirmed,
+      risk_accepted: this.acceptedRisk,
+      updated_at: flags.updated_at || null
+    };
+  },
 
   getDiffPlan() {
     if (window.ODIN_DIFF_PLANNER?.buildDiffPlan) return ODIN_DIFF_PLANNER.buildDiffPlan();
@@ -18,15 +67,16 @@ const ODIN_SAFE_PUSH = {
   },
 
   check() {
+    const flags = this.getFlags();
     const diff = this.getDiffPlan();
     const commands = this.getGitCommands();
 
     const checks = {
       diff_exists: !!diff,
       diff_has_items: !!diff && (diff.counts?.total || 0) > 0,
-      commands_ready: !!commands && commands.includes("git add") && commands.includes("git commit") && commands.includes("git push"),
-      snapshot_saved: this.snapshotConfirmed,
-      risk_accepted: this.acceptedRisk,
+      commands_ready: !!commands && commands.includes("git add") && commands.includes("git commit") && commands.includes("git push") && !commands.includes("No included file paths"),
+      snapshot_saved: !!flags.snapshot_saved,
+      risk_accepted: !!flags.risk_accepted,
       no_auto_push: true
     };
 
@@ -38,15 +88,17 @@ const ODIN_SAFE_PUSH = {
     if (!checks.risk_accepted) warnings.push("RISK_NOT_ACCEPTED");
     if (!checks.commands_ready) warnings.push("GIT_COMMANDS_NOT_READY");
 
-    const passed = Object.values(checks).every(Boolean) && warnings.filter(w => w !== "HIGH_RISK_REQUIRES_EXTRA_REVIEW").length === 0;
+    const hardWarnings = warnings.filter(w => !["HIGH_RISK_REQUIRES_EXTRA_REVIEW"].includes(w));
+    const passed = Object.values(checks).every(Boolean) && hardWarnings.length === 0;
 
     const report = {
-      version: "V03.8.4",
+      version: "V03.8.6",
       created_at: new Date().toISOString(),
       status: passed ? "READY_FOR_MANUAL_PUSH" : "BLOCKED",
       checks,
       warnings,
       diff_summary: diff?.counts || null,
+      flags,
       gate: {
         auto_push_allowed: false,
         manual_push_allowed: passed,
@@ -56,10 +108,11 @@ const ODIN_SAFE_PUSH = {
     };
 
     if (window.ODIN_STATE) {
+      ODIN_STATE.data = ODIN_STATE.data || {};
       ODIN_STATE.data.git = ODIN_STATE.data.git || {};
       ODIN_STATE.data.git.safe_push_checklist = report;
-      ODIN_STATE.log("SAFE_PUSH_CHECKLIST_RUN", report.status);
-      ODIN_STATE.save();
+      ODIN_STATE.log?.("SAFE_PUSH_CHECKLIST_RUN", report.status);
+      ODIN_STATE.save?.();
     }
 
     return report;
@@ -67,17 +120,20 @@ const ODIN_SAFE_PUSH = {
 
   confirmSnapshot() {
     this.snapshotConfirmed = true;
+    this.saveFlags({ snapshot_saved: true });
     this.render();
   },
 
   acceptRisk() {
     this.acceptedRisk = true;
+    this.saveFlags({ risk_accepted: true });
     this.render();
   },
 
   resetGate() {
-    this.acceptedRisk = false;
     this.snapshotConfirmed = false;
+    this.acceptedRisk = false;
+    this.saveFlags({ snapshot_saved: false, risk_accepted: false });
     this.render();
   },
 
@@ -110,6 +166,12 @@ const ODIN_SAFE_PUSH = {
     Object.entries(report.checks).forEach(([k, v]) => {
       lines.push(`${v ? "✔" : "✘"} ${k}`);
     });
+    lines.push("");
+
+    lines.push("## PERSISTENT FLAGS");
+    lines.push("snapshot_saved: " + report.flags.snapshot_saved);
+    lines.push("risk_accepted: " + report.flags.risk_accepted);
+    lines.push("updated_at: " + (report.flags.updated_at || "—"));
     lines.push("");
 
     lines.push("## WARNINGS");

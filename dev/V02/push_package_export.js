@@ -1,4 +1,4 @@
-/* ODIN V03.8.5.4 — PRESERVE SAFE GATE CONFIRMATION FIX
+/* ODIN V03.8.6 — PRESERVE SAFE GATE CONFIRMATION FIX
    Fix:
    - Push Package rebuild no longer resets accepted Safe Push gate.
    - It rebuilds Git and Diff live.
@@ -37,13 +37,19 @@
     },
 
     getLastSafeChecklist() {
+      if (window.ODIN_STATE?.load) ODIN_STATE.load();
+      const flags = window.ODIN_STATE?.data?.git?.safe_push_flags || null;
       const fromState = window.ODIN_STATE?.data?.git?.safe_push_checklist || null;
-      if (fromState?.status === "READY_FOR_MANUAL_PUSH") return safeClone(fromState);
+      if (flags?.snapshot_saved && flags?.risk_accepted && fromState?.status === "READY_FOR_MANUAL_PUSH") return safeClone(fromState);
+      if (flags?.snapshot_saved && flags?.risk_accepted && window.ODIN_SAFE_PUSH?.check) {
+        const checked = window.ODIN_SAFE_PUSH.check();
+        if (checked?.status === "READY_FOR_MANUAL_PUSH") return safeClone(checked);
+      }
 
       const human = (document.getElementById("safePushHumanBox")?.textContent || "").trim();
       if (human.includes("Status: READY_FOR_MANUAL_PUSH")) {
         return {
-          version: "V03.8.5.4_DOM_PRESERVED",
+          version: "V03.8.6_DOM_PRESERVED",
           status: "READY_FOR_MANUAL_PUSH",
           preserved_from: "safePushHumanBox",
           gate: {
@@ -272,7 +278,7 @@
       const diagnostics = this.readinessDiagnostics({ commands, diffPlan, safeChecklist, gitPlan });
 
       const pkg = {
-        version: "V03.8.5.4",
+        version: "V03.8.6",
         created_at: new Date().toISOString(),
         package_type: "PUSH_PACKAGE_EXPORT",
         auto_exec: false,
@@ -392,7 +398,7 @@
       const blob = new Blob([safeJson(pkg)], { type: "application/json" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = "ODIN_PUSH_PACKAGE_v03_8_5_4.json";
+      a.download = "ODIN_PUSH_PACKAGE_v03_8_6.json";
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -403,7 +409,7 @@
       const blob = new Blob([this.humanText(pkg)], { type: "text/plain" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = "ODIN_PUSH_PACKAGE_v03_8_5_4.txt";
+      a.download = "ODIN_PUSH_PACKAGE_v03_8_6.txt";
       document.body.appendChild(a);
       a.click();
       a.remove();
