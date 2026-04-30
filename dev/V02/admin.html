@@ -326,6 +326,62 @@
       <pre id="reviewTaskReportBox" class="log">Review → Task ще не запускався.</pre>
     </section>
 
+
+    <section class="card">
+      <h2>Task Control / Persistent Storage</h2>
+      <p class="muted">Backlog control: фільтри, статуси, пріоритети, export/import snapshot. Не змінює файли проєкту.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Total Tasks</div><b id="taskControlTotal">0</b></div>
+        <div class="stat"><div>Visible</div><b id="taskControlVisible">0</b></div>
+        <div class="stat"><div>Open</div><b id="taskControlOpen">0</b></div>
+        <div class="stat"><div>Done</div><b id="taskControlDone">0</b></div>
+      </div>
+
+      <div class="actions">
+        <label>Status:
+          <select id="taskFilterStatus" onchange="ODIN_TASK_CONTROL.render()">
+            <option>ALL</option>
+            <option>OPEN</option>
+            <option>IN_PROGRESS</option>
+            <option>DONE</option>
+            <option>BLOCKED</option>
+          </select>
+        </label>
+        <label>Priority:
+          <select id="taskFilterPriority" onchange="ODIN_TASK_CONTROL.render()">
+            <option>ALL</option>
+            <option>LOW</option>
+            <option>MEDIUM</option>
+            <option>HIGH</option>
+          </select>
+        </label>
+        <label>Type:
+          <select id="taskFilterType" onchange="ODIN_TASK_CONTROL.render()">
+            <option>ALL</option>
+            <option>UNKNOWN_REVIEW</option>
+            <option>FILE_CONTROL</option>
+            <option>MODE_RUN</option>
+            <option>STATE_TEST</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_TASK_CONTROL.render()">REFRESH TASK CONTROL</button>
+        <button onclick="ODIN_TASK_CONTROL.exportSnapshot()">EXPORT SNAPSHOT</button>
+        <button onclick="ODIN_TASK_CONTROL.copySnapshot()">COPY SNAPSHOT</button>
+        <button onclick="ODIN_TASK_CONTROL.importSnapshotFromBox()">IMPORT SNAPSHOT FROM BOX</button>
+        <button onclick="ODIN_TASK_CONTROL.clearTaskViewOnly()">CLEAR VIEW ONLY</button>
+      </div>
+
+      <h3>Task Backlog</h3>
+      <div id="taskControlList" class="log">Task Control ще не завантажено.</div>
+
+      <h3>Persistent Snapshot</h3>
+      <pre id="taskSnapshotBox" class="log">Натисни EXPORT SNAPSHOT.</pre>
+    </section>
+
     <section class="card">
       <h2>Admin Log</h2>
       <pre id="logBox" class="log"></pre>
@@ -352,6 +408,7 @@
 <script src="unknown_detector.js"></script>
 <script src="unknown_review.js"></script>
 <script src="review_to_task.js"></script>
+<script src="task_control.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
