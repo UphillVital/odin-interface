@@ -303,6 +303,29 @@
       <pre id="unknownReviewExport" class="log">Натисни EXPORT REVIEW PLAN.</pre>
     </section>
 
+
+    <section class="card">
+      <h2>Review → Task Center Integration</h2>
+      <p class="muted">Перетворює confirmed review decisions у задачі Task Center. Без автоматичного редагування файлів, без git, без видалення.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Candidates</div><b id="reviewTaskCandidates">0</b></div>
+        <div class="stat"><div>Created</div><b id="reviewTaskCreated">0</b></div>
+        <div class="stat"><div>Skipped</div><b id="reviewTaskSkipped">0</b></div>
+        <div class="stat"><div>Mode</div><b>TASK PLAN</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_REVIEW_TO_TASK.generateTasks()">GENERATE TASKS</button>
+        <button onclick="ODIN_REVIEW_TO_TASK.generateTasks({includeDocument:true})">GENERATE TASKS + DOCUMENT</button>
+        <button onclick="ODIN_REVIEW_TO_TASK.renderReport()">VIEW LAST REPORT</button>
+        <button onclick="ODIN_REVIEW_TO_TASK.copyReport()">COPY TASK REPORT</button>
+      </div>
+
+      <h3>Review → Task Report</h3>
+      <pre id="reviewTaskReportBox" class="log">Review → Task ще не запускався.</pre>
+    </section>
+
     <section class="card">
       <h2>Admin Log</h2>
       <pre id="logBox" class="log"></pre>
@@ -328,6 +351,7 @@
 <script src="file_control_map.js"></script>
 <script src="unknown_detector.js"></script>
 <script src="unknown_review.js"></script>
+<script src="review_to_task.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
