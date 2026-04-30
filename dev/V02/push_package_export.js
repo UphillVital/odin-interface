@@ -1,8 +1,9 @@
-/* ODIN V03.8.5.2 — PUSH PACKAGE CIRCULAR SNAPSHOT FIX
-   Fixes:
-   - removes circular reference from snapshot/odin_state before saving push_package
-   - treats auto_push_allowed=false as PASS because push must remain manual
-   - visible final check remains robust
+/* ODIN V03.8.5.3 — PUSH PACKAGE FORCE LIVE REBUILD FIX
+   Fix:
+   - Before package build, force rebuild Git Control, Diff Planner, Safe Push.
+   - Reads live DOM after rebuild.
+   - Shows diagnostic chain if still NOT_READY.
+   - No auto git execution.
 */
 
 (function () {
@@ -14,7 +15,7 @@
   function safeClone(obj) {
     const seen = new WeakSet();
     return JSON.parse(JSON.stringify(obj, (key, value) => {
-      if (key === "push_package") return undefined; // critical: avoid self-reference
+      if (key === "push_package") return undefined;
       if (typeof value === "object" && value !== null) {
         if (seen.has(value)) return "[Circular]";
         seen.add(value);
@@ -29,8 +30,89 @@
   }
 
   const ODIN_PUSH_PACKAGE_EXPORT = {
+    diagnostics: [],
+
+    logDiag(message, extra = null) {
+      this.diagnostics.push({
+        time: new Date().toISOString(),
+        message,
+        extra
+      });
+    },
+
+    forceLiveRebuild() {
+      this.diagnostics = [];
+
+      try {
+        if (window.ODIN_STATE?.load) {
+          ODIN_STATE.load();
+          this.logDiag("ODIN_STATE.load executed");
+        }
+      } catch (e) {
+        this.logDiag("ODIN_STATE.load failed", e.message);
+      }
+
+      try {
+        if (window.ODIN_TASK_CONTROL?.render) {
+          ODIN_TASK_CONTROL.render();
+          this.logDiag("Task Control render executed");
+        }
+      } catch (e) {
+        this.logDiag("Task Control render failed", e.message);
+      }
+
+      try {
+        if (window.ODIN_GIT_CONTROL?.renderPlan) {
+          ODIN_GIT_CONTROL.renderPlan();
+          this.logDiag("Git Control renderPlan executed");
+        } else if (window.ODIN_GIT_CONTROL?.generateCommands) {
+          ODIN_GIT_CONTROL.generateCommands();
+          this.logDiag("Git Control generateCommands executed");
+        } else {
+          this.logDiag("Git Control module not found");
+        }
+      } catch (e) {
+        this.logDiag("Git Control rebuild failed", e.message);
+      }
+
+      try {
+        if (window.ODIN_DIFF_PLANNER?.render) {
+          ODIN_DIFF_PLANNER.render();
+          this.logDiag("Diff Planner render executed");
+        } else {
+          this.logDiag("Diff Planner module not found");
+        }
+      } catch (e) {
+        this.logDiag("Diff Planner rebuild failed", e.message);
+      }
+
+      try {
+        if (window.ODIN_SAFE_PUSH?.render) {
+          // IMPORTANT: render may set BLOCKED if snapshot/risk not accepted in this session.
+          ODIN_SAFE_PUSH.render();
+          this.logDiag("Safe Push render executed");
+        } else {
+          this.logDiag("Safe Push module not found");
+        }
+      } catch (e) {
+        this.logDiag("Safe Push rebuild failed", e.message);
+      }
+    },
+
     getCommands() {
       return (document.getElementById("gitCommandsBox")?.textContent || "").trim();
+    },
+
+    getHumanGitPlan() {
+      return (document.getElementById("gitHumanPlanBox")?.textContent || "").trim();
+    },
+
+    getHumanDiffPlan() {
+      return (document.getElementById("diffHumanPlanBox")?.textContent || "").trim();
+    },
+
+    getHumanSafePush() {
+      return (document.getElementById("safePushHumanBox")?.textContent || "").trim();
     },
 
     getGitPlan() {
@@ -82,10 +164,55 @@
     },
 
     isCommandsReady(commands) {
-      return !!commands && commands.includes("git add") && commands.includes("git commit") && commands.includes("git push") && !commands.includes("No included file paths");
+      return !!commands &&
+        commands.includes("git add") &&
+        commands.includes("git commit") &&
+        commands.includes("git push") &&
+        !commands.includes("No included file paths");
+    },
+
+    readinessDiagnostics({ commands, diffPlan, safeChecklist, gitPlan }) {
+      const reasons = [];
+
+      if (!this.isCommandsReady(commands)) {
+        reasons.push("COMMANDS_NOT_READY: Git Commands box has no real git add path.");
+      }
+
+      if (!diffPlan || diffPlan.error) {
+        reasons.push("DIFF_PLAN_MISSING_OR_ERROR");
+      } else if ((diffPlan.counts?.total || 0) === 0) {
+        reasons.push("DIFF_PLAN_TOTAL_ZERO: Git plan has no included paths.");
+      }
+
+      if (!safeChecklist || safeChecklist.error) {
+        reasons.push("SAFE_CHECKLIST_MISSING_OR_ERROR");
+      } else if (safeChecklist.status !== "READY_FOR_MANUAL_PUSH") {
+        reasons.push("SAFE_GATE_NOT_READY: " + safeChecklist.status);
+      }
+
+      const sourceTasks = gitPlan?.source_tasks ?? null;
+      const planPaths = [
+        ...(gitPlan?.add || []),
+        ...(gitPlan?.update || []),
+        ...(gitPlan?.docs || []),
+        ...(gitPlan?.review || [])
+      ].filter(x => x?.path && !x?.excluded);
+
+      if (sourceTasks === 0) {
+        reasons.push("TASK_BACKLOG_ZERO");
+      }
+
+      return {
+        reasons,
+        source_tasks: sourceTasks,
+        included_paths: planPaths.map(x => x.path),
+        included_paths_count: planPaths.length
+      };
     },
 
     buildPackage() {
+      this.forceLiveRebuild();
+
       const commands = this.getCommands();
       const gitPlan = this.getGitPlan();
       const diffPlan = this.getDiffPlan();
@@ -103,8 +230,10 @@
         auto_push_disabled: true
       };
 
+      const diagnostics = this.readinessDiagnostics({ commands, diffPlan, safeChecklist, gitPlan });
+
       const pkg = {
-        version: "V03.8.5.2",
+        version: "V03.8.5.3",
         created_at: new Date().toISOString(),
         package_type: "PUSH_PACKAGE_EXPORT",
         auto_exec: false,
@@ -114,11 +243,16 @@
           : "NOT_READY",
         commit_message: this.extractCommitMessage(commands),
         git_commands: commands,
+        git_human_plan: this.getHumanGitPlan(),
+        diff_human_plan: this.getHumanDiffPlan(),
+        safe_push_human: this.getHumanSafePush(),
         git_plan: gitPlan,
         diff_plan: diffPlan,
         safe_push_checklist: safeChecklist,
         snapshot,
-        final_check: finalCheck
+        final_check: finalCheck,
+        diagnostics,
+        rebuild_log: this.diagnostics
       };
 
       try {
@@ -126,7 +260,6 @@
           if (!ODIN_STATE.data) ODIN_STATE.load?.();
           if (!ODIN_STATE.data) ODIN_STATE.data = {};
           ODIN_STATE.data.git = ODIN_STATE.data.git || {};
-          // save package WITHOUT snapshot to avoid massive recursive payload
           ODIN_STATE.data.git.push_package = {
             version: pkg.version,
             created_at: pkg.created_at,
@@ -134,6 +267,7 @@
             commit_message: pkg.commit_message,
             git_commands: pkg.git_commands,
             final_check: pkg.final_check,
+            diagnostics: pkg.diagnostics,
             diff_summary: pkg.diff_plan?.counts || null
           };
           ODIN_STATE.log?.("PUSH_PACKAGE_EXPORTED", pkg.status);
@@ -157,6 +291,14 @@
       Object.entries(pkg.final_check || {}).forEach(([k, v]) => lines.push(`${v ? "✔" : "✘"} ${k}`));
       lines.push("");
 
+      lines.push("## DIAGNOSTICS");
+      if (!pkg.diagnostics?.reasons?.length) lines.push("  — none");
+      (pkg.diagnostics?.reasons || []).forEach(r => lines.push("  - " + r));
+      lines.push("  source_tasks: " + pkg.diagnostics?.source_tasks);
+      lines.push("  included_paths_count: " + pkg.diagnostics?.included_paths_count);
+      (pkg.diagnostics?.included_paths || []).forEach(p => lines.push("  included: " + p));
+      lines.push("");
+
       lines.push("## COMMIT MESSAGE");
       lines.push(pkg.commit_message || "—");
       lines.push("");
@@ -176,6 +318,10 @@
       lines.push("## SAFE PUSH STATUS");
       lines.push(pkg.safe_push_checklist?.status || "—");
 
+      lines.push("");
+      lines.push("## REBUILD LOG");
+      (pkg.rebuild_log || []).forEach(x => lines.push("  - " + x.message + (x.extra ? " :: " + x.extra : "")));
+
       if (pkg.state_save_warning) {
         lines.push("");
         lines.push("## STATE SAVE WARNING");
@@ -188,7 +334,6 @@
     render() {
       try {
         const pkg = this.buildPackage();
-
         safeText("pushPackageStatus", pkg.status);
         safeText("pushPackageReady", pkg.status === "READY_FOR_MANUAL_PUSH" ? "YES" : "NO");
         safeText("pushPackageHasCommands", pkg.final_check.has_commands ? "YES" : "NO");
@@ -208,7 +353,7 @@
       const blob = new Blob([safeJson(pkg)], { type: "application/json" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = "ODIN_PUSH_PACKAGE_v03_8_5_2.json";
+      a.download = "ODIN_PUSH_PACKAGE_v03_8_5_3.json";
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -219,7 +364,7 @@
       const blob = new Blob([this.humanText(pkg)], { type: "text/plain" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = "ODIN_PUSH_PACKAGE_v03_8_5_2.txt";
+      a.download = "ODIN_PUSH_PACKAGE_v03_8_5_3.txt";
       document.body.appendChild(a);
       a.click();
       a.remove();
