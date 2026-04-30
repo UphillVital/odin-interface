@@ -277,6 +277,32 @@
       <pre id="unknownReportBox" class="log">Unknown detector ще не запущено.</pre>
     </section>
 
+
+    <section class="card">
+      <h2>Unknown Review + Actions</h2>
+      <p class="muted">Review-шар для conflict/orphan. Нічого не змінює автоматично. Тільки рішення: KEEP / IGNORE / DOCUMENT / FIX_LATER / CREATE_TASK / MOVE_REVIEW.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Total Items</div><b id="unknownReviewTotal">0</b></div>
+        <div class="stat"><div>Confirmed</div><b id="unknownReviewConfirmed">0</b></div>
+        <div class="stat"><div>Pending</div><b id="unknownReviewPending">0</b></div>
+        <div class="stat"><div>Mode</div><b>REVIEW ONLY</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_UNKNOWN_REVIEW.render()">REFRESH REVIEW</button>
+        <button onclick="ODIN_UNKNOWN_REVIEW.exportPlan()">EXPORT REVIEW PLAN</button>
+        <button onclick="ODIN_UNKNOWN_REVIEW.copyPlan()">COPY REVIEW PLAN</button>
+        <button class="danger" onclick="ODIN_UNKNOWN_REVIEW.clearDecisions()">CLEAR DECISIONS</button>
+      </div>
+
+      <h3>Review Items</h3>
+      <div id="unknownReviewList" class="log">Review ще не побудовано.</div>
+
+      <h3>Review Plan JSON</h3>
+      <pre id="unknownReviewExport" class="log">Натисни EXPORT REVIEW PLAN.</pre>
+    </section>
+
     <section class="card">
       <h2>Admin Log</h2>
       <pre id="logBox" class="log"></pre>
@@ -301,6 +327,7 @@
 <script src="file_control.js"></script>
 <script src="file_control_map.js"></script>
 <script src="unknown_detector.js"></script>
+<script src="unknown_review.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
