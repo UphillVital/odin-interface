@@ -1,12 +1,26 @@
-/* ODIN V03.8.5.1 — PUSH PACKAGE EXPORT FIX
-   Robust render: no silent failure if state/snapshot/safe-check is missing.
-   No auto-exec.
+/* ODIN V03.8.5.2 — PUSH PACKAGE CIRCULAR SNAPSHOT FIX
+   Fixes:
+   - removes circular reference from snapshot/odin_state before saving push_package
+   - treats auto_push_allowed=false as PASS because push must remain manual
+   - visible final check remains robust
 */
 
 (function () {
   function safeText(id, value) {
     const el = document.getElementById(id);
     if (el) el.textContent = String(value);
+  }
+
+  function safeClone(obj) {
+    const seen = new WeakSet();
+    return JSON.parse(JSON.stringify(obj, (key, value) => {
+      if (key === "push_package") return undefined; // critical: avoid self-reference
+      if (typeof value === "object" && value !== null) {
+        if (seen.has(value)) return "[Circular]";
+        seen.add(value);
+      }
+      return value;
+    }));
   }
 
   function safeJson(value) {
@@ -21,43 +35,54 @@
 
     getGitPlan() {
       try {
-        if (window.ODIN_GIT_CONTROL?.buildPlan) return window.ODIN_GIT_CONTROL.buildPlan();
+        if (window.ODIN_GIT_CONTROL?.buildPlan) return safeClone(window.ODIN_GIT_CONTROL.buildPlan());
       } catch (e) {
         return { error: "GIT_PLAN_ERROR", message: e.message };
       }
-      return window.ODIN_STATE?.data?.git?.last_plan || null;
+      return safeClone(window.ODIN_STATE?.data?.git?.last_plan || null);
     },
 
     getDiffPlan() {
       try {
-        if (window.ODIN_DIFF_PLANNER?.buildDiffPlan) return window.ODIN_DIFF_PLANNER.buildDiffPlan();
+        if (window.ODIN_DIFF_PLANNER?.buildDiffPlan) return safeClone(window.ODIN_DIFF_PLANNER.buildDiffPlan());
       } catch (e) {
         return { error: "DIFF_PLAN_ERROR", message: e.message };
       }
-      return window.ODIN_STATE?.data?.git?.diff_plan || null;
+      return safeClone(window.ODIN_STATE?.data?.git?.diff_plan || null);
     },
 
     getSafeChecklist() {
       try {
-        if (window.ODIN_SAFE_PUSH?.check) return window.ODIN_SAFE_PUSH.check();
+        if (window.ODIN_SAFE_PUSH?.check) return safeClone(window.ODIN_SAFE_PUSH.check());
       } catch (e) {
         return { status: "ERROR", error: "SAFE_PUSH_ERROR", message: e.message };
       }
-      return window.ODIN_STATE?.data?.git?.safe_push_checklist || null;
+      return safeClone(window.ODIN_STATE?.data?.git?.safe_push_checklist || null);
     },
 
     getSnapshot() {
       try {
-        if (window.ODIN_SNAPSHOT_FILE?.buildSnapshot) return window.ODIN_SNAPSHOT_FILE.buildSnapshot();
+        if (window.ODIN_SNAPSHOT_FILE?.buildSnapshot) {
+          const snap = safeClone(window.ODIN_SNAPSHOT_FILE.buildSnapshot());
+          if (snap?.odin_state?.git?.push_package) delete snap.odin_state.git.push_package;
+          return snap;
+        }
       } catch (e) {
         return { error: "SNAPSHOT_ERROR", message: e.message };
       }
-      return { odin_state: window.ODIN_STATE?.data || null };
+
+      const clonedState = safeClone(window.ODIN_STATE?.data || null);
+      if (clonedState?.git?.push_package) delete clonedState.git.push_package;
+      return { odin_state: clonedState };
     },
 
     extractCommitMessage(commands) {
       const m = String(commands || "").match(/git commit -m "([^"]+)"/);
       return m ? m[1] : "";
+    },
+
+    isCommandsReady(commands) {
+      return !!commands && commands.includes("git add") && commands.includes("git commit") && commands.includes("git push") && !commands.includes("No included file paths");
     },
 
     buildPackage() {
@@ -68,27 +93,32 @@
       const snapshot = this.getSnapshot();
 
       const safeReady = safeChecklist?.status === "READY_FOR_MANUAL_PUSH";
+      const commandsReady = this.isCommandsReady(commands);
+
+      const finalCheck = {
+        has_commands: commandsReady,
+        has_diff_plan: !!diffPlan && !diffPlan.error,
+        has_safe_checklist: !!safeChecklist && !safeChecklist.error,
+        safe_gate_ready: safeReady,
+        auto_push_disabled: true
+      };
 
       const pkg = {
-        version: "V03.8.5.1",
+        version: "V03.8.5.2",
         created_at: new Date().toISOString(),
         package_type: "PUSH_PACKAGE_EXPORT",
         auto_exec: false,
         manual_push_only: true,
-        status: safeReady ? "READY_FOR_MANUAL_PUSH" : "NOT_READY",
+        status: (finalCheck.has_commands && finalCheck.has_diff_plan && finalCheck.has_safe_checklist && finalCheck.safe_gate_ready && finalCheck.auto_push_disabled)
+          ? "READY_FOR_MANUAL_PUSH"
+          : "NOT_READY",
         commit_message: this.extractCommitMessage(commands),
         git_commands: commands,
         git_plan: gitPlan,
         diff_plan: diffPlan,
         safe_push_checklist: safeChecklist,
         snapshot,
-        final_check: {
-          has_commands: !!commands,
-          has_diff_plan: !!diffPlan,
-          has_safe_checklist: !!safeChecklist,
-          safe_gate_ready: safeReady,
-          auto_push_allowed: false
-        }
+        final_check: finalCheck
       };
 
       try {
@@ -96,12 +126,21 @@
           if (!ODIN_STATE.data) ODIN_STATE.load?.();
           if (!ODIN_STATE.data) ODIN_STATE.data = {};
           ODIN_STATE.data.git = ODIN_STATE.data.git || {};
-          ODIN_STATE.data.git.push_package = pkg;
+          // save package WITHOUT snapshot to avoid massive recursive payload
+          ODIN_STATE.data.git.push_package = {
+            version: pkg.version,
+            created_at: pkg.created_at,
+            status: pkg.status,
+            commit_message: pkg.commit_message,
+            git_commands: pkg.git_commands,
+            final_check: pkg.final_check,
+            diff_summary: pkg.diff_plan?.counts || null
+          };
           ODIN_STATE.log?.("PUSH_PACKAGE_EXPORTED", pkg.status);
           ODIN_STATE.save?.();
         }
       } catch (e) {
-        pkg.state_save_error = e.message;
+        pkg.state_save_warning = e.message;
       }
 
       return pkg;
@@ -137,10 +176,10 @@
       lines.push("## SAFE PUSH STATUS");
       lines.push(pkg.safe_push_checklist?.status || "—");
 
-      if (pkg.state_save_error) {
+      if (pkg.state_save_warning) {
         lines.push("");
         lines.push("## STATE SAVE WARNING");
-        lines.push(pkg.state_save_error);
+        lines.push(pkg.state_save_warning);
       }
 
       return lines.join("\n");
@@ -151,9 +190,8 @@
         const pkg = this.buildPackage();
 
         safeText("pushPackageStatus", pkg.status);
-        safeText("pushPackageReady", pkg.final_check.safe_gate_ready ? "YES" : "NO");
+        safeText("pushPackageReady", pkg.status === "READY_FOR_MANUAL_PUSH" ? "YES" : "NO");
         safeText("pushPackageHasCommands", pkg.final_check.has_commands ? "YES" : "NO");
-
         safeText("pushPackageHumanBox", this.humanText(pkg));
         safeText("pushPackageJsonBox", safeJson(pkg));
       } catch (e) {
@@ -170,7 +208,7 @@
       const blob = new Blob([safeJson(pkg)], { type: "application/json" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = "ODIN_PUSH_PACKAGE_v03_8_5_1.json";
+      a.download = "ODIN_PUSH_PACKAGE_v03_8_5_2.json";
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -181,7 +219,7 @@
       const blob = new Blob([this.humanText(pkg)], { type: "text/plain" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = "ODIN_PUSH_PACKAGE_v03_8_5_1.txt";
+      a.download = "ODIN_PUSH_PACKAGE_v03_8_5_2.txt";
       document.body.appendChild(a);
       a.click();
       a.remove();
