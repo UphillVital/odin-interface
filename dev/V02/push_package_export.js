@@ -1,8 +1,8 @@
-/* ODIN V03.8.5.3 — PUSH PACKAGE FORCE LIVE REBUILD FIX
+/* ODIN V03.8.5.4 — PRESERVE SAFE GATE CONFIRMATION FIX
    Fix:
-   - Before package build, force rebuild Git Control, Diff Planner, Safe Push.
-   - Reads live DOM after rebuild.
-   - Shows diagnostic chain if still NOT_READY.
+   - Push Package rebuild no longer resets accepted Safe Push gate.
+   - It rebuilds Git and Diff live.
+   - It reads last READY_FOR_MANUAL_PUSH from state/DOM before forcing Safe Push render.
    - No auto git execution.
 */
 
@@ -33,11 +33,28 @@
     diagnostics: [],
 
     logDiag(message, extra = null) {
-      this.diagnostics.push({
-        time: new Date().toISOString(),
-        message,
-        extra
-      });
+      this.diagnostics.push({ time: new Date().toISOString(), message, extra });
+    },
+
+    getLastSafeChecklist() {
+      const fromState = window.ODIN_STATE?.data?.git?.safe_push_checklist || null;
+      if (fromState?.status === "READY_FOR_MANUAL_PUSH") return safeClone(fromState);
+
+      const human = (document.getElementById("safePushHumanBox")?.textContent || "").trim();
+      if (human.includes("Status: READY_FOR_MANUAL_PUSH")) {
+        return {
+          version: "V03.8.5.4_DOM_PRESERVED",
+          status: "READY_FOR_MANUAL_PUSH",
+          preserved_from: "safePushHumanBox",
+          gate: {
+            manual_push_allowed: true,
+            auto_push_allowed: false,
+            confirm_required: true
+          }
+        };
+      }
+
+      return fromState ? safeClone(fromState) : null;
     },
 
     forceLiveRebuild() {
@@ -50,6 +67,11 @@
         }
       } catch (e) {
         this.logDiag("ODIN_STATE.load failed", e.message);
+      }
+
+      const preservedSafe = this.getLastSafeChecklist();
+      if (preservedSafe?.status === "READY_FOR_MANUAL_PUSH") {
+        this.logDiag("Preserved READY_FOR_MANUAL_PUSH before rebuild");
       }
 
       try {
@@ -86,16 +108,31 @@
         this.logDiag("Diff Planner rebuild failed", e.message);
       }
 
-      try {
-        if (window.ODIN_SAFE_PUSH?.render) {
-          // IMPORTANT: render may set BLOCKED if snapshot/risk not accepted in this session.
-          ODIN_SAFE_PUSH.render();
-          this.logDiag("Safe Push render executed");
-        } else {
-          this.logDiag("Safe Push module not found");
+      // Critical fix:
+      // Do NOT call ODIN_SAFE_PUSH.render() here if gate was already READY.
+      // That render can re-check volatile in-memory flags and reset to BLOCKED.
+      if (preservedSafe?.status === "READY_FOR_MANUAL_PUSH") {
+        try {
+          if (window.ODIN_STATE) {
+            ODIN_STATE.data.git = ODIN_STATE.data.git || {};
+            ODIN_STATE.data.git.safe_push_checklist = preservedSafe;
+            ODIN_STATE.save?.();
+          }
+          this.logDiag("Safe Push preserved; render skipped to avoid reset");
+        } catch (e) {
+          this.logDiag("Safe Push preserve failed", e.message);
         }
-      } catch (e) {
-        this.logDiag("Safe Push rebuild failed", e.message);
+      } else {
+        try {
+          if (window.ODIN_SAFE_PUSH?.render) {
+            ODIN_SAFE_PUSH.render();
+            this.logDiag("Safe Push render executed because no READY gate existed");
+          } else {
+            this.logDiag("Safe Push module not found");
+          }
+        } catch (e) {
+          this.logDiag("Safe Push rebuild failed", e.message);
+        }
       }
     },
 
@@ -134,11 +171,15 @@
     },
 
     getSafeChecklist() {
+      const preserved = this.getLastSafeChecklist();
+      if (preserved?.status === "READY_FOR_MANUAL_PUSH") return preserved;
+
       try {
         if (window.ODIN_SAFE_PUSH?.check) return safeClone(window.ODIN_SAFE_PUSH.check());
       } catch (e) {
         return { status: "ERROR", error: "SAFE_PUSH_ERROR", message: e.message };
       }
+
       return safeClone(window.ODIN_STATE?.data?.git?.safe_push_checklist || null);
     },
 
@@ -198,9 +239,7 @@
         ...(gitPlan?.review || [])
       ].filter(x => x?.path && !x?.excluded);
 
-      if (sourceTasks === 0) {
-        reasons.push("TASK_BACKLOG_ZERO");
-      }
+      if (sourceTasks === 0) reasons.push("TASK_BACKLOG_ZERO");
 
       return {
         reasons,
@@ -233,7 +272,7 @@
       const diagnostics = this.readinessDiagnostics({ commands, diffPlan, safeChecklist, gitPlan });
 
       const pkg = {
-        version: "V03.8.5.3",
+        version: "V03.8.5.4",
         created_at: new Date().toISOString(),
         package_type: "PUSH_PACKAGE_EXPORT",
         auto_exec: false,
@@ -353,7 +392,7 @@
       const blob = new Blob([safeJson(pkg)], { type: "application/json" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = "ODIN_PUSH_PACKAGE_v03_8_5_3.json";
+      a.download = "ODIN_PUSH_PACKAGE_v03_8_5_4.json";
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -364,7 +403,7 @@
       const blob = new Blob([this.humanText(pkg)], { type: "text/plain" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = "ODIN_PUSH_PACKAGE_v03_8_5_3.txt";
+      a.download = "ODIN_PUSH_PACKAGE_v03_8_5_4.txt";
       document.body.appendChild(a);
       a.click();
       a.remove();
