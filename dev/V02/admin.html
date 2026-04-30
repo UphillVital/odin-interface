@@ -483,6 +483,33 @@
       <pre id="safePushJsonBox" class="log">Натисни RUN SAFE PUSH CHECK.</pre>
     </section>
 
+
+    <section class="card">
+      <h2>Push Package Export</h2>
+      <p class="muted">V03.8.5: фінальний пакет перед ручним push: commands + diff + safe checklist + snapshot. Не виконує git.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Status</div><b id="pushPackageStatus">—</b></div>
+        <div class="stat"><div>Ready</div><b id="pushPackageReady">NO</b></div>
+        <div class="stat"><div>Commands</div><b id="pushPackageHasCommands">NO</b></div>
+        <div class="stat"><div>Auto Push</div><b>OFF</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_PUSH_PACKAGE_EXPORT.render()">BUILD PUSH PACKAGE</button>
+        <button onclick="ODIN_PUSH_PACKAGE_EXPORT.downloadJson()">DOWNLOAD JSON</button>
+        <button onclick="ODIN_PUSH_PACKAGE_EXPORT.downloadTxt()">DOWNLOAD TXT</button>
+        <button onclick="ODIN_PUSH_PACKAGE_EXPORT.copyHuman()">COPY HUMAN</button>
+        <button onclick="ODIN_PUSH_PACKAGE_EXPORT.copyJson()">COPY JSON</button>
+      </div>
+
+      <h3>Human Push Package</h3>
+      <pre id="pushPackageHumanBox" class="log">Натисни BUILD PUSH PACKAGE.</pre>
+
+      <h3>JSON Push Package</h3>
+      <pre id="pushPackageJsonBox" class="log">Натисни BUILD PUSH PACKAGE.</pre>
+    </section>
+
     <section class="card">
       <h2>Admin Log</h2>
       <pre id="logBox" class="log"></pre>
@@ -513,6 +540,7 @@
 <script src="git_control.js"></script>
 <script src="diff_planner.js"></script>
 <script src="safe_push_checklist.js"></script>
+<script src="push_package_export.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
