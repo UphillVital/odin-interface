@@ -556,11 +556,22 @@
       <h2>Admin Log</h2>
       <pre id="logBox" class="log"></pre>
     </section>
-  
-<section class="card">
-<h2>Visual Graph</h2>
-<button onclick="ODIN_VISUAL_GRAPH.render()">RENDER GRAPH</button>
-</section>
+
+    <section class="card">
+      <h2>Visual Graph</h2>
+      <p class="muted">V03.9.2.1 REAL GRAPH: canvas-граф модулів, зв’язків, статусів і ризиків. View-only.</p>
+
+      <div class="actions">
+        <button onclick="ODIN_VISUAL_GRAPH.render()">RENDER GRAPH</button>
+        <button onclick="ODIN_VISUAL_GRAPH.copyDetails()">COPY NODE DETAILS</button>
+      </div>
+
+      <canvas id="odinGraphCanvas" style="width:100%;height:560px;background:#0f172a;border-radius:12px;border:1px solid rgba(148,163,184,.25);"></canvas>
+
+      <h3>Node Details</h3>
+      <pre id="graphDetailsBox" class="log">Натисни на вузол графа.</pre>
+    </section>
+
 </main>
 </div>
 
