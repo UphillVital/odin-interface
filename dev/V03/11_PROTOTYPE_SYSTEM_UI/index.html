@@ -11,42 +11,43 @@
     <div class="brand">
       <div class="brand-mark">ODIN</div>
       <div>
-        <div class="brand-title" data-i18n="title">Інтерфейс ОДІН V03</div>
-        <div class="brand-subtitle" data-i18n="subtitle">Робоче середовище керування системою</div>
+        <div class="brand-title" data-i18n="title">Інтерфейс ОДІН</div>
+        <div class="brand-subtitle" data-i18n="subtitle">робоче середовище керування системою</div>
       </div>
     </div>
 
-    <button class="master-start" id="masterStart" data-i18n="masterStart">ODIN SYSTEM — MASTER START</button>
-
-    <div class="top-controls">
-      <button class="small-btn" id="themeToggle">Dark</button>
-      <button class="small-btn" id="langToggle">EN</button>
+    <div class="header-actions">
+      <button class="ghost" id="langToggle">UA / EN</button>
+      <button class="ghost" id="themeToggle" data-i18n="theme">Тема</button>
+      <button class="primary" id="masterStart">ODIN SYSTEM — MASTER START <span class="help" data-help="master_start">?</span></button>
     </div>
   </header>
 
-  <div class="odin-shell">
+  <div class="shell">
     <aside class="left-tree">
-      <div class="tree-title" data-i18n="treeTitle">Жива карта</div>
-      <button class="tree-item active" data-zone="command" data-help="commandHelp">Command Center</button>
-      <button class="tree-item" data-zone="map" data-help="mapHelp">System Map</button>
-      <button class="tree-item" data-zone="files" data-help="filesHelp">File Workspace</button>
-      <button class="tree-item" data-zone="ois" data-help="oisHelp">OIS Core</button>
-      <button class="tree-item" data-zone="manual" data-help="manualHelp">Manual / Help</button>
+      <div class="tree-title" data-i18n="tree">Дерево системи</div>
+      <button class="tree-item active" data-zone="command" data-help="command">Command Center</button>
+      <button class="tree-item" data-zone="map" data-help="system_map">System Map</button>
+      <button class="tree-item" data-zone="projects" data-help="projects">Projects</button>
+      <button class="tree-item child" data-zone="dt" data-help="dt">Deutsch Trainer</button>
+      <button class="tree-item child" data-zone="issu" data-help="issu">ІССУ</button>
+      <button class="tree-item child" data-zone="ssudt" data-help="ssudt">ССУДТ</button>
+      <button class="tree-item" data-zone="workspace" data-help="file_workspace">File Workspace</button>
+      <button class="tree-item" data-zone="manual" data-help="manual">Manual / Help</button>
     </aside>
 
     <main class="work-zone" id="workZone"></main>
 
     <aside class="assist-panel">
-      <div class="assist-title" data-i18n="assistTitle">Assisted Mode</div>
+      <div class="assist-title" data-i18n="assistTitle">Пояснення ODIN</div>
       <div id="assistText" class="assist-text"></div>
-      <button class="hint-btn" id="explainBtn" data-i18n="explainBtn">Пояснити цю зону</button>
     </aside>
   </div>
 
-  <div class="modal hidden" id="modal">
+  <div class="modal" id="helpModal" hidden>
     <div class="modal-card">
-      <button class="modal-close" id="modalClose">×</button>
-      <h3 id="modalTitle"></h3>
+      <button class="modal-close" id="closeModal">×</button>
+      <h3 id="modalTitle">Help</h3>
       <p id="modalText"></p>
     </div>
   </div>
