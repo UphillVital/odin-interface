@@ -3,53 +3,79 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ODIN Interface V03 — System UI</title>
+  <title>ODIN Interface V03 — Prototype</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body data-theme="light" data-lang="uk">
+<body class="theme-light" data-lang="uk">
   <header class="odin-header">
     <div class="brand">
       <div class="brand-mark">ODIN</div>
       <div>
-        <div class="brand-title" data-i18n="appTitle">Інтерфейс ОДІН</div>
-        <div class="brand-subtitle" data-i18n="appSubtitle">Робоче середовище керування системою</div>
+        <div class="brand-title" data-i18n="title">Інтерфейс ОДІН</div>
+        <div class="brand-subtitle" data-i18n="subtitle">Робоче середовище керування системою</div>
       </div>
     </div>
 
     <div class="header-actions">
-      <button class="ghost-btn" id="langToggle">UA / EN</button>
-      <button class="ghost-btn" id="themeToggle" data-i18n="themeToggle">Темна тема</button>
-      <button class="primary-btn" id="masterStart">ODIN SYSTEM — MASTER START</button>
-      <button class="help-btn" id="globalHelpBtn" title="Help">?</button>
+      <button class="primary-action" id="masterStart" type="button">
+        <span data-i18n="masterStart">ODIN SYSTEM — MASTER START</span>
+        <span class="hint" tabindex="0" data-help-uk="Запускає головний системний сценарій для вибраного продукту або проєкту." data-help-en="Starts the main system scenario for the selected product or project.">?</span>
+      </button>
+
+      <button class="ghost-action" id="themeToggle" type="button" data-i18n="themeToggle">Темна тема</button>
+      <button class="ghost-action" id="langToggle" type="button">EN</button>
     </div>
   </header>
 
   <div class="odin-shell">
     <aside class="left-tree">
-      <div class="tree-title" data-i18n="treeTitle">Карта системи</div>
-      <button class="tree-item active" data-zone="command">Command Center <span>?</span></button>
-      <button class="tree-item" data-zone="projects">Projects / Products <span>?</span></button>
-      <button class="tree-item" data-zone="map">System Map <span>?</span></button>
-      <button class="tree-item" data-zone="files">File Workspace <span>?</span></button>
-      <button class="tree-item" data-zone="manual">Manual / Help <span>?</span></button>
+      <div class="tree-title">
+        <span data-i18n="treeTitle">Навігація</span>
+        <span class="hint" tabindex="0" data-help-uk="Дерево показує основні рівні ODIN. Клік відкриває відповідну робочу зону." data-help-en="The tree shows core ODIN layers. Click to open the related work zone.">?</span>
+      </div>
+
+      <button class="tree-item active" data-zone="command">
+        <span data-i18n="zoneCommand">Command Center</span>
+        <span class="hint" tabindex="0" data-help-uk="Головна зона керування: режим, стан, запуск сценаріїв." data-help-en="Main control zone: mode, state, scenario launch.">?</span>
+      </button>
+
+      <button class="tree-item" data-zone="map">
+        <span data-i18n="zoneMap">System Map</span>
+        <span class="hint" tabindex="0" data-help-uk="Жива карта системи: звʼязки, залежності, переходи до зон." data-help-en="Live system map: links, dependencies, navigation to zones.">?</span>
+      </button>
+
+      <button class="tree-item" data-zone="projects">
+        <span data-i18n="zoneProjects">Projects</span>
+        <span class="hint" tabindex="0" data-help-uk="Місце вибору продуктів і проєктів: DT, ІССУ, ССУДТ, нові проєкти." data-help-en="Select products and projects: DT, ISSU, SSUDT, new projects.">?</span>
+      </button>
+
+      <button class="tree-item" data-zone="files">
+        <span data-i18n="zoneFiles">File Workspace</span>
+        <span class="hint" tabindex="0" data-help-uk="Робота з файлами у контексті вибраного проєкту: зміни, diff, approve/reject." data-help-en="Work with files in the selected project context: changes, diff, approve/reject.">?</span>
+      </button>
+
+      <button class="tree-item" data-zone="manual">
+        <span data-i18n="zoneManual">Manual</span>
+        <span class="hint" tabindex="0" data-help-uk="Інструкції, пояснення можливостей ODIN і правила роботи." data-help-en="Instructions, ODIN capabilities, and operating rules.">?</span>
+      </button>
     </aside>
 
     <main class="work-zone" id="workZone" aria-live="polite"></main>
 
     <aside class="assist-panel">
-      <div class="assist-title" data-i18n="assistTitle">Assisted Mode</div>
-      <div id="assistText" class="assist-text"></div>
-      <button class="secondary-btn" id="explainCurrent" data-i18n="explainCurrent">Пояснити поточну зону</button>
+      <div class="assist-title">
+        <span data-i18n="assistTitle">Пояснення</span>
+        <span class="hint" tabindex="0" data-help-uk="Ця панель пояснює, де ти зараз і що логічно робити далі." data-help-en="This panel explains where you are and what the next logical step is.">?</span>
+      </div>
+      <div id="assistContent" class="assist-content"></div>
     </aside>
   </div>
 
-  <div class="modal-backdrop" id="helpModal" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
-      <button class="modal-close" id="closeHelp" aria-label="Close">×</button>
-      <h2 id="helpTitle">Help</h2>
-      <p id="helpBody"></p>
-    </div>
-  </div>
+  <footer class="status-bar">
+    <span>MODE: <strong id="modeValue">DISCUSSION</strong></span>
+    <span>STATE: <strong id="stateValue">READY</strong></span>
+    <span>PROJECT: <strong id="projectValue" data-i18n="none">Не вибрано</strong></span>
+  </footer>
 
   <script src="app.js"></script>
 </body>

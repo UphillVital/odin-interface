@@ -1,158 +1,217 @@
 const state = {
-  lang: "uk",
-  theme: "light",
-  zone: "command"
+  lang: 'uk',
+  theme: 'light',
+  zone: 'command',
+  project: null,
 };
 
-const t = {
+const i18n = {
   uk: {
-    appTitle: "Інтерфейс ОДІН",
-    appSubtitle: "Робоче середовище керування системою",
-    themeToggle: "Темна тема",
-    themeToggleDark: "Світла тема",
-    treeTitle: "Карта системи",
-    assistTitle: "Assisted Mode",
-    explainCurrent: "Пояснити поточну зону",
-    commandTitle: "Command Center",
-    commandText: "Головна зона керування: режим, стан, старт системи та наступні дії.",
-    projectsTitle: "Projects / Products",
-    projectsText: "Тут обирається продукт або проєкт: Deutsch Trainer, ІССУ, ССУДТ або нові проєкти.",
-    mapTitle: "System Map Live",
-    mapText: "Жива карта системи показує звʼязки між OIS, Work Zones, File Workspace, QA та Projects.",
-    filesTitle: "File Workspace",
-    filesText: "Робота з файлами відбувається тільки в контексті вибраного проєкту: зміни, diff, approval, package.",
-    manualTitle: "Manual / Help",
-    manualText: "Це зона інструкцій, пояснень, словника ODIN і правил роботи.",
-    masterTitle: "MASTER START",
-    masterText: "MASTER START відкриває системний запуск: вибір продукту, сценарій, перевірка стану і виконання workflow.",
-    helpTitle: "Пояснення",
-    defaultHelp: "ODIN пояснює, що означає поточний елемент і що робити далі. Help більше не відкривається автоматично при оновленні сторінки."
+    title: 'Інтерфейс ОДІН',
+    subtitle: 'Робоче середовище керування системою',
+    masterStart: 'ODIN SYSTEM — MASTER START',
+    themeToggle: 'Темна тема',
+    treeTitle: 'Навігація',
+    zoneCommand: 'Command Center',
+    zoneMap: 'System Map',
+    zoneProjects: 'Projects',
+    zoneFiles: 'File Workspace',
+    zoneManual: 'Manual',
+    assistTitle: 'Пояснення',
+    none: 'Не вибрано',
   },
   en: {
-    appTitle: "ODIN Interface",
-    appSubtitle: "System control workspace",
-    themeToggle: "Dark theme",
-    themeToggleDark: "Light theme",
-    treeTitle: "System Map",
-    assistTitle: "Assisted Mode",
-    explainCurrent: "Explain current zone",
-    commandTitle: "Command Center",
-    commandText: "Primary control zone: mode, state, system start, and next actions.",
-    projectsTitle: "Projects / Products",
-    projectsText: "This is where products or projects are selected: Deutsch Trainer, ISSU, SSUDT, or new projects.",
-    mapTitle: "System Map Live",
-    mapText: "The live system map shows connections between OIS, Work Zones, File Workspace, QA, and Projects.",
-    filesTitle: "File Workspace",
-    filesText: "File operations happen only inside a selected project context: changes, diff, approval, package.",
-    manualTitle: "Manual / Help",
-    manualText: "This zone contains instructions, explanations, ODIN lexicon, and work rules.",
-    masterTitle: "MASTER START",
-    masterText: "MASTER START opens system launch: product selection, scenario, state check, and workflow execution.",
-    helpTitle: "Explanation",
-    defaultHelp: "ODIN explains what the current element means and what to do next. Help no longer opens automatically after page reload."
+    title: 'ODIN Interface',
+    subtitle: 'System control workspace',
+    masterStart: 'ODIN SYSTEM — MASTER START',
+    themeToggle: 'Dark theme',
+    treeTitle: 'Navigation',
+    zoneCommand: 'Command Center',
+    zoneMap: 'System Map',
+    zoneProjects: 'Projects',
+    zoneFiles: 'File Workspace',
+    zoneManual: 'Manual',
+    assistTitle: 'Explanation',
+    none: 'None selected',
   }
 };
 
-const zoneData = {
-  command: ["commandTitle", "commandText"],
-  projects: ["projectsTitle", "projectsText"],
-  map: ["mapTitle", "mapText"],
-  files: ["filesTitle", "filesText"],
-  manual: ["manualTitle", "manualText"]
+const zoneText = {
+  uk: {
+    commandTitle: 'Command Center',
+    commandBody: 'Це головна зона керування ODIN: режим, стан, запуск сценаріїв і MASTER START.',
+    commandAssist: '<strong>Command Center</strong> — стартова зона. Тут ти бачиш стан системи й запускаєш головні сценарії. Наступний логічний крок: вибрати продукт або відкрити System Map.',
+    mapTitle: 'Жива карта системи',
+    mapBody: 'Карта показує звʼязки між OIS, Work Zones, Projects, File Workspace і QA.',
+    mapAssist: '<strong>System Map</strong> пояснює, як частини ODIN повʼязані. Клікай вузли, щоб переходити до потрібної робочої зони.',
+    projectsTitle: 'Projects Workspace',
+    projectsBody: 'Тут обираються продукти та проєкти: Deutsch Trainer, ІССУ, ССУДТ, нові проєкти.',
+    projectsAssist: '<strong>Projects</strong> задає контекст роботи. File Workspace має працювати тільки після вибору проєкту.',
+    filesTitle: 'File Workspace',
+    filesBody: 'Робота з файлами: editor, changes, diff, approve/reject, history, package.',
+    filesAssist: '<strong>File Workspace</strong> працює в контексті вибраного проєкту. Якщо проєкт не вибрано — спочатку відкрий Projects.',
+    manualTitle: 'Manual / Help',
+    manualBody: 'Інструкції, пояснення можливостей ODIN, словник і правила роботи.',
+    manualAssist: '<strong>Manual</strong> — місце навчання й самопояснення системи. Тут має бути докладний HTML-довідник.',
+    masterAssist: '<strong>MASTER START</strong> активовано. Наступний етап: вибір продукту → сценарій → pipeline preview → запуск.',
+  },
+  en: {
+    commandTitle: 'Command Center',
+    commandBody: 'Main ODIN control zone: mode, state, scenario launch, and MASTER START.',
+    commandAssist: '<strong>Command Center</strong> is the starting zone. You see system state and launch main scenarios. Next step: select a product or open System Map.',
+    mapTitle: 'Live System Map',
+    mapBody: 'The map shows links between OIS, Work Zones, Projects, File Workspace, and QA.',
+    mapAssist: '<strong>System Map</strong> explains how ODIN parts are connected. Click nodes to navigate to work zones.',
+    projectsTitle: 'Projects Workspace',
+    projectsBody: 'Select products and projects: Deutsch Trainer, ISSU, SSUDT, new projects.',
+    projectsAssist: '<strong>Projects</strong> sets the working context. File Workspace should work only after a project is selected.',
+    filesTitle: 'File Workspace',
+    filesBody: 'Work with files: editor, changes, diff, approve/reject, history, package.',
+    filesAssist: '<strong>File Workspace</strong> works in the selected project context. If no project is selected, open Projects first.',
+    manualTitle: 'Manual / Help',
+    manualBody: 'Instructions, ODIN capabilities, lexicon, and working rules.',
+    manualAssist: '<strong>Manual</strong> is the system learning and self-explanation area. It should contain a detailed editable HTML guide.',
+    masterAssist: '<strong>MASTER START</strong> activated. Next stage: product selection → scenario → pipeline preview → launch.',
+  }
 };
 
-const workZone = document.getElementById("workZone");
-const assistText = document.getElementById("assistText");
-const helpModal = document.getElementById("helpModal");
-const helpTitle = document.getElementById("helpTitle");
-const helpBody = document.getElementById("helpBody");
+const workZone = document.getElementById('workZone');
+const assistContent = document.getElementById('assistContent');
+const modeValue = document.getElementById('modeValue');
+const stateValue = document.getElementById('stateValue');
+const projectValue = document.getElementById('projectValue');
 
-function translatePage() {
-  document.querySelectorAll("[data-i18n]").forEach(el => {
-    const key = el.dataset.i18n;
-    el.textContent = t[state.lang][key] || key;
+function t(key) { return i18n[state.lang][key] || key; }
+function z(key) { return zoneText[state.lang][key] || key; }
+
+function applyI18n() {
+  document.body.dataset.lang = state.lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.dataset.i18n);
   });
-  document.getElementById("themeToggle").textContent = state.theme === "light" ? t[state.lang].themeToggle : t[state.lang].themeToggleDark;
+  document.getElementById('langToggle').textContent = state.lang === 'uk' ? 'EN' : 'UA';
+  document.getElementById('themeToggle').textContent = state.theme === 'light'
+    ? (state.lang === 'uk' ? 'Темна тема' : 'Dark theme')
+    : (state.lang === 'uk' ? 'Світла тема' : 'Light theme');
+  projectValue.textContent = state.project || t('none');
+}
+
+function setActiveTree(zone) {
+  document.querySelectorAll('.tree-item').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.zone === zone);
+  });
+}
+
+function zoneTemplate(title, body, cards = '') {
+  return `
+    <section class="zone-card">
+      <h2 class="zone-title">${title}<span class="hint" tabindex="0" data-help-uk="Це локальна підказка для поточної робочої зони." data-help-en="This is a local hint for the current work zone.">?</span></h2>
+      <p>${body}</p>
+      ${cards}
+    </section>
+  `;
 }
 
 function renderZone(zone) {
   state.zone = zone;
-  document.querySelectorAll(".tree-item").forEach(btn => btn.classList.toggle("active", btn.dataset.zone === zone));
-  const [titleKey, textKey] = zoneData[zone];
-  const title = t[state.lang][titleKey];
-  const text = t[state.lang][textKey];
+  setActiveTree(zone);
+  stateValue.textContent = 'READY';
 
-  workZone.innerHTML = `
-    <h1>${title}</h1>
-    <p>${text}</p>
-    <div class="zone-card">
-      <strong>STATE</strong>
-      <p>ACTIVE_ZONE: ${zone.toUpperCase()}</p>
-    </div>
-    <div class="zone-grid">
-      <div class="kpi"><strong>OIS</strong><span>INPUT → INTENT → MODE → STATE → ACTION</span></div>
-      <div class="kpi"><strong>QA</strong><span>Core Lock active</span></div>
-      <div class="kpi"><strong>I18N</strong><span>UA / EN ready</span></div>
-      <div class="kpi"><strong>Theme</strong><span>Light default / Dark optional</span></div>
-    </div>
-  `;
-  assistText.textContent = text;
+  if (zone === 'command') {
+    workZone.innerHTML = zoneTemplate(z('commandTitle'), z('commandBody'), `
+      <div class="action-row">
+        <button class="primary-action" onclick="masterStart()">${t('masterStart')} <span class="hint" tabindex="0" data-help-uk="Запуск керованого сценарію ODIN." data-help-en="Launch a controlled ODIN scenario.">?</span></button>
+        <div class="input-like">INPUT → INTENT → MODE → STATE → ACTION</div>
+      </div>
+    `);
+    assistContent.innerHTML = z('commandAssist');
+  }
+
+  if (zone === 'map') {
+    workZone.innerHTML = zoneTemplate(z('mapTitle'), z('mapBody'), `
+      <div class="zone-grid">
+        <button class="mini-card" onclick="renderZone('projects')">Projects → Work Context</button>
+        <button class="mini-card" onclick="renderZone('files')">File Workspace → Changes</button>
+        <button class="mini-card" onclick="renderZone('command')">OIS → Command Center</button>
+        <button class="mini-card" onclick="renderZone('manual')">Manual → Explanation</button>
+      </div>
+    `);
+    assistContent.innerHTML = z('mapAssist');
+  }
+
+  if (zone === 'projects') {
+    workZone.innerHTML = zoneTemplate(z('projectsTitle'), z('projectsBody'), `
+      <div class="zone-grid">
+        <button class="mini-card" onclick="selectProject('Deutsch Trainer / DT')">Deutsch Trainer</button>
+        <button class="mini-card" onclick="selectProject('DT / ІССУ')">ІССУ</button>
+        <button class="mini-card" onclick="selectProject('DT / ССУДТ')">ССУДТ</button>
+        <button class="mini-card" onclick="selectProject('New Project 1')">New Project 1</button>
+      </div>
+    `);
+    assistContent.innerHTML = z('projectsAssist');
+  }
+
+  if (zone === 'files') {
+    const projectNote = state.project
+      ? `<p><strong>${state.project}</strong></p>`
+      : `<p>${state.lang === 'uk' ? 'Проєкт ще не вибрано. Відкрий Projects.' : 'No project selected yet. Open Projects.'}</p>`;
+    workZone.innerHTML = zoneTemplate(z('filesTitle'), z('filesBody'), `
+      ${projectNote}
+      <div class="zone-grid">
+        <div class="mini-card">Editor</div>
+        <div class="mini-card">Changes / Diff</div>
+        <div class="mini-card">Approve / Reject</div>
+        <div class="mini-card">Package</div>
+      </div>
+    `);
+    assistContent.innerHTML = z('filesAssist');
+  }
+
+  if (zone === 'manual') {
+    workZone.innerHTML = zoneTemplate(z('manualTitle'), z('manualBody'), `
+      <div class="zone-grid">
+        <div class="mini-card">ODIN Capabilities</div>
+        <div class="mini-card">OIS Lexicon</div>
+        <div class="mini-card">How to work</div>
+        <div class="mini-card">Quality rules</div>
+      </div>
+    `);
+    assistContent.innerHTML = z('manualAssist');
+  }
 }
 
-function openHelp(text) {
-  helpTitle.textContent = t[state.lang].helpTitle;
-  helpBody.textContent = text || t[state.lang].defaultHelp;
-  helpModal.classList.add("is-open");
-  helpModal.setAttribute("aria-hidden", "false");
+function selectProject(projectName) {
+  state.project = projectName;
+  projectValue.textContent = projectName;
+  assistContent.innerHTML = state.lang === 'uk'
+    ? `<strong>Проєкт вибрано:</strong> ${projectName}. Тепер File Workspace може працювати в правильному контексті.`
+    : `<strong>Project selected:</strong> ${projectName}. File Workspace can now work in the correct context.`;
 }
 
-function closeHelp() {
-  helpModal.classList.remove("is-open");
-  helpModal.setAttribute("aria-hidden", "true");
+function masterStart() {
+  stateValue.textContent = 'MASTER_START_READY';
+  renderZone('projects');
+  assistContent.innerHTML = z('masterAssist');
 }
 
-function init() {
-  // FIX: always close help on load/reload.
-  closeHelp();
-  document.body.dataset.theme = state.theme;
-  document.body.dataset.lang = state.lang;
-  translatePage();
+document.querySelectorAll('.tree-item').forEach(btn => {
+  btn.addEventListener('click', () => renderZone(btn.dataset.zone));
+});
+
+document.getElementById('masterStart').addEventListener('click', masterStart);
+
+document.getElementById('themeToggle').addEventListener('click', () => {
+  state.theme = state.theme === 'light' ? 'dark' : 'light';
+  document.body.className = state.theme === 'light' ? 'theme-light' : 'theme-dark';
+  applyI18n();
+});
+
+document.getElementById('langToggle').addEventListener('click', () => {
+  state.lang = state.lang === 'uk' ? 'en' : 'uk';
+  document.documentElement.lang = state.lang;
+  applyI18n();
   renderZone(state.zone);
-}
-
-document.querySelectorAll(".tree-item").forEach(btn => {
-  btn.addEventListener("click", () => renderZone(btn.dataset.zone));
 });
 
-document.getElementById("masterStart").addEventListener("click", () => {
-  renderZone("projects");
-  openHelp(t[state.lang].masterText);
-});
-
-document.getElementById("globalHelpBtn").addEventListener("click", () => openHelp());
-document.getElementById("explainCurrent").addEventListener("click", () => {
-  const [, textKey] = zoneData[state.zone];
-  openHelp(t[state.lang][textKey]);
-});
-document.getElementById("closeHelp").addEventListener("click", closeHelp);
-helpModal.addEventListener("click", (e) => {
-  if (e.target === helpModal) closeHelp();
-});
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeHelp();
-});
-
-document.getElementById("langToggle").addEventListener("click", () => {
-  state.lang = state.lang === "uk" ? "en" : "uk";
-  document.body.dataset.lang = state.lang;
-  translatePage();
-  renderZone(state.zone);
-});
-
-document.getElementById("themeToggle").addEventListener("click", () => {
-  state.theme = state.theme === "light" ? "dark" : "light";
-  document.body.dataset.theme = state.theme;
-  translatePage();
-});
-
-init();
+applyI18n();
+renderZone('command');
