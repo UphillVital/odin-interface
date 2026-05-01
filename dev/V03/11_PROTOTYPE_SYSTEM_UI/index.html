@@ -17,12 +17,27 @@
     </div>
 
     <div class="header-actions">
-      <button class="primary-action" id="masterStart" type="button">
-        <span data-i18n="masterStart"></span>
-        <span class="hint" tabindex="0" data-help-key="hintMaster">?</span>
-      </button>
-      <button class="ghost-action" id="themeToggle" type="button" data-i18n="themeToggle"></button>
-      <button class="ghost-action" id="langToggle" type="button" aria-label="Language">EN</button>
+      <div class="quick-settings" id="quickSettings">
+        <button class="settings-button" id="settingsToggle" type="button" aria-haspopup="true" aria-expanded="false">
+          <span class="settings-icon" aria-hidden="true">⚙</span>
+          <span class="sr-only" data-i18n="settings"></span>
+        </button>
+        <div class="settings-menu" id="settingsMenu" hidden>
+          <div class="settings-menu-title" data-i18n="quickSettings"></div>
+          <button class="settings-row" id="themeToggle" type="button">
+            <span data-i18n="themeLabel"></span>
+            <strong id="themeValue"></strong>
+          </button>
+          <div class="settings-row settings-language-row">
+            <span data-i18n="languageLabel"></span>
+            <div class="language-switch" id="languageSwitch" role="group" aria-label="Language selection">
+              <button class="language-pill" type="button" data-lang-option="ua">UA</button>
+              <button class="language-pill" type="button" data-lang-option="en">EN</button>
+              <button class="language-pill" type="button" data-lang-option="de">DE</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 

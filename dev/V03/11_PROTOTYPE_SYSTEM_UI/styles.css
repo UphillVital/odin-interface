@@ -79,6 +79,81 @@ button:hover { border-color: var(--accent); }
 }
 .ghost-action { background: var(--surface-soft); }
 
+.quick-settings { position: relative; }
+.settings-button {
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: var(--surface-soft);
+}
+.settings-icon { font-size: 20px; line-height: 1; }
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.settings-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  z-index: 90;
+  width: 290px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.settings-menu-title {
+  font-weight: 800;
+  margin: 2px 4px 10px;
+  color: var(--text);
+}
+.settings-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: var(--surface-soft);
+}
+.settings-language-row { cursor: default; }
+.language-switch { display: flex; gap: 6px; }
+.language-pill {
+  min-width: 44px;
+  padding: 8px 9px;
+  border-radius: 12px;
+  font-weight: 800;
+  background: var(--surface);
+}
+.language-pill.active { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.language-pill.flag-ua.active {
+  color: #15335b;
+  background: linear-gradient(180deg, #2f80ed 0 50%, #ffd84d 50% 100%);
+  border-color: #2f80ed;
+}
+.language-pill.flag-en.active {
+  color: #fff;
+  background: linear-gradient(135deg, #153b7a, #b31f2a);
+  border-color: #153b7a;
+}
+.language-pill.flag-de.active {
+  color: #fff;
+  background: linear-gradient(180deg, #111 0 33%, #d71920 33% 66%, #ffce00 66% 100%);
+  border-color: #111;
+}
+
+
 .odin-shell {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr) 310px;

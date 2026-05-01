@@ -12,8 +12,8 @@ const htmlLang = { ua: 'uk', en: 'en', de: 'de' };
 
 const i18n = {
   ua: {
-    title: 'Інтерфейс ОДІН', subtitle: 'Робоче середовище керування системою', masterStart: 'ODIN SYSTEM — MASTER START',
-    themeToggleDark: 'Темна тема', themeToggleLight: 'Світла тема', treeTitle: 'Навігація', zoneCommand: 'Центр керування', zoneMap: 'Карта системи', zoneProjects: 'Проєкти', zoneFiles: 'Робота з файлами', zoneManual: 'Інструкція', assistTitle: 'Пояснення', modeLabel: 'РЕЖИМ', stateLabel: 'СТАН', projectLabel: 'ПРОЄКТ', none: 'Не вибрано', modeDiscussion: 'ОБГОВОРЕННЯ', stateReady: 'ГОТОВО', stateMasterReady: 'MASTER START ГОТОВИЙ',
+    title: 'Інтерфейс ОДІН', subtitle: 'Робоче середовище керування системою', masterStart: 'ODIN SYSTEM — MASTER START', settings: 'Налаштування', quickSettings: 'Швидкі налаштування', themeLabel: 'Тема', languageLabel: 'Мова',
+    themeToggleDark: 'Темна тема', themeToggleLight: 'Світла тема', themeLightName: 'Світла', themeDarkName: 'Темна', treeTitle: 'Навігація', zoneCommand: 'Центр керування', zoneMap: 'Карта системи', zoneProjects: 'Проєкти', zoneFiles: 'Робота з файлами', zoneManual: 'Інструкція', assistTitle: 'Пояснення', modeLabel: 'РЕЖИМ', stateLabel: 'СТАН', projectLabel: 'ПРОЄКТ', none: 'Не вибрано', modeDiscussion: 'ОБГОВОРЕННЯ', stateReady: 'ГОТОВО', stateMasterReady: 'MASTER START ГОТОВИЙ',
     commandTitle: 'Центр керування', commandBody: 'Головна зона керування ODIN: режим, стан, запуск сценаріїв і MASTER START.', commandAssist: '<strong>Центр керування</strong> — стартова зона. Тут видно стан системи й запускаються головні сценарії. Наступний крок: вибрати продукт або відкрити карту системи.',
     mapTitle: 'Жива карта системи', mapBody: 'Карта показує звʼязки між OIS, робочими зонами, проєктами, роботою з файлами та QA.', mapAssist: '<strong>Карта системи</strong> пояснює, як частини ODIN повʼязані. Клікай вузли, щоб переходити до потрібної робочої зони.',
     projectsTitle: 'Робочий простір проєктів', projectsBody: 'Тут обираються продукти та проєкти: Deutsch Trainer, ІССУ, ССУДТ, нові проєкти.', projectsAssist: '<strong>Проєкти</strong> задають контекст роботи. Робота з файлами має працювати тільки після вибору проєкту.',
@@ -24,8 +24,8 @@ const i18n = {
     hintMaster: 'Запускає головний системний сценарій для вибраного продукту або проєкту.', hintTree: 'Дерево показує основні рівні ODIN. Клік відкриває відповідну робочу зону.', hintCommand: 'Головна зона керування: режим, стан, запуск сценаріїв.', hintMap: 'Жива карта системи: звʼязки, залежності, переходи до зон.', hintProjects: 'Місце вибору продуктів і проєктів: DT, ІССУ, ССУДТ, нові проєкти.', hintFiles: 'Робота з файлами у контексті вибраного проєкту: зміни, diff, approve/reject.', hintManual: 'Інструкції, пояснення можливостей ODIN і правила роботи.', hintAssist: 'Ця панель пояснює, де ти зараз і що логічно робити далі.'
   },
   en: {
-    title: 'ODIN Interface', subtitle: 'System control workspace', masterStart: 'ODIN SYSTEM — MASTER START',
-    themeToggleDark: 'Dark theme', themeToggleLight: 'Light theme', treeTitle: 'Navigation', zoneCommand: 'Command Center', zoneMap: 'System Map', zoneProjects: 'Projects', zoneFiles: 'File Workspace', zoneManual: 'Manual', assistTitle: 'Explanation', modeLabel: 'MODE', stateLabel: 'STATE', projectLabel: 'PROJECT', none: 'None selected', modeDiscussion: 'DISCUSSION', stateReady: 'READY', stateMasterReady: 'MASTER START READY',
+    title: 'ODIN Interface', subtitle: 'System control workspace', masterStart: 'ODIN SYSTEM — MASTER START', settings: 'Settings', quickSettings: 'Quick settings', themeLabel: 'Theme', languageLabel: 'Language',
+    themeToggleDark: 'Dark theme', themeToggleLight: 'Light theme', themeLightName: 'Light', themeDarkName: 'Dark', treeTitle: 'Navigation', zoneCommand: 'Command Center', zoneMap: 'System Map', zoneProjects: 'Projects', zoneFiles: 'File Workspace', zoneManual: 'Manual', assistTitle: 'Explanation', modeLabel: 'MODE', stateLabel: 'STATE', projectLabel: 'PROJECT', none: 'None selected', modeDiscussion: 'DISCUSSION', stateReady: 'READY', stateMasterReady: 'MASTER START READY',
     commandTitle: 'Command Center', commandBody: 'Main ODIN control zone: mode, state, scenario launch, and MASTER START.', commandAssist: '<strong>Command Center</strong> is the starting zone. You see system state and launch main scenarios. Next step: select a product or open System Map.',
     mapTitle: 'Live System Map', mapBody: 'The map shows links between OIS, Work Zones, Projects, File Workspace, and QA.', mapAssist: '<strong>System Map</strong> explains how ODIN parts are connected. Click nodes to navigate to work zones.',
     projectsTitle: 'Projects Workspace', projectsBody: 'Select products and projects: Deutsch Trainer, ISSU, SSUDT, new projects.', projectsAssist: '<strong>Projects</strong> sets the working context. File Workspace should work only after a project is selected.',
@@ -36,8 +36,8 @@ const i18n = {
     hintMaster: 'Starts the main system scenario for the selected product or project.', hintTree: 'The tree shows core ODIN layers. Click to open the related work zone.', hintCommand: 'Main control zone: mode, state, scenario launch.', hintMap: 'Live system map: links, dependencies, navigation to zones.', hintProjects: 'Select products and projects: DT, ISSU, SSUDT, new projects.', hintFiles: 'Work with files in the selected project context: changes, diff, approve/reject.', hintManual: 'Instructions, ODIN capabilities, and operating rules.', hintAssist: 'This panel explains where you are and what the next logical step is.'
   },
   de: {
-    title: 'ODIN Oberfläche', subtitle: 'Arbeitsbereich zur Systemsteuerung', masterStart: 'ODIN SYSTEM — MASTER START',
-    themeToggleDark: 'Dunkles Design', themeToggleLight: 'Helles Design', treeTitle: 'Navigation', zoneCommand: 'Steuerzentrale', zoneMap: 'Systemkarte', zoneProjects: 'Projekte', zoneFiles: 'Dateiarbeitsbereich', zoneManual: 'Handbuch', assistTitle: 'Erklärung', modeLabel: 'MODUS', stateLabel: 'STATUS', projectLabel: 'PROJEKT', none: 'Nicht ausgewählt', modeDiscussion: 'DISKUSSION', stateReady: 'BEREIT', stateMasterReady: 'MASTER START BEREIT',
+    title: 'ODIN Oberfläche', subtitle: 'Arbeitsbereich zur Systemsteuerung', masterStart: 'ODIN SYSTEM — MASTER START', settings: 'Einstellungen', quickSettings: 'Schnelleinstellungen', themeLabel: 'Design', languageLabel: 'Sprache',
+    themeToggleDark: 'Dunkles Design', themeToggleLight: 'Helles Design', themeLightName: 'Hell', themeDarkName: 'Dunkel', treeTitle: 'Navigation', zoneCommand: 'Steuerzentrale', zoneMap: 'Systemkarte', zoneProjects: 'Projekte', zoneFiles: 'Dateiarbeitsbereich', zoneManual: 'Handbuch', assistTitle: 'Erklärung', modeLabel: 'MODUS', stateLabel: 'STATUS', projectLabel: 'PROJEKT', none: 'Nicht ausgewählt', modeDiscussion: 'DISKUSSION', stateReady: 'BEREIT', stateMasterReady: 'MASTER START BEREIT',
     commandTitle: 'Steuerzentrale', commandBody: 'Zentrale ODIN-Steuerzone: Modus, Status, Szenariostart und MASTER START.', commandAssist: '<strong>Steuerzentrale</strong> ist die Startzone. Hier siehst du den Systemstatus und startest Hauptszenarien. Nächster Schritt: Produkt auswählen oder Systemkarte öffnen.',
     mapTitle: 'Lebendige Systemkarte', mapBody: 'Die Karte zeigt Verbindungen zwischen OIS, Arbeitszonen, Projekten, Dateiarbeitsbereich und QA.', mapAssist: '<strong>Systemkarte</strong> erklärt, wie ODIN-Bereiche verbunden sind. Klicke auf Knoten, um zu Arbeitszonen zu wechseln.',
     projectsTitle: 'Projektarbeitsbereich', projectsBody: 'Hier werden Produkte und Projekte ausgewählt: Deutsch Trainer, ISSU, SSUDT, neue Projekte.', projectsAssist: '<strong>Projekte</strong> setzen den Arbeitskontext. Der Dateiarbeitsbereich soll erst nach Projektauswahl arbeiten.',
@@ -54,6 +54,9 @@ const assistContent = document.getElementById('assistContent');
 const modeValue = document.getElementById('modeValue');
 const stateValue = document.getElementById('stateValue');
 const projectValue = document.getElementById('projectValue');
+const settingsToggle = document.getElementById('settingsToggle');
+const settingsMenu = document.getElementById('settingsMenu');
+const themeValue = document.getElementById('themeValue');
 
 function t(key) { return (i18n[state.lang] && i18n[state.lang][key]) || i18n.ua[key] || key; }
 function nextLanguage() { return languages[(languages.indexOf(state.lang) + 1) % languages.length]; }
@@ -73,8 +76,15 @@ function applyI18n() {
   document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
   document.querySelectorAll('[data-help-key]').forEach(el => { el.setAttribute('data-help', t(el.dataset.helpKey)); });
 
-  document.getElementById('langToggle').textContent = nextLanguage().toUpperCase();
-  document.getElementById('themeToggle').textContent = state.theme === 'light' ? t('themeToggleDark') : t('themeToggleLight');
+  themeValue.textContent = state.theme === 'light' ? t('themeLightName') : t('themeDarkName');
+  document.querySelectorAll('[data-lang-option]').forEach(btn => {
+    const active = btn.dataset.langOption === state.lang;
+    btn.classList.toggle('active', active);
+    btn.classList.toggle('flag-ua', btn.dataset.langOption === 'ua');
+    btn.classList.toggle('flag-en', btn.dataset.langOption === 'en');
+    btn.classList.toggle('flag-de', btn.dataset.langOption === 'de');
+    btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+  });
   modeValue.textContent = t('modeDiscussion');
   stateValue.textContent = state.status === 'master' ? t('stateMasterReady') : t('stateReady');
   projectValue.textContent = state.project || t('none');
@@ -138,9 +148,32 @@ function masterStart() {
 }
 
 document.querySelectorAll('.tree-item').forEach(btn => btn.addEventListener('click', () => renderZone(btn.dataset.zone)));
-document.getElementById('masterStart').addEventListener('click', masterStart);
+settingsToggle.addEventListener('click', (event) => {
+  event.stopPropagation();
+  const isOpen = !settingsMenu.hidden;
+  settingsMenu.hidden = isOpen;
+  settingsToggle.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+});
+
+document.addEventListener('click', (event) => {
+  if (!document.getElementById('quickSettings').contains(event.target)) {
+    settingsMenu.hidden = true;
+    settingsToggle.setAttribute('aria-expanded', 'false');
+  }
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    settingsMenu.hidden = true;
+    settingsToggle.setAttribute('aria-expanded', 'false');
+  }
+});
+
 document.getElementById('themeToggle').addEventListener('click', () => { state.theme = state.theme === 'light' ? 'dark' : 'light'; applyTheme(); applyI18n(); });
-document.getElementById('langToggle').addEventListener('click', () => { state.lang = nextLanguage(); renderZone(state.zone); });
+document.querySelectorAll('[data-lang-option]').forEach(btn => btn.addEventListener('click', () => {
+  state.lang = btn.dataset.langOption;
+  renderZone(state.zone);
+}));
 
 applyTheme();
 applyI18n();
