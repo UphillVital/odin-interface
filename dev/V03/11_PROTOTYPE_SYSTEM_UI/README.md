@@ -1,60 +1,34 @@
-# ODIN V03 PACKAGE 09 FIX — I18N + Assisted Mode without breaking Prototype 08
+# ODIN V03 Package 10 — System Map Live + Stabilization
 
 ## Purpose
+This package stabilizes the V03 prototype after Package 09 and adds the first live System Map behavior.
 
-This package fixes Package 09 by preserving the working Package 08 structure and adding only the requested improvements.
+## What changed
+- Light theme remains default.
+- Dark theme remains available.
+- UA/EN support remains active.
+- Assisted Mode is clearer and more stable.
+- System Map nodes now act as navigation to Work Zones.
+- Left Tree is reorganized around core system areas.
 
-## Fixed issues
+## Files included
+- `dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html`
+- `dev/V03/11_PROTOTYPE_SYSTEM_UI/styles.css`
+- `dev/V03/11_PROTOTYPE_SYSTEM_UI/app.js`
+- `dev/V03/11_PROTOTYPE_SYSTEM_UI/README.md`
 
-- Restores Package 08 core zones, including OIS Core.
-- Preserves the original `data-theme` theme model.
-- Sets Light as the default theme.
-- Adds UA/EN language switching.
-- Adds contextual `?` help buttons.
-- Adds modal explanations.
-- Adds Assisted Mode explanation actions.
-- Avoids empty folders and scripts.
+## Test
+Open:
+`dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html`
 
-## Files
+Check:
+1. Light theme opens by default.
+2. Dark toggle works.
+3. UA/EN toggle works.
+4. Left Tree switches zones.
+5. System Map nodes switch zones.
+6. Assisted Mode explains the active zone.
+7. MASTER START opens explanation modal.
 
-```text
-dev/V03/11_PROTOTYPE_SYSTEM_UI/
-├─ index.html
-├─ styles.css
-├─ app.js
-└─ README.md
-```
-
-## Integration
-
-Unzip into the project root:
-
-```text
-C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\
-```
-
-This package updates the prototype files in:
-
-```text
-dev/V03/11_PROTOTYPE_SYSTEM_UI/
-```
-
-## QA checklist
-
-- Opens in Light theme by default.
-- Theme button switches Light/Dark correctly.
-- UA/EN switch updates header, tree, zones, context and buttons.
-- Command Center opens by default.
-- All tree zones work: Command, System Map, File Workspace, OIS Core, Manual / Help.
-- `?` buttons open explanations without changing zone accidentally.
-- `How to use?` opens general help.
-- `Explain current zone` explains active zone.
-- MASTER START opens the system start model in the main zone.
-
-## Git
-
-```bash
-git add dev/V03/
-git commit -m "Fix ODIN Interface V03 i18n assisted mode prototype"
-git push origin dev
-```
+## Integration rule
+Do not replace unrelated V03 folders. This package updates only the prototype UI files.
