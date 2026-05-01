@@ -1,6 +1,4 @@
-:root,
-body.theme-light,
-body[data-theme="light"] {
+:root {
   --bg: #f6f4ef;
   --surface: #ffffff;
   --surface-soft: #f0eee8;
@@ -12,8 +10,7 @@ body[data-theme="light"] {
   --shadow: 0 18px 50px rgba(40, 38, 32, 0.10);
 }
 
-body.theme-dark,
-body[data-theme="dark"] {
+body.theme-dark {
   --bg: #0f1217;
   --surface: #171b22;
   --surface-soft: #202630;

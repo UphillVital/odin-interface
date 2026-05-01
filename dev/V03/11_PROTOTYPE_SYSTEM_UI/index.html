@@ -6,75 +6,54 @@
   <title>ODIN Interface V03 — Prototype</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="theme-light" data-theme="light" data-lang="uk">
+<body class="theme-light" data-lang="ua" data-theme="light">
   <header class="odin-header">
     <div class="brand">
       <div class="brand-mark">ODIN</div>
       <div>
-        <div class="brand-title" data-i18n="title">Інтерфейс ОДІН</div>
-        <div class="brand-subtitle" data-i18n="subtitle">Робоче середовище керування системою</div>
+        <div class="brand-title" data-i18n="title"></div>
+        <div class="brand-subtitle" data-i18n="subtitle"></div>
       </div>
     </div>
 
     <div class="header-actions">
       <button class="primary-action" id="masterStart" type="button">
-        <span data-i18n="masterStart">ODIN SYSTEM — MASTER START</span>
-        <span class="hint" tabindex="0" data-help-key="helpMasterStart">?</span>
+        <span data-i18n="masterStart"></span>
+        <span class="hint" tabindex="0" data-help-key="hintMaster">?</span>
       </button>
-
-      <button class="ghost-action" id="themeToggle" type="button" data-i18n="themeToDark">Темна тема</button>
-      <button class="ghost-action" id="langToggle" type="button">EN</button>
+      <button class="ghost-action" id="themeToggle" type="button" data-i18n="themeToggle"></button>
+      <button class="ghost-action" id="langToggle" type="button" aria-label="Language">EN</button>
     </div>
   </header>
 
   <div class="odin-shell">
     <aside class="left-tree">
       <div class="tree-title">
-        <span data-i18n="treeTitle">Навігація</span>
-        <span class="hint" tabindex="0" data-help-key="helpTree">?</span>
+        <span data-i18n="treeTitle"></span>
+        <span class="hint" tabindex="0" data-help-key="hintTree">?</span>
       </div>
-
-      <button class="tree-item active" data-zone="command">
-        <span data-i18n="zoneCommand">Command Center</span>
-        <span class="hint" tabindex="0" data-help-key="helpCommand">?</span>
-      </button>
-
-      <button class="tree-item" data-zone="map">
-        <span data-i18n="zoneMap">System Map</span>
-        <span class="hint" tabindex="0" data-help-key="helpMap">?</span>
-      </button>
-
-      <button class="tree-item" data-zone="projects">
-        <span data-i18n="zoneProjects">Projects</span>
-        <span class="hint" tabindex="0" data-help-key="helpProjects">?</span>
-      </button>
-
-      <button class="tree-item" data-zone="files">
-        <span data-i18n="zoneFiles">File Workspace</span>
-        <span class="hint" tabindex="0" data-help-key="helpFiles">?</span>
-      </button>
-
-      <button class="tree-item" data-zone="manual">
-        <span data-i18n="zoneManual">Manual</span>
-        <span class="hint" tabindex="0" data-help-key="helpManual">?</span>
-      </button>
+      <button class="tree-item active" data-zone="command"><span data-i18n="zoneCommand"></span><span class="hint" tabindex="0" data-help-key="hintCommand">?</span></button>
+      <button class="tree-item" data-zone="map"><span data-i18n="zoneMap"></span><span class="hint" tabindex="0" data-help-key="hintMap">?</span></button>
+      <button class="tree-item" data-zone="projects"><span data-i18n="zoneProjects"></span><span class="hint" tabindex="0" data-help-key="hintProjects">?</span></button>
+      <button class="tree-item" data-zone="files"><span data-i18n="zoneFiles"></span><span class="hint" tabindex="0" data-help-key="hintFiles">?</span></button>
+      <button class="tree-item" data-zone="manual"><span data-i18n="zoneManual"></span><span class="hint" tabindex="0" data-help-key="hintManual">?</span></button>
     </aside>
 
     <main class="work-zone" id="workZone" aria-live="polite"></main>
 
     <aside class="assist-panel">
       <div class="assist-title">
-        <span data-i18n="assistTitle">Пояснення</span>
-        <span class="hint" tabindex="0" data-help-key="helpAssist">?</span>
+        <span data-i18n="assistTitle"></span>
+        <span class="hint" tabindex="0" data-help-key="hintAssist">?</span>
       </div>
       <div id="assistContent" class="assist-content"></div>
     </aside>
   </div>
 
   <footer class="status-bar">
-    <span><span data-i18n="modeLabel">MODE</span>: <strong id="modeValue">DISCUSSION</strong></span>
-    <span><span data-i18n="stateLabel">STATE</span>: <strong id="stateValue">READY</strong></span>
-    <span><span data-i18n="projectLabel">PROJECT</span>: <strong id="projectValue">Не вибрано</strong></span>
+    <span><span data-i18n="modeLabel"></span>: <strong id="modeValue"></strong></span>
+    <span><span data-i18n="stateLabel"></span>: <strong id="stateValue"></strong></span>
+    <span><span data-i18n="projectLabel"></span>: <strong id="projectValue"></strong></span>
   </footer>
 
   <script src="app.js"></script>
