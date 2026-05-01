@@ -6,58 +6,84 @@
   <title>ODIN Interface V03 — System Prototype</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body data-theme="dark">
+<body class="theme-light" data-lang="uk">
   <header class="odin-header">
-    <section class="brand-block">
+    <div class="brand">
       <div class="brand-mark">ODIN</div>
       <div>
-        <p class="eyebrow">System Control Workspace</p>
-        <h1>ODIN Interface V03</h1>
+        <div class="brand-title" data-i18n="brandTitle">ODIN Interface V03</div>
+        <div class="brand-subtitle" data-i18n="brandSubtitle">Робоче середовище керування системою</div>
       </div>
-    </section>
+    </div>
 
-    <section class="header-actions">
-      <button class="theme-toggle" id="themeToggle" type="button">Light Theme</button>
-      <button class="master-start" id="masterStart" type="button">ODIN SYSTEM — MASTER START</button>
-    </section>
+    <div class="header-actions">
+      <button class="primary-action" id="masterStart" data-i18n="masterStart">ODIN SYSTEM — MASTER START</button>
+
+      <div class="segmented" aria-label="Language switch">
+        <button id="langUk" class="active">UA</button>
+        <button id="langEn">EN</button>
+      </div>
+
+      <div class="segmented" aria-label="Theme switch">
+        <button id="themeLight" class="active" data-i18n="light">Світла</button>
+        <button id="themeDark" data-i18n="dark">Темна</button>
+      </div>
+    </div>
   </header>
 
-  <section class="status-bar" aria-label="System status">
-    <div><span>MODE</span><strong id="modeValue">DISCUSSION</strong></div>
-    <div><span>STATE</span><strong id="stateValue">READY</strong></div>
-    <div><span>ZONE</span><strong id="zoneValue">COMMAND CENTER</strong></div>
-    <div><span>SYNC</span><strong>SYSTEM MAP v2</strong></div>
-  </section>
+  <div class="status-strip">
+    <div><span data-i18n="mode">Режим</span>: <strong id="modeValue">DISCUSSION</strong></div>
+    <div><span data-i18n="state">Стан</span>: <strong id="stateValue">READY</strong></div>
+    <div><span data-i18n="activeZone">Активна зона</span>: <strong id="zoneValue">COMMAND_CENTER</strong></div>
+  </div>
 
-  <main class="odin-layout">
-    <aside class="left-tree" aria-label="ODIN navigation tree">
-      <div class="tree-title">Live System Map</div>
-      <button class="tree-item active" data-zone="command">Command Center</button>
-      <button class="tree-item" data-zone="map">System Map</button>
-      <button class="tree-item" data-zone="files">File Workspace</button>
-      <button class="tree-item" data-zone="ois">OIS Core</button>
-      <button class="tree-item" data-zone="manual">Manual / Help</button>
+  <div class="layout">
+    <aside class="left-tree">
+      <div class="tree-title" data-i18n="navigation">Навігація ODIN</div>
+
+      <button class="tree-item active" data-zone="command">
+        <span data-i18n="zoneCommand">Command Center</span>
+        <span class="hint-dot" data-help="command"></span>
+      </button>
+
+      <button class="tree-item" data-zone="map">
+        <span data-i18n="zoneMap">System Map</span>
+        <span class="hint-dot" data-help="map"></span>
+      </button>
+
+      <button class="tree-item" data-zone="files">
+        <span data-i18n="zoneFiles">File Workspace</span>
+        <span class="hint-dot" data-help="files"></span>
+      </button>
+
+      <button class="tree-item" data-zone="manual">
+        <span data-i18n="zoneManual">Manual / Help</span>
+        <span class="hint-dot" data-help="manual"></span>
+      </button>
+
       <div class="tree-footer">
-        <strong>Assisted Mode</strong>
-        <p>ODIN підказує наступний крок, якщо звʼязки або дії неочевидні.</p>
+        <button id="openHelp" class="soft-button" data-i18n="howUse">Як користуватись?</button>
       </div>
     </aside>
 
-    <section class="work-zone" id="workZone" aria-live="polite"></section>
+    <main class="work-zone" id="workZone"></main>
 
-    <aside class="context-panel" aria-label="Context panel">
-      <h2>Context</h2>
-      <p id="contextText">Поточна зона показує керований старт системи та базову модель роботи.</p>
-      <div class="mini-card">
-        <span>Core Flow</span>
-        <strong>INPUT → INTENT → MODE → STATE → ACTION</strong>
-      </div>
-      <div class="mini-card">
-        <span>Package Rule</span>
-        <strong>Only meaningful files. No empty folders.</strong>
-      </div>
+    <aside class="assist-panel">
+      <div class="assist-title" data-i18n="assistTitle">Assisted Mode</div>
+      <p id="assistText" data-i18n="assistIntro">
+        ODIN підказує наступний крок, пояснює звʼязки та допомагає не губитися.
+      </p>
+      <button class="soft-button" id="explainCurrent" data-i18n="explainCurrent">Пояснити поточну зону</button>
     </aside>
-  </main>
+  </div>
+
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button class="modal-close" id="closeModal">×</button>
+      <h2 id="modalTitle"></h2>
+      <p id="modalBody"></p>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>

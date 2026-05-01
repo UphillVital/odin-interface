@@ -1,124 +1,191 @@
-const workZone = document.getElementById('workZone');
-const contextText = document.getElementById('contextText');
-const zoneValue = document.getElementById('zoneValue');
-const modeValue = document.getElementById('modeValue');
-const stateValue = document.getElementById('stateValue');
-const themeToggle = document.getElementById('themeToggle');
-const masterStart = document.getElementById('masterStart');
-const treeItems = document.querySelectorAll('.tree-item');
-
-const zones = {
-  command: {
-    title: 'Command Center',
-    mode: 'DISCUSSION',
-    state: 'READY',
-    context: 'Центральна зона для введення наміру, перевірки режиму та запуску керованих сценаріїв.',
-    html: `
-      <h2>Command Center</h2>
-      <p>ODIN приймає запит, визначає intent, режим, стан і наступну робочу зону.</p>
-      <textarea class="command-box" placeholder="ODIN\nMODE: DISCUSSION\nTASK: ..."></textarea>
-      <button class="primary-action" type="button" onclick="simulateIntent()">Analyze Intent</button>
-      <div class="flow"><span>INPUT</span><span>INTENT</span><span>MODE</span><span>STATE</span><span>ACTION</span></div>
-    `
+const translations = {
+  uk: {
+    brandTitle: "ODIN Interface V03",
+    brandSubtitle: "Робоче середовище керування системою",
+    masterStart: "ODIN SYSTEM — MASTER START",
+    light: "Світла",
+    dark: "Темна",
+    mode: "Режим",
+    state: "Стан",
+    activeZone: "Активна зона",
+    navigation: "Навігація ODIN",
+    zoneCommand: "Command Center",
+    zoneMap: "System Map",
+    zoneFiles: "File Workspace",
+    zoneManual: "Manual / Help",
+    howUse: "Як користуватись?",
+    assistTitle: "Assisted Mode",
+    assistIntro: "ODIN підказує наступний крок, пояснює звʼязки та допомагає не губитися.",
+    explainCurrent: "Пояснити поточну зону",
+    commandTitle: "Command Center",
+    commandDesc: "Головне місце для запуску сценаріїв, вибору режиму та роботи з MASTER START.",
+    mapTitle: "System Map",
+    mapDesc: "Жива карта системи: модулі, залежності, звʼязки та перехід у потрібну робочу зону.",
+    filesTitle: "File Workspace",
+    filesDesc: "Git-подібна зона: редактор, зміни, diff, approve/reject, history та package.",
+    manualTitle: "Manual / Help",
+    manualDesc: "Інструкції, пояснення можливостей ODIN, словник термінів і підказки для роботи.",
+    nextStep: "Наступний крок",
+    currentGoal: "Поточна ціль",
+    statusMeaning: "Що означає стан",
+    commandNext: "Обери продукт або запусти MASTER START.",
+    mapNext: "Вибери модуль, щоб побачити залежності.",
+    filesNext: "Переглянь зміни перед затвердженням.",
+    manualNext: "Відкрий пояснення або словник.",
+    modalHelpTitle: "Пояснення",
+    generalHelp: "Цей прототип показує базову логіку ODIN: зліва навігація, по центру активна робоча зона, справа підказки Assisted Mode. Мета — не загубитись і бачити наступну дію.",
+    masterStarted: "MASTER START активовано. Наступний розвиток: вибір продукту, сценарію та запуск pipeline.",
   },
-  map: {
-    title: 'System Map',
-    mode: 'CONTROL',
-    state: 'MAP_ACTIVE',
-    context: 'Жива карта системи має бути навігацією, а не декоративним деревом.',
-    html: `
-      <h2>System Map</h2>
-      <p>Карта показує звʼязки між OIS, Work Zones, File Workspace, Design DNA та продуктами ODIN.</p>
-      <div class="zone-grid">
-        <article class="zone-card"><h3>OIS Core</h3><p>INPUT → INTENT → MODE → STATE → ACTION.</p></article>
-        <article class="zone-card"><h3>Work Zones</h3><p>Динамічні робочі області, що активуються наміром і станом.</p></article>
-        <article class="zone-card"><h3>File Workspace</h3><p>Git-подібна модель: editor, diff, approve/reject, history, package.</p></article>
-        <article class="zone-card"><h3>Design DNA</h3><p>Спокій, ясність, контроль, впевненість, якість.</p></article>
-      </div>
-    `
-  },
-  files: {
-    title: 'File Workspace',
-    mode: 'CONTROL',
-    state: 'FILES_READY',
-    context: 'Файлова зона має показувати зміни, diff, затвердження та підготовку пакетів.',
-    html: `
-      <h2>File Workspace</h2>
-      <p>Це окремий світ всередині ODIN: робота з файлами без сліпих змін.</p>
-      <div class="zone-grid">
-        <article class="zone-card"><h3>Editor</h3><p>Редагування змісту майбутнього модуля.</p></article>
-        <article class="zone-card"><h3>Changes / Diff</h3><p>Порівняння перед затвердженням.</p></article>
-        <article class="zone-card"><h3>Approve / Reject</h3><p>Жодна зміна не проходить без контролю.</p></article>
-        <article class="zone-card"><h3>Package</h3><p>Готовий plug & play пакет без порожніх папок.</p></article>
-      </div>
-    `
-  },
-  ois: {
-    title: 'OIS Core',
-    mode: 'SYSTEM',
-    state: 'OIS_VISIBLE',
-    context: 'OIS — шар, який перетворює спілкування на керовану системну дію.',
-    html: `
-      <h2>OIS Core</h2>
-      <p>Гібридна модель: DEFAULT = Smart System, OVERRIDE = Commands.</p>
-      <div class="flow"><span>Smart Intent</span><span>Command Override</span><span>Mode Engine</span><span>State Engine</span><span>Decision Engine</span></div>
-    `
-  },
-  manual: {
-    title: 'Manual / Help',
-    mode: 'ASSISTED',
-    state: 'HELP_ACTIVE',
-    context: 'Manual повинен навчати користувача працювати з ODIN і пояснювати звʼязки.',
-    html: `
-      <h2>Manual / Help</h2>
-      <p>Ця зона буде містити докладну інструкцію, словник ODIN, правила роботи та приклади складних задач.</p>
-      <div class="zone-grid">
-        <article class="zone-card"><h3>ODIN Lexicon</h3><p>Терміни, команди, стани, режими, правила спілкування.</p></article>
-        <article class="zone-card"><h3>Assisted Mode</h3><p>Підказки, наступні кроки, пояснення залежностей.</p></article>
-      </div>
-    `
+  en: {
+    brandTitle: "ODIN Interface V03",
+    brandSubtitle: "System control workspace",
+    masterStart: "ODIN SYSTEM — MASTER START",
+    light: "Light",
+    dark: "Dark",
+    mode: "Mode",
+    state: "State",
+    activeZone: "Active zone",
+    navigation: "ODIN Navigation",
+    zoneCommand: "Command Center",
+    zoneMap: "System Map",
+    zoneFiles: "File Workspace",
+    zoneManual: "Manual / Help",
+    howUse: "How to use?",
+    assistTitle: "Assisted Mode",
+    assistIntro: "ODIN suggests the next step, explains connections, and helps you stay oriented.",
+    explainCurrent: "Explain current zone",
+    commandTitle: "Command Center",
+    commandDesc: "Main place for scenarios, mode selection, and MASTER START workflows.",
+    mapTitle: "System Map",
+    mapDesc: "Live system map: modules, dependencies, connections, and entry into the right work zone.",
+    filesTitle: "File Workspace",
+    filesDesc: "Git-like zone: editor, changes, diff, approve/reject, history, and package.",
+    manualTitle: "Manual / Help",
+    manualDesc: "Instructions, ODIN capabilities, lexicon, and contextual help.",
+    nextStep: "Next step",
+    currentGoal: "Current goal",
+    statusMeaning: "State meaning",
+    commandNext: "Select a product or run MASTER START.",
+    mapNext: "Select a module to inspect dependencies.",
+    filesNext: "Review changes before approval.",
+    manualNext: "Open explanations or lexicon.",
+    modalHelpTitle: "Explanation",
+    generalHelp: "This prototype shows ODIN’s base logic: navigation on the left, active work zone in the center, Assisted Mode on the right. The goal is to stay oriented and see the next action.",
+    masterStarted: "MASTER START activated. Next evolution: product selector, scenario selection, and pipeline launch.",
   }
 };
 
-function setZone(zoneKey) {
-  const zone = zones[zoneKey] || zones.command;
-  workZone.innerHTML = zone.html;
-  contextText.textContent = zone.context;
-  zoneValue.textContent = zone.title.toUpperCase();
-  modeValue.textContent = zone.mode;
-  stateValue.textContent = zone.state;
-  treeItems.forEach((item) => item.classList.toggle('active', item.dataset.zone === zoneKey));
+const zoneMeta = {
+  command: { title: "commandTitle", desc: "commandDesc", next: "commandNext", state: "READY", mode: "DISCUSSION", name: "COMMAND_CENTER" },
+  map: { title: "mapTitle", desc: "mapDesc", next: "mapNext", state: "MAP_VIEW", mode: "CONTROL", name: "SYSTEM_MAP" },
+  files: { title: "filesTitle", desc: "filesDesc", next: "filesNext", state: "FILE_REVIEW", mode: "CONTROL", name: "FILE_WORKSPACE" },
+  manual: { title: "manualTitle", desc: "manualDesc", next: "manualNext", state: "HELP", mode: "DISCUSSION", name: "MANUAL" }
+};
+
+let lang = "uk";
+let currentZone = "command";
+
+function t(key) { return translations[lang][key] || key; }
+
+function applyI18n() {
+  document.documentElement.lang = lang;
+  document.body.dataset.lang = lang;
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    el.textContent = t(el.dataset.i18n);
+  });
+  renderZone(currentZone);
 }
 
-function simulateIntent() {
-  modeValue.textContent = 'ANALYSIS';
-  stateValue.textContent = 'INTENT_DETECTED';
-  contextText.textContent = 'ODIN визначив намір і готовий активувати відповідну Work Zone.';
-}
+function renderZone(zone) {
+  currentZone = zone;
+  const meta = zoneMeta[zone];
+  document.getElementById("modeValue").textContent = meta.mode;
+  document.getElementById("stateValue").textContent = meta.state;
+  document.getElementById("zoneValue").textContent = meta.name;
 
-masterStart.addEventListener('click', () => {
-  workZone.innerHTML = `
-    <h2>ODIN SYSTEM — MASTER START</h2>
-    <p>Primary system action activated. Наступна версія має містити product selector, scenario selector і pipeline preview.</p>
-    <div class="zone-grid">
-      <article class="zone-card"><h3>Product Selector</h3><p>ODIN Core / Deutsch Trainer / Future Product.</p></article>
-      <article class="zone-card"><h3>Scenario</h3><p>Start package, restore, build, QA, export.</p></article>
-      <article class="zone-card"><h3>Pipeline Preview</h3><p>TASK → BUILD → QA → PACKAGE.</p></article>
-      <article class="zone-card"><h3>Status</h3><p>MASTER_START_READY.</p></article>
+  document.querySelectorAll(".tree-item").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.zone === zone);
+  });
+
+  document.getElementById("assistText").textContent = t(meta.next);
+
+  document.getElementById("workZone").innerHTML = `
+    <h1 class="zone-title">${t(meta.title)}</h1>
+    <p class="zone-desc">${t(meta.desc)}</p>
+    <div class="grid">
+      <div class="mini-card"><strong>${t("currentGoal")}</strong><span>${t(meta.desc)}</span></div>
+      <div class="mini-card"><strong>${t("nextStep")}</strong><span>${t(meta.next)}</span></div>
+      <div class="mini-card"><strong>${t("statusMeaning")}</strong><span>${meta.state}</span></div>
+    </div>
+    <div class="zone-card">
+      <strong>${meta.name}</strong>
+      <p class="zone-desc">${t("generalHelp")}</p>
     </div>
   `;
-  modeValue.textContent = 'CONTROL';
-  stateValue.textContent = 'MASTER_START_READY';
-  zoneValue.textContent = 'MASTER START';
-  contextText.textContent = 'MASTER START — головна системна дія, яка повинна запускати керований сценарій за правилами ODIN.';
-  treeItems.forEach((item) => item.classList.remove('active'));
+}
+
+function openModal(title, body) {
+  document.getElementById("modalTitle").textContent = title;
+  document.getElementById("modalBody").textContent = body;
+  document.getElementById("modal").classList.remove("hidden");
+}
+
+document.querySelectorAll(".tree-item").forEach(btn => {
+  btn.addEventListener("click", () => renderZone(btn.dataset.zone));
 });
 
-themeToggle.addEventListener('click', () => {
-  const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
-  document.body.dataset.theme = next;
-  themeToggle.textContent = next === 'dark' ? 'Light Theme' : 'Dark Theme';
+document.getElementById("langUk").addEventListener("click", () => {
+  lang = "uk";
+  document.getElementById("langUk").classList.add("active");
+  document.getElementById("langEn").classList.remove("active");
+  applyI18n();
 });
 
-treeItems.forEach((item) => item.addEventListener('click', () => setZone(item.dataset.zone)));
-setZone('command');
+document.getElementById("langEn").addEventListener("click", () => {
+  lang = "en";
+  document.getElementById("langEn").classList.add("active");
+  document.getElementById("langUk").classList.remove("active");
+  applyI18n();
+});
+
+document.getElementById("themeLight").addEventListener("click", () => {
+  document.body.className = "theme-light";
+  document.getElementById("themeLight").classList.add("active");
+  document.getElementById("themeDark").classList.remove("active");
+});
+
+document.getElementById("themeDark").addEventListener("click", () => {
+  document.body.className = "theme-dark";
+  document.getElementById("themeDark").classList.add("active");
+  document.getElementById("themeLight").classList.remove("active");
+});
+
+document.getElementById("masterStart").addEventListener("click", () => {
+  document.getElementById("modeValue").textContent = "CONTROL";
+  document.getElementById("stateValue").textContent = "MASTER_START_READY";
+  openModal("ODIN SYSTEM — MASTER START", t("masterStarted"));
+});
+
+document.getElementById("openHelp").addEventListener("click", () => {
+  openModal(t("modalHelpTitle"), t("generalHelp"));
+});
+
+document.getElementById("explainCurrent").addEventListener("click", () => {
+  const meta = zoneMeta[currentZone];
+  openModal(t(meta.title), `${t(meta.desc)} ${t(meta.next)}`);
+});
+
+document.getElementById("closeModal").addEventListener("click", () => {
+  document.getElementById("modal").classList.add("hidden");
+});
+
+document.querySelectorAll(".hint-dot").forEach(dot => {
+  dot.addEventListener("click", (event) => {
+    event.stopPropagation();
+    const zone = dot.dataset.help === "command" ? "command" : dot.dataset.help === "map" ? "map" : dot.dataset.help === "files" ? "files" : "manual";
+    const meta = zoneMeta[zone];
+    openModal(t(meta.title), `${t(meta.desc)} ${t(meta.next)}`);
+  });
+});
+
+applyI18n();

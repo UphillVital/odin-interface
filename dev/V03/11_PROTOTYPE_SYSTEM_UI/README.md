@@ -1,60 +1,58 @@
-# ODIN V03 PACKAGE 08 — SYSTEM PROTOTYPE
+# ODIN V03 PACKAGE 09 — I18N + Assisted Mode + Light Default
 
 ## Purpose
-This package adds the first live ODIN Interface V03 prototype.
 
-It is not the final UI. It is a controlled system prototype for checking:
-- Header + MASTER START
-- Live System Map / left navigation
-- Dynamic Work Zones
-- Basic OIS visibility
-- File Workspace model
-- Assisted Manual zone
-- Dark / Light theme switching
+This package updates the first ODIN V03 prototype after user review.
 
-## Install Path
-Extract this package into the repository root:
+## Changes
+
+- Light theme is now the default.
+- Dark theme remains available.
+- Ukrainian and English are available immediately.
+- Assisted Mode is visible as a right-side explanation panel.
+- Help popups and contextual hint buttons are added.
+- Work zones now explain their purpose and next step.
+- MASTER START now opens a clear explanatory modal.
+
+## Files
+
+```text
+dev/V03/11_PROTOTYPE_SYSTEM_UI/
+├─ index.html
+├─ styles.css
+├─ app.js
+└─ README.md
+```
+
+## Integration
+
+Unzip into the project root:
 
 ```text
 C:\Users\Vitalii\OneDrive\Документы\GitHub\odin-interface\
 ```
 
-The resulting files should be:
-
-```text
-dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html
-dev/V03/11_PROTOTYPE_SYSTEM_UI/styles.css
-dev/V03/11_PROTOTYPE_SYSTEM_UI/app.js
-dev/V03/11_PROTOTYPE_SYSTEM_UI/README.md
-```
-
-## How to Test
 Open:
 
 ```text
 dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html
 ```
 
-Test:
-1. MASTER START button
-2. Left tree zones
-3. Dark / Light theme toggle
-4. Command Center → Analyze Intent
-5. File Workspace view
-6. System Map view
-7. Manual / Help view
+## QA checklist
 
-## Package Rule Compliance
-- No empty folders
-- No duplicate project tree
-- No scripts
-- Only meaningful files
-- Plug & play structure
+- Page opens in Light theme by default.
+- Dark theme button switches to dark.
+- UA/EN buttons switch language.
+- Left navigation switches work zones.
+- Question-mark hints open popups.
+- "How to use?" opens a help popup.
+- "Explain current zone" explains the active zone.
+- MASTER START opens a system explanation popup.
 
-## Next Step
-PACKAGE 09 should focus on:
-- stronger visual polish
-- product selector inside MASTER START
-- deeper OIS mock behavior
-- real System Map links
-- File Workspace diff mockup
+## Git
+
+```bash
+git add dev/V03/
+git commit -m "Add ODIN Interface V03 i18n assisted mode prototype"
+git push origin dev
+```
