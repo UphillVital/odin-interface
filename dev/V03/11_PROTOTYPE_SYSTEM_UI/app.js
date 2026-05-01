@@ -1,16 +1,18 @@
 const state = {
-  lang: 'uk',
-  theme: 'light',
+  lang: localStorage.getItem('odin.lang') || 'uk',
+  theme: localStorage.getItem('odin.theme') || 'light',
   zone: 'command',
   project: null,
+  systemState: 'READY',
 };
 
-const i18n = {
+const dictionary = {
   uk: {
     title: 'Інтерфейс ОДІН',
     subtitle: 'Робоче середовище керування системою',
     masterStart: 'ODIN SYSTEM — MASTER START',
-    themeToggle: 'Темна тема',
+    themeToDark: 'Темна тема',
+    themeToLight: 'Світла тема',
     treeTitle: 'Навігація',
     zoneCommand: 'Command Center',
     zoneMap: 'System Map',
@@ -18,26 +20,10 @@ const i18n = {
     zoneFiles: 'File Workspace',
     zoneManual: 'Manual',
     assistTitle: 'Пояснення',
+    modeLabel: 'MODE',
+    stateLabel: 'STATE',
+    projectLabel: 'PROJECT',
     none: 'Не вибрано',
-  },
-  en: {
-    title: 'ODIN Interface',
-    subtitle: 'System control workspace',
-    masterStart: 'ODIN SYSTEM — MASTER START',
-    themeToggle: 'Dark theme',
-    treeTitle: 'Navigation',
-    zoneCommand: 'Command Center',
-    zoneMap: 'System Map',
-    zoneProjects: 'Projects',
-    zoneFiles: 'File Workspace',
-    zoneManual: 'Manual',
-    assistTitle: 'Explanation',
-    none: 'None selected',
-  }
-};
-
-const zoneText = {
-  uk: {
     commandTitle: 'Command Center',
     commandBody: 'Це головна зона керування ODIN: режим, стан, запуск сценаріїв і MASTER START.',
     commandAssist: '<strong>Command Center</strong> — стартова зона. Тут ти бачиш стан системи й запускаєш головні сценарії. Наступний логічний крок: вибрати продукт або відкрити System Map.',
@@ -48,14 +34,58 @@ const zoneText = {
     projectsBody: 'Тут обираються продукти та проєкти: Deutsch Trainer, ІССУ, ССУДТ, нові проєкти.',
     projectsAssist: '<strong>Projects</strong> задає контекст роботи. File Workspace має працювати тільки після вибору проєкту.',
     filesTitle: 'File Workspace',
-    filesBody: 'Робота з файлами: editor, changes, diff, approve/reject, history, package.',
+    filesBody: 'Робота з файлами: редактор, зміни, diff, approve/reject, історія, package.',
     filesAssist: '<strong>File Workspace</strong> працює в контексті вибраного проєкту. Якщо проєкт не вибрано — спочатку відкрий Projects.',
     manualTitle: 'Manual / Help',
     manualBody: 'Інструкції, пояснення можливостей ODIN, словник і правила роботи.',
     manualAssist: '<strong>Manual</strong> — місце навчання й самопояснення системи. Тут має бути докладний HTML-довідник.',
     masterAssist: '<strong>MASTER START</strong> активовано. Наступний етап: вибір продукту → сценарій → pipeline preview → запуск.',
+    mapToProjects: 'Projects → робочий контекст',
+    mapToFiles: 'File Workspace → зміни',
+    mapToCommand: 'OIS → Command Center',
+    mapToManual: 'Manual → пояснення',
+    productDT: 'Deutsch Trainer',
+    productISSU: 'DT / ІССУ',
+    productSSUDT: 'DT / ССУДТ',
+    newProject1: 'Новий проєкт 1',
+    noProject: 'Проєкт ще не вибрано. Відкрий Projects.',
+    editor: 'Редактор',
+    changesDiff: 'Зміни / Diff',
+    approveReject: 'Затвердити / Відхилити',
+    packageBuild: 'Пакет',
+    odinCapabilities: 'Можливості ODIN',
+    oisLexicon: 'Словник OIS',
+    howToWork: 'Як працювати',
+    qualityRules: 'Правила якості',
+    projectSelected: '<strong>Проєкт вибрано:</strong> {project}. Тепер File Workspace може працювати в правильному контексті.',
+    zoneHint: 'Це локальна підказка для поточної робочої зони.',
+    helpMasterStart: 'Запускає головний системний сценарій для вибраного продукту або проєкту.',
+    helpTree: 'Дерево показує основні рівні ODIN. Клік відкриває відповідну робочу зону.',
+    helpCommand: 'Головна зона керування: режим, стан, запуск сценаріїв.',
+    helpMap: 'Жива карта системи: звʼязки, залежності, переходи до зон.',
+    helpProjects: 'Місце вибору продуктів і проєктів: DT, ІССУ, ССУДТ, нові проєкти.',
+    helpFiles: 'Робота з файлами у контексті вибраного проєкту: зміни, diff, approve/reject.',
+    helpManual: 'Інструкції, пояснення можливостей ODIN і правила роботи.',
+    helpAssist: 'Ця панель пояснює, де ти зараз і що логічно робити далі.',
+    helpScenario: 'Запуск керованого сценарію ODIN.',
   },
   en: {
+    title: 'ODIN Interface',
+    subtitle: 'System control workspace',
+    masterStart: 'ODIN SYSTEM — MASTER START',
+    themeToDark: 'Dark theme',
+    themeToLight: 'Light theme',
+    treeTitle: 'Navigation',
+    zoneCommand: 'Command Center',
+    zoneMap: 'System Map',
+    zoneProjects: 'Projects',
+    zoneFiles: 'File Workspace',
+    zoneManual: 'Manual',
+    assistTitle: 'Explanation',
+    modeLabel: 'MODE',
+    stateLabel: 'STATE',
+    projectLabel: 'PROJECT',
+    none: 'None selected',
     commandTitle: 'Command Center',
     commandBody: 'Main ODIN control zone: mode, state, scenario launch, and MASTER START.',
     commandAssist: '<strong>Command Center</strong> is the starting zone. You see system state and launch main scenarios. Next step: select a product or open System Map.',
@@ -72,28 +102,74 @@ const zoneText = {
     manualBody: 'Instructions, ODIN capabilities, lexicon, and working rules.',
     manualAssist: '<strong>Manual</strong> is the system learning and self-explanation area. It should contain a detailed editable HTML guide.',
     masterAssist: '<strong>MASTER START</strong> activated. Next stage: product selection → scenario → pipeline preview → launch.',
+    mapToProjects: 'Projects → work context',
+    mapToFiles: 'File Workspace → changes',
+    mapToCommand: 'OIS → Command Center',
+    mapToManual: 'Manual → explanation',
+    productDT: 'Deutsch Trainer',
+    productISSU: 'DT / ISSU',
+    productSSUDT: 'DT / SSUDT',
+    newProject1: 'New Project 1',
+    noProject: 'No project selected yet. Open Projects.',
+    editor: 'Editor',
+    changesDiff: 'Changes / Diff',
+    approveReject: 'Approve / Reject',
+    packageBuild: 'Package',
+    odinCapabilities: 'ODIN Capabilities',
+    oisLexicon: 'OIS Lexicon',
+    howToWork: 'How to work',
+    qualityRules: 'Quality rules',
+    projectSelected: '<strong>Project selected:</strong> {project}. File Workspace can now work in the correct context.',
+    zoneHint: 'This is a local hint for the current work zone.',
+    helpMasterStart: 'Starts the main system scenario for the selected product or project.',
+    helpTree: 'The tree shows core ODIN layers. Click to open the related work zone.',
+    helpCommand: 'Main control zone: mode, state, scenario launch.',
+    helpMap: 'Live system map: links, dependencies, navigation to zones.',
+    helpProjects: 'Select products and projects: DT, ISSU, SSUDT, new projects.',
+    helpFiles: 'Work with files in the selected project context: changes, diff, approve/reject.',
+    helpManual: 'Instructions, ODIN capabilities, and operating rules.',
+    helpAssist: 'This panel explains where you are and what the next logical step is.',
+    helpScenario: 'Launch a controlled ODIN scenario.',
   }
 };
 
 const workZone = document.getElementById('workZone');
 const assistContent = document.getElementById('assistContent');
-const modeValue = document.getElementById('modeValue');
 const stateValue = document.getElementById('stateValue');
 const projectValue = document.getElementById('projectValue');
 
-function t(key) { return i18n[state.lang][key] || key; }
-function z(key) { return zoneText[state.lang][key] || key; }
+function t(key, params = {}) {
+  let value = dictionary[state.lang][key] || key;
+  Object.entries(params).forEach(([param, replacement]) => {
+    value = value.replace(`{${param}}`, replacement);
+  });
+  return value;
+}
+
+function setTheme(theme) {
+  state.theme = theme;
+  document.body.classList.toggle('theme-light', theme === 'light');
+  document.body.classList.toggle('theme-dark', theme === 'dark');
+  document.body.dataset.theme = theme;
+  localStorage.setItem('odin.theme', theme);
+}
 
 function applyI18n() {
+  document.documentElement.lang = state.lang;
   document.body.dataset.lang = state.lang;
+
   document.querySelectorAll('[data-i18n]').forEach(el => {
     el.textContent = t(el.dataset.i18n);
   });
+
+  document.querySelectorAll('[data-help-key]').forEach(el => {
+    el.setAttribute('data-help', t(el.dataset.helpKey));
+  });
+
   document.getElementById('langToggle').textContent = state.lang === 'uk' ? 'EN' : 'UA';
-  document.getElementById('themeToggle').textContent = state.theme === 'light'
-    ? (state.lang === 'uk' ? 'Темна тема' : 'Dark theme')
-    : (state.lang === 'uk' ? 'Світла тема' : 'Light theme');
+  document.getElementById('themeToggle').textContent = state.theme === 'light' ? t('themeToDark') : t('themeToLight');
   projectValue.textContent = state.project || t('none');
+  stateValue.textContent = state.systemState;
 }
 
 function setActiveTree(zone) {
@@ -102,10 +178,14 @@ function setActiveTree(zone) {
   });
 }
 
+function hint(key) {
+  return `<span class="hint" tabindex="0" data-help-key="${key}" data-help="${t(key)}">?</span>`;
+}
+
 function zoneTemplate(title, body, cards = '') {
   return `
     <section class="zone-card">
-      <h2 class="zone-title">${title}<span class="hint" tabindex="0" data-help-uk="Це локальна підказка для поточної робочої зони." data-help-en="This is a local hint for the current work zone.">?</span></h2>
+      <h2 class="zone-title">${title}${hint('zoneHint')}</h2>
       <p>${body}</p>
       ${cards}
     </section>
@@ -115,83 +195,85 @@ function zoneTemplate(title, body, cards = '') {
 function renderZone(zone) {
   state.zone = zone;
   setActiveTree(zone);
-  stateValue.textContent = 'READY';
+  state.systemState = 'READY';
 
   if (zone === 'command') {
-    workZone.innerHTML = zoneTemplate(z('commandTitle'), z('commandBody'), `
+    workZone.innerHTML = zoneTemplate(t('commandTitle'), t('commandBody'), `
       <div class="action-row">
-        <button class="primary-action" onclick="masterStart()">${t('masterStart')} <span class="hint" tabindex="0" data-help-uk="Запуск керованого сценарію ODIN." data-help-en="Launch a controlled ODIN scenario.">?</span></button>
+        <button class="primary-action" onclick="masterStart()">${t('masterStart')} ${hint('helpScenario')}</button>
         <div class="input-like">INPUT → INTENT → MODE → STATE → ACTION</div>
       </div>
     `);
-    assistContent.innerHTML = z('commandAssist');
+    assistContent.innerHTML = t('commandAssist');
   }
 
   if (zone === 'map') {
-    workZone.innerHTML = zoneTemplate(z('mapTitle'), z('mapBody'), `
+    workZone.innerHTML = zoneTemplate(t('mapTitle'), t('mapBody'), `
       <div class="zone-grid">
-        <button class="mini-card" onclick="renderZone('projects')">Projects → Work Context</button>
-        <button class="mini-card" onclick="renderZone('files')">File Workspace → Changes</button>
-        <button class="mini-card" onclick="renderZone('command')">OIS → Command Center</button>
-        <button class="mini-card" onclick="renderZone('manual')">Manual → Explanation</button>
+        <button class="mini-card" onclick="renderZone('projects')">${t('mapToProjects')}</button>
+        <button class="mini-card" onclick="renderZone('files')">${t('mapToFiles')}</button>
+        <button class="mini-card" onclick="renderZone('command')">${t('mapToCommand')}</button>
+        <button class="mini-card" onclick="renderZone('manual')">${t('mapToManual')}</button>
       </div>
     `);
-    assistContent.innerHTML = z('mapAssist');
+    assistContent.innerHTML = t('mapAssist');
   }
 
   if (zone === 'projects') {
-    workZone.innerHTML = zoneTemplate(z('projectsTitle'), z('projectsBody'), `
+    workZone.innerHTML = zoneTemplate(t('projectsTitle'), t('projectsBody'), `
       <div class="zone-grid">
-        <button class="mini-card" onclick="selectProject('Deutsch Trainer / DT')">Deutsch Trainer</button>
-        <button class="mini-card" onclick="selectProject('DT / ІССУ')">ІССУ</button>
-        <button class="mini-card" onclick="selectProject('DT / ССУДТ')">ССУДТ</button>
-        <button class="mini-card" onclick="selectProject('New Project 1')">New Project 1</button>
+        <button class="mini-card" onclick="selectProject('${t('productDT')}')">${t('productDT')}</button>
+        <button class="mini-card" onclick="selectProject('${t('productISSU')}')">${t('productISSU')}</button>
+        <button class="mini-card" onclick="selectProject('${t('productSSUDT')}')">${t('productSSUDT')}</button>
+        <button class="mini-card" onclick="selectProject('${t('newProject1')}')">${t('newProject1')}</button>
       </div>
     `);
-    assistContent.innerHTML = z('projectsAssist');
+    assistContent.innerHTML = t('projectsAssist');
   }
 
   if (zone === 'files') {
     const projectNote = state.project
       ? `<p><strong>${state.project}</strong></p>`
-      : `<p>${state.lang === 'uk' ? 'Проєкт ще не вибрано. Відкрий Projects.' : 'No project selected yet. Open Projects.'}</p>`;
-    workZone.innerHTML = zoneTemplate(z('filesTitle'), z('filesBody'), `
+      : `<p>${t('noProject')}</p>`;
+    workZone.innerHTML = zoneTemplate(t('filesTitle'), t('filesBody'), `
       ${projectNote}
       <div class="zone-grid">
-        <div class="mini-card">Editor</div>
-        <div class="mini-card">Changes / Diff</div>
-        <div class="mini-card">Approve / Reject</div>
-        <div class="mini-card">Package</div>
+        <div class="mini-card">${t('editor')}</div>
+        <div class="mini-card">${t('changesDiff')}</div>
+        <div class="mini-card">${t('approveReject')}</div>
+        <div class="mini-card">${t('packageBuild')}</div>
       </div>
     `);
-    assistContent.innerHTML = z('filesAssist');
+    assistContent.innerHTML = t('filesAssist');
   }
 
   if (zone === 'manual') {
-    workZone.innerHTML = zoneTemplate(z('manualTitle'), z('manualBody'), `
+    workZone.innerHTML = zoneTemplate(t('manualTitle'), t('manualBody'), `
       <div class="zone-grid">
-        <div class="mini-card">ODIN Capabilities</div>
-        <div class="mini-card">OIS Lexicon</div>
-        <div class="mini-card">How to work</div>
-        <div class="mini-card">Quality rules</div>
+        <div class="mini-card">${t('odinCapabilities')}</div>
+        <div class="mini-card">${t('oisLexicon')}</div>
+        <div class="mini-card">${t('howToWork')}</div>
+        <div class="mini-card">${t('qualityRules')}</div>
       </div>
     `);
-    assistContent.innerHTML = z('manualAssist');
+    assistContent.innerHTML = t('manualAssist');
   }
+
+  applyI18n();
 }
 
 function selectProject(projectName) {
   state.project = projectName;
   projectValue.textContent = projectName;
-  assistContent.innerHTML = state.lang === 'uk'
-    ? `<strong>Проєкт вибрано:</strong> ${projectName}. Тепер File Workspace може працювати в правильному контексті.`
-    : `<strong>Project selected:</strong> ${projectName}. File Workspace can now work in the correct context.`;
+  assistContent.innerHTML = t('projectSelected', { project: projectName });
 }
 
 function masterStart() {
-  stateValue.textContent = 'MASTER_START_READY';
+  state.systemState = 'MASTER_START_READY';
   renderZone('projects');
-  assistContent.innerHTML = z('masterAssist');
+  state.systemState = 'MASTER_START_READY';
+  stateValue.textContent = state.systemState;
+  assistContent.innerHTML = t('masterAssist');
 }
 
 document.querySelectorAll('.tree-item').forEach(btn => {
@@ -201,17 +283,15 @@ document.querySelectorAll('.tree-item').forEach(btn => {
 document.getElementById('masterStart').addEventListener('click', masterStart);
 
 document.getElementById('themeToggle').addEventListener('click', () => {
-  state.theme = state.theme === 'light' ? 'dark' : 'light';
-  document.body.className = state.theme === 'light' ? 'theme-light' : 'theme-dark';
+  setTheme(state.theme === 'light' ? 'dark' : 'light');
   applyI18n();
 });
 
 document.getElementById('langToggle').addEventListener('click', () => {
   state.lang = state.lang === 'uk' ? 'en' : 'uk';
-  document.documentElement.lang = state.lang;
-  applyI18n();
+  localStorage.setItem('odin.lang', state.lang);
   renderZone(state.zone);
 });
 
-applyI18n();
-renderZone('command');
+setTheme(state.theme);
+renderZone(state.zone);
