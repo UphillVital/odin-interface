@@ -2,7 +2,8 @@ const state = {
   lang: localStorage.getItem('odin_lang') || 'ua',
   theme: localStorage.getItem('odin_theme') || 'light',
   zone: 'command',
-  project: null,
+  project: localStorage.getItem('odin_active_project') || null,
+  workflow: localStorage.getItem('odin_workflow') || 'editing',
   mode: 'discussion',
   status: 'ready'
 };
@@ -21,7 +22,7 @@ const i18n = {
     fileWorkspaceReady: 'File Workspace активний для вибраного проєкту.', fileSelect: 'Вибрати файл', fileLoadSample: 'Завантажити приклад', fileNameLabel: 'Файл', fileNoFile: 'Файл ще не вибрано', fileEditorTitle: 'Редактор', fileOriginalTitle: 'Оригінал', fileDiffTitle: 'Diff / зміни', fileHistoryTitle: 'Історія', fileApproveBtn: 'Затвердити', fileRejectBtn: 'Відхилити', fileDownloadBtn: 'Завантажити файл', filePackageBtn: 'Підготувати пакет', fileEmptyEditor: 'Вибери текстовий файл або завантаж приклад.', fileApproved: 'Зміни затверджено.', fileRejected: 'Зміни відхилено.', fileDownloaded: 'Файл підготовлено до завантаження.', filePackaged: 'Пакет підготовлено логічно. Реальна ZIP-збірка буде наступним рівнем.', fileChanged: 'Є зміни', fileClean: 'Без змін', fileLinesChanged: 'Змінені рядки', fileBrowserLimit: 'Браузер не має прямого доступу до диска. Файл можна відкрити через вибір і завантажити оновлену копію.', fileNeedProject: 'Спочатку вибери проєкт, щоб ODIN знав контекст роботи з файлами.', fileSampleName: 'ODIN_SAMPLE_NOTE.md', fileSampleContent: '# ODIN sample\n\nЦе приклад файлу для перевірки редактора, diff, approve/reject та history.\n', diffNoChanges: 'Змін немає.', diffOriginal: 'Оригінал', diffDraft: 'Чернетка', historyEmpty: 'Історія поки порожня.', historyApproved: 'Затверджено', historyRejected: 'Відхилено', historyLoaded: 'Файл відкрито',
     manualTitle: 'Інструкція / Допомога', manualBody: 'Інструкції, можливості ODIN, словник і правила роботи.', manualAssist: '<strong>Інструкція</strong> — місце навчання й самопояснення системи. Тут має бути докладний HTML-довідник.',
     masterAssist: '<strong>MASTER START</strong> активовано. Наступний етап: вибір продукту → сценарій → перегляд pipeline → запуск.', selectedPrefix: 'Проєкт вибрано:', selectedSuffix: 'Тепер робота з файлами може працювати в правильному контексті.',
-    flow: 'ВХІД → НАМІР → РЕЖИМ → СТАН → ДІЯ', nodeProjects: 'Проєкти → Контекст роботи', nodeFiles: 'Робота з файлами → Зміни', nodeOis: 'OIS → Центр керування', nodeManual: 'Інструкція → Пояснення', editor: 'Редактор', changes: 'Зміни / Diff', approve: 'Затвердити / Відхилити', package: 'Пакет', capabilities: 'Можливості ODIN', lexicon: 'Словник OIS', howTo: 'Як працювати', quality: 'Правила якості', newProject1: 'Новий проєкт 1', dtProject: 'Deutsch Trainer', issuProject: 'DT / ІССУ', ssudtProject: 'DT / ССУДТ', zoneHint: 'Локальна підказка для поточної робочої зони.',
+    flow: 'ВХІД → НАМІР → РЕЖИМ → СТАН → ДІЯ', nodeProjects: 'Проєкти → Контекст роботи', nodeFiles: 'Робота з файлами → Зміни', nodeOis: 'OIS → Центр керування', nodeManual: 'Інструкція → Пояснення', editor: 'Редактор', changes: 'Зміни / Diff', approve: 'Затвердити / Відхилити', package: 'Пакет', capabilities: 'Можливості ODIN', lexicon: 'Словник OIS', howTo: 'Як працювати', quality: 'Правила якості', newProject1: 'Новий проєкт 1', dtProject: 'Deutsch Trainer', issuProject: 'DT / ІССУ', ssudtProject: 'DT / ССУДТ', zoneHint: 'Локальна підказка для поточної робочої зони.', workflowLabel: 'ПРОЦЕС', workflowEditing: 'Редагування', workflowChanged: 'Є зміни', workflowReview: 'Перевірка', workflowApproved: 'Затверджено', workflowSuggestSelectProject: 'Спочатку обери проєкт. Потім відкрий роботу з файлами.', workflowSuggestOpenFile: 'Проєкт вибрано. Тепер можна відкрити файл або завантажити приклад.', workflowSuggestReview: 'Є зміни. Перевір diff і відправ зміни на затвердження.', workflowSuggestApproved: 'Зміни затверджено. Можна підготувати пакет або перейти до наступної задачі.', workflowProjectOpened: 'Проєкт активний. File Workspace тепер працює в його контексті.', workflowMapAction: 'Карта відкрила повʼязану робочу зону.', workflowReviewBtn: 'На перевірку',
     hintMaster: 'Запускає головний системний сценарій для вибраного продукту або проєкту.', hintTree: 'Дерево показує основні рівні ODIN. Клік відкриває відповідну робочу зону.', hintCommand: 'Головна зона керування: режим, стан, запуск сценаріїв.', hintMap: 'Жива карта системи: звʼязки, залежності, переходи до зон.', hintProjects: 'Місце вибору продуктів і проєктів: DT, ІССУ, ССУДТ, нові проєкти.', hintFiles: 'Робота з файлами у контексті вибраного проєкту: зміни, diff, approve/reject.', hintManual: 'Інструкції, пояснення можливостей ODIN і правила роботи.', hintAssist: 'Ця панель пояснює, де ти зараз і що логічно робити далі.'
   },
   en: {
@@ -34,7 +35,7 @@ const i18n = {
     fileWorkspaceReady: 'File Workspace is active for the selected project.', fileSelect: 'Choose file', fileLoadSample: 'Load sample', fileNameLabel: 'File', fileNoFile: 'No file selected yet', fileEditorTitle: 'Editor', fileOriginalTitle: 'Original', fileDiffTitle: 'Diff / changes', fileHistoryTitle: 'History', fileApproveBtn: 'Approve', fileRejectBtn: 'Reject', fileDownloadBtn: 'Download file', filePackageBtn: 'Prepare package', fileEmptyEditor: 'Choose a text file or load a sample.', fileApproved: 'Changes approved.', fileRejected: 'Changes rejected.', fileDownloaded: 'File prepared for download.', filePackaged: 'Package prepared logically. Real ZIP build is the next level.', fileChanged: 'Changed', fileClean: 'No changes', fileLinesChanged: 'Changed lines', fileBrowserLimit: 'The browser cannot directly access your disk. Open a file with the picker and download the updated copy.', fileNeedProject: 'Select a project first so ODIN knows the file-work context.', fileSampleName: 'ODIN_SAMPLE_NOTE.md', fileSampleContent: '# ODIN sample\n\nThis is a sample file for testing editor, diff, approve/reject, and history.\n', diffNoChanges: 'No changes.', diffOriginal: 'Original', diffDraft: 'Draft', historyEmpty: 'History is empty.', historyApproved: 'Approved', historyRejected: 'Rejected', historyLoaded: 'File loaded',
     manualTitle: 'Manual / Help', manualBody: 'Instructions, ODIN capabilities, lexicon, and working rules.', manualAssist: '<strong>Manual</strong> is the system learning and self-explanation area. It should contain a detailed editable HTML guide.',
     masterAssist: '<strong>MASTER START</strong> activated. Next stage: product selection → scenario → pipeline preview → launch.', selectedPrefix: 'Project selected:', selectedSuffix: 'File Workspace can now work in the correct context.',
-    flow: 'INPUT → INTENT → MODE → STATE → ACTION', nodeProjects: 'Projects → Work Context', nodeFiles: 'File Workspace → Changes', nodeOis: 'OIS → Command Center', nodeManual: 'Manual → Explanation', editor: 'Editor', changes: 'Changes / Diff', approve: 'Approve / Reject', package: 'Package', capabilities: 'ODIN Capabilities', lexicon: 'OIS Lexicon', howTo: 'How to work', quality: 'Quality rules', newProject1: 'New Project 1', dtProject: 'Deutsch Trainer', issuProject: 'DT / ISSU', ssudtProject: 'DT / SSUDT', zoneHint: 'Local hint for the current work zone.',
+    flow: 'INPUT → INTENT → MODE → STATE → ACTION', nodeProjects: 'Projects → Work Context', nodeFiles: 'File Workspace → Changes', nodeOis: 'OIS → Command Center', nodeManual: 'Manual → Explanation', editor: 'Editor', changes: 'Changes / Diff', approve: 'Approve / Reject', package: 'Package', capabilities: 'ODIN Capabilities', lexicon: 'OIS Lexicon', howTo: 'How to work', quality: 'Quality rules', newProject1: 'New Project 1', dtProject: 'Deutsch Trainer', issuProject: 'DT / ISSU', ssudtProject: 'DT / SSUDT', zoneHint: 'Local hint for the current work zone.', workflowLabel: 'WORKFLOW', workflowEditing: 'Editing', workflowChanged: 'Changed', workflowReview: 'Review', workflowApproved: 'Approved', workflowSuggestSelectProject: 'Select a project first. Then open File Workspace.', workflowSuggestOpenFile: 'Project selected. You can now open a file or load a sample.', workflowSuggestReview: 'There are changes. Check the diff and send changes to review.', workflowSuggestApproved: 'Changes approved. You can prepare a package or move to the next task.', workflowProjectOpened: 'Project is active. File Workspace now works in its context.', workflowMapAction: 'The map opened the related work zone.', workflowReviewBtn: 'Send to review',
     hintMaster: 'Starts the main system scenario for the selected product or project.', hintTree: 'The tree shows core ODIN layers. Click to open the related work zone.', hintCommand: 'Main control zone: mode, state, scenario launch.', hintMap: 'Live system map: links, dependencies, navigation to zones.', hintProjects: 'Select products and projects: DT, ISSU, SSUDT, new projects.', hintFiles: 'Work with files in the selected project context: changes, diff, approve/reject.', hintManual: 'Instructions, ODIN capabilities, and operating rules.', hintAssist: 'This panel explains where you are and what the next logical step is.'
   },
   de: {
@@ -47,7 +48,7 @@ const i18n = {
     fileWorkspaceReady: 'Der Dateiarbeitsbereich ist für das ausgewählte Projekt aktiv.', fileSelect: 'Datei wählen', fileLoadSample: 'Beispiel laden', fileNameLabel: 'Datei', fileNoFile: 'Noch keine Datei ausgewählt', fileEditorTitle: 'Editor', fileOriginalTitle: 'Original', fileDiffTitle: 'Diff / Änderungen', fileHistoryTitle: 'Verlauf', fileApproveBtn: 'Genehmigen', fileRejectBtn: 'Ablehnen', fileDownloadBtn: 'Datei herunterladen', filePackageBtn: 'Paket vorbereiten', fileEmptyEditor: 'Wähle eine Textdatei oder lade ein Beispiel.', fileApproved: 'Änderungen genehmigt.', fileRejected: 'Änderungen abgelehnt.', fileDownloaded: 'Datei zum Herunterladen vorbereitet.', filePackaged: 'Paket logisch vorbereitet. Der echte ZIP-Build ist die nächste Stufe.', fileChanged: 'Geändert', fileClean: 'Keine Änderungen', fileLinesChanged: 'Geänderte Zeilen', fileBrowserLimit: 'Der Browser kann nicht direkt auf deine Festplatte zugreifen. Öffne eine Datei über die Auswahl und lade die aktualisierte Kopie herunter.', fileNeedProject: 'Wähle zuerst ein Projekt, damit ODIN den Dateikontext kennt.', fileSampleName: 'ODIN_SAMPLE_NOTE.md', fileSampleContent: '# ODIN Beispiel\n\nDies ist eine Beispieldatei zum Testen von Editor, Diff, Genehmigen/Ablehnen und Verlauf.\n', diffNoChanges: 'Keine Änderungen.', diffOriginal: 'Original', diffDraft: 'Entwurf', historyEmpty: 'Der Verlauf ist leer.', historyApproved: 'Genehmigt', historyRejected: 'Abgelehnt', historyLoaded: 'Datei geladen',
     manualTitle: 'Handbuch / Hilfe', manualBody: 'Anleitungen, ODIN-Fähigkeiten, Lexikon und Arbeitsregeln.', manualAssist: '<strong>Handbuch</strong> ist der Lern- und Selbsterklärungsbereich des Systems. Hier soll ein detailliertes editierbares HTML-Handbuch liegen.',
     masterAssist: '<strong>MASTER START</strong> aktiviert. Nächste Stufe: Produktauswahl → Szenario → Pipeline-Vorschau → Start.', selectedPrefix: 'Projekt ausgewählt:', selectedSuffix: 'Der Dateiarbeitsbereich kann jetzt im richtigen Kontext arbeiten.',
-    flow: 'EINGABE → ABSICHT → MODUS → STATUS → AKTION', nodeProjects: 'Projekte → Arbeitskontext', nodeFiles: 'Dateiarbeitsbereich → Änderungen', nodeOis: 'OIS → Steuerzentrale', nodeManual: 'Handbuch → Erklärung', editor: 'Editor', changes: 'Änderungen / Diff', approve: 'Genehmigen / Ablehnen', package: 'Paket', capabilities: 'ODIN-Fähigkeiten', lexicon: 'OIS-Lexikon', howTo: 'Arbeitsweise', quality: 'Qualitätsregeln', newProject1: 'Neues Projekt 1', dtProject: 'Deutsch Trainer', issuProject: 'DT / ISSU', ssudtProject: 'DT / SSUDT', zoneHint: 'Lokaler Hinweis für die aktuelle Arbeitszone.',
+    flow: 'EINGABE → ABSICHT → MODUS → STATUS → AKTION', nodeProjects: 'Projekte → Arbeitskontext', nodeFiles: 'Dateiarbeitsbereich → Änderungen', nodeOis: 'OIS → Steuerzentrale', nodeManual: 'Handbuch → Erklärung', editor: 'Editor', changes: 'Änderungen / Diff', approve: 'Genehmigen / Ablehnen', package: 'Paket', capabilities: 'ODIN-Fähigkeiten', lexicon: 'OIS-Lexikon', howTo: 'Arbeitsweise', quality: 'Qualitätsregeln', newProject1: 'Neues Projekt 1', dtProject: 'Deutsch Trainer', issuProject: 'DT / ISSU', ssudtProject: 'DT / SSUDT', zoneHint: 'Lokaler Hinweis für die aktuelle Arbeitszone.', workflowLabel: 'ABLAUF', workflowEditing: 'Bearbeitung', workflowChanged: 'Geändert', workflowReview: 'Prüfung', workflowApproved: 'Genehmigt', workflowSuggestSelectProject: 'Wähle zuerst ein Projekt. Öffne danach den Dateiarbeitsbereich.', workflowSuggestOpenFile: 'Projekt ausgewählt. Du kannst jetzt eine Datei öffnen oder ein Beispiel laden.', workflowSuggestReview: 'Es gibt Änderungen. Prüfe den Diff und sende die Änderungen zur Prüfung.', workflowSuggestApproved: 'Änderungen genehmigt. Du kannst ein Paket vorbereiten oder zur nächsten Aufgabe gehen.', workflowProjectOpened: 'Projekt ist aktiv. Der Dateiarbeitsbereich arbeitet jetzt in diesem Kontext.', workflowMapAction: 'Die Karte hat die verbundene Arbeitszone geöffnet.', workflowReviewBtn: 'Zur Prüfung',
     hintMaster: 'Startet das Hauptszenario für das ausgewählte Produkt oder Projekt.', hintTree: 'Der Baum zeigt die wichtigsten ODIN-Ebenen. Ein Klick öffnet die passende Arbeitszone.', hintCommand: 'Zentrale Steuerzone: Modus, Status, Szenariostart.', hintMap: 'Lebendige Systemkarte: Verbindungen, Abhängigkeiten, Navigation zu Zonen.', hintProjects: 'Produkte und Projekte auswählen: DT, ISSU, SSUDT, neue Projekte.', hintFiles: 'Dateiarbeit im Kontext des ausgewählten Projekts: Änderungen, Diff, Genehmigen/Ablehnen.', hintManual: 'Anleitungen, ODIN-Fähigkeiten und Arbeitsregeln.', hintAssist: 'Diese Leiste erklärt, wo du bist und was der nächste logische Schritt ist.'
   }
 };
@@ -57,6 +58,7 @@ const assistContent = document.getElementById('assistContent');
 const modeValue = document.getElementById('modeValue');
 const stateValue = document.getElementById('stateValue');
 const projectValue = document.getElementById('projectValue');
+const workflowValue = document.getElementById('workflowValue');
 const settingsToggle = document.getElementById('settingsToggle');
 const settingsMenu = document.getElementById('settingsMenu');
 const themeValue = document.getElementById('themeValue');
@@ -79,6 +81,25 @@ function addHistory(type) {
   fileState.history.unshift({ type, time: new Date().toLocaleString() });
   fileState.history = fileState.history.slice(0, 20);
   saveFileState();
+}
+
+function setWorkflow(stage) {
+  state.workflow = stage;
+  localStorage.setItem('odin_workflow', stage);
+  applyI18n();
+}
+
+function workflowText() {
+  const key = { editing: 'workflowEditing', changed: 'workflowChanged', review: 'workflowReview', approved: 'workflowApproved' }[state.workflow] || 'workflowEditing';
+  return t(key);
+}
+
+function workflowSuggestion() {
+  if (!state.project) return t('workflowSuggestSelectProject');
+  if (state.workflow === 'changed') return t('workflowSuggestReview');
+  if (state.workflow === 'review') return t('workflowSuggestReview');
+  if (state.workflow === 'approved') return t('workflowSuggestApproved');
+  return t('workflowSuggestOpenFile');
 }
 
 function t(key) { return (i18n[state.lang] && i18n[state.lang][key]) || i18n.ua[key] || key; }
@@ -111,6 +132,7 @@ function applyI18n() {
   modeValue.textContent = t('modeDiscussion');
   stateValue.textContent = state.status === 'master' ? t('stateMasterReady') : t('stateReady');
   projectValue.textContent = state.project || t('none');
+  if (workflowValue) workflowValue.textContent = workflowText();
 }
 
 function setActiveTree(zone) {
@@ -122,6 +144,10 @@ function zoneTemplate(title, body, cards = '') {
   return `<section class="zone-card"><h2 class="zone-title">${title}${hint()}</h2><p>${body}</p>${cards}</section>`;
 }
 function card(label, action = '') { return action ? `<button class="mini-card" onclick="${action}">${label}</button>` : `<div class="mini-card">${label}</div>`; }
+function openMapZone(zone) {
+  renderZone(zone);
+  assistContent.innerHTML = t('workflowMapAction') + '<br>' + workflowSuggestion();
+}
 
 function renderZone(zone) {
   state.zone = zone;
@@ -134,7 +160,7 @@ function renderZone(zone) {
   }
 
   if (zone === 'map') {
-    workZone.innerHTML = zoneTemplate(t('mapTitle'), t('mapBody'), `<div class="zone-grid">${card(t('nodeProjects'), "renderZone('projects')")}${card(t('nodeFiles'), "renderZone('files')")}${card(t('nodeOis'), "renderZone('command')")}${card(t('nodeManual'), "renderZone('manual')")}</div>`);
+    workZone.innerHTML = zoneTemplate(t('mapTitle'), t('mapBody'), `<div class="zone-grid">${card(t('nodeProjects'), "openMapZone('projects')")}${card(t('nodeFiles'), "openMapZone('files')")}${card(t('nodeOis'), "openMapZone('command')")}${card(t('nodeManual'), "openMapZone('manual')")}</div>`);
     assistContent.innerHTML = t('mapAssist');
   }
 
@@ -201,11 +227,18 @@ function renderFileWorkspace() {
           <input id="fileInput" type="file" accept=".txt,.md,.html,.css,.js,.json,.xml,.csv,text/*" />
         </label>
         <button type="button" onclick="loadSampleFile()">${t('fileLoadSample')}</button>
+        <button type="button" onclick="sendToReview()" ${hasProject ? '' : 'disabled'}>${t('workflowReviewBtn')}</button>
         <button type="button" onclick="approveFileDraft()" ${hasProject ? '' : 'disabled'}>${t('fileApproveBtn')}</button>
         <button type="button" onclick="rejectFileDraft()" ${hasProject ? '' : 'disabled'}>${t('fileRejectBtn')}</button>
         <button type="button" onclick="downloadDraftFile()" ${hasProject && fileState.name ? '' : 'disabled'}>${t('fileDownloadBtn')}</button>
       </div>
 
+      <div class="workflow-strip">
+        <span class="workflow-step ${state.workflow === 'editing' ? 'active' : ''}">${t('workflowEditing')}</span>
+        <span class="workflow-step ${state.workflow === 'changed' ? 'active' : ''}">${t('workflowChanged')}</span>
+        <span class="workflow-step ${state.workflow === 'review' ? 'active' : ''}">${t('workflowReview')}</span>
+        <span class="workflow-step ${state.workflow === 'approved' ? 'active' : ''}">${t('workflowApproved')}</span>
+      </div>
       <div class="file-meta">
         <span><strong>${t('fileNameLabel')}:</strong> ${escapeHtml(fileState.name || t('fileNoFile'))}</span>
         <span class="file-status ${isChanged ? 'changed' : 'clean'}">${isChanged ? t('fileChanged') : t('fileClean')}</span>
@@ -238,7 +271,7 @@ function renderFileWorkspace() {
       </div>
     </div>
   `);
-  assistContent.innerHTML = hasProject ? t('filesAssist') : `<strong>${t('filesTitle')}</strong><br>${t('fileNeedProject')}`;
+  assistContent.innerHTML = (hasProject ? t('filesAssist') : `<strong>${t('filesTitle')}</strong><br>${t('fileNeedProject')}`) + '<br>' + workflowSuggestion();
   bindFileWorkspaceEvents();
 }
 
@@ -264,6 +297,7 @@ function bindFileWorkspaceEvents() {
     editor.addEventListener('input', event => {
       fileState.draft = event.target.value;
       saveFileState();
+      setWorkflow(fileState.original === fileState.draft ? 'editing' : 'changed');
       renderFileWorkspace();
     });
   }
@@ -274,20 +308,23 @@ function loadSampleFile() {
   fileState.original = t('fileSampleContent').replaceAll('\\n', '\n');
   fileState.draft = fileState.original;
   addHistory('historyLoaded');
+  setWorkflow('editing');
   renderFileWorkspace();
 }
 
 function approveFileDraft() {
   fileState.original = fileState.draft;
   addHistory('historyApproved');
-  assistContent.innerHTML = t('fileApproved');
+  setWorkflow('approved');
+  assistContent.innerHTML = t('fileApproved') + '<br>' + workflowSuggestion();
   renderFileWorkspace();
 }
 
 function rejectFileDraft() {
   fileState.draft = fileState.original;
   addHistory('historyRejected');
-  assistContent.innerHTML = t('fileRejected');
+  setWorkflow('editing');
+  assistContent.innerHTML = t('fileRejected') + '<br>' + workflowSuggestion();
   renderFileWorkspace();
 }
 
@@ -306,13 +343,15 @@ function downloadDraftFile() {
 }
 
 function prepareFilePackage() {
-  assistContent.innerHTML = t('filePackaged');
+  assistContent.innerHTML = t('filePackaged') + '<br>' + workflowSuggestion();
 }
 
 function selectProject(projectName) {
   state.project = projectName;
+  localStorage.setItem('odin_active_project', projectName);
+  setWorkflow('editing');
   projectValue.textContent = projectName;
-  assistContent.innerHTML = `<strong>${t('selectedPrefix')}</strong> ${projectName}. ${t('selectedSuffix')}`;
+  assistContent.innerHTML = `<strong>${t('selectedPrefix')}</strong> ${projectName}. ${t('selectedSuffix')}<br>${t('workflowProjectOpened')}`;
 }
 
 function masterStart() {

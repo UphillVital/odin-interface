@@ -398,3 +398,26 @@ button:disabled, textarea:disabled {
   .assist-panel { grid-column: 1 / -1; }
   .file-grid { grid-template-columns: 1fr; }
 }
+
+
+.workflow-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 14px 0;
+}
+.workflow-step {
+  padding: 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-soft);
+  color: var(--muted);
+  text-align: center;
+  font-size: 12px;
+  font-weight: 800;
+}
+.workflow-step.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--text);
+}
