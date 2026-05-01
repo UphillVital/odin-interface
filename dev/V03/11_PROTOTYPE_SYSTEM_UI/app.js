@@ -248,13 +248,13 @@ function renderFileWorkspace() {
       <div class="browser-note">${t('fileBrowserLimit')}</div>
 
       <div class="file-grid">
-        <section class="file-panel editor-panel">
+        <section class="file-panel editor-panel compare-panel" id="editorPanel">
           <h3>${t('fileEditorTitle')} ${hint()}</h3>
           <textarea id="fileEditor" ${hasProject ? '' : 'disabled'} placeholder="${escapeHtml(t('fileEmptyEditor'))}">${escapeHtml(fileState.draft)}</textarea>
         </section>
-        <section class="file-panel">
+        <section class="file-panel original-panel compare-panel" id="originalPanel">
           <h3>${t('fileOriginalTitle')}</h3>
-          <pre>${escapeHtml(fileState.original || t('fileEmptyEditor'))}</pre>
+          <pre id="originalView" aria-readonly="true">${escapeHtml(fileState.original || t('fileEmptyEditor'))}</pre>
         </section>
         <section class="file-panel diff-panel">
           <h3>${t('fileDiffTitle')}</h3>
@@ -297,11 +297,45 @@ function bindFileWorkspaceEvents() {
     editor.addEventListener('input', event => {
       fileState.draft = event.target.value;
       saveFileState();
-      setWorkflow(fileState.original === fileState.draft ? 'editing' : 'changed');
-      renderFileWorkspace();
+      setWorkflow(fileState.original === fileState.draft ? 'editing' : 'changed', { silent: true });
+      refreshFileWorkspaceLiveParts();
+      syncComparePanelHeights();
     });
+    editor.addEventListener('mouseup', syncComparePanelHeights);
+    editor.addEventListener('keyup', syncComparePanelHeights);
+    syncComparePanelHeights();
   }
 }
+
+function refreshFileWorkspaceLiveParts() {
+  const diff = computeDiff();
+  const isChanged = fileState.original !== fileState.draft;
+  const status = document.querySelector('.file-status');
+  const meta = document.querySelector('.file-meta span:last-child strong');
+  const diffView = document.getElementById('diffView');
+  const workflowValue = document.getElementById('workflowValue');
+  if (status) {
+    status.className = `file-status ${isChanged ? 'changed' : 'clean'}`;
+    status.textContent = isChanged ? t('fileChanged') : t('fileClean');
+  }
+  if (meta) meta.textContent = String(diff.changes);
+  if (diffView) diffView.innerHTML = diff.html;
+  if (workflowValue) workflowValue.textContent = workflowLabel();
+  document.querySelectorAll('.workflow-step').forEach(step => step.classList.remove('active'));
+  const steps = Array.from(document.querySelectorAll('.workflow-step'));
+  const order = ['editing', 'changed', 'review', 'approved'];
+  const index = order.indexOf(state.workflow);
+  if (steps[index]) steps[index].classList.add('active');
+  assistContent.innerHTML = t('filesAssist') + '<br>' + workflowSuggestion();
+}
+
+function syncComparePanelHeights() {
+  const editor = document.getElementById('fileEditor');
+  const original = document.getElementById('originalView');
+  if (!editor || !original) return;
+  original.style.minHeight = `${editor.offsetHeight}px`;
+}
+
 
 function loadSampleFile() {
   fileState.name = t('fileSampleName');

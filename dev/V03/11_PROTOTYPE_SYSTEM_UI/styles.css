@@ -421,3 +421,28 @@ button:disabled, textarea:disabled {
   background: var(--accent-soft);
   color: var(--text);
 }
+
+
+/* PACKAGE 19 — File Workspace comparison UX fix */
+.file-grid { align-items: stretch; }
+.file-panel { display: flex; flex-direction: column; }
+.compare-panel { min-height: 360px; }
+.file-panel textarea,
+.file-panel pre,
+#diffView {
+  flex: 1 1 auto;
+}
+.file-panel textarea {
+  min-height: 280px;
+  overflow: auto;
+}
+.original-panel pre {
+  min-height: 280px;
+  max-height: none;
+  height: auto;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px;
+}
+.editor-panel textarea:focus { outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent); }
