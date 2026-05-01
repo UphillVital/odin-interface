@@ -6,82 +6,70 @@
   <title>ODIN Interface V03 — System Prototype</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="theme-light" data-lang="uk">
+<body data-theme="light" data-lang="uk">
   <header class="odin-header">
-    <div class="brand">
+    <section class="brand-block">
       <div class="brand-mark">ODIN</div>
       <div>
-        <div class="brand-title" data-i18n="brandTitle">ODIN Interface V03</div>
-        <div class="brand-subtitle" data-i18n="brandSubtitle">Робоче середовище керування системою</div>
+        <p class="eyebrow" data-i18n="eyebrow">System Control Workspace</p>
+        <h1 data-i18n="title">ODIN Interface V03</h1>
       </div>
-    </div>
+    </section>
 
-    <div class="header-actions">
-      <button class="primary-action" id="masterStart" data-i18n="masterStart">ODIN SYSTEM — MASTER START</button>
-
-      <div class="segmented" aria-label="Language switch">
-        <button id="langUk" class="active">UA</button>
-        <button id="langEn">EN</button>
+    <section class="header-actions" aria-label="System actions">
+      <div class="segmented" aria-label="Language">
+        <button id="langUk" class="active" type="button">UA</button>
+        <button id="langEn" type="button">EN</button>
       </div>
-
-      <div class="segmented" aria-label="Theme switch">
-        <button id="themeLight" class="active" data-i18n="light">Світла</button>
-        <button id="themeDark" data-i18n="dark">Темна</button>
-      </div>
-    </div>
+      <button class="theme-toggle" id="themeToggle" type="button" data-i18n="themeToDark">Dark Theme</button>
+      <button class="master-start" id="masterStart" type="button" data-i18n="masterStart">ODIN SYSTEM — MASTER START</button>
+    </section>
   </header>
 
-  <div class="status-strip">
-    <div><span data-i18n="mode">Режим</span>: <strong id="modeValue">DISCUSSION</strong></div>
-    <div><span data-i18n="state">Стан</span>: <strong id="stateValue">READY</strong></div>
-    <div><span data-i18n="activeZone">Активна зона</span>: <strong id="zoneValue">COMMAND_CENTER</strong></div>
-  </div>
+  <section class="status-bar" aria-label="System status">
+    <div><span data-i18n="modeLabel">MODE</span><strong id="modeValue">DISCUSSION</strong></div>
+    <div><span data-i18n="stateLabel">STATE</span><strong id="stateValue">READY</strong></div>
+    <div><span data-i18n="zoneLabel">ZONE</span><strong id="zoneValue">COMMAND CENTER</strong></div>
+    <div><span>SYNC</span><strong>SYSTEM MAP v2</strong></div>
+  </section>
 
-  <div class="layout">
-    <aside class="left-tree">
-      <div class="tree-title" data-i18n="navigation">Навігація ODIN</div>
-
-      <button class="tree-item active" data-zone="command">
-        <span data-i18n="zoneCommand">Command Center</span>
-        <span class="hint-dot" data-help="command"></span>
-      </button>
-
-      <button class="tree-item" data-zone="map">
-        <span data-i18n="zoneMap">System Map</span>
-        <span class="hint-dot" data-help="map"></span>
-      </button>
-
-      <button class="tree-item" data-zone="files">
-        <span data-i18n="zoneFiles">File Workspace</span>
-        <span class="hint-dot" data-help="files"></span>
-      </button>
-
-      <button class="tree-item" data-zone="manual">
-        <span data-i18n="zoneManual">Manual / Help</span>
-        <span class="hint-dot" data-help="manual"></span>
-      </button>
-
+  <main class="odin-layout">
+    <aside class="left-tree" aria-label="ODIN navigation tree">
+      <div class="tree-title" data-i18n="liveMap">Live System Map</div>
+      <button class="tree-item active" data-zone="command" type="button"><span data-i18n="command">Command Center</span><span class="help-dot" data-help="command">?</span></button>
+      <button class="tree-item" data-zone="map" type="button"><span data-i18n="map">System Map</span><span class="help-dot" data-help="map">?</span></button>
+      <button class="tree-item" data-zone="files" type="button"><span data-i18n="files">File Workspace</span><span class="help-dot" data-help="files">?</span></button>
+      <button class="tree-item" data-zone="ois" type="button"><span data-i18n="ois">OIS Core</span><span class="help-dot" data-help="ois">?</span></button>
+      <button class="tree-item" data-zone="manual" type="button"><span data-i18n="manual">Manual / Help</span><span class="help-dot" data-help="manual">?</span></button>
       <div class="tree-footer">
-        <button id="openHelp" class="soft-button" data-i18n="howUse">Як користуватись?</button>
+        <strong data-i18n="assistedMode">Assisted Mode</strong>
+        <p id="treeHelpText" data-i18n="assistedIntro">ODIN підказує наступний крок, якщо звʼязки або дії неочевидні.</p>
+        <button class="secondary-action" id="openGeneralHelp" type="button" data-i18n="howUse">Як користуватись?</button>
       </div>
     </aside>
 
-    <main class="work-zone" id="workZone"></main>
+    <section class="work-zone" id="workZone" aria-live="polite"></section>
 
-    <aside class="assist-panel">
-      <div class="assist-title" data-i18n="assistTitle">Assisted Mode</div>
-      <p id="assistText" data-i18n="assistIntro">
-        ODIN підказує наступний крок, пояснює звʼязки та допомагає не губитися.
-      </p>
-      <button class="soft-button" id="explainCurrent" data-i18n="explainCurrent">Пояснити поточну зону</button>
+    <aside class="context-panel" aria-label="Context panel">
+      <h2 data-i18n="context">Context</h2>
+      <p id="contextText">Поточна зона показує керований старт системи та базову модель роботи.</p>
+      <div class="mini-card">
+        <span>Core Flow</span>
+        <strong>INPUT → INTENT → MODE → STATE → ACTION</strong>
+      </div>
+      <div class="mini-card">
+        <span>Package Rule</span>
+        <strong>Only meaningful files. No empty folders.</strong>
+      </div>
+      <button class="secondary-action full" id="explainCurrent" type="button" data-i18n="explainCurrent">Пояснити поточну зону</button>
     </aside>
-  </div>
+  </main>
 
-  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+  <div class="modal hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-card">
-      <button class="modal-close" id="closeModal">×</button>
+      <button class="modal-close" id="modalClose" type="button" aria-label="Close">×</button>
       <h2 id="modalTitle"></h2>
-      <p id="modalBody"></p>
+      <p id="modalText"></p>
     </div>
   </div>
 
