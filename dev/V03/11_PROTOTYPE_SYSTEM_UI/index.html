@@ -3,52 +3,51 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ODIN Interface V03 — System Prototype</title>
+  <title>ODIN Interface V03 — System UI</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="theme-light">
+<body data-theme="light" data-lang="uk">
   <header class="odin-header">
     <div class="brand">
       <div class="brand-mark">ODIN</div>
       <div>
-        <div class="brand-title" data-i18n="title">Інтерфейс ОДІН</div>
-        <div class="brand-subtitle" data-i18n="subtitle">робоче середовище керування системою</div>
+        <div class="brand-title" data-i18n="appTitle">Інтерфейс ОДІН</div>
+        <div class="brand-subtitle" data-i18n="appSubtitle">Робоче середовище керування системою</div>
       </div>
     </div>
 
     <div class="header-actions">
-      <button class="ghost" id="langToggle">UA / EN</button>
-      <button class="ghost" id="themeToggle" data-i18n="theme">Тема</button>
-      <button class="primary" id="masterStart">ODIN SYSTEM — MASTER START <span class="help" data-help="master_start">?</span></button>
+      <button class="ghost-btn" id="langToggle">UA / EN</button>
+      <button class="ghost-btn" id="themeToggle" data-i18n="themeToggle">Темна тема</button>
+      <button class="primary-btn" id="masterStart">ODIN SYSTEM — MASTER START</button>
+      <button class="help-btn" id="globalHelpBtn" title="Help">?</button>
     </div>
   </header>
 
-  <div class="shell">
+  <div class="odin-shell">
     <aside class="left-tree">
-      <div class="tree-title" data-i18n="tree">Дерево системи</div>
-      <button class="tree-item active" data-zone="command" data-help="command">Command Center</button>
-      <button class="tree-item" data-zone="map" data-help="system_map">System Map</button>
-      <button class="tree-item" data-zone="projects" data-help="projects">Projects</button>
-      <button class="tree-item child" data-zone="dt" data-help="dt">Deutsch Trainer</button>
-      <button class="tree-item child" data-zone="issu" data-help="issu">ІССУ</button>
-      <button class="tree-item child" data-zone="ssudt" data-help="ssudt">ССУДТ</button>
-      <button class="tree-item" data-zone="workspace" data-help="file_workspace">File Workspace</button>
-      <button class="tree-item" data-zone="manual" data-help="manual">Manual / Help</button>
+      <div class="tree-title" data-i18n="treeTitle">Карта системи</div>
+      <button class="tree-item active" data-zone="command">Command Center <span>?</span></button>
+      <button class="tree-item" data-zone="projects">Projects / Products <span>?</span></button>
+      <button class="tree-item" data-zone="map">System Map <span>?</span></button>
+      <button class="tree-item" data-zone="files">File Workspace <span>?</span></button>
+      <button class="tree-item" data-zone="manual">Manual / Help <span>?</span></button>
     </aside>
 
-    <main class="work-zone" id="workZone"></main>
+    <main class="work-zone" id="workZone" aria-live="polite"></main>
 
     <aside class="assist-panel">
-      <div class="assist-title" data-i18n="assistTitle">Пояснення ODIN</div>
+      <div class="assist-title" data-i18n="assistTitle">Assisted Mode</div>
       <div id="assistText" class="assist-text"></div>
+      <button class="secondary-btn" id="explainCurrent" data-i18n="explainCurrent">Пояснити поточну зону</button>
     </aside>
   </div>
 
-  <div class="modal" id="helpModal" hidden>
-    <div class="modal-card">
-      <button class="modal-close" id="closeModal">×</button>
-      <h3 id="modalTitle">Help</h3>
-      <p id="modalText"></p>
+  <div class="modal-backdrop" id="helpModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+      <button class="modal-close" id="closeHelp" aria-label="Close">×</button>
+      <h2 id="helpTitle">Help</h2>
+      <p id="helpBody"></p>
     </div>
   </div>
 
