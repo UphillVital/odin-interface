@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="uk" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ODIN Interface V03 — System Prototype</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="odin-shell">
+    <header class="odin-header">
+      <div class="brand-block">
+        <div class="brand-mark">ODIN</div>
+        <div>
+          <h1>ODIN Interface V03</h1>
+          <p>Робоче середовище керування системою</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <select id="productSelect" aria-label="ODIN product selector">
+          <option value="system">ODIN Core System</option>
+          <option value="dt">Deutsch Trainer</option>
+          <option value="lesson">Lesson Builder</option>
+        </select>
+        <button id="masterStart" class="master-start">ODIN SYSTEM — MASTER START</button>
+        <button id="themeToggle" class="ghost-btn">Theme</button>
+      </div>
+    </header>
+
+    <aside class="left-tree">
+      <div class="tree-title">System Map</div>
+      <button class="tree-item active" data-zone="command">Command Center</button>
+      <button class="tree-item" data-zone="map">Live System Map</button>
+      <button class="tree-item" data-zone="files">File Workspace</button>
+      <button class="tree-item" data-zone="ois">OIS Core</button>
+      <button class="tree-item" data-zone="manual">Manual / Help</button>
+      <div class="tree-footer">
+        <strong>Assisted Mode</strong>
+        <p>ODIN підказує наступний безпечний крок.</p>
+      </div>
+    </aside>
+
+    <main class="work-zone" id="workZone">
+      <section class="zone-card hero-card">
+        <span class="eyebrow">ACTIVE WORK ZONE</span>
+        <h2>Command Center</h2>
+        <p>Тут ODIN показує стан системи, активний режим, наступний крок і безпечні дії.</p>
+        <div class="status-grid">
+          <div><span>MODE</span><strong>DISCUSSION / CONTROL</strong></div>
+          <div><span>STATE</span><strong>READY</strong></div>
+          <div><span>QUALITY</span><strong>CONTROLLED</strong></div>
+        </div>
+      </section>
+
+      <section class="zone-card">
+        <h3>Next Safe Step</h3>
+        <p id="nextStep">Перевірити дизайн-шар і перейти до System UI prototype QA.</p>
+      </section>
+    </main>
+
+    <aside class="context-panel">
+      <div class="panel-card">
+        <h3>Intent Flow</h3>
+        <ol>
+          <li>INPUT</li>
+          <li>INTENT</li>
+          <li>MODE</li>
+          <li>STATE</li>
+          <li>WORK ZONE</li>
+          <li>ACTION</li>
+        </ol>
+      </div>
+      <div class="panel-card">
+        <h3>DNA</h3>
+        <p>Спокій · Контроль · Ясність · Впевненість · Надійність</p>
+      </div>
+    </aside>
+
+    <footer class="status-bar">
+      <span>V03 Prototype</span>
+      <span id="statusLine">SYSTEM READY</span>
+    </footer>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
