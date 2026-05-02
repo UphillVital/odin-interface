@@ -1,92 +1,16 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ODIN V03 — Commit Builder</title>
-  <link rel="stylesheet" href="commit_builder.css" />
-</head>
-<body data-theme="light">
-  <header class="topbar">
-    <div>
-      <div class="brand">ODIN V03</div>
-      <div class="sub" data-i18n="subtitle">Просунутий генератор фіксації змін</div>
-    </div>
-    <div class="settings">
-      <select id="lang">
-        <option value="uk">UA</option>
-        <option value="en">EN</option>
-        <option value="de">DE</option>
-      </select>
-      <button id="themeBtn" type="button" data-i18n="theme">Тема</button>
-    </div>
-  </header>
-
-  <main class="shell">
-    <section class="panel intro">
-      <h1 data-i18n="title">Commit Builder</h1>
-      <p data-i18n="description">Створює повний набір команд: add, commit, push, tag, push tag і запис для CHANGELOG.</p>
-      <div class="notice" id="stateNotice" data-i18n="stateNotice">Workflow state: перевір, що зміни затверджені перед фіксацією.</div>
-    </section>
-
-    <section class="grid">
-      <form class="panel form" id="commitForm">
-        <label>
-          <span data-i18n="version">Версія</span>
-          <input id="version" value="V03.23" />
-        </label>
-
-        <label>
-          <span data-i18n="changeName">Назва зміни</span>
-          <input id="changeName" value="Advanced Commit Builder" />
-        </label>
-
-        <label>
-          <span data-i18n="project">Активний проєкт</span>
-          <input id="project" value="ODIN V03 Core" />
-        </label>
-
-        <label>
-          <span data-i18n="workflow">Workflow state</span>
-          <select id="workflow">
-            <option value="Approved">Approved</option>
-            <option value="Review">Review</option>
-            <option value="Changed">Changed</option>
-            <option value="Editing">Editing</option>
-          </select>
-        </label>
-
-        <label>
-          <span data-i18n="done">Що зроблено</span>
-          <textarea id="done">Додано просунутий Commit Builder.\nЗгенеровано Git-команди, tag і changelog.\nДодано QA-попередження перед фіксацією.</textarea>
-        </label>
-
-        <label>
-          <span data-i18n="benefit">Що це дає</span>
-          <textarea id="benefit">Фіксація змін стає системною та зрозумілою.\nКожна контрольна точка має однакову структуру.\nЗменшується ризик втрати стабільного стану.</textarea>
-        </label>
-
-        <label>
-          <span data-i18n="context">Контекст</span>
-          <textarea id="context">Пакет підготовлено після стабільного циклу File Workspace + Preview UI.</textarea>
-        </label>
-
-        <div class="actions">
-          <button type="button" id="generate" data-i18n="generate">Згенерувати</button>
-          <button type="button" id="copyCommands" data-i18n="copyCommands">Копіювати команди</button>
-          <button type="button" id="copyChangelog" data-i18n="copyChangelog">Копіювати changelog</button>
-        </div>
-      </form>
-
-      <section class="panel output">
-        <h2 data-i18n="commandsTitle">Git-команди</h2>
-        <pre id="commands"></pre>
-        <h2 data-i18n="changelogTitle">CHANGELOG</h2>
-        <pre id="changelog"></pre>
-      </section>
-    </section>
-  </main>
-
-  <script src="commit_builder.js"></script>
-</body>
-</html>
+<!doctype html><html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ODIN — Commit Builder</title><link rel="stylesheet" href="odin_shared_ui.css"></head>
+<body><div class="odin-shell">
+<header class="odin-header"><div class="odin-brand">ODIN</div><div class="odin-page-title" data-i18n="commitBuilder">Commit Builder</div><div class="odin-spacer"></div><div class="odin-state-pill">V03.24 UI LOCK</div><div class="odin-settings"><button id="odinSettingsBtn" class="settings-btn" aria-label="settings">⚙</button><div id="odinSettingsMenu" class="settings-menu"><div class="settings-title" data-i18n="settings">Швидкі налаштування</div><div class="setting-group"><div class="setting-label" data-i18n="theme">Тема</div><div class="segmented"><button data-theme-btn="light" data-i18n="light">Світла</button><button data-theme-btn="dark" data-i18n="dark">Темна</button></div></div><div class="setting-group"><div class="setting-label" data-i18n="language">Мова</div><div class="segmented"><button class="ua" data-lang="ua">UA</button><button class="en" data-lang="en">EN</button><button class="de" data-lang="de">DE</button></div></div></div></div></header>
+<div class="odin-layout"><aside class="odin-sidebar"><div class="nav-title" data-i18n="nav">Навігація</div><a class="nav-item" href="index.html" data-i18n="openMain">Головний інтерфейс</a><a class="nav-item active" href="commit_builder.html" data-i18n="commitBuilder">Commit Builder</a><a class="nav-item" href="state_workspace.html" data-i18n="stateWorkspace">State Workspace</a></aside>
+<main class="odin-main"><section class="card"><h2><span data-i18n="commitBuilder">Commit Builder</span><span class="hint" data-help-key="helpCommit" data-help=""></span></h2><p class="muted" data-i18n="commitIntro">Генерує Git-команди, tag і запис CHANGELOG за стандартом ODIN.</p></section>
+<section class="card"><div class="grid"><div class="field"><label data-i18n="version">Версія</label><input id="version" value="V03.26"></div><div class="field"><label data-i18n="title">Назва</label><input id="title" value="UI Template Compliance Fix"></div></div><div class="field"><label data-i18n="done">Що зроблено</label><textarea id="done">Приведено Commit Builder і State Workspace до єдиного шаблону Інтерфейсу ОДІН.
+Додано Quick Settings, UA/EN/DE і Light/Dark.</textarea></div><div class="field"><label data-i18n="value">Що це дає</label><textarea id="value">Усі службові сторінки мають однаковий header, layout і поведінку.
+Зменшується ризик регресії дизайну.</textarea></div><div class="field"><label data-i18n="context">Контекст</label><textarea id="context">Виправлення рецидиву: службові сторінки не відповідали UI Design System Lock.</textarea></div><div class="actions"><button class="btn primary" onclick="generateCommit()" data-i18n="generate">Згенерувати</button><button class="btn" onclick="odinCopy('commandsOut')" data-i18n="copy">Копіювати</button></div></section>
+<section class="card"><h3 data-i18n="commands">Команди Git</h3><pre id="commandsOut" class="output"></pre></section><section class="card"><h3 data-i18n="changelog">Запис CHANGELOG</h3><pre id="changelogOut" class="output"></pre></section></main>
+<aside class="odin-assist"><div class="assist-title" data-i18n="assistant">Асистент ODIN</div><p class="muted" data-i18n="helpCommit">Заповни поля після перевірки змін. ODIN не виконує Git автоматично — лише готує команди.</p><div class="card"><strong data-i18n="currentState">Поточний стан</strong><p>V03.24 — UI DESIGN SYSTEM LOCK</p><p class="muted" data-i18n="stable">Стабільний</p></div></aside></div></div>
+<script src="odin_shared_ui.js"></script><script>
+function slug(s){return String(s||'STATE').toUpperCase().replace(/[^A-Z0-9А-ЯІЇЄҐ]+/g,'-').replace(/^-|-$/g,'')}
+function normalizeLines(text){return String(text||'').split('\n').map(x=>x.trim()).filter(Boolean).map(x=>'- '+x).join('\n')}
+function generateCommit(){const v=document.getElementById('version').value.trim()||'V03.X';const title=document.getElementById('title').value.trim()||'Фіксація ODIN';const done=normalizeLines(document.getElementById('done').value);const value=normalizeLines(document.getElementById('value').value);const context=normalizeLines(document.getElementById('context').value);const tag=v.replace(/\s+/g,'')+'-'+slug(title);const commit=`git add dev/V03/\ngit commit -m "${v} — ${title}.\n\n✔ Що зроблено:\n${done}\n\n✔ Що це дає:\n${value}\n\n✔ Контекст:\n${context}\n"\ngit push origin feature/odin-interface-v03\ngit tag -a ${tag} -m "${v} — ${title}"\ngit push origin ${tag}`;const changelog=`## ${v} — ${title}\n\n✔ Що зроблено:\n${done}\n\n✔ Що це дає:\n${value}\n\n✔ Контекст:\n${context}`;document.getElementById('commandsOut').textContent=commit;document.getElementById('changelogOut').textContent=changelog}
+function renderPage(){generateCommit()}document.addEventListener('DOMContentLoaded',generateCommit);
+</script></body></html>
