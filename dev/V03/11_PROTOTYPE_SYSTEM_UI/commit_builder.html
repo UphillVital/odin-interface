@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ODIN V03 — Commit Builder</title>
+  <link rel="stylesheet" href="commit_builder.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar">
+    <div>
+      <div class="brand">ODIN V03</div>
+      <div class="sub" data-i18n="subtitle">Просунутий генератор фіксації змін</div>
+    </div>
+    <div class="settings">
+      <select id="lang">
+        <option value="uk">UA</option>
+        <option value="en">EN</option>
+        <option value="de">DE</option>
+      </select>
+      <button id="themeBtn" type="button" data-i18n="theme">Тема</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="panel intro">
+      <h1 data-i18n="title">Commit Builder</h1>
+      <p data-i18n="description">Створює повний набір команд: add, commit, push, tag, push tag і запис для CHANGELOG.</p>
+      <div class="notice" id="stateNotice" data-i18n="stateNotice">Workflow state: перевір, що зміни затверджені перед фіксацією.</div>
+    </section>
+
+    <section class="grid">
+      <form class="panel form" id="commitForm">
+        <label>
+          <span data-i18n="version">Версія</span>
+          <input id="version" value="V03.23" />
+        </label>
+
+        <label>
+          <span data-i18n="changeName">Назва зміни</span>
+          <input id="changeName" value="Advanced Commit Builder" />
+        </label>
+
+        <label>
+          <span data-i18n="project">Активний проєкт</span>
+          <input id="project" value="ODIN V03 Core" />
+        </label>
+
+        <label>
+          <span data-i18n="workflow">Workflow state</span>
+          <select id="workflow">
+            <option value="Approved">Approved</option>
+            <option value="Review">Review</option>
+            <option value="Changed">Changed</option>
+            <option value="Editing">Editing</option>
+          </select>
+        </label>
+
+        <label>
+          <span data-i18n="done">Що зроблено</span>
+          <textarea id="done">Додано просунутий Commit Builder.\nЗгенеровано Git-команди, tag і changelog.\nДодано QA-попередження перед фіксацією.</textarea>
+        </label>
+
+        <label>
+          <span data-i18n="benefit">Що це дає</span>
+          <textarea id="benefit">Фіксація змін стає системною та зрозумілою.\nКожна контрольна точка має однакову структуру.\nЗменшується ризик втрати стабільного стану.</textarea>
+        </label>
+
+        <label>
+          <span data-i18n="context">Контекст</span>
+          <textarea id="context">Пакет підготовлено після стабільного циклу File Workspace + Preview UI.</textarea>
+        </label>
+
+        <div class="actions">
+          <button type="button" id="generate" data-i18n="generate">Згенерувати</button>
+          <button type="button" id="copyCommands" data-i18n="copyCommands">Копіювати команди</button>
+          <button type="button" id="copyChangelog" data-i18n="copyChangelog">Копіювати changelog</button>
+        </div>
+      </form>
+
+      <section class="panel output">
+        <h2 data-i18n="commandsTitle">Git-команди</h2>
+        <pre id="commands"></pre>
+        <h2 data-i18n="changelogTitle">CHANGELOG</h2>
+        <pre id="changelog"></pre>
+      </section>
+    </section>
+  </main>
+
+  <script src="commit_builder.js"></script>
+</body>
+</html>
