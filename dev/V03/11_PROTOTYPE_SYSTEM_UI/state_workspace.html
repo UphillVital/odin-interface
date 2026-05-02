@@ -1,19 +1,110 @@
-<!doctype html><html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ODIN — State Workspace</title><link rel="stylesheet" href="odin_shared_ui.css"></head>
-<body><div class="odin-shell">
-<header class="odin-header"><div class="odin-brand">ODIN</div><div class="odin-page-title" data-i18n="stateWorkspace">State Workspace</div><div class="odin-spacer"></div><div class="odin-state-pill">V03.25 STATE SYSTEM</div><div class="odin-settings"><button id="odinSettingsBtn" class="settings-btn" aria-label="settings">⚙</button><div id="odinSettingsMenu" class="settings-menu"><div class="settings-title" data-i18n="settings">Швидкі налаштування</div><div class="setting-group"><div class="setting-label" data-i18n="theme">Тема</div><div class="segmented"><button data-theme-btn="light" data-i18n="light">Світла</button><button data-theme-btn="dark" data-i18n="dark">Темна</button></div></div><div class="setting-group"><div class="setting-label" data-i18n="language">Мова</div><div class="segmented"><button class="ua" data-lang="ua">UA</button><button class="en" data-lang="en">EN</button><button class="de" data-lang="de">DE</button></div></div></div></div></header>
-<div class="odin-layout"><aside class="odin-sidebar"><div class="nav-title" data-i18n="nav">Навігація</div><a class="nav-item" href="index.html" data-i18n="openMain">Головний інтерфейс</a><a class="nav-item" href="commit_builder.html" data-i18n="commitBuilder">Commit Builder</a><a class="nav-item active" href="state_workspace.html" data-i18n="stateWorkspace">State Workspace</a></aside>
-<main class="odin-main"><section class="card"><h2><span data-i18n="stateWorkspace">State Workspace</span><span class="hint" data-help-key="helpState" data-help=""></span></h2><p class="muted" data-i18n="stateIntro">Показує стани системи, checkpoint-и та безпечні restore-команди.</p></section>
-<section class="grid"><div class="card"><h3 data-i18n="stateHistory">Історія станів</h3><div id="stateList" class="state-list"></div></div><div class="card"><h3 data-i18n="details">Деталі стану</h3><div id="stateDetails" class="output"></div></div></section>
-<section class="card"><h3 data-i18n="restore">Restore-команди</h3><pre id="restoreOut" class="output"></pre></section><section class="card"><h3 data-i18n="compare">Порівняння</h3><p class="muted">Compare буде підключено до реального Git diff на наступному рівні інтеграції. Зараз система безпечно генерує restore-команди без автоматичного виконання.</p></section></main>
-<aside class="odin-assist"><div class="assist-title" data-i18n="assistant">Асистент ODIN</div><p class="muted" data-i18n="helpState">Стан = осмислена контрольна точка: tag + changelog + registry + пояснення.</p><div class="card"><strong data-i18n="currentState">Поточний стан</strong><p id="currentStateText">V03.25 — STATE SYSTEM FOUNDATION</p><p class="muted" data-i18n="stable">Стабільний</p></div></aside></div></div>
-<script src="odin_shared_ui.js"></script><script>
-const states=[
-{id:'V03.25-STATE-SYSTEM-FOUNDATION',version:'V03.25',name:'STATE SYSTEM FOUNDATION',summary:'Додано основу State System: registry, MD-описи, State Workspace.',tag:'V03.25-STATE-SYSTEM-FOUNDATION',stable:true},
-{id:'V03.24-UI-DESIGN-SYSTEM-LOCK',version:'V03.24',name:'UI DESIGN SYSTEM LOCK',summary:'Зафіксовано єдиний layout, поведінку та обмеження UI.',tag:'V03.24-UI-DESIGN-SYSTEM-LOCK',stable:true},
-{id:'V03.22.1-REAL-PREVIEW-CHECKPOINT',version:'V03.22.1',name:'REAL PREVIEW CHECKPOINT',summary:'Стабільна точка після реального Preview UI.',tag:'V03.22.1-REAL-PREVIEW-CHECKPOINT',stable:true}
-];
-let selected=states[0];
-function renderStates(){const list=document.getElementById('stateList');list.innerHTML='';states.forEach(s=>{const el=document.createElement('div');el.className='state-item '+(s.id===selected.id?'active':'');el.innerHTML=`<strong>${s.version}</strong><br>${s.name}<br><span class="muted">${s.summary}</span>`;el.onclick=()=>{selected=s;renderStates();renderDetails()};list.appendChild(el)});renderDetails()}
-function renderDetails(){document.getElementById('stateDetails').textContent=`${selected.version} — ${selected.name}\n\n${selected.summary}\n\nGit tag: ${selected.tag}\nStable: ${selected.stable?'true':'false'}`;document.getElementById('restoreOut').textContent=`git checkout feature/odin-interface-v03\ngit checkout ${selected.tag}\n\n# Або для повернення гілки до цієї точки (обережно):\ngit checkout feature/odin-interface-v03\ngit reset --hard ${selected.tag}`;document.getElementById('currentStateText').textContent=`${selected.version} — ${selected.name}`}
-function renderPage(){renderStates()}document.addEventListener('DOMContentLoaded',renderStates);
-</script></body></html>
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ODIN Interface V03 — State Workspace</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="theme-light" data-lang="ua" data-theme="light">
+  <header class="odin-header">
+    <div class="brand">
+      <div class="brand-mark">ODIN</div>
+      <div>
+        <div class="brand-title" data-i18n="title"></div>
+        <div class="brand-subtitle" data-i18n="subtitle"></div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <div class="quick-settings" id="quickSettings">
+        <button class="settings-button" id="settingsToggle" type="button" aria-haspopup="true" aria-expanded="false">
+          <span class="settings-icon" aria-hidden="true">⚙</span>
+          <span class="sr-only" data-i18n="settings"></span>
+        </button>
+        <div class="settings-menu" id="settingsMenu" hidden>
+          <div class="settings-menu-title" data-i18n="quickSettings"></div>
+          <div class="settings-section">
+            <div class="settings-section-label" data-i18n="systemPages"></div>
+            <a class="settings-link" href="index.html" data-i18n="mainInterface"></a>
+            <a class="settings-link" href="commit_builder.html" data-i18n="commitBuilder"></a>
+            <a class="settings-link active" href="state_workspace.html" data-i18n="stateWorkspace"></a>
+          </div>
+          <button class="settings-row" id="themeToggle" type="button"><span data-i18n="themeLabel"></span><strong id="themeValue"></strong></button>
+          <div class="settings-row settings-language-row">
+            <span data-i18n="languageLabel"></span>
+            <div class="language-switch" id="languageSwitch" role="group" aria-label="Language selection">
+              <button class="language-pill" type="button" data-lang-option="ua">UA</button>
+              <button class="language-pill" type="button" data-lang-option="en">EN</button>
+              <button class="language-pill" type="button" data-lang-option="de">DE</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="odin-shell">
+    <aside class="left-tree">
+      <div class="tree-title"><span data-i18n="treeTitle"></span><span class="hint" tabindex="0" data-help-key="hintTree">?</span></div>
+      <a class="tree-item" href="index.html"><span data-i18n="mainInterface"></span></a>
+      <a class="tree-item" href="commit_builder.html"><span data-i18n="commitBuilder"></span></a>
+      <a class="tree-item active" href="state_workspace.html"><span data-i18n="stateWorkspace"></span></a>
+    </aside>
+
+    <main class="work-zone" aria-live="polite">
+      <section class="zone-card">
+        <h2 class="zone-title"><span data-i18n="stateWorkspace"></span><span class="hint" tabindex="0" data-help-key="hintSettings">?</span></h2>
+        <p data-i18n="stateIntro"></p>
+        <p class="service-page-note" data-i18n="uiMatrix"></p>
+      </section>
+      <section class="zone-grid">
+        <div class="mini-card"><h3 data-i18n="stateHistory"></h3><div id="stateList" class="state-list"></div></div>
+        <div class="mini-card"><h3 data-i18n="details"></h3><pre id="stateDetails" class="output-box"></pre></div>
+      </section>
+      <section class="zone-card"><h3 data-i18n="restore"></h3><pre id="restoreOut" class="output-box"></pre></section>
+      <section class="zone-card"><h3 data-i18n="compare"></h3><p class="service-page-note">Compare буде підключено до реального Git diff на наступному рівні інтеграції. Зараз система безпечно генерує restore-команди без автоматичного виконання.</p></section>
+    </main>
+
+    <aside class="assist-panel">
+      <div class="assist-title"><span data-i18n="assistTitle"></span><span class="hint" tabindex="0" data-help-key="hintAssist">?</span></div>
+      <div class="assist-content"><p data-i18n="stateAssist"></p><div class="mini-card"><strong data-i18n="currentState"></strong><p id="currentStateText">V03.25 — STATE SYSTEM FOUNDATION</p><p class="service-page-note" data-i18n="stable"></p></div></div>
+    </aside>
+  </div>
+
+  <footer class="status-bar">
+    <span><span data-i18n="modeLabel"></span>: <strong id="modeValue"></strong></span>
+    <span><span data-i18n="stateLabel"></span>: <strong id="stateValue"></strong></span>
+    <span><span data-i18n="projectLabel"></span>: <strong id="projectValue"></strong></span>
+    <span><span data-i18n="workflowLabel"></span>: <strong id="workflowValue"></strong></span>
+  </footer>
+
+  <script src="odin_matrix_shell.js"></script>
+  <script>
+    const states = [
+      { id: 'V03.25-STATE-SYSTEM-FOUNDATION', version: 'V03.25', name: 'STATE SYSTEM FOUNDATION', summary: 'Додано основу State System: registry, MD-описи, State Workspace.', tag: 'V03.25-STATE-SYSTEM-FOUNDATION', stable: true },
+      { id: 'V03.24-UI-DESIGN-SYSTEM-LOCK', version: 'V03.24', name: 'UI DESIGN SYSTEM LOCK', summary: 'Зафіксовано єдиний layout, поведінку та обмеження UI.', tag: 'V03.24-UI-DESIGN-SYSTEM-LOCK', stable: true },
+      { id: 'V03.22.1-REAL-PREVIEW-CHECKPOINT', version: 'V03.22.1', name: 'REAL PREVIEW CHECKPOINT', summary: 'Стабільна точка після реального Preview UI.', tag: 'V03.22.1-REAL-PREVIEW-CHECKPOINT', stable: true }
+    ];
+    let selected = states[0];
+    function renderStates() {
+      const list = document.getElementById('stateList');
+      list.innerHTML = '';
+      states.forEach(item => {
+        const button = document.createElement('button');
+        button.className = 'state-item ' + (item.id === selected.id ? 'active' : '');
+        button.innerHTML = `<strong>${item.version}</strong><br>${item.name}<br><span class="service-page-note">${item.summary}</span>`;
+        button.onclick = () => { selected = item; renderStates(); renderDetails(); };
+        list.appendChild(button);
+      });
+      renderDetails();
+    }
+    function renderDetails() {
+      document.getElementById('stateDetails').textContent = `${selected.version} — ${selected.name}\n\n${selected.summary}\n\nGit tag: ${selected.tag}\nStable: ${selected.stable ? 'true' : 'false'}`;
+      document.getElementById('restoreOut').textContent = `git checkout feature/odin-interface-v03\ngit checkout ${selected.tag}\n\n# Або для повернення гілки до цієї точки (обережно):\ngit checkout feature/odin-interface-v03\ngit reset --hard ${selected.tag}`;
+      document.getElementById('currentStateText').textContent = `${selected.version} — ${selected.name}`;
+    }
+    window.odinMatrixRender = renderStates;
+    document.addEventListener('DOMContentLoaded', renderStates);
+  </script>
+</body>
+</html>

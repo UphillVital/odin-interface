@@ -587,3 +587,100 @@ body {
   line-height: 1.45;
   color: var(--text);
 }
+
+/* ODIN V03.27 — UI Matrix / System Menu additions */
+.settings-section {
+  display: grid;
+  gap: 8px;
+  padding: 8px 0 12px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.settings-section-label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: .02em;
+}
+.settings-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 38px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 9px 12px;
+  background: var(--surface-soft);
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 700;
+}
+.settings-link:hover {
+  border-color: var(--accent);
+}
+.settings-link.active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+.service-page-note {
+  color: var(--muted);
+  margin-top: 4px;
+}
+.commit-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.commit-field {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+.commit-field label {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+.commit-field input,
+.commit-field textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--text);
+  padding: 12px 14px;
+  font: inherit;
+}
+.commit-field textarea {
+  min-height: 104px;
+  resize: vertical;
+}
+.output-box {
+  white-space: pre-wrap;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 18px;
+  padding: 14px;
+  min-height: 120px;
+  overflow: auto;
+  line-height: 1.45;
+}
+.state-list {
+  display: grid;
+  gap: 10px;
+}
+.state-item {
+  text-align: left;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface-soft);
+  padding: 12px;
+}
+.state-item.active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+@media (max-width: 900px) {
+  .commit-form-grid { grid-template-columns: 1fr; }
+}

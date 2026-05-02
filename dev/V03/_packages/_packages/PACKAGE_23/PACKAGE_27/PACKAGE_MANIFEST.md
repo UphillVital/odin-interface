@@ -1,0 +1,16 @@
+# PACKAGE MANIFEST — PACKAGE 27
+
+## Files
+
+- `dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html`
+- `dev/V03/11_PROTOTYPE_SYSTEM_UI/styles.css`
+- `dev/V03/11_PROTOTYPE_SYSTEM_UI/app.js`
+- `dev/V03/11_PROTOTYPE_SYSTEM_UI/odin_matrix_shell.js`
+- `dev/V03/11_PROTOTYPE_SYSTEM_UI/commit_builder.html`
+- `dev/V03/11_PROTOTYPE_SYSTEM_UI/state_workspace.html`
+- `dev/V03/15_UI_SYSTEM/ODIN_UI_MATRIX_LOCK_v1.md`
+- `dev/V03/15_UI_SYSTEM/GLOBAL_SETTINGS_MENU_RULES_v1.md`
+- `dev/V03/_packages/PACKAGE_27/README_PACKAGE_27.md`
+- `dev/V03/_packages/PACKAGE_27/CHANGELOG_PACKAGE_27_ENTRY.md`
+- `dev/V03/_packages/PACKAGE_27/QA_REPORT_PACKAGE_27.md`
+- `dev/V03/_packages/PACKAGE_27/PACKAGE_MANIFEST.md`

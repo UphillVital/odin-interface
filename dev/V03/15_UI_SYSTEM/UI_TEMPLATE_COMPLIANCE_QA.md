@@ -1,38 +1,34 @@
-# UI TEMPLATE COMPLIANCE QA — ODIN V03
+# UI TEMPLATE COMPLIANCE QA — v26.1
 
-## Призначення
-Цей документ фіксує автоматичну перевірку відповідності службових сторінок єдиному шаблону Інтерфейсу ОДІН.
+## Статус
+Обовʼязкова перевірка для кожної сторінки Інтерфейсу ОДІН.
 
-## Причина
-Виявлено рецидив старої помилки: окремі службові сторінки (`Commit Builder`, `State Workspace`) мали власну шапку без Quick Settings і не відповідали UI Design System Lock.
+## Головне правило
+Службова сторінка приймається тільки тоді, коли вона 1:1 відповідає головному ODIN Interface Shell.
 
-## Обовʼязковий стандарт
-Кожна сторінка ODIN Interface повинна мати:
-
-- fixed header;
-- єдину ODIN-шапку;
-- Quick Settings у правому верхньому кутку;
-- перемикання Light / Dark;
-- перемикання UA / EN / DE;
-- триколонкову логіку: navigation / workspace / assisted panel;
-- contextual help;
-- спільний стиль, без локального дизайну.
+## Обовʼязкові елементи
+- Той самий fixed header.
+- Логотип ODIN у шапці.
+- Ті самі кольори light/dark тем.
+- Кнопка Quick Settings у правому верхньому кутку.
+- Popup-меню шестерні.
+- У popup-меню є переходи на:
+  - головний інтерфейс;
+  - Commit Builder;
+  - State Workspace.
+- UA / EN / DE працюють у службових сторінках.
+- Light / Dark перемикаються та зберігаються.
+- Ліва колонка, центральна зона, права assisted panel.
+- Footer/status-bar відповідає ODIN UI.
 
 ## Автотригер
+IF сторінка має окремий header, інші кольори або відсутнє меню шестерні
+THEN QA_FAILED
+AND corrective package required before next feature.
 
-```text
-IF page header/layout != main ODIN template
-THEN package = QA_FAILED
-AND fix required before acceptance
-```
-
-## Перевірено в PACKAGE 26
-
-- `commit_builder.html` приведено до єдиного шаблону.
-- `state_workspace.html` приведено до єдиного шаблону.
-- Додано спільні `odin_shared_ui.css` і `odin_shared_ui.js` для службових сторінок.
-- Quick Settings працює в обох службових сторінках.
-- UA / EN / DE і Light / Dark працюють у спільній shell-логіці.
-
-## Заборона
-Не створювати нові службові сторінки зі своїм окремим header/layout без проходження UI Template Compliance QA.
+## Заборонено
+- Окремий локальний дизайн сторінки.
+- Header без логотипу ODIN.
+- Header без Quick Settings.
+- Меню без переходів до службових сторінок.
+- Частково схожий, але не ідентичний shell.
