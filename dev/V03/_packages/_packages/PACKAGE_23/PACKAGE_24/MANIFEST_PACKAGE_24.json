@@ -1,0 +1,11 @@
+{
+  "package": "ODIN_V03_PACKAGE_24_UI_DESIGN_SYSTEM_LOCK_REBUILD",
+  "version": "V03.24",
+  "type": "system-documentation-lock",
+  "changes_ui_runtime": false,
+  "paths": [
+    "dev/V03/15_UI_SYSTEM/",
+    "dev/V03/_packages/PACKAGE_24/"
+  ],
+  "qa_status": "PASSED"
+}
