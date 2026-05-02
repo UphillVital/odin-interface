@@ -221,23 +221,25 @@ function renderFileWorkspace() {
   workZone.innerHTML = zoneTemplate(t('filesTitle'), t('filesBody'), `
     ${projectNote}
     <div class="file-workspace">
-      <div class="file-toolbar">
-        <label class="file-picker">
-          ${t('fileSelect')}
-          <input id="fileInput" type="file" accept=".txt,.md,.html,.css,.js,.json,.xml,.csv,text/*" />
-        </label>
-        <button type="button" onclick="loadSampleFile()">${t('fileLoadSample')}</button>
-        <button type="button" onclick="sendToReview()" ${hasProject ? '' : 'disabled'}>${t('workflowReviewBtn')}</button>
-        <button type="button" onclick="approveFileDraft()" ${hasProject ? '' : 'disabled'}>${t('fileApproveBtn')}</button>
-        <button type="button" onclick="rejectFileDraft()" ${hasProject ? '' : 'disabled'}>${t('fileRejectBtn')}</button>
-        <button type="button" onclick="downloadDraftFile()" ${hasProject && fileState.name ? '' : 'disabled'}>${t('fileDownloadBtn')}</button>
-      </div>
+      <div class="workspace-sticky-actions">
+        <div class="file-toolbar">
+          <label class="file-picker">
+            ${t('fileSelect')}
+            <input id="fileInput" type="file" accept=".txt,.md,.html,.css,.js,.json,.xml,.csv,text/*" />
+          </label>
+          <button type="button" onclick="loadSampleFile()">${t('fileLoadSample')}</button>
+          <button type="button" onclick="sendToReview()" ${hasProject ? '' : 'disabled'}>${t('workflowReviewBtn')}</button>
+          <button type="button" onclick="approveFileDraft()" ${hasProject ? '' : 'disabled'}>${t('fileApproveBtn')}</button>
+          <button type="button" onclick="rejectFileDraft()" ${hasProject ? '' : 'disabled'}>${t('fileRejectBtn')}</button>
+          <button type="button" onclick="downloadDraftFile()" ${hasProject && fileState.name ? '' : 'disabled'}>${t('fileDownloadBtn')}</button>
+        </div>
 
-      <div class="workflow-strip">
-        <span class="workflow-step ${state.workflow === 'editing' ? 'active' : ''}">${t('workflowEditing')}</span>
-        <span class="workflow-step ${state.workflow === 'changed' ? 'active' : ''}">${t('workflowChanged')}</span>
-        <span class="workflow-step ${state.workflow === 'review' ? 'active' : ''}">${t('workflowReview')}</span>
-        <span class="workflow-step ${state.workflow === 'approved' ? 'active' : ''}">${t('workflowApproved')}</span>
+        <div class="workflow-strip">
+          <span class="workflow-step ${state.workflow === 'editing' ? 'active' : ''}">${t('workflowEditing')}</span>
+          <span class="workflow-step ${state.workflow === 'changed' ? 'active' : ''}">${t('workflowChanged')}</span>
+          <span class="workflow-step ${state.workflow === 'review' ? 'active' : ''}">${t('workflowReview')}</span>
+          <span class="workflow-step ${state.workflow === 'approved' ? 'active' : ''}">${t('workflowApproved')}</span>
+        </div>
       </div>
       <div class="file-meta">
         <span><strong>${t('fileNameLabel')}:</strong> ${escapeHtml(fileState.name || t('fileNoFile'))}</span>
@@ -320,7 +322,7 @@ function refreshFileWorkspaceLiveParts() {
   }
   if (meta) meta.textContent = String(diff.changes);
   if (diffView) diffView.innerHTML = diff.html;
-  if (workflowValue) workflowValue.textContent = workflowLabel();
+  if (workflowValue) workflowValue.textContent = workflowText();
   document.querySelectorAll('.workflow-step').forEach(step => step.classList.remove('active'));
   const steps = Array.from(document.querySelectorAll('.workflow-step'));
   const order = ['editing', 'changed', 'review', 'approved'];

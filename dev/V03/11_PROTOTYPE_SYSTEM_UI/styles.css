@@ -446,3 +446,93 @@ button:disabled, textarea:disabled {
   padding: 12px;
 }
 .editor-panel textarea:focus { outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent); }
+
+
+/* PACKAGE 20 — Fixed header, independent columns, sticky work actions */
+html, body {
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+}
+
+.odin-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex: 0 0 auto;
+}
+
+.odin-shell {
+  height: calc(100vh - 120px);
+  min-height: 0;
+  overflow: hidden;
+  align-items: stretch;
+}
+
+.left-tree,
+.work-zone,
+.assist-panel {
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+  overflow: auto;
+  scrollbar-gutter: stable;
+  resize: vertical;
+}
+
+.work-zone {
+  position: relative;
+  scroll-behavior: smooth;
+}
+
+.status-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 90;
+  flex: 0 0 auto;
+}
+
+.workspace-sticky-actions {
+  position: sticky;
+  top: -1px;
+  z-index: 20;
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  box-shadow: 0 12px 26px rgba(40, 38, 32, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.workspace-sticky-actions .file-toolbar {
+  margin-bottom: 10px;
+}
+
+.workspace-sticky-actions .workflow-strip {
+  margin: 0;
+}
+
+.file-grid {
+  align-items: stretch;
+}
+
+.compare-panel {
+  resize: vertical;
+  overflow: auto;
+}
+
+.editor-panel textarea,
+.original-panel pre {
+  height: 100%;
+  min-height: 280px;
+}
+
+@media (max-width: 1000px) {
+  body { overflow: auto; }
+  .odin-header, .status-bar { position: sticky; }
+  .odin-shell { height: auto; overflow: visible; }
+  .left-tree, .work-zone, .assist-panel { height: auto; max-height: none; resize: none; }
+}
