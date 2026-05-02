@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ODIN State Workspace</title>
+  <style>
+    :root { --bg:#f6f7fb; --panel:#ffffff; --text:#18202f; --muted:#657086; --line:#dde3ee; --accent:#2d6cdf; --soft:#edf3ff; }
+    body.dark { --bg:#10131a; --panel:#171b24; --text:#ecf1fb; --muted:#a7b0c2; --line:#2a3140; --accent:#8fb4ff; --soft:#202a3a; }
+    body { margin:0; font-family: Inter, Segoe UI, Arial, sans-serif; background:var(--bg); color:var(--text); }
+    header { position:sticky; top:0; z-index:10; height:58px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; border-bottom:1px solid var(--line); background:var(--panel); }
+    .brand { font-weight:800; letter-spacing:.08em; }
+    .actions { display:flex; gap:8px; align-items:center; }
+    button, select { border:1px solid var(--line); background:var(--panel); color:var(--text); border-radius:10px; padding:8px 10px; cursor:pointer; }
+    .layout { display:grid; grid-template-columns:280px 1fr 330px; gap:14px; height:calc(100vh - 59px); padding:14px; box-sizing:border-box; }
+    aside, main, section { background:var(--panel); border:1px solid var(--line); border-radius:18px; overflow:auto; }
+    aside { padding:12px; }
+    main { padding:18px; }
+    section { padding:14px; }
+    .state-item { padding:12px; border:1px solid var(--line); border-radius:14px; margin-bottom:10px; cursor:pointer; }
+    .state-item.active { border-color:var(--accent); background:var(--soft); }
+    .pill { display:inline-block; border:1px solid var(--line); border-radius:999px; padding:3px 8px; font-size:12px; color:var(--muted); }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .card { border:1px solid var(--line); border-radius:16px; padding:14px; background:var(--panel); }
+    h1,h2,h3 { margin-top:0; }
+    ul { padding-left:20px; }
+    pre { white-space:pre-wrap; background:var(--soft); border:1px solid var(--line); border-radius:14px; padding:12px; }
+    .muted { color:var(--muted); }
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">ODIN STATE WORKSPACE</div>
+  <div class="actions">
+    <select id="lang"><option value="ua">UA</option><option value="en">EN</option><option value="de">DE</option></select>
+    <button id="themeBtn">Тема</button>
+  </div>
+</header>
+<div class="layout">
+  <aside>
+    <h3 id="historyTitle">Історія станів</h3>
+    <div id="stateList"></div>
+  </aside>
+  <main>
+    <div id="details"></div>
+  </main>
+  <section>
+    <h3 id="rightTitle">Поточний стан</h3>
+    <div id="currentBox"></div>
+    <hr />
+    <h3 id="restoreTitle">Restore-команди</h3>
+    <pre id="restoreCommands"></pre>
+  </section>
+</div>
+<script>
+const registry = {
+  currentStateId: "V03.24-UI-DESIGN-SYSTEM-LOCK",
+  states: [
+    { id:"V03.22.1-REAL-PREVIEW-CHECKPOINT", version:"V03.22.1", name:"REAL PREVIEW CHECKPOINT", status:"stable", type:"checkpoint", summaryUa:"Стабільна версія після впровадження Preview UI.", changesUa:["Додано Preview UI.","Інтегровано Preview у File Workspace.","Замкнено робочий pipeline."], valueUa:["Перегляд результату до збереження.","Контроль якості перед фіксацією."], contextUa:"Контрольна точка перед подальшими інтеграціями.", gitTag:"V03.22.1-REAL-PREVIEW-CHECKPOINT" },
+    { id:"V03.24-UI-DESIGN-SYSTEM-LOCK", version:"V03.24", name:"UI DESIGN SYSTEM LOCK", status:"stable", type:"checkpoint", summaryUa:"Зафіксовано core layout, поведінку інтерфейсу та обмеження.", changesUa:["Fixed header + три колонки.","Scroll / resize / sticky поведінка.","Правила UI-компонентів."], valueUa:["Єдиний стандарт для нових сторінок.","Менше ризику хаосу в UI."], contextUa:"Актуальна стабільна база перед State System.", gitTag:"V03.24-UI-DESIGN-SYSTEM-LOCK" }
+  ]
+};
+const t = {
+  ua:{history:"Історія станів", current:"Поточний стан", restore:"Restore-команди", theme:"Тема", changes:"Що зроблено", value:"Що це дає", context:"Контекст", view:"Перегляд", safe:"Безпечний режим: команди тільки генеруються."},
+  en:{history:"State history", current:"Current state", restore:"Restore commands", theme:"Theme", changes:"Changes", value:"Value", context:"Context", view:"View", safe:"Safe mode: commands are generated only."},
+  de:{history:"Statusverlauf", current:"Aktueller Status", restore:"Restore-Befehle", theme:"Thema", changes:"Änderungen", value:"Nutzen", context:"Kontext", view:"Ansehen", safe:"Sicherer Modus: Befehle werden nur generiert."}
+};
+let lang = localStorage.getItem('odin_lang') || 'ua';
+let selected = registry.currentStateId;
+function L(k){ return t[lang][k] || t.ua[k] || k; }
+function render(){
+  document.getElementById('lang').value = lang;
+  document.getElementById('historyTitle').textContent = L('history');
+  document.getElementById('rightTitle').textContent = L('current');
+  document.getElementById('restoreTitle').textContent = L('restore');
+  document.getElementById('themeBtn').textContent = L('theme');
+  const list = document.getElementById('stateList'); list.innerHTML='';
+  registry.states.forEach(s=>{ const div=document.createElement('div'); div.className='state-item'+(s.id===selected?' active':''); div.innerHTML=`<strong>${s.version}</strong><br>${s.name}<br><span class="pill">${s.status}</span>`; div.onclick=()=>{selected=s.id; render();}; list.appendChild(div); });
+  const s = registry.states.find(x=>x.id===selected) || registry.states[0];
+  document.getElementById('details').innerHTML = `<h1>${s.version} — ${s.name}</h1><p class="muted">${s.summaryUa}</p><div class="grid"><div class="card"><h3>${L('changes')}</h3><ul>${s.changesUa.map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="card"><h3>${L('value')}</h3><ul>${s.valueUa.map(x=>`<li>${x}</li>`).join('')}</ul></div></div><div class="card" style="margin-top:12px"><h3>${L('context')}</h3><p>${s.contextUa}</p></div>`;
+  const cur = registry.states.find(x=>x.id===registry.currentStateId);
+  document.getElementById('currentBox').innerHTML = `<strong>${cur.version}</strong><br>${cur.name}<p class="muted">${cur.summaryUa}</p><span class="pill">${cur.status}</span>`;
+  document.getElementById('restoreCommands').textContent = `${L('safe')}\n\ngit checkout ${s.gitTag}\n\n# обережний варіант для повернення гілки:\ngit checkout feature/odin-interface-v03\ngit reset --hard ${s.gitTag}`;
+}
+document.getElementById('lang').onchange = e => { lang=e.target.value; localStorage.setItem('odin_lang', lang); render(); };
+document.getElementById('themeBtn').onclick = () => { document.body.classList.toggle('dark'); localStorage.setItem('odin_theme', document.body.classList.contains('dark')?'dark':'light'); };
+if(localStorage.getItem('odin_theme')==='dark') document.body.classList.add('dark');
+render();
+</script>
+</body>
+</html>

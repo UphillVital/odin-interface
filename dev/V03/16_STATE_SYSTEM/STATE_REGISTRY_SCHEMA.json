@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ODIN V03 State Registry Schema",
+  "type": "object",
+  "required": ["registryVersion", "system", "currentStateId", "states"],
+  "properties": {
+    "registryVersion": { "type": "string" },
+    "system": { "type": "string" },
+    "currentStateId": { "type": "string" },
+    "states": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "version", "name", "type", "status", "summaryUa", "gitTag"],
+        "properties": {
+          "id": { "type": "string" },
+          "version": { "type": "string" },
+          "name": { "type": "string" },
+          "titleUa": { "type": "string" },
+          "date": { "type": "string" },
+          "type": { "enum": ["checkpoint", "stable", "experimental"] },
+          "status": { "enum": ["stable", "draft", "deprecated"] },
+          "summaryUa": { "type": "string" },
+          "changesUa": { "type": "array", "items": { "type": "string" } },
+          "valueUa": { "type": "array", "items": { "type": "string" } },
+          "contextUa": { "type": "string" },
+          "gitTag": { "type": "string" },
+          "mdPath": { "type": "string" }
+        }
+      }
+    }
+  }
+}

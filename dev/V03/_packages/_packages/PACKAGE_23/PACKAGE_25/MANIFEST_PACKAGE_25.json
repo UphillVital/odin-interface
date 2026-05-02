@@ -1,0 +1,20 @@
+{
+  "package": "PACKAGE_25",
+  "name": "ODIN STATE SYSTEM FOUNDATION",
+  "version": "V03.25",
+  "files": [
+    "dev/V03/STATE_REGISTRY.json",
+    "dev/V03/16_STATE_SYSTEM/README.md",
+    "dev/V03/16_STATE_SYSTEM/STATE_MODEL.md",
+    "dev/V03/16_STATE_SYSTEM/STATE_RULES.md",
+    "dev/V03/16_STATE_SYSTEM/STATE_WORKFLOW.md",
+    "dev/V03/16_STATE_SYSTEM/STATE_UI_SPEC.md",
+    "dev/V03/16_STATE_SYSTEM/STATE_REGISTRY_SCHEMA.json",
+    "dev/V03/_states/V03.22.1_REAL_PREVIEW_CHECKPOINT.md",
+    "dev/V03/_states/V03.24_UI_DESIGN_SYSTEM_LOCK.md",
+    "dev/V03/11_PROTOTYPE_SYSTEM_UI/state_workspace.html",
+    "dev/V03/_packages/PACKAGE_25/README_PACKAGE_25_STATE_SYSTEM.md",
+    "dev/V03/_packages/PACKAGE_25/CHANGELOG_PACKAGE_25_ENTRY.md",
+    "dev/V03/_packages/PACKAGE_25/QA_REPORT_PACKAGE_25.md"
+  ]
+}

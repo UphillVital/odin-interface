@@ -1,0 +1,51 @@
+{
+  "registryVersion": "1.0.0",
+  "system": "ODIN V03",
+  "currentStateId": "V03.24-UI-DESIGN-SYSTEM-LOCK",
+  "states": [
+    {
+      "id": "V03.22.1-REAL-PREVIEW-CHECKPOINT",
+      "version": "V03.22.1",
+      "name": "REAL PREVIEW CHECKPOINT",
+      "titleUa": "Стабільна точка після реального Preview UI",
+      "date": "2026-05-02",
+      "type": "checkpoint",
+      "status": "stable",
+      "summaryUa": "Стабільна версія після впровадження реального внутрішнього переглядача.",
+      "changesUa": [
+        "Додано Preview UI для HTML та code/text файлів.",
+        "Інтегровано Preview у File Workspace.",
+        "Замкнено цикл Project → File → Edit → Diff → Preview → QA → Approve → Save."
+      ],
+      "valueUa": [
+        "Результат можна перевірити до збереження.",
+        "Зменшується ризик збереження неякісної збірки."
+      ],
+      "contextUa": "Контрольна точка перед подальшим розвитком системи ODIN і інтеграцією продуктів.",
+      "gitTag": "V03.22.1-REAL-PREVIEW-CHECKPOINT",
+      "mdPath": "dev/V03/_states/V03.22.1_REAL_PREVIEW_CHECKPOINT.md"
+    },
+    {
+      "id": "V03.24-UI-DESIGN-SYSTEM-LOCK",
+      "version": "V03.24",
+      "name": "UI DESIGN SYSTEM LOCK",
+      "titleUa": "Фіксація UI Design System",
+      "date": "2026-05-02",
+      "type": "checkpoint",
+      "status": "stable",
+      "summaryUa": "Зафіксовано core layout, поведінку інтерфейсу та обмеження для подальшого розвитку.",
+      "changesUa": [
+        "Зафіксовано fixed header і три основні колонки.",
+        "Зафіксовано незалежну прокрутку та resize-поведінку.",
+        "Визначено правила UI-компонентів і заборони на хаотичні зміни."
+      ],
+      "valueUa": [
+        "Нові сторінки повинні будуватися за єдиним стандартом.",
+        "Інтерфейс не повинен розвалюватися при зростанні системи."
+      ],
+      "contextUa": "Актуальна стабільна база перед впровадженням ODIN State System.",
+      "gitTag": "V03.24-UI-DESIGN-SYSTEM-LOCK",
+      "mdPath": "dev/V03/_states/V03.24_UI_DESIGN_SYSTEM_LOCK.md"
+    }
+  ]
+}
