@@ -536,3 +536,54 @@ body {
   .odin-shell { height: auto; overflow: visible; }
   .left-tree, .work-zone, .assist-panel { height: auto; max-height: none; resize: none; }
 }
+
+/* PACKAGE 22.1 — Real internal previewer UI */
+.preview-panel {
+  margin-top: 12px;
+  min-height: 360px;
+}
+
+.preview-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  margin-bottom: 10px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-soft);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.preview-frame {
+  flex: 1 1 auto;
+  min-height: 300px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface-soft);
+  overflow: auto;
+}
+
+.html-preview-frame {
+  width: 100%;
+  min-height: 520px;
+  height: 62vh;
+  border: 0;
+  background: #ffffff;
+  border-radius: 16px;
+}
+
+.code-preview {
+  min-height: 300px;
+  margin: 0;
+  padding: 14px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: Consolas, 'SFMono-Regular', Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text);
+}
