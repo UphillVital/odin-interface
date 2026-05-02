@@ -1,117 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ODIN Interface V03 — Commit Builder</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ODIN — Commit Builder</title>
+  <link rel="stylesheet" href="odin_global_matrix.css" />
 </head>
-<body class="theme-light" data-lang="ua" data-theme="light">
-  <header class="odin-header">
-    <div class="brand">
-      <div class="brand-mark">ODIN</div>
-      <div>
-        <div class="brand-title" data-i18n="title"></div>
-        <div class="brand-subtitle" data-i18n="subtitle"></div>
-      </div>
+<body data-page="commit" data-theme="light">
+  <section data-odin-content>
+    <div class="odin-card">
+      <h2>Commit Builder</h2>
+      <p class="odin-note">Генератор повної фіксації ODIN: commit, push, tag, changelog. Це запасний інструмент, який використовується за потреби.</p>
     </div>
-    <div class="header-actions">
-      <div class="quick-settings" id="quickSettings">
-        <button class="settings-button" id="settingsToggle" type="button" aria-haspopup="true" aria-expanded="false">
-          <span class="settings-icon" aria-hidden="true">⚙</span>
-          <span class="sr-only" data-i18n="settings"></span>
-        </button>
-        <div class="settings-menu" id="settingsMenu" hidden>
-          <div class="settings-menu-title" data-i18n="quickSettings"></div>
-          <div class="settings-section">
-            <div class="settings-section-label" data-i18n="systemPages"></div>
-            <a class="settings-link" href="index.html" data-i18n="mainInterface"></a>
-            <a class="settings-link active" href="commit_builder.html" data-i18n="commitBuilder"></a>
-            <a class="settings-link" href="state_workspace.html" data-i18n="stateWorkspace"></a>
-          </div>
-          <button class="settings-row" id="themeToggle" type="button">
-            <span data-i18n="themeLabel"></span>
-            <strong id="themeValue"></strong>
-          </button>
-          <div class="settings-row settings-language-row">
-            <span data-i18n="languageLabel"></span>
-            <div class="language-switch" id="languageSwitch" role="group" aria-label="Language selection">
-              <button class="language-pill" type="button" data-lang-option="ua">UA</button>
-              <button class="language-pill" type="button" data-lang-option="en">EN</button>
-              <button class="language-pill" type="button" data-lang-option="de">DE</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="odin-card">
+      <label>Версія</label><br />
+      <input id="version" value="V03.27.2" style="width:100%;padding:10px;border-radius:12px;border:1px solid var(--odin-border);box-sizing:border-box;" />
+      <br /><br />
+      <label>Назва фіксації</label><br />
+      <input id="title" value="Global ODIN UI Matrix Restore" style="width:100%;padding:10px;border-radius:12px;border:1px solid var(--odin-border);box-sizing:border-box;" />
+      <br /><br />
+      <button class="odin-nav-btn" type="button" onclick="generateCommit()">Згенерувати</button>
     </div>
-  </header>
-
-  <div class="odin-shell">
-    <aside class="left-tree">
-      <div class="tree-title"><span data-i18n="treeTitle"></span><span class="hint" tabindex="0" data-help-key="hintTree">?</span></div>
-      <a class="tree-item" href="index.html"><span data-i18n="mainInterface"></span></a>
-      <a class="tree-item active" href="commit_builder.html"><span data-i18n="commitBuilder"></span></a>
-      <a class="tree-item" href="state_workspace.html"><span data-i18n="stateWorkspace"></span></a>
-    </aside>
-
-    <main class="work-zone" aria-live="polite">
-      <section class="zone-card">
-        <h2 class="zone-title"><span data-i18n="commitBuilder"></span><span class="hint" tabindex="0" data-help-key="hintSettings">?</span></h2>
-        <p data-i18n="commitIntro"></p>
-        <p class="service-page-note" data-i18n="uiMatrix"></p>
-      </section>
-
-      <section class="zone-card">
-        <div class="commit-form-grid">
-          <div class="commit-field"><label data-i18n="version"></label><input id="version" value="V03.27" /></div>
-          <div class="commit-field"><label data-i18n="commitTitle"></label><input id="commitTitle" value="UI Matrix / Global Shell" /></div>
-        </div>
-        <div class="commit-field"><label data-i18n="done"></label><textarea id="done">Приведено службові сторінки до єдиної ODIN UI Matrix.
-Додано переходи на головний інтерфейс, Commit Builder і State Workspace у меню шестерні.</textarea></div>
-        <div class="commit-field"><label data-i18n="value"></label><textarea id="value">Усі сторінки Інтерфейсу ОДІН мають однакову шапку, меню, теми та мови.
-Зменшується ризик UX-хаосу.</textarea></div>
-        <div class="commit-field"><label data-i18n="context"></label><textarea id="context">Corrective system package після виявлення, що службові сторінки не були 1:1 схожі на головний index.html.</textarea></div>
-        <div class="action-row">
-          <button class="primary-action" type="button" onclick="generateCommit()" data-i18n="generate"></button>
-          <button class="ghost-action" type="button" onclick="odinMatrixCopy('commandsOut')" data-i18n="copy"></button>
-        </div>
-      </section>
-
-      <section class="zone-card"><h3 data-i18n="commands"></h3><pre id="commandsOut" class="output-box"></pre></section>
-      <section class="zone-card"><h3 data-i18n="changelog"></h3><pre id="changelogOut" class="output-box"></pre></section>
-    </main>
-
-    <aside class="assist-panel">
-      <div class="assist-title"><span data-i18n="assistTitle"></span><span class="hint" tabindex="0" data-help-key="hintAssist">?</span></div>
-      <div class="assist-content"><p data-i18n="commitAssist"></p></div>
-    </aside>
-  </div>
-
-  <footer class="status-bar">
-    <span><span data-i18n="modeLabel"></span>: <strong id="modeValue"></strong></span>
-    <span><span data-i18n="stateLabel"></span>: <strong id="stateValue"></strong></span>
-    <span><span data-i18n="projectLabel"></span>: <strong id="projectValue"></strong></span>
-    <span><span data-i18n="workflowLabel"></span>: <strong id="workflowValue"></strong></span>
-  </footer>
-
-  <script src="odin_matrix_shell.js"></script>
+    <div class="odin-card">
+      <h3>Результат</h3>
+      <pre id="commitOutput" style="white-space:pre-wrap;line-height:1.5;"></pre>
+    </div>
+  </section>
+  <script src="odin_global_matrix.js"></script>
   <script>
-    function slug(value) { return String(value || 'STATE').toUpperCase().replace(/[^A-Z0-9А-ЯІЇЄҐ]+/g, '-').replace(/^-|-$/g, ''); }
-    function normalizeLines(text) { return String(text || '').split('\n').map(line => line.trim()).filter(Boolean).map(line => '- ' + line).join('\n'); }
-    function generateCommit() {
-      const version = document.getElementById('version').value.trim() || 'V03.X';
-      const title = document.getElementById('commitTitle').value.trim() || 'Фіксація ODIN';
-      const done = normalizeLines(document.getElementById('done').value);
-      const value = normalizeLines(document.getElementById('value').value);
-      const context = normalizeLines(document.getElementById('context').value);
-      const tag = version.replace(/\s+/g, '') + '-' + slug(title);
-      const commit = `git add dev/V03/\ngit commit -m "${version} — ${title}.\n\n✔ Що зроблено:\n${done}\n\n✔ Що це дає:\n${value}\n\n✔ Контекст:\n${context}\n"\ngit push origin feature/odin-interface-v03\ngit tag -a ${tag} -m "${version} — ${title}"\ngit push origin ${tag}`;
-      const changelog = `## ${version} — ${title}\n\n✔ Що зроблено:\n${done}\n\n✔ Що це дає:\n${value}\n\n✔ Контекст:\n${context}`;
-      document.getElementById('commandsOut').textContent = commit;
-      document.getElementById('changelogOut').textContent = changelog;
+    function generateCommit(){
+      const v=document.getElementById('version').value.trim();
+      const title=document.getElementById('title').value.trim();
+      document.getElementById('commitOutput').textContent=`git add dev/V03/\ngit commit -m "ODIN ${v} — ${title}.\n\n✔ Що зроблено:\n- Описати виконані зміни.\n\n✔ Що це дає:\n- Описати результат для системи.\n\n✔ Контекст:\n- Описати причину фіксації.\n"\ngit push origin feature/odin-interface-v03\ngit tag -a ${v.replace(/\s+/g,'-').replace(/\./g,'.')}-CHECKPOINT -m "ODIN ${v} — ${title}"\ngit push origin ${v.replace(/\s+/g,'-').replace(/\./g,'.')}-CHECKPOINT`;
     }
-    window.odinMatrixRender = generateCommit;
-    document.addEventListener('DOMContentLoaded', generateCommit);
   </script>
 </body>
 </html>

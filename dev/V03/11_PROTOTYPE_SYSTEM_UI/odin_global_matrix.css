@@ -1,0 +1,186 @@
+/* ODIN V03.27.2 — GLOBAL UI MATRIX
+   Єдине джерело базового вигляду для службових сторінок Інтерфейсу ОДІН.
+   Мета: усі сторінки мають один shell, одну шапку, одну першу колонку і одне меню налаштувань. */
+
+:root {
+  --odin-bg: #f6f7fb;
+  --odin-surface: #ffffff;
+  --odin-surface-soft: #f0f3f8;
+  --odin-text: #182033;
+  --odin-muted: #6c7485;
+  --odin-border: rgba(24, 32, 51, 0.12);
+  --odin-accent: #4f7cff;
+  --odin-accent-soft: rgba(79, 124, 255, 0.12);
+  --odin-shadow: 0 14px 40px rgba(24, 32, 51, 0.08);
+  --odin-radius: 18px;
+  --odin-header-h: 74px;
+}
+
+body.dark,
+body[data-theme="dark"] {
+  --odin-bg: #0f1218;
+  --odin-surface: #171b24;
+  --odin-surface-soft: #202635;
+  --odin-text: #edf2ff;
+  --odin-muted: #aab3c5;
+  --odin-border: rgba(237, 242, 255, 0.12);
+  --odin-accent: #7aa2ff;
+  --odin-accent-soft: rgba(122, 162, 255, 0.14);
+  --odin-shadow: 0 14px 42px rgba(0, 0, 0, 0.32);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--odin-bg);
+  color: var(--odin-text);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  overflow: hidden;
+}
+
+.odin-shell-page {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: var(--odin-header-h) 1fr;
+}
+
+.odin-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--odin-header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, var(--odin-surface), var(--odin-surface-soft));
+  border-bottom: 1px solid var(--odin-border);
+  box-shadow: var(--odin-shadow);
+}
+
+.odin-brand {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+.odin-logo-mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  background: var(--odin-accent-soft);
+  color: var(--odin-accent);
+  border: 1px solid var(--odin-border);
+}
+
+.odin-brand-lines { line-height: 1.1; }
+.odin-brand-title { font-weight: 850; font-size: 15px; letter-spacing: 0.08em; }
+.odin-brand-subtitle { font-weight: 700; font-size: 13px; color: var(--odin-muted); margin-top: 3px; }
+.odin-page-title { font-weight: 650; font-size: 12px; color: var(--odin-accent); margin-top: 4px; }
+
+.odin-top-actions { position: relative; display: flex; align-items: center; gap: 10px; }
+.odin-settings-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  border: 1px solid var(--odin-border);
+  background: var(--odin-surface);
+  color: var(--odin-text);
+  cursor: pointer;
+  font-size: 19px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+}
+.odin-settings-btn:hover { background: var(--odin-accent-soft); }
+
+.odin-settings-menu {
+  position: absolute;
+  right: 0;
+  top: 52px;
+  min-width: 260px;
+  padding: 12px;
+  border: 1px solid var(--odin-border);
+  border-radius: 18px;
+  background: var(--odin-surface);
+  box-shadow: var(--odin-shadow);
+  display: none;
+  z-index: 100;
+}
+.odin-settings-menu.open { display: block; }
+.odin-settings-title { font-size: 12px; font-weight: 800; color: var(--odin-muted); text-transform: uppercase; margin: 4px 6px 8px; }
+.odin-menu-group { display: grid; gap: 6px; margin-bottom: 12px; }
+.odin-menu-item, .odin-menu-button {
+  width: 100%;
+  border: 1px solid var(--odin-border);
+  border-radius: 12px;
+  padding: 9px 10px;
+  background: var(--odin-surface-soft);
+  color: var(--odin-text);
+  text-decoration: none;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.odin-menu-item:hover, .odin-menu-button:hover { background: var(--odin-accent-soft); }
+.odin-lang-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.odin-lang-btn.active[data-lang="ua"] { background: linear-gradient(180deg, #1e63ff 0 50%, #ffd43b 50% 100%); color: #101010; font-weight: 900; }
+.odin-lang-btn.active[data-lang="en"], .odin-lang-btn.active[data-lang="de"] { background: var(--odin-accent); color: white; font-weight: 850; }
+
+.odin-layout {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 280px minmax(420px, 1fr) 320px;
+  gap: 14px;
+  padding: 14px;
+  box-sizing: border-box;
+}
+
+.odin-panel {
+  min-height: 0;
+  border: 1px solid var(--odin-border);
+  border-radius: var(--odin-radius);
+  background: var(--odin-surface);
+  box-shadow: var(--odin-shadow);
+  overflow: hidden;
+}
+
+.odin-left, .odin-main, .odin-right { display: flex; flex-direction: column; }
+.odin-scroll { min-height: 0; overflow: auto; padding: 14px; box-sizing: border-box; }
+
+.odin-nav-title { font-size: 12px; font-weight: 850; color: var(--odin-muted); text-transform: uppercase; margin: 6px 4px 10px; }
+.odin-nav { display: grid; gap: 8px; }
+.odin-nav-btn {
+  border: 1px solid var(--odin-border);
+  border-radius: 14px;
+  background: var(--odin-surface-soft);
+  color: var(--odin-text);
+  padding: 12px 13px;
+  font-weight: 700;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.odin-nav-btn:hover, .odin-nav-btn.active { background: var(--odin-accent-soft); border-color: var(--odin-accent); }
+
+.odin-card {
+  border: 1px solid var(--odin-border);
+  border-radius: 16px;
+  padding: 14px;
+  background: var(--odin-surface-soft);
+  margin-bottom: 12px;
+}
+.odin-card h2, .odin-card h3 { margin-top: 0; }
+
+.odin-content-slot { min-height: 0; }
+.odin-note { color: var(--odin-muted); font-size: 13px; line-height: 1.5; }
+
+@media (max-width: 1100px) {
+  .odin-layout { grid-template-columns: 240px 1fr; }
+  .odin-right { display: none; }
+}

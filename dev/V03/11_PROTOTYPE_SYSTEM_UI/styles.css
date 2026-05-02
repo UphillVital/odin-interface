@@ -183,9 +183,17 @@ button:hover { border-color: var(--accent); }
   align-items: center;
   justify-content: space-between;
   margin-bottom: 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
   background: transparent;
+  color: var(--text);
   text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 650;
 }
+.tree-item:hover { border-color: var(--accent); }
 .tree-item.active { background: var(--accent-soft); border-color: var(--accent); }
 
 .work-zone { padding: 22px; }
