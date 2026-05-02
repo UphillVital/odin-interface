@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ODIN Interface V03 — Commit Builder</title>
+  <link rel="stylesheet" href="11_PROTOTYPE_SYSTEM_UI/styles.css" />
+</head>
+<body class="theme-light" data-lang="ua" data-theme="light">
+  <header class="odin-header">
+    <div class="brand">
+      <div class="brand-mark">ODIN</div>
+      <div>
+        <div class="brand-title">Інтерфейс ОДІН</div>
+        <div class="brand-subtitle">Commit Builder · V03.31.5</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <div class="quick-settings" id="quickSettings">
+        <button class="settings-button" id="settingsToggle" type="button" aria-haspopup="true" aria-expanded="false">
+          <span class="settings-icon" aria-hidden="true">⚙</span>
+          <span class="sr-only">Налаштування</span>
+        </button>
+        <div class="settings-menu" id="settingsMenu" hidden>
+          <div class="settings-menu-title">Швидкі налаштування</div>
+          <div class="settings-section">
+            <div class="settings-section-label">Сторінки системи</div>
+            <a class="settings-link" href="11_PROTOTYPE_SYSTEM_UI/index.html">Еталон</a>
+            <a class="settings-link" href="commit_builder.html">Commit Builder</a>
+            <a class="settings-link" href="state_workspace.html">State Workspace</a>
+          </div>
+          <button class="settings-row" id="themeToggle" type="button"><span>Тема</span><strong id="themeValue">Light</strong></button>
+          <div class="settings-row settings-language-row"><span>Мова</span><div class="language-switch" id="languageSwitch" role="group" aria-label="Language selection"><button class="language-pill" type="button" data-lang-option="ua">UA</button><button class="language-pill" type="button" data-lang-option="en">EN</button><button class="language-pill" type="button" data-lang-option="de">DE</button></div></div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="odin-shell">
+    <aside class="left-tree">
+      <div class="tree-title"><span>System Navigation</span><span class="hint" tabindex="0">?</span></div>
+      <a class="tree-item" href="11_PROTOTYPE_SYSTEM_UI/index.html">ODIN SYSTEM <span class="hint" tabindex="0">?</span></a>
+      <a class="tree-item active" href="commit_builder.html">Commit Builder <span class="hint" tabindex="0">?</span></a>
+      <a class="tree-item" href="state_workspace.html">State Workspace <span class="hint" tabindex="0">?</span></a>
+    </aside>
+    <main class="work-zone" id="workZone" aria-live="polite">
+      <section class="work-card">
+        <div class="eyebrow">ODIN V03 · COMMIT SYSTEM</div>
+        <h1>Commit Builder</h1>
+        <p>Сторінка для підготовки чистого Git-коміту без ручного складання команд.</p>
+      </section>
+      <section class="work-card">
+        <h2>Дані коміту</h2>
+        <label class="field-label" for="commitScope">Область змін</label>
+        <input id="commitScope" class="odin-input" type="text" value="dev/V03/" />
+        <label class="field-label" for="commitMessage">Повідомлення коміту</label>
+        <textarea id="commitMessage" class="odin-textarea" rows="4">ODIN V03.31.5 — Повернено функціональність сторінок через _page_scripts. UI та логіка розділені. Відновлено commit_builder та state_workspace.</textarea>
+        <button id="buildCommitCommands" class="primary-action" type="button">Згенерувати команди</button>
+      </section>
+      <section class="work-card">
+        <h2>Git-команди</h2>
+        <pre id="commitOutput" class="code-output">Натисни «Згенерувати команди».</pre>
+        <button id="copyCommitCommands" class="secondary-action" type="button">Копіювати</button>
+      </section>
+    </main>
+    <aside class="assist-panel"><div class="assist-title"><span>Підказка ODIN</span><span class="hint" tabindex="0">?</span></div><div id="assistContent" class="assist-content">Commit Builder має власний контент і власний JS у <code>_page_scripts/commit_builder.js</code>.</div></aside>
+  </div>
+  <footer class="status-bar"><span>Mode: <strong id="modeValue">SYSTEM LOCK</strong></span><span>State: <strong id="stateValue">PAGE FUNCTION RESTORED</strong></span><span>Project: <strong id="projectValue">ODIN Interface V03</strong></span><span>Workflow: <strong id="workflowValue">V03.31.5</strong></span></footer>
+  <script src="11_PROTOTYPE_SYSTEM_UI/app.js"></script>
+  <script src="_page_scripts/commit_builder.js"></script>
+</body>
+</html>
