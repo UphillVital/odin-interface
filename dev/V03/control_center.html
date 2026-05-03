@@ -26,20 +26,62 @@
 </head>
 <body data-lang="uk">
   <header class="odin-header">
-    <div class="brand"><div class="brand-mark">ODIN</div><div><div class="brand-title">Інтерфейс ОДІН</div><div class="brand-subtitle">Центр керування</div></div></div>
-    <div class="header-actions"><div class="quick-settings" id="quickSettings"><button class="settings-button" id="settingsToggle" type="button" aria-haspopup="true" aria-expanded="false"><span class="settings-icon" aria-hidden="true">⚙</span><span class="sr-only">Налаштування</span></button><div class="settings-menu" id="settingsMenu" hidden><div class="settings-menu-title">Швидкі налаштування</div><div class="settings-section"><div class="settings-section-label">Сторінки системи</div><a class="settings-link" href="11_PROTOTYPE_SYSTEM_UI/index.html">Еталон</a><a class="settings-link" href="control_center.html">Центр керування</a><a class="settings-link" href="commit_builder.html">Commit Builder</a><a class="settings-link" href="state_workspace.html">State Workspace</a></div><button class="settings-row" id="themeToggle" type="button"><span>Тема</span><strong id="themeValue">Light</strong></button></div></div></div>
+    <div class="brand">
+      <div class="brand-mark">ODIN</div>
+      <div>
+        <div class="brand-title">Інтерфейс ОДІН</div>
+        <div class="brand-subtitle">Центр керування</div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <div class="quick-settings" id="quickSettings">
+        <button class="settings-button" id="settingsToggle" type="button" aria-haspopup="true" aria-expanded="false">
+          <span class="settings-icon" aria-hidden="true">⚙</span>
+          <span class="sr-only">Налаштування</span>
+        </button>
+
+        <div class="settings-menu" id="settingsMenu" hidden>
+          <div class="settings-menu-title">Швидкі налаштування</div>
+
+          <div class="settings-section">
+            <div class="settings-section-label">Сторінки системи</div>
+            <a class="settings-link" href="11_PROTOTYPE_SYSTEM_UI/index.html">Еталон</a>
+            <a class="settings-link" href="control_center.html">Центр керування</a>
+            <a class="settings-link" href="commit_builder.html">Commit Builder</a>
+            <a class="settings-link" href="state_workspace.html">State Workspace</a>
+          </div>
+
+          <button class="settings-row" id="themeToggle" type="button">
+            <span>Тема</span>
+            <strong id="themeValue">Light</strong>
+          </button>
+
+          <div class="settings-row settings-language-row">
+            <span>Мова</span>
+            <div class="language-switch" id="languageSwitch" role="group" aria-label="Language selection">
+              <button class="language-pill" type="button" data-lang-option="ua">UA</button>
+              <button class="language-pill" type="button" data-lang-option="en">EN</button>
+              <button class="language-pill" type="button" data-lang-option="de">DE</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </header>
+
   <div class="odin-shell">
     <aside class="left-tree">
-      <div class="tree-title"><span>System Navigation</span><span class="hint" tabindex="0" data-help-uk="Навігація по основних робочих зонах ODIN.">?</span></div>
-      <a class="tree-item" href="11_PROTOTYPE_SYSTEM_UI/index.html">ODIN SYSTEM <span class="hint" tabindex="0" data-help-uk="Еталонна головна сторінка інтерфейсу.">?</span></a>
-      <a class="tree-item active" href="control_center.html">Центр керування <span class="hint" tabindex="0" data-help-uk="Планування, статуси, проблеми, рішення.">?</span></a>
-      <a class="tree-item" href="commit_builder.html">Commit Builder <span class="hint" tabindex="0" data-help-uk="Тимчасовий інструмент фіксації Git.">?</span></a>
-      <a class="tree-item" href="state_workspace.html">State Workspace <span class="hint" tabindex="0" data-help-uk="Тимчасова робоча зона станів.">?</span></a>
+      <div class="tree-title"><span>System Navigation</span><span class="hint" tabindex="0" data-help-uk="Навігація по основних робочих зонах ODIN." data-help-en="Navigation through ODIN work zones." data-help-de="Navigation durch ODIN-Arbeitsbereiche.">?</span></div>
+      <a class="tree-item" href="11_PROTOTYPE_SYSTEM_UI/index.html">ODIN SYSTEM <span class="hint" tabindex="0" data-help-uk="Еталонна головна сторінка інтерфейсу." data-help-en="Reference dashboard page." data-help-de="Referenzseite.">?</span></a>
+      <a class="tree-item active" href="control_center.html">Центр керування <span class="hint" tabindex="0" data-help-uk="Планування, статуси, проблеми, рішення." data-help-en="Planning, statuses, issues, decisions." data-help-de="Planung, Status, Probleme, Entscheidungen.">?</span></a>
+      <a class="tree-item" href="commit_builder.html">Commit Builder <span class="hint" tabindex="0" data-help-uk="Тимчасовий інструмент фіксації Git." data-help-en="Temporary Git commit tool." data-help-de="Temporäres Git-Tool.">?</span></a>
+      <a class="tree-item" href="state_workspace.html">State Workspace <span class="hint" tabindex="0" data-help-uk="Тимчасова робоча зона станів." data-help-en="Temporary state workspace." data-help-de="Temporärer Statusbereich.">?</span></a>
     </aside>
+
     <main class="work-zone" id="workZone">
       <section class="zone-card">
-        <h1 class="zone-title">Центр керування ODIN <span class="hint" tabindex="0" data-help-uk="Головний дашборд для планування, контролю та рішень.">?</span></h1>
+        <h1 class="zone-title">Центр керування ODIN <span class="hint" tabindex="0" data-help-uk="Головний дашборд для планування, контролю та рішень." data-help-en="Main dashboard for planning, control and decisions." data-help-de="Hauptdashboard für Planung, Kontrolle und Entscheidungen.">?</span></h1>
         <p>Дашборд читає структуровані записи з JSON-моделі: <code>dev/V03/_data/control_center_dataset_v1.json</code>.</p>
         <div class="control-meta" id="summaryMeta"><span class="control-pill">LOADING DATA MODEL...</span></div>
         <div class="json-status" id="jsonStatus">Підключення JSON...</div>
@@ -57,9 +99,9 @@
         <table class="control-table"><thead><tr><th>ID</th><th>Назва</th><th>Тип</th><th>Категорія</th><th>Статус</th><th>Пріоритет</th><th>Наступна дія</th></tr></thead><tbody id="registryTable"><tr><td colspan="7">Завантаження...</td></tr></tbody></table>
       </section>
     </main>
-    <aside class="assist-panel"><div class="assist-title"><span>Пояснення</span><span class="hint" tabindex="0" data-help-uk="Права панель пояснює, що робити далі.">?</span></div><div class="assist-content"><p><strong>DATA MODEL v1</strong> — це не база даних, а стандарт записів.</p><p>Кожен запис має ID, тип, категорію, статус, пріоритет, опис, рішення і наступну дію.</p><p>Наступний рівень: localStorage або редактор записів через інтерфейс.</p></div></aside>
+    <aside class="assist-panel"><div class="assist-title"><span>Пояснення</span><span class="hint" tabindex="0" data-help-uk="Права панель пояснює, що робити далі." data-help-en="Right panel explains next actions." data-help-de="Die rechte Leiste erklärt nächste Schritte.">?</span></div><div class="assist-content"><p><strong>DATA MODEL v1</strong> — це не база даних, а стандарт записів.</p><p>Кожен запис має ID, тип, категорію, статус, пріоритет, опис, рішення і наступну дію.</p><p>Наступний рівень: localStorage або редактор записів через інтерфейс.</p></div></aside>
   </div>
-  <footer class="status-bar"><span>PROJECT: ODIN Interface</span><span>VERSION: V03.33.1</span><span>MODE: CONTROL CENTER JSON</span><span>STATUS: DATA MODEL READY</span></footer>
+  <footer class="status-bar"><span>PROJECT: ODIN Interface</span><span>VERSION: V03.33.2</span><span>MODE: CONTROL CENTER JSON</span><span>STATUS: UI MATRIX FIXED</span></footer>
   <script src="11_PROTOTYPE_SYSTEM_UI/app.js"></script>
   <script>
     const DATA_URL="_data/control_center_dataset_v1.json";
