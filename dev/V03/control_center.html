@@ -8,121 +8,54 @@
   <style>
     .control-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
     .control-card{border:1px solid var(--border);border-radius:22px;background:var(--surface);padding:18px;box-shadow:var(--shadow)}
-    .control-card h2,.control-card h3{margin-top:0}
-    .control-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-    .control-pill{display:inline-flex;align-items:center;border:1px solid var(--border);border-radius:999px;padding:6px 10px;background:var(--surface-soft);color:var(--muted);font-size:12px;font-weight:700}
+    .control-card h2{margin-top:0}.control-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .control-pill,.record-pill{display:inline-flex;align-items:center;border:1px solid var(--border);border-radius:999px;background:var(--surface-soft);color:var(--muted);font-weight:700}
+    .control-pill{padding:6px 10px;font-size:12px}.record-pill{padding:4px 8px;font-size:11px}
     .control-record{border:1px solid var(--border);border-radius:18px;padding:14px;background:var(--surface);margin-bottom:10px}
     .control-record-title{display:flex;justify-content:space-between;gap:10px;font-weight:800}
-    .control-record-desc{color:var(--muted);line-height:1.45;margin:8px 0;font-size:13px}
-    .control-record-meta{display:flex;flex-wrap:wrap;gap:6px}
-    .record-pill{border-radius:999px;background:var(--surface-soft);border:1px solid var(--border);padding:4px 8px;font-size:11px;color:var(--muted);font-weight:700}
+    .control-record-desc{color:var(--muted);line-height:1.45;margin:8px 0;font-size:13px}.control-record-meta{display:flex;flex-wrap:wrap;gap:6px}
     .priority-critical{border-color:#e7b2a8}.priority-high{border-color:#e5c46a}.priority-normal{border-color:#9bb7e8}.priority-low{border-color:#9ccfbd}
-    .control-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
-    .control-table th,.control-table td{border-bottom:1px solid var(--border);padding:10px 8px;text-align:left;vertical-align:top}
-    .control-table th{color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
-    .json-status{font-size:13px;color:var(--muted);margin-top:8px}
-    @media(max-width:1000px){.control-grid{grid-template-columns:1fr}}
+    .control-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}.control-table th,.control-table td{border-bottom:1px solid var(--border);padding:10px 8px;text-align:left;vertical-align:top}.control-table th{color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+    .json-status,.filter-note{font-size:13px;color:var(--muted);margin-top:8px}
+    .filter-panel{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:14px}.filter-field{display:flex;flex-direction:column;gap:6px}.filter-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800}.filter-input,.filter-select{width:100%;border:1px solid var(--border);border-radius:14px;background:var(--surface);color:var(--text);padding:10px 12px;font-weight:650}.filter-actions{display:flex;align-items:end}
+    @media(max-width:1100px){.filter-panel{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:1000px){.control-grid{grid-template-columns:1fr}}@media(max-width:700px){.filter-panel{grid-template-columns:1fr}}
   </style>
 </head>
 <body data-lang="uk">
-  <header class="odin-header">
-    <div class="brand">
-      <div class="brand-mark">ODIN</div>
-      <div>
-        <div class="brand-title">Інтерфейс ОДІН</div>
-        <div class="brand-subtitle">Центр керування</div>
-      </div>
-    </div>
-
-    <div class="header-actions">
-      <div class="quick-settings" id="quickSettings">
-        <button class="settings-button" id="settingsToggle" type="button" aria-haspopup="true" aria-expanded="false">
-          <span class="settings-icon" aria-hidden="true">⚙</span>
-          <span class="sr-only">Налаштування</span>
-        </button>
-
-        <div class="settings-menu" id="settingsMenu" hidden>
-          <div class="settings-menu-title">Швидкі налаштування</div>
-
-          <div class="settings-section">
-            <div class="settings-section-label">Сторінки системи</div>
-            <a class="settings-link" href="11_PROTOTYPE_SYSTEM_UI/index.html">Еталон</a>
-            <a class="settings-link" href="control_center.html">Центр керування</a>
-            <a class="settings-link" href="commit_builder.html">Commit Builder</a>
-            <a class="settings-link" href="state_workspace.html">State Workspace</a>
-          </div>
-
-          <button class="settings-row" id="themeToggle" type="button">
-            <span>Тема</span>
-            <strong id="themeValue">Light</strong>
-          </button>
-
-          <div class="settings-row settings-language-row">
-            <span>Мова</span>
-            <div class="language-switch" id="languageSwitch" role="group" aria-label="Language selection">
-              <button class="language-pill" type="button" data-lang-option="ua">UA</button>
-              <button class="language-pill" type="button" data-lang-option="en">EN</button>
-              <button class="language-pill" type="button" data-lang-option="de">DE</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <div class="odin-shell">
-    <aside class="left-tree">
-      <div class="tree-title"><span>System Navigation</span><span class="hint" tabindex="0" data-help-uk="Навігація по основних робочих зонах ODIN." data-help-en="Navigation through ODIN work zones." data-help-de="Navigation durch ODIN-Arbeitsbereiche.">?</span></div>
-      <a class="tree-item" href="11_PROTOTYPE_SYSTEM_UI/index.html">ODIN SYSTEM <span class="hint" tabindex="0" data-help-uk="Еталонна головна сторінка інтерфейсу." data-help-en="Reference dashboard page." data-help-de="Referenzseite.">?</span></a>
-      <a class="tree-item active" href="control_center.html">Центр керування <span class="hint" tabindex="0" data-help-uk="Планування, статуси, проблеми, рішення." data-help-en="Planning, statuses, issues, decisions." data-help-de="Planung, Status, Probleme, Entscheidungen.">?</span></a>
-      <a class="tree-item" href="commit_builder.html">Commit Builder <span class="hint" tabindex="0" data-help-uk="Тимчасовий інструмент фіксації Git." data-help-en="Temporary Git commit tool." data-help-de="Temporäres Git-Tool.">?</span></a>
-      <a class="tree-item" href="state_workspace.html">State Workspace <span class="hint" tabindex="0" data-help-uk="Тимчасова робоча зона станів." data-help-en="Temporary state workspace." data-help-de="Temporärer Statusbereich.">?</span></a>
-    </aside>
-
-    <main class="work-zone" id="workZone">
-      <section class="zone-card">
-        <h1 class="zone-title">Центр керування ODIN <span class="hint" tabindex="0" data-help-uk="Головний дашборд для планування, контролю та рішень." data-help-en="Main dashboard for planning, control and decisions." data-help-de="Hauptdashboard für Planung, Kontrolle und Entscheidungen.">?</span></h1>
-        <p>Дашборд читає структуровані записи з JSON-моделі: <code>dev/V03/_data/control_center_dataset_v1.json</code>.</p>
-        <div class="control-meta" id="summaryMeta"><span class="control-pill">LOADING DATA MODEL...</span></div>
-        <div class="json-status" id="jsonStatus">Підключення JSON...</div>
-      </section>
-      <section class="control-grid">
-        <article class="control-card"><h2>🔴 Критичні / Блокери</h2><div id="criticalRecords"></div></article>
-        <article class="control-card"><h2>🟠 Проблемні питання</h2><div id="issueRecords"></div></article>
-        <article class="control-card"><h2>🟡 Поточні задачі</h2><div id="taskRecords"></div></article>
-        <article class="control-card"><h2>🔵 На розгляді</h2><div id="reviewRecords"></div></article>
-        <article class="control-card"><h2>🟢 Затверджено</h2><div id="approvedRecords"></div></article>
-        <article class="control-card"><h2>⚫ Архів / Завершено</h2><div id="archiveRecords"></div></article>
-      </section>
-      <section class="zone-card">
-        <h2 class="zone-title">Повний реєстр JSON</h2>
-        <table class="control-table"><thead><tr><th>ID</th><th>Назва</th><th>Тип</th><th>Категорія</th><th>Статус</th><th>Пріоритет</th><th>Наступна дія</th></tr></thead><tbody id="registryTable"><tr><td colspan="7">Завантаження...</td></tr></tbody></table>
-      </section>
-    </main>
-    <aside class="assist-panel"><div class="assist-title"><span>Пояснення</span><span class="hint" tabindex="0" data-help-uk="Права панель пояснює, що робити далі." data-help-en="Right panel explains next actions." data-help-de="Die rechte Leiste erklärt nächste Schritte.">?</span></div><div class="assist-content"><p><strong>DATA MODEL v1</strong> — це не база даних, а стандарт записів.</p><p>Кожен запис має ID, тип, категорію, статус, пріоритет, опис, рішення і наступну дію.</p><p>Наступний рівень: localStorage або редактор записів через інтерфейс.</p></div></aside>
-  </div>
-  <footer class="status-bar"><span>PROJECT: ODIN Interface</span><span>VERSION: V03.33.2</span><span>MODE: CONTROL CENTER JSON</span><span>STATUS: UI MATRIX FIXED</span></footer>
-  <script src="11_PROTOTYPE_SYSTEM_UI/app.js"></script>
-  <script>
-    const DATA_URL="_data/control_center_dataset_v1.json";
-    function escapeHtml(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
-    function priorityClass(p){p=String(p||"").toLowerCase();if(p==="critical")return"priority-critical";if(p==="high")return"priority-high";if(p==="normal")return"priority-normal";return"priority-low";}
-    function recordCard(r){return `<div class="control-record ${priorityClass(r.priority)}"><div class="control-record-title"><span>${escapeHtml(r.id)} — ${escapeHtml(r.name)}</span><span class="record-pill">${escapeHtml(r.priority)}</span></div><div class="control-record-desc">${escapeHtml(r.description)}</div><div class="control-record-meta"><span class="record-pill">${escapeHtml(r.type)}</span><span class="record-pill">${escapeHtml(r.category)}</span><span class="record-pill">${escapeHtml(r.status)}</span></div><div class="control-record-desc"><strong>Next:</strong> ${escapeHtml(r.next_action)}</div></div>`;}
-    function empty(id){document.getElementById(id).innerHTML='<p class="control-record-desc">Записів немає.</p>';}
-    function renderRecords(records){
-      const buckets={
-        criticalRecords:records.filter(r=>r.priority==="CRITICAL"||r.status==="BLOCKED"||r.type==="blocker"),
-        issueRecords:records.filter(r=>r.type==="issue"),
-        taskRecords:records.filter(r=>r.type==="task"||r.status==="IN_PROGRESS"),
-        reviewRecords:records.filter(r=>r.status==="IN_REVIEW"),
-        approvedRecords:records.filter(r=>r.status==="APPROVED"),
-        archiveRecords:records.filter(r=>["DONE","ARCHIVED"].includes(r.status))
-      };
-      Object.entries(buckets).forEach(([id,list])=>{document.getElementById(id).innerHTML=list.length?list.map(recordCard).join(""):'<p class="control-record-desc">Записів немає.</p>';});
-      document.getElementById("registryTable").innerHTML=records.map(r=>`<tr><td>${escapeHtml(r.id)}</td><td>${escapeHtml(r.name)}</td><td>${escapeHtml(r.type)}</td><td>${escapeHtml(r.category)}</td><td>${escapeHtml(r.status)}</td><td>${escapeHtml(r.priority)}</td><td>${escapeHtml(r.next_action)}</td></tr>`).join("");
-      document.getElementById("summaryMeta").innerHTML=`<span class="control-pill">TOTAL: ${records.length}</span><span class="control-pill">CRITICAL: ${buckets.criticalRecords.length}</span><span class="control-pill">IN_REVIEW: ${buckets.reviewRecords.length}</span><span class="control-pill">APPROVED: ${buckets.approvedRecords.length}</span><span class="control-pill">DONE/ARCHIVED: ${buckets.archiveRecords.length}</span>`;
-    }
-    fetch(DATA_URL).then(r=>{if(!r.ok)throw new Error("JSON не знайдено: "+DATA_URL);return r.json();}).then(data=>{document.getElementById("jsonStatus").textContent="JSON підключено: "+(data.meta?.model||"DATA MODEL");renderRecords(data.records||[]);}).catch(error=>{document.getElementById("jsonStatus").textContent="Помилка JSON: "+error.message;["criticalRecords","issueRecords","taskRecords","reviewRecords","approvedRecords","archiveRecords"].forEach(empty);document.getElementById("registryTable").innerHTML='<tr><td colspan="7">JSON не завантажено. Перевір шлях dev/V03/_data/control_center_dataset_v1.json</td></tr>';});
-  </script>
+<header class="odin-header">
+  <div class="brand"><div class="brand-mark">ODIN</div><div><div class="brand-title">Інтерфейс ОДІН</div><div class="brand-subtitle">Центр керування</div></div></div>
+  <div class="header-actions"><div class="quick-settings" id="quickSettings"><button class="settings-button" id="settingsToggle" type="button" aria-haspopup="true" aria-expanded="false"><span class="settings-icon" aria-hidden="true">⚙</span><span class="sr-only">Налаштування</span></button><div class="settings-menu" id="settingsMenu" hidden><div class="settings-menu-title">Швидкі налаштування</div><div class="settings-section"><div class="settings-section-label">Сторінки системи</div><a class="settings-link" href="11_PROTOTYPE_SYSTEM_UI/index.html">Еталон</a><a class="settings-link" href="control_center.html">Центр керування</a><a class="settings-link" href="commit_builder.html">Commit Builder</a><a class="settings-link" href="state_workspace.html">State Workspace</a></div><button class="settings-row" id="themeToggle" type="button"><span>Тема</span><strong id="themeValue">Light</strong></button><div class="settings-row settings-language-row"><span>Мова</span><div class="language-switch" id="languageSwitch" role="group" aria-label="Language selection"><button class="language-pill" type="button" data-lang-option="ua">UA</button><button class="language-pill" type="button" data-lang-option="en">EN</button><button class="language-pill" type="button" data-lang-option="de">DE</button></div></div></div></div></div>
+</header>
+<div class="odin-shell">
+  <aside class="left-tree">
+    <div class="tree-title"><span>System Navigation</span><span class="hint" tabindex="0" data-help-uk="Навігація по основних робочих зонах ODIN." data-help-en="Navigation through ODIN work zones." data-help-de="Navigation durch ODIN-Arbeitsbereiche.">?</span></div>
+    <a class="tree-item" href="11_PROTOTYPE_SYSTEM_UI/index.html">ODIN SYSTEM <span class="hint" tabindex="0" data-help-uk="Еталонна головна сторінка інтерфейсу." data-help-en="Reference dashboard page." data-help-de="Referenzseite.">?</span></a>
+    <a class="tree-item active" href="control_center.html">Центр керування <span class="hint" tabindex="0" data-help-uk="Планування, статуси, проблеми, рішення." data-help-en="Planning, statuses, issues, decisions." data-help-de="Planung, Status, Probleme, Entscheidungen.">?</span></a>
+    <a class="tree-item" href="commit_builder.html">Commit Builder <span class="hint" tabindex="0" data-help-uk="Тимчасовий інструмент фіксації Git." data-help-en="Temporary Git commit tool." data-help-de="Temporäres Git-Tool.">?</span></a>
+    <a class="tree-item" href="state_workspace.html">State Workspace <span class="hint" tabindex="0" data-help-uk="Тимчасова робоча зона станів." data-help-en="Temporary state workspace." data-help-de="Temporärer Statusbereich.">?</span></a>
+  </aside>
+  <main class="work-zone" id="workZone">
+    <section class="zone-card"><h1 class="zone-title">Центр керування ODIN <span class="hint" tabindex="0" data-help-uk="Головний дашборд для планування, контролю та рішень." data-help-en="Main dashboard for planning, control and decisions." data-help-de="Hauptdashboard für Planung, Kontrolle und Entscheidungen.">?</span></h1><p>Дашборд читає структуровані записи з JSON-моделі: <code>dev/V03/_data/control_center_dataset_v1.json</code>.</p><div class="control-meta" id="summaryMeta"><span class="control-pill">LOADING DATA MODEL...</span></div><div class="json-status" id="jsonStatus">Підключення JSON...</div></section>
+    <section class="zone-card"><h2 class="zone-title">Фільтри / Views <span class="hint" tabindex="0" data-help-uk="Фільтрує реєстр і всі блоки дашборду без зміни JSON." data-help-en="Filters registry and dashboard blocks without changing JSON." data-help-de="Filtert Register und Dashboard ohne JSON zu ändern.">?</span></h2><div class="filter-panel"><label class="filter-field"><span class="filter-label">Пошук</span><input class="filter-input" id="filterSearch" type="search" placeholder="ID, назва, опис..." /></label><label class="filter-field"><span class="filter-label">Статус</span><select class="filter-select" id="filterStatus"><option value="">Усі</option></select></label><label class="filter-field"><span class="filter-label">Пріоритет</span><select class="filter-select" id="filterPriority"><option value="">Усі</option></select></label><label class="filter-field"><span class="filter-label">Категорія</span><select class="filter-select" id="filterCategory"><option value="">Усі</option></select></label><div class="filter-actions"><button class="ghost-action" id="resetFilters" type="button">Скинути</button></div></div><div class="filter-note" id="filterNote">Фільтри ще не застосовано.</div></section>
+    <section class="control-grid"><article class="control-card"><h2>🔴 Критичні / Блокери</h2><div id="criticalRecords"></div></article><article class="control-card"><h2>🟠 Проблемні питання</h2><div id="issueRecords"></div></article><article class="control-card"><h2>🟡 Поточні задачі</h2><div id="taskRecords"></div></article><article class="control-card"><h2>🔵 На розгляді</h2><div id="reviewRecords"></div></article><article class="control-card"><h2>🟢 Затверджено</h2><div id="approvedRecords"></div></article><article class="control-card"><h2>⚫ Архів / Завершено</h2><div id="archiveRecords"></div></article></section>
+    <section class="zone-card"><h2 class="zone-title">Повний реєстр JSON</h2><table class="control-table"><thead><tr><th>ID</th><th>Назва</th><th>Тип</th><th>Категорія</th><th>Статус</th><th>Пріоритет</th><th>Наступна дія</th></tr></thead><tbody id="registryTable"><tr><td colspan="7">Завантаження...</td></tr></tbody></table></section>
+  </main>
+  <aside class="assist-panel"><div class="assist-title"><span>Пояснення</span><span class="hint" tabindex="0" data-help-uk="Права панель пояснює, що робити далі." data-help-en="Right panel explains next actions." data-help-de="Die rechte Leiste erklärt nächste Schritte.">?</span></div><div class="assist-content"><p><strong>FILTERS v1</strong> додає контроль перегляду без зміни JSON.</p><p>Можна швидко відфільтрувати записи за статусом, пріоритетом, категорією або текстом.</p><p>Наступний рівень: Views presets або Editor v1.</p></div></aside>
+</div>
+<footer class="status-bar"><span>PROJECT: ODIN Interface</span><span>VERSION: V03.34.0</span><span>MODE: CONTROL CENTER FILTERS</span><span>STATUS: FILTERS READY</span></footer>
+<script src="11_PROTOTYPE_SYSTEM_UI/app.js"></script>
+<script>
+const DATA_URL="_data/control_center_dataset_v1.json";let allRecords=[];let filteredRecords=[];
+function escapeHtml(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+function priorityClass(p){p=String(p||"").toLowerCase();if(p==="critical")return"priority-critical";if(p==="high")return"priority-high";if(p==="normal")return"priority-normal";return"priority-low";}
+function recordCard(r){return `<div class="control-record ${priorityClass(r.priority)}"><div class="control-record-title"><span>${escapeHtml(r.id)} — ${escapeHtml(r.name)}</span><span class="record-pill">${escapeHtml(r.priority)}</span></div><div class="control-record-desc">${escapeHtml(r.description)}</div><div class="control-record-meta"><span class="record-pill">${escapeHtml(r.type)}</span><span class="record-pill">${escapeHtml(r.category)}</span><span class="record-pill">${escapeHtml(r.status)}</span></div><div class="control-record-desc"><strong>Next:</strong> ${escapeHtml(r.next_action)}</div></div>`;}
+function empty(id){document.getElementById(id).innerHTML='<p class="control-record-desc">Записів немає.</p>';}
+function unique(records,key){return [...new Set(records.map(r=>r[key]).filter(Boolean))].sort();}
+function fillSelect(id,values){const s=document.getElementById(id);const current=s.value;s.innerHTML='<option value="">Усі</option>'+values.map(v=>`<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join("");s.value=current;}
+function initFilters(records){fillSelect("filterStatus",unique(records,"status"));fillSelect("filterPriority",unique(records,"priority"));fillSelect("filterCategory",unique(records,"category"));["filterSearch","filterStatus","filterPriority","filterCategory"].forEach(id=>{document.getElementById(id).addEventListener("input",applyFilters);document.getElementById(id).addEventListener("change",applyFilters);});document.getElementById("resetFilters").addEventListener("click",()=>{document.getElementById("filterSearch").value="";document.getElementById("filterStatus").value="";document.getElementById("filterPriority").value="";document.getElementById("filterCategory").value="";applyFilters();});}
+function applyFilters(){const q=document.getElementById("filterSearch").value.trim().toLowerCase();const status=document.getElementById("filterStatus").value;const priority=document.getElementById("filterPriority").value;const category=document.getElementById("filterCategory").value;filteredRecords=allRecords.filter(r=>{const text=[r.id,r.name,r.type,r.category,r.status,r.priority,r.description,r.purpose,r.decision,r.next_action,r.owner,r.source].join(" ").toLowerCase();return(!q||text.includes(q))&&(!status||r.status===status)&&(!priority||r.priority===priority)&&(!category||r.category===category);});renderRecords(filteredRecords);const active=[q&&"пошук",status&&"статус",priority&&"пріоритет",category&&"категорія"].filter(Boolean);document.getElementById("filterNote").textContent=active.length?`Показано ${filteredRecords.length} з ${allRecords.length}. Активні фільтри: ${active.join(", ")}.`:`Показано всі записи: ${allRecords.length}.`;}
+function renderRecords(records){const buckets={criticalRecords:records.filter(r=>r.priority==="CRITICAL"||r.status==="BLOCKED"||r.type==="blocker"),issueRecords:records.filter(r=>r.type==="issue"),taskRecords:records.filter(r=>r.type==="task"||r.status==="IN_PROGRESS"),reviewRecords:records.filter(r=>r.status==="IN_REVIEW"),approvedRecords:records.filter(r=>r.status==="APPROVED"),archiveRecords:records.filter(r=>["DONE","ARCHIVED"].includes(r.status))};Object.entries(buckets).forEach(([id,list])=>{document.getElementById(id).innerHTML=list.length?list.map(recordCard).join(""):'<p class="control-record-desc">Записів немає.</p>';});document.getElementById("registryTable").innerHTML=records.length?records.map(r=>`<tr><td>${escapeHtml(r.id)}</td><td>${escapeHtml(r.name)}</td><td>${escapeHtml(r.type)}</td><td>${escapeHtml(r.category)}</td><td>${escapeHtml(r.status)}</td><td>${escapeHtml(r.priority)}</td><td>${escapeHtml(r.next_action)}</td></tr>`).join(""):'<tr><td colspan="7">За поточними фільтрами записів немає.</td></tr>';document.getElementById("summaryMeta").innerHTML=`<span class="control-pill">VISIBLE: ${records.length}</span><span class="control-pill">TOTAL: ${allRecords.length}</span><span class="control-pill">CRITICAL: ${buckets.criticalRecords.length}</span><span class="control-pill">IN_REVIEW: ${buckets.reviewRecords.length}</span><span class="control-pill">APPROVED: ${buckets.approvedRecords.length}</span><span class="control-pill">DONE/ARCHIVED: ${buckets.archiveRecords.length}</span>`;}
+fetch(DATA_URL).then(r=>{if(!r.ok)throw new Error("JSON не знайдено: "+DATA_URL);return r.json();}).then(data=>{document.getElementById("jsonStatus").textContent="JSON підключено: "+(data.meta?.model||"DATA MODEL");allRecords=data.records||[];initFilters(allRecords);applyFilters();}).catch(error=>{document.getElementById("jsonStatus").textContent="Помилка JSON: "+error.message;["criticalRecords","issueRecords","taskRecords","reviewRecords","approvedRecords","archiveRecords"].forEach(empty);document.getElementById("registryTable").innerHTML='<tr><td colspan="7">JSON не завантажено. Перевір шлях dev/V03/_data/control_center_dataset_v1.json</td></tr>';});
+</script>
 </body>
 </html>
