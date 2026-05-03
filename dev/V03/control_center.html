@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ODIN — Центр керування</title>
+  <link rel="stylesheet" href="11_PROTOTYPE_SYSTEM_UI/styles.css" />
+  <style>
+    .control-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .control-card { border:1px solid var(--border); border-radius:22px; background:var(--surface); padding:18px; box-shadow:var(--shadow); }
+    .control-card h2,.control-card h3 { margin-top:0; }
+    .control-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+    .control-pill { display:inline-flex; align-items:center; border:1px solid var(--border); border-radius:999px; padding:6px 10px; background:var(--surface-soft); color:var(--muted); font-size:12px; font-weight:700; }
+    .control-list { margin:10px 0 0; padding-left:18px; color:var(--muted); line-height:1.55; }
+    .control-status { display:inline-flex; align-items:center; gap:8px; font-weight:800; color:var(--accent); }
+    .control-dot { width:10px; height:10px; border-radius:999px; background:var(--accent); box-shadow:0 0 0 5px var(--accent-soft); }
+    .critical-card { border-color:#e7b2a8; }
+    .issue-card { border-color:#e5c46a; }
+    .review-card { border-color:#9bb7e8; }
+    .approved-card { border-color:#9ccfbd; }
+    .control-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:10px; }
+    .control-table th,.control-table td { border-bottom:1px solid var(--border); padding:10px 8px; text-align:left; vertical-align:top; }
+    .control-table th { color:var(--muted); font-size:11px; letter-spacing:.08em; text-transform:uppercase; }
+    @media (max-width:1000px){ .control-grid{ grid-template-columns:1fr; } }
+  </style>
+</head>
+<body data-lang="uk">
+  <header class="odin-header">
+    <div class="brand">
+      <div class="brand-mark">ODIN</div>
+      <div>
+        <div class="brand-title">Інтерфейс ОДІН</div>
+        <div class="brand-subtitle">Центр керування</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <div class="quick-settings" id="quickSettings">
+        <button class="settings-button" id="settingsToggle" type="button" aria-haspopup="true" aria-expanded="false">
+          <span class="settings-icon" aria-hidden="true">⚙</span>
+          <span class="sr-only">Налаштування</span>
+        </button>
+        <div class="settings-menu" id="settingsMenu" hidden>
+          <div class="settings-menu-title">Швидкі налаштування</div>
+          <div class="settings-section">
+            <div class="settings-section-label">Сторінки системи</div>
+            <a class="settings-link" href="11_PROTOTYPE_SYSTEM_UI/index.html">Еталон</a>
+            <a class="settings-link" href="control_center.html">Центр керування</a>
+            <a class="settings-link" href="commit_builder.html">Commit Builder</a>
+            <a class="settings-link" href="state_workspace.html">State Workspace</a>
+          </div>
+          <button class="settings-row" id="themeToggle" type="button">
+            <span>Тема</span>
+            <strong id="themeValue">Light</strong>
+          </button>
+          <div class="settings-row settings-language-row">
+            <span>Мова</span>
+            <div class="language-switch" id="languageSwitch" role="group" aria-label="Language selection">
+              <button class="language-pill" type="button" data-lang-option="ua">UA</button>
+              <button class="language-pill" type="button" data-lang-option="en">EN</button>
+              <button class="language-pill" type="button" data-lang-option="de">DE</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="odin-shell">
+    <aside class="left-tree">
+      <div class="tree-title">
+        <span>System Navigation</span>
+        <span class="hint" tabindex="0" data-help-uk="Навігація по основних робочих зонах ODIN." data-help-en="Navigation through ODIN work zones.">?</span>
+      </div>
+      <a class="tree-item" href="11_PROTOTYPE_SYSTEM_UI/index.html">ODIN SYSTEM <span class="hint" tabindex="0" data-help-uk="Еталонна головна сторінка інтерфейсу." data-help-en="Reference dashboard page.">?</span></a>
+      <a class="tree-item active" href="control_center.html">Центр керування <span class="hint" tabindex="0" data-help-uk="Планування, статуси, проблеми, рішення." data-help-en="Planning, statuses, issues, decisions.">?</span></a>
+      <a class="tree-item" href="commit_builder.html">Commit Builder <span class="hint" tabindex="0" data-help-uk="Тимчасовий інструмент фіксації Git." data-help-en="Temporary Git commit tool.">?</span></a>
+      <a class="tree-item" href="state_workspace.html">State Workspace <span class="hint" tabindex="0" data-help-uk="Тимчасова робоча зона станів." data-help-en="Temporary state workspace.">?</span></a>
+    </aside>
+
+    <main class="work-zone" id="workZone">
+      <section class="zone-card">
+        <h1 class="zone-title">Центр керування ODIN <span class="hint" tabindex="0" data-help-uk="Головний дашборд для планування, контролю та рішень." data-help-en="Main dashboard for planning, control and decisions.">?</span></h1>
+        <p>Це робочий дашборд для планування, перегляду критичних питань, контролю статусів, затвердження рішень і підготовки системи до наступних етапів.</p>
+        <div class="control-meta">
+          <span class="control-pill">MODE: INVENTORY + PLANNING</span>
+          <span class="control-pill">STATUS: V1 DASHBOARD</span>
+          <span class="control-pill">UI MATRIX: INHERITED</span>
+        </div>
+      </section>
+
+      <section class="control-grid">
+        <article class="control-card critical-card">
+          <h2>🔴 Критичні</h2>
+          <div class="control-status"><span class="control-dot"></span> Активний контроль</div>
+          <ul class="control-list">
+            <li>Не допустити втрати контексту між задачами.</li>
+            <li>Не інтегрувати сирі ідеї без Entry Control.</li>
+            <li>Не створювати постійні окремі сторінки без системної причини.</li>
+          </ul>
+        </article>
+        <article class="control-card issue-card">
+          <h2>🟠 Проблемні питання</h2>
+          <ul class="control-list">
+            <li>Потрібен єдиний реєстр планів, рішень і статусів.</li>
+            <li>Потрібно визначити модель майбутнього Brain.</li>
+            <li>Потрібно відокремити лабораторні прототипи від Clean ODIN.</li>
+          </ul>
+        </article>
+        <article class="control-card">
+          <h2>🟡 Поточні задачі</h2>
+          <ul class="control-list">
+            <li>Створити Control Center як окремий дашборд.</li>
+            <li>Підключити перехід з головної навігації.</li>
+            <li>Підготувати структуру для майбутнього планування.</li>
+          </ul>
+        </article>
+        <article class="control-card review-card">
+          <h2>🔵 На розгляді</h2>
+          <ul class="control-list">
+            <li>ODIN Spatial Model.</li>
+            <li>ODIN Encoding Layer.</li>
+            <li>Prompt Lab / Prompt Engineering Dashboard.</li>
+            <li>Паралельний ODIN SPA як джерело ідей.</li>
+          </ul>
+        </article>
+        <article class="control-card approved-card">
+          <h2>🟢 Затверджено</h2>
+          <ul class="control-list">
+            <li>index.html / Prototype UI — еталон UI Matrix.</li>
+            <li>Файлова гігієна: тимчасові сторінки після інтеграції видаляються.</li>
+            <li>Пакети мають мати версійні README / CHANGELOG / MANIFEST / QA_REPORT.</li>
+          </ul>
+        </article>
+        <article class="control-card">
+          <h2>⚫ Архів / пізніше</h2>
+          <ul class="control-list">
+            <li>Глибока база даних планів — після затвердження моделі даних.</li>
+            <li>Повна автоматизація Brain — після інвентаризації об’єктів.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="zone-card">
+        <h2 class="zone-title">Плановий реєстр v1</h2>
+        <table class="control-table">
+          <thead>
+            <tr><th>ID</th><th>Назва</th><th>Тип</th><th>Статус</th><th>Наступна дія</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>CC-001</td><td>Control Center Dashboard</td><td>Dashboard</td><td>IN DEVELOPMENT</td><td>Перевірити UI, навігацію і структуру.</td></tr>
+            <tr><td>CC-002</td><td>Entry Control</td><td>Process</td><td>IN REVIEW</td><td>Описати формат об’єкта: NAME / DESCRIPTION / PURPOSE / STATUS.</td></tr>
+            <tr><td>CC-003</td><td>Prompt Lab</td><td>Module idea</td><td>IN REVIEW</td><td>Вирішити: лабораторія, модуль Brain або окремий інструмент.</td></tr>
+            <tr><td>CC-004</td><td>Parallel ODIN SPA Review</td><td>Research</td><td>IN REVIEW</td><td>Витягнути цінні модулі без заміни Clean ODIN.</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <aside class="assist-panel">
+      <div class="assist-title">
+        <span>Пояснення</span>
+        <span class="hint" tabindex="0" data-help-uk="Права панель пояснює, що робити далі." data-help-en="Right panel explains next actions.">?</span>
+      </div>
+      <div class="assist-content">
+        <p><strong>Центр керування</strong> — не заміна Brain, а перший керований дашборд для планування.</p>
+        <p>Мета v1: бачити критичне, проблемне, поточне, затверджене й те, що лишається на розгляді.</p>
+        <p>Наступний рівень: додати реєстр об’єктів і Entry Control.</p>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="status-bar">
+    <span>PROJECT: ODIN Interface</span>
+    <span>VERSION: V03.33.0</span>
+    <span>MODE: CONTROL CENTER</span>
+    <span>STATUS: DASHBOARD READY</span>
+  </footer>
+  <script src="11_PROTOTYPE_SYSTEM_UI/app.js"></script>
+</body>
+</html>
