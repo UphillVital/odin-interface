@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Data Model",
+    "version": "V03.140C.0",
+    "type": "CONTROLLED_ACTIVATION_ENTRY_GATE_v1",
+    "created": "2026-05-04T12:08:53.724537+00:00",
+    "sourceFinalLock": "odin_activation_safety_final_lock_v03_139C.json"
+  },
+  "status": "CONTROLLED_ACTIVATION_ENTRY_GATE_READY",
+  "activationStatus": "NOT_ACTIVATED",
+  "entryMode": "MANUAL_PRE_ACTIVATION_GATE_ONLY",
+  "allowed": [
+    "manual readiness review",
+    "manual rollback review",
+    "manual activation checklist preparation",
+    "copy gate report"
+  ],
+  "blocked": [
+    "activate source-of-truth",
+    "replace runtime",
+    "auto migrate data",
+    "write files",
+    "delete files",
+    "execute git",
+    "use invalid packages 120–123"
+  ],
+  "entryRequirements": [
+    "Final Safety Lock present.",
+    "Rollback Plan present.",
+    "Activation Readiness Lock present.",
+    "Manual approval still required.",
+    "No activation in this gate package."
+  ],
+  "nextStep": "Prepare PACKAGE 141C — Manual Activation Checklist v1."
+}
