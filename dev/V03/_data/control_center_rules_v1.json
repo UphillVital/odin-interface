@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "version": "V03.43.0",
+    "module": "Control Center",
+    "model": "ODIN_CONTROL_CENTER_RULES_v1",
+    "language": "uk",
+    "status": "RULES_READY"
+  },
+  "rules": [
+    {
+      "id": "RULE-001",
+      "name": "Block Run without VALID",
+      "condition": "entryStatus != VALID",
+      "action": "block_run",
+      "result": "Run disabled",
+      "active": true
+    },
+    {
+      "id": "RULE-002",
+      "name": "Allow Run when VALID",
+      "condition": "entryStatus == VALID",
+      "action": "allow_run",
+      "result": "Run enabled",
+      "active": true
+    },
+    {
+      "id": "RULE-003",
+      "name": "Allow Retry only after FAILED",
+      "condition": "executionStatus == FAILED",
+      "action": "allow_retry",
+      "result": "Retry enabled",
+      "active": true
+    },
+    {
+      "id": "RULE-004",
+      "name": "Block all execution when BLOCKED",
+      "condition": "entryStatus == BLOCKED",
+      "action": "block_execution",
+      "result": "Run/Fail/Retry disabled",
+      "active": true
+    },
+    {
+      "id": "RULE-005",
+      "name": "Reset execution when Entry invalid",
+      "condition": "entryStatus != VALID",
+      "action": "reset_execution",
+      "result": "Execution returns to NOT_STARTED",
+      "active": true
+    }
+  ]
+}
