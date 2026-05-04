@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.161D-FIX2.0",
+    "type": "ACTION_QUEUE_SYSTEM_CLEAN_RUNTIME_FIX2_v1",
+    "created": "2026-05-04T22:36:15.340463+00:00",
+    "sourceBase": "ODIN_V03_PACKAGE_160D_CONTROLLED_ACTION_REQUEST_LAYER_V1.zip"
+  },
+  "status": "ACTION_QUEUE_SYSTEM_CLEAN_RUNTIME_FIX2_READY",
+  "problemConfirmed": {
+    "badType": "DATA_MODEL_ADAPTER_PLAN_v1",
+    "badStatus": "DATA_MODEL_ADAPTER_PLAN_READY",
+    "badMode": "READ_ONLY_PREVIEW_PLAN",
+    "badNextStep": "Prepare PACKAGE 129C — Action Queue System v1"
+  },
+  "fixStrategy": [
+    "Rebuild from 160D clean base instead of contaminated 161D package.",
+    "Add fresh 161D Action Queue System runtime.",
+    "Remove stale adapter-plan script blocks from active control_center runtime.",
+    "Add Stale Identity Runtime Audit.",
+    "Block continuation if stale identity is visible or generated."
+  ],
+  "requiredActiveIdentity": {
+    "type": "ACTION_QUEUE_SYSTEM_v1",
+    "status": "ACTION_QUEUE_SYSTEM_READY",
+    "mode": "QUEUE_ONLY_NO_EXECUTION",
+    "nextStep": "Prepare PACKAGE 162D — Action Validator v1."
+  },
+  "nextStep": "Prepare PACKAGE 162D — Action Validator v1."
+}
