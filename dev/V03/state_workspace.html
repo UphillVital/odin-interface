@@ -15,7 +15,7 @@
 .ws-action:hover{border-color:var(--accent);color:var(--accent)}
 .ws-box{border:1px dashed var(--border);border-radius:16px;padding:12px;margin-top:10px;background:var(--surface-soft)}
 .ws-textarea{width:100%;min-height:180px;resize:vertical;font-family:monospace;font-size:12px;border:1px solid var(--border);border-radius:14px;background:var(--surface);color:var(--text);padding:12px}
-.ws-log{font-size:13px;color:var(--muted);margin-top:8px}
+.ws-log{font-size:13px;color:var(--muted);margin-top:8px}.diff-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.diff-line{font-family:monospace;font-size:12px;border-radius:10px;padding:6px 8px;margin:4px 0;background:var(--surface)}.diff-added{border-left:4px solid #9ccfbd}.diff-removed{border-left:4px solid #e7b2a8}.diff-warn{border-left:4px solid #e5c46a}
 @media(max-width:1000px){.workspace-grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -36,13 +36,13 @@
 
 <main class="work-zone" id="workZone">
 <section class="zone-card">
-<h1 class="zone-title">File Workspace — File Change Plan v1</h1>
-<p>Ця сторінка приймає контекст із Control Center і формує структурований File Change Plan: target, scope, ризики, QA та approval gate. Реального редагування файлів немає.</p>
+<h1 class="zone-title">File Workspace — File Diff Preview v1</h1>
+<p>Ця сторінка формує File Change Plan і безпечний Diff Preview: вихідний текст, запропонований текст, summary diff та QA-попередження. Реального редагування файлів немає.</p>
 <div class="ws-meta" id="receiverMeta"><span class="ws-pill">RECEIVER READY</span></div>
 <div class="ws-log" id="wsLog">WORKSPACE LOG: очікує контексту.</div>
 <div class="ws-actions">
 <a class="ws-action" href="control_center.html">← Назад у Control Center</a>
-<button class="ws-action" id="copyWorkspaceTask" type="button">Copy Workspace Task</button><button class="ws-action" id="previewChangePlan" type="button">Preview Change Plan</button><button class="ws-action" id="copyChangePlan" type="button">Copy Change Plan</button>
+<button class="ws-action" id="copyWorkspaceTask" type="button">Copy Workspace Task</button><button class="ws-action" id="previewChangePlan" type="button">Preview Change Plan</button><button class="ws-action" id="copyChangePlan" type="button">Copy Change Plan</button><button class="ws-action" id="previewDiff" type="button">Preview Diff</button><button class="ws-action" id="copyDiffPreview" type="button">Copy Diff Preview</button>
 <button class="ws-action" id="loadBridgeFromInput" type="button">Load Bridge JSON</button>
 <button class="ws-action" id="clearWorkspace" type="button">Clear</button>
 </div>
@@ -66,6 +66,17 @@
 </section>
 
 <section class="zone-card">
+<h2 class="zone-title">File Diff Preview v1</h2>
+<div class="ws-box"><strong>Diff Preview:</strong> симуляційний перегляд змін. Встав або напиши original/proposed текст. Нічого не записується у файли.</div>
+<div class="diff-grid">
+  <textarea class="ws-textarea" id="originalText" placeholder="Original / before text..."></textarea>
+  <textarea class="ws-textarea" id="proposedText" placeholder="Proposed / after text..."></textarea>
+</div>
+<div class="ws-actions"><button class="ws-action" id="generateSampleDiff" type="button">Generate Sample From Plan</button></div>
+<div class="ws-box" id="diffSummary">Diff ще не сформовано.</div>
+</section>
+
+<section class="zone-card">
 <h2 class="zone-title">Bridge Package Input / Preview</h2>
 <textarea class="ws-textarea" id="bridgeInput" placeholder="Встав сюди Bridge Package JSON з Control Center..."></textarea>
 </section>
@@ -76,12 +87,12 @@
 <div class="assist-content">
 <p><strong>Context Receiver v1</strong> — приймає record/action/decision/state.</p>
 <p>Мета: підготувати безпечну задачу для роботи з файлами.</p>
-<p>Наступний рівень: File Diff Preview v1.</p>
+<p>Наступний рівень: Approval Gate UI v1.</p>
 </div>
 </aside>
 </div>
 
-<footer class="status-bar"><span>PROJECT: ODIN Interface</span><span>VERSION: V03.51.0</span><span>MODE: FILE CHANGE PLAN</span><span>STATUS: CHANGE PLAN READY</span></footer>
+<footer class="status-bar"><span>PROJECT: ODIN Interface</span><span>VERSION: V03.52.0</span><span>MODE: FILE DIFF PREVIEW</span><span>STATUS: DIFF PREVIEW READY</span></footer>
 <script src="11_PROTOTYPE_SYSTEM_UI/app.js"></script>
 <script>
 const params=new URLSearchParams(location.search);
@@ -95,7 +106,7 @@ function buildUrlContext(){
   const record=params.get("record")||"";
   if(!record)return null;
   return {
-    meta:{type:"FILE_WORKSPACE_CONTEXT_RECEIVER_v1",source:"url",version:"V03.51.0"},
+    meta:{type:"FILE_WORKSPACE_CONTEXT_RECEIVER_v1",source:"url",version:"V03.52.0"},
     selectedRecord:{id:record},
     bridgeInstruction:"URL context received. Use Control Center bridge package for full action/decision/state details.",
     from
@@ -150,7 +161,7 @@ function buildWorkspaceTask(){
   const action=ctx.action||{};
   const decision=ctx.decision||{};
   return {
-    meta:{system:"ODIN Interface",module:"File Workspace",version:"V03.51.0",type:"SAFE_FILE_WORKSPACE_TASK_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"File Workspace",version:"V03.52.0",type:"SAFE_FILE_WORKSPACE_TASK_v1",created:new Date().toISOString()},
     sourceContext:ctx,
     task:{
       recordId:record.id||null,
@@ -165,6 +176,48 @@ function buildWorkspaceTask(){
 }
 
 function copyWorkspaceTask(){copyText(JSON.stringify(buildWorkspaceTask(),null,2),"WORKSPACE TASK: copied.");}
+
+function buildDiffPreview(){
+  const original=(document.getElementById("originalText")?.value||"").split("\n");
+  const proposed=(document.getElementById("proposedText")?.value||"").split("\n");
+  const removed=original.filter(line=>line&&!proposed.includes(line));
+  const added=proposed.filter(line=>line&&!original.includes(line));
+  const plan=buildChangePlan();
+  const warnings=[];
+  if(!plan.change.target||plan.change.target==="TARGET_NOT_DEFINED")warnings.push("Target file is not defined.");
+  if(!original.join("").trim())warnings.push("Original text is empty.");
+  if(!proposed.join("").trim())warnings.push("Proposed text is empty.");
+  if((proposed.join("\n")).includes("11_PROTOTYPE_SYSTEM_UI")&&!plan.qaChecklist.includes("Header and Quick Settings match ODIN UI Matrix"))warnings.push("UI Matrix reference detected; verify template compliance.");
+  return {
+    meta:{system:"ODIN Interface",module:"File Workspace",version:"V03.52.0",type:"FILE_DIFF_PREVIEW_v1",created:new Date().toISOString(),status:"PREVIEW_ONLY"},
+    target:plan.change.target,
+    summary:{removed:removed.length,added:added.length,warnings:warnings.length},
+    removed,
+    added,
+    warnings,
+    approvalGate:{required:true,status:"WAITING_APPROVAL",instruction:"Diff preview is not a file operation. Approval required before implementation."}
+  };
+}
+
+function renderDiffPreview(){
+  const diff=buildDiffPreview();
+  const box=document.getElementById("diffSummary");
+  const removedHtml=diff.removed.map(x=>`<div class="diff-line diff-removed">- ${escapeHtml(x)}</div>`).join("");
+  const addedHtml=diff.added.map(x=>`<div class="diff-line diff-added">+ ${escapeHtml(x)}</div>`).join("");
+  const warnHtml=diff.warnings.map(x=>`<div class="diff-line diff-warn">⚠ ${escapeHtml(x)}</div>`).join("");
+  box.innerHTML=`<strong>Target:</strong> ${escapeHtml(diff.target)}<br><strong>Summary:</strong> removed ${diff.summary.removed}, added ${diff.summary.added}, warnings ${diff.summary.warnings}<div style="margin-top:10px">${removedHtml||""}${addedHtml||""}${warnHtml||""}</div>`;
+  document.getElementById("wsLog").textContent="DIFF PREVIEW: updated.";
+  return diff;
+}
+
+function copyDiffPreview(){copyText(JSON.stringify(buildDiffPreview(),null,2),"DIFF PREVIEW: copied.");}
+
+function generateSampleDiff(){
+  const plan=buildChangePlan();
+  document.getElementById("originalText").value=`// Original placeholder for ${plan.change.target}\n// Existing implementation before approved change`;
+  document.getElementById("proposedText").value=`// Proposed placeholder for ${plan.change.target}\n// Planned scope: ${plan.change.scope}\n// Expected: ${plan.change.expectedResult}`;
+  renderDiffPreview();
+}
 function clearWorkspace(){
   workspaceContext=null;
   document.getElementById("bridgeInput").value="";
@@ -174,7 +227,7 @@ function clearWorkspace(){
   document.getElementById("wsLog").textContent="WORKSPACE LOG: cleared.";
 }
 
-document.getElementById("copyWorkspaceTask").addEventListener("click",copyWorkspaceTask);document.getElementById("previewChangePlan").addEventListener("click",previewChangePlan);document.getElementById("copyChangePlan").addEventListener("click",copyChangePlan);
+document.getElementById("copyWorkspaceTask").addEventListener("click",copyWorkspaceTask);document.getElementById("previewChangePlan").addEventListener("click",previewChangePlan);document.getElementById("copyChangePlan").addEventListener("click",copyChangePlan);document.getElementById("previewDiff").addEventListener("click",renderDiffPreview);document.getElementById("copyDiffPreview").addEventListener("click",copyDiffPreview);document.getElementById("generateSampleDiff").addEventListener("click",generateSampleDiff);
 document.getElementById("loadBridgeFromInput").addEventListener("click",loadBridgeFromInput);
 document.getElementById("clearWorkspace").addEventListener("click",clearWorkspace);
 
