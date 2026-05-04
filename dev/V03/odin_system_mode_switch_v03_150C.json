@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "System Mode",
+    "version": "V03.150C.0",
+    "type": "SYSTEM_MODE_SWITCH_v1",
+    "created": "2026-05-04T15:36:26.000105+00:00",
+    "sourceCompletionLock": "odin_activation_completion_lock_v03_149C.json"
+  },
+  "status": "SYSTEM_MODE_ACTIVE",
+  "systemMode": "NORMAL_OPERATION",
+  "activationState": "COMPLETED",
+  "dataModel": {
+    "status": "ACTIVE_SOURCE_OF_TRUTH",
+    "adapter": "RUNTIME_LAYER",
+    "lineage": "C-LINE_ACTIVATED"
+  },
+  "locks": [
+    "ACTIVATION_COMPLETION_LOCK",
+    "ACTIVATION_SAFETY_FINAL_LOCK",
+    "READ_ONLY_ADAPTER_PREVIEW_LOCK",
+    "DATA_MODEL_STABLE_BASE_LOCK"
+  ],
+  "allowedNow": [
+    "normal operation",
+    "post-activation development",
+    "new module planning",
+    "runtime validation",
+    "UI to Data Model synchronization planning",
+    "performance optimization"
+  ],
+  "blockedActions": [
+    "repeat activation without reset",
+    "return to pre-activation without reset",
+    "bypass active Data Model",
+    "use invalid packages 120–123",
+    "unsafe destructive operations",
+    "automatic rollback without manual decision"
+  ],
+  "transitionRules": [
+    "System Mode is now NORMAL_OPERATION.",
+    "Data Model is now ACTIVE_SOURCE_OF_TRUTH.",
+    "Adapter is now RUNTIME_LAYER.",
+    "Future development continues in D-line.",
+    "Rollback requires explicit reset/rollback package.",
+    "C-line is closed as activation-completion lineage."
+  ],
+  "nextLine": "D-LINE",
+  "nextStep": "Prepare PACKAGE 151D — Data Model Runtime Validation v1."
+}
