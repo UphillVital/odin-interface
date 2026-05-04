@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Data Model",
+    "version": "V03.142C.0",
+    "type": "MANUAL_ACTIVATION_CHECKLIST_QA_GATE_v1",
+    "created": "2026-05-04T14:42:42.095265+00:00",
+    "sourceChecklist": "odin_manual_activation_checklist_v03_141C.json"
+  },
+  "status": "MANUAL_ACTIVATION_CHECKLIST_QA_GATE_READY",
+  "requiredChecklistStatus": "MANUAL_ACTIVATION_CHECKLIST_READY",
+  "requiredActivationStatus": "NOT_ACTIVATED",
+  "requiredChecklistMode": "MANUAL_REVIEW_ONLY",
+  "requiredSections": [
+    "Readiness",
+    "Rollback",
+    "Safety",
+    "Manual approval"
+  ],
+  "requiredBlockedActions": [
+    "activate source-of-truth",
+    "replace runtime",
+    "auto migrate data",
+    "write files",
+    "delete files",
+    "execute git"
+  ],
+  "statusEnum": [
+    "MANUAL_ACTIVATION_CHECKLIST_QA_PASSED",
+    "MANUAL_ACTIVATION_CHECKLIST_QA_FAILED"
+  ],
+  "nextStep": "Prepare PACKAGE 143C — Manual Activation Preflight Lock v1."
+}
