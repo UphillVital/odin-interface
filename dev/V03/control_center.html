@@ -44,63 +44,63 @@
 <main class="work-zone" id="workZone">
 <section class="zone-card"><h1 class="zone-title">Центр керування ODIN — File Workspace Execution Bridge v1</h1><p>File Workspace Execution Bridge формує структурований bridge context для передачі задачі з Control Center у File Workspace: record, action, decision, entry, execution, rules і state package.</p><div class="control-meta" id="summaryMeta"><span class="control-pill">LOADING DATA MODEL...</span></div><div class="json-status" id="jsonStatus">Підключення JSON...</div><div class="json-status" id="rulesStatus">Підключення Rules JSON...</div><div class="system-panel"><strong>Decision rule:</strong> Auto Decision спирається на Entry, Execution, Rule Validation і Priority. Run залишається симуляційним.</div><div class="record-actions"><button class="record-action" id="clearRuntimeState" type="button">Очистити Runtime State</button><button class="record-action" id="exportRuntimeState" type="button">Copy Runtime State</button><button class="record-action" id="importRuntimeState" type="button">Import Runtime State</button><button class="record-action" id="resetRules" type="button">Reset Rules</button><button class="record-action" id="copyRules" type="button">Copy Rules</button><button class="record-action" id="reloadExternalRules" type="button">Reload External Rules</button><button class="record-action" id="copyValidation" type="button">Copy Validation Report</button><button class="record-action" id="copyDecisionReport" type="button">Copy Decision Report</button><button class="record-action" id="copyDecisionHistory" type="button">Copy Decision History</button><button class="record-action" id="clearDecisionHistory" type="button">Clear Decision History</button><button class="record-action" id="copyStatePackage" type="button">Copy State Package</button></div><textarea class="runtime-import" id="runtimeImportInput" placeholder="Встав Runtime State JSON..."></textarea><div class="execution-log" id="executionLog">EXECUTION LOG: очікує запуску.</div><div class="rule-log" id="ruleLog">RULE LOG: правила готові.</div><div class="validation-log" id="validationLog">VALIDATION LOG: очікує перевірки.</div><div class="decision-log" id="decisionLog">DECISION LOG: очікує оцінки.</div></section>
 
-<section class="zone-card"><h2 class="zone-title">↩ File Workspace Temporary Module Resolution Gate v1</h2>
+<section class="zone-card"><h2 class="zone-title">↩ File Workspace Commit Builder Function Extraction Plan v1</h2>
 <p>Встав сюди Integration Summary з File Workspace, щоб Control Center бачив результат flow.</p>
 <div class="record-actions"><button class="record-action" id="importIntegrationSummary" type="button">Import Integration Summary</button><button class="record-action" id="copyIntegrationResult" type="button">Copy Integration Result</button><button class="record-action" id="clearIntegrationResult" type="button">Clear Integration Result</button></div>
 <textarea class="runtime-import" id="integrationSummaryInput" placeholder="Paste CONTROL_CENTER_INTEGRATION_SUMMARY_v1 JSON..."></textarea>
 <div class="system-panel" id="integrationResultBox">Integration Result ще не імпортовано.</div><div class="system-panel" id="integrationActionBox">Import Action ще не сформовано.</div></section>
 
-<section class="zone-card"><h2 class="zone-title">🔁 Temporary Module Resolution Gate v1</h2>
+<section class="zone-card"><h2 class="zone-title">🔁 Commit Builder Function Extraction Plan v1</h2>
 <p>Повний цикл: Control Center → File Workspace → QA/Export/System Lock → Integration Summary → Control Center.</p>
 <div class="record-actions"><button class="record-action" id="refreshClosedLoop" type="button">Refresh Closed Loop</button><button class="record-action" id="copyClosedLoop" type="button">Copy Closed Loop Report</button></div>
 <div class="system-panel" id="closedLoopBox">Closed Loop ще не оцінено.</div></section>
 
-<section class="zone-card"><h2 class="zone-title">🧷 Temporary Module Resolution Gate v1</h2>
+<section class="zone-card"><h2 class="zone-title">🧷 Commit Builder Function Extraction Plan v1</h2>
 <p>Стабілізаційна перевірка: чи готовий Control Center ↔ File Workspace loop бути робочим стандартом.</p>
 <div class="record-actions"><button class="record-action" id="buildWorkflowStabilization" type="button">Build Stabilization Checkpoint</button><button class="record-action" id="copyWorkflowStabilization" type="button">Copy Stabilization Report</button></div>
 <div class="system-panel" id="workflowStabilizationBox">Stabilization Checkpoint ще не сформовано.</div></section>
 
-<section class="zone-card"><h2 class="zone-title">🔒 Temporary Module Resolution Gate v1</h2>
+<section class="zone-card"><h2 class="zone-title">🔒 Commit Builder Function Extraction Plan v1</h2>
 <p>Фіксація стабільного workflow як контрольованого стандарту. Lock дозволений тільки якщо stabilization = READY.</p>
 <div class="record-actions"><button class="record-action" id="buildStableWorkflowLock" type="button">Build Stable Lock</button><button class="record-action" id="copyStableWorkflowLock" type="button">Copy Stable Lock</button></div>
 <div class="system-panel" id="stableWorkflowLockBox">Stable Workflow Lock ще не сформовано.</div></section>
 
-<section class="zone-card"><h2 class="zone-title">🧹 Temporary Module Resolution Gate v1</h2>
+<section class="zone-card"><h2 class="zone-title">🧹 Commit Builder Function Extraction Plan v1</h2>
 <p>Контроль чистоти системи: тимчасові сторінки, UI Matrix, documentation gates, no-auto-write policy, integration cleanup.</p>
 <div class="record-actions"><button class="record-action" id="buildCleanupHardening" type="button">Build Cleanup Check</button><button class="record-action" id="copyCleanupHardening" type="button">Copy Cleanup Report</button></div>
 <div class="system-panel" id="cleanupHardeningBox">Cleanup / Hardening ще не сформовано.</div></section>
 
-<section class="zone-card"><h2 class="zone-title">🗺 Temporary Module Resolution Gate v1</h2>
+<section class="zone-card"><h2 class="zone-title">🗺 Commit Builder Function Extraction Plan v1</h2>
 <p>Реєстр інтеграції: що є частиною системи, що тимчасове, що очікує перенесення, що можна буде видалити після інтеграції.</p>
 <div class="record-actions"><button class="record-action" id="buildCleanupMap" type="button">Build Cleanup Map</button><button class="record-action" id="copyCleanupMap" type="button">Copy Cleanup Map</button></div>
 <div class="system-panel" id="cleanupMapBox">Cleanup Map ще не сформовано.</div></section>
 
-<section class="zone-card"><h2 class="zone-title">🧩 Temporary Module Resolution Gate v1</h2>
+<section class="zone-card"><h2 class="zone-title">🧩 Commit Builder Function Extraction Plan v1</h2>
 <p>Реєстр модулів: призначення, відповідальність, залежності, entry gate і статус допуску в Чистий ОДІН.</p>
 <div class="record-actions"><button class="record-action" id="buildModuleRegistry" type="button">Build Module Registry</button><button class="record-action" id="copyModuleRegistry" type="button">Copy Module Registry</button></div>
 <div class="system-panel" id="moduleRegistryBox">Module Registry ще не сформовано.</div></section>
 
-<section class="zone-card"><h2 class="zone-title">✅ Temporary Module Resolution Gate v1</h2>
+<section class="zone-card"><h2 class="zone-title">✅ Commit Builder Function Extraction Plan v1</h2>
 <p>Фінальний gate допуску модулів у Чистий ОДІН: ADMITTED / CONDITIONAL / BLOCKED.</p>
 <div class="record-actions"><button class="record-action" id="buildCleanOdinGate" type="button">Build Admission Gate</button><button class="record-action" id="copyCleanOdinGate" type="button">Copy Admission Gate</button></div>
 <div class="system-panel" id="cleanOdinGateBox">Clean ODIN Admission Gate ще не сформовано.</div></section>
 
-<section class="zone-card"><h2 class="zone-title">🔐 Temporary Module Resolution Gate v1</h2>
+<section class="zone-card"><h2 class="zone-title">🔐 Commit Builder Function Extraction Plan v1</h2>
 <p>Фіксація стану Чистого ОДІН. Якщо є CONDITIONAL модулі — lock буде умовним, не фінальним.</p>
 <div class="record-actions"><button class="record-action" id="buildCleanOdinLock" type="button">Build Clean ODIN Lock</button><button class="record-action" id="copyCleanOdinLock" type="button">Copy Clean ODIN Lock</button></div>
 <div class="system-panel" id="cleanOdinLockBox">Clean ODIN Lock ще не сформовано.</div></section>
 
-<section class="zone-card"><h2 class="zone-title">🧭 Temporary Module Resolution Gate v1</h2>
+<section class="zone-card"><h2 class="zone-title">🧭 Commit Builder Function Extraction Plan v1</h2>
 <p>Верхній контрольний зріз: workflow, stabilization, stable lock, cleanup, admission, clean lock і наступна дозволена дія.</p>
 <div class="record-actions"><button class="record-action" id="buildOdinControlSurface" type="button">Build Control Surface</button><button class="record-action" id="copyOdinControlSurface" type="button">Copy Control Surface</button></div>
 <div class="system-panel" id="odinControlSurfaceBox">ODIN Control Surface ще не сформовано.</div></section>
 
-<section class="zone-card"><h2 class="zone-title">🧭 Temporary Module Resolution Gate v1</h2>
+<section class="zone-card"><h2 class="zone-title">🧭 Commit Builder Function Extraction Plan v1</h2>
 <p>Роутер визначає наступну дозволену дію на основі Control Surface: blockers, conditional items або наступний архітектурний шар.</p>
 <div class="record-actions"><button class="record-action" id="buildNextActionRouter" type="button">Build Next Action</button><button class="record-action" id="copyNextActionRouter" type="button">Copy Next Action</button></div>
 <div class="system-panel" id="nextActionRouterBox">Next Action Router ще не сформовано.</div></section>
 
-<section class="zone-card"><h2 class="zone-title">📋 Temporary Module Resolution Gate v1</h2>
+<section class="zone-card"><h2 class="zone-title">📋 Commit Builder Function Extraction Plan v1</h2>
 <p>Дошка наступних задач: бере route з Next Action Router і формує конкретні task items з пріоритетом, статусом і gate rule.</p>
 <div class="record-actions"><button class="record-action" id="buildActionQueue" type="button">Build Action Queue</button><button class="record-action" id="copyActionQueue" type="button">Copy Action Queue</button><button class="record-action" id="clearActionQueue" type="button">Clear Action Queue</button><button class="record-action" id="resetActionQueueFilters" type="button">Reset Queue Filters</button><button class="record-action" id="archiveDoneTasks" type="button">Archive Done</button><button class="record-action" id="copyActionArchive" type="button">Copy Archive</button><button class="record-action" id="exportActionQueueState" type="button">Export Queue State</button><button class="record-action" id="importActionQueueState" type="button">Import Queue State</button></div>
 <div class="filter-panel">
@@ -165,6 +165,8 @@
 <div class="system-panel" id="temporaryModuleResolutionPlanBox">Temporary Module Resolution Plan ще не сформовано.</div>
 <div class="record-actions"><button class="record-action" id="buildTemporaryModuleResolutionGate" type="button">Build Temporary Module Gate</button><button class="record-action" id="copyTemporaryModuleResolutionGate" type="button">Copy Temporary Module Gate</button></div>
 <div class="system-panel" id="temporaryModuleResolutionGateBox">Temporary Module Resolution Gate ще не сформовано.</div>
+<div class="record-actions"><button class="record-action" id="buildCommitBuilderExtractionPlan" type="button">Build Commit Builder Extraction Plan</button><button class="record-action" id="copyCommitBuilderExtractionPlan" type="button">Copy Extraction Plan</button></div>
+<div class="system-panel" id="commitBuilderExtractionPlanBox">Commit Builder Extraction Plan ще не сформовано.</div>
 <div class="system-panel" id="actionQueueBox">Action Queue ще не сформовано.</div></section>
 
 <section class="zone-card"><h2 class="zone-title">🧭 Auto Decision Board</h2><div class="decision-grid" id="decisionBoard"></div></section>
@@ -181,7 +183,7 @@
 </main>
 <aside class="assist-panel"><div class="assist-title"><span>Пояснення</span><span class="hint" tabindex="0" data-help-uk="Права панель пояснює Auto Decision.">?</span></div><div class="assist-content"><p><strong>STATE PACKAGE v1</strong> — рекомендаційний шар.</p><p>Він не виконує файли, а підказує рішення.</p><p>Наступний рівень: Decision History / Decision Export.</p></div></aside>
 </div>
-<footer class="status-bar"><span>PROJECT: ODIN Interface</span><span>VERSION: V03.110.0</span><span>MODE: STATE PACKAGE</span><span>STATUS: BRIDGE READY</span></footer>
+<footer class="status-bar"><span>PROJECT: ODIN Interface</span><span>VERSION: V03.111.0</span><span>MODE: STATE PACKAGE</span><span>STATUS: BRIDGE READY</span></footer>
 <script src="11_PROTOTYPE_SYSTEM_UI/app.js"></script>
 <script>
 const DATA_URL="_data/control_center_dataset_v1.json";
@@ -201,8 +203,8 @@ const fallbackRules=[
 let externalRules=[...fallbackRules];let rules=[...fallbackRules];
 function validateRules(){const ids=rules.map(r=>r.id);validationReport=rules.map(r=>{let issues=[];["id","name","condition","action","result"].forEach(f=>{if(!r[f])issues.push("missing_"+f);});if(!allowedActions.includes(r.action))issues.push("unknown_action");if(ids.filter(id=>id===r.id).length>1)issues.push("duplicate_id");if(r.active!==true)issues.push("inactive");let status="VALID";if(issues.includes("unknown_action")||issues.some(x=>x.startsWith("missing_"))||issues.includes("duplicate_id"))status="INVALID";else if(issues.includes("inactive"))status="WARNING";return {id:r.id,status,issues};});renderValidationMatrix();document.getElementById("validationLog").textContent=`VALIDATION LOG: ${validationReport.filter(x=>x.status==="VALID").length} valid, ${validationReport.filter(x=>x.status==="WARNING").length} warnings, ${validationReport.filter(x=>x.status==="INVALID").length} invalid.`;}
 function renderValidationMatrix(){document.getElementById("validationMatrix").innerHTML=validationReport.map(v=>`<div class="validation-box rule-${v.status.toLowerCase()}"><div class="validation-title">${escapeHtml(v.id)} — ${escapeHtml(v.status)}</div><div class="control-record-desc">${v.issues.length?escapeHtml(v.issues.join(", ")):"No issues"}</div><span class="validation-pill">${escapeHtml(v.status)}</span></div>`).join("");}
-function copyValidation(){copyText(JSON.stringify({version:"V03.110.0",updated:new Date().toISOString(),validationReport},null,2),"VALIDATION LOG: report copied.");}
-function copyDecisionReport(){copyText(JSON.stringify({version:"V03.110.0",updated:new Date().toISOString(),decisionReport},null,2),"DECISION LOG: report copied.");}
+function copyValidation(){copyText(JSON.stringify({version:"V03.111.0",updated:new Date().toISOString(),validationReport},null,2),"VALIDATION LOG: report copied.");}
+function copyDecisionReport(){copyText(JSON.stringify({version:"V03.111.0",updated:new Date().toISOString(),decisionReport},null,2),"DECISION LOG: report copied.");}
 const INTEGRATION_RESULT_KEY="odin_control_center_integration_result_v1";
 let integrationResult=null;
 function loadIntegrationResult(){try{const raw=localStorage.getItem(INTEGRATION_RESULT_KEY);integrationResult=raw?JSON.parse(raw):null;}catch(e){integrationResult=null;}renderIntegrationResult();}
@@ -212,7 +214,7 @@ function buildImportAction(){
   const blocked=(integrationResult.blocked||[]).length;
   const actionStatus=integrationResult.status==="INTEGRATION_READY"&&blocked===0?"READY_FOR_NEXT_STEP":"NEEDS_REVIEW";
   return {
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"CONTROL_CENTER_IMPORT_ACTION_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"CONTROL_CENTER_IMPORT_ACTION_v1",created:new Date().toISOString()},
     status:actionStatus,
     sourceStatus:integrationResult.status,
     lockStatus:integrationResult.lockStatus,
@@ -262,7 +264,7 @@ function buildClosedLoopReport(){
   const hasIntegration=!!integrationResult;
   const ready=hasRuntime&&hasRules&&hasDecisions&&hasIntegration&&action&&action.status==="READY_FOR_NEXT_STEP";
   return {
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"CLOSED_LOOP_WORKFLOW_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"CLOSED_LOOP_WORKFLOW_v1",created:new Date().toISOString()},
     status:ready?"CLOSED_LOOP_READY":"CLOSED_LOOP_INCOMPLETE",
     checkpoints:{
       runtimeState:hasRuntime,
@@ -297,12 +299,12 @@ function buildWorkflowStabilization(){
   ];
   const failed=checks.filter(c=>!c.pass);
   const report={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"WORKFLOW_STABILIZATION_CHECKPOINT_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"WORKFLOW_STABILIZATION_CHECKPOINT_v1",created:new Date().toISOString()},
     status:failed.length?"STABILIZATION_NEEDS_REVIEW":"STABILIZATION_READY",
     checks,
     failed,
     closedLoop:loop,
-    nextStep:failed.length?"Review missing checkpoints before system lock.":"Prepare Temporary Module Resolution Gate v1."
+    nextStep:failed.length?"Review missing checkpoints before system lock.":"Prepare Commit Builder Function Extraction Plan v1."
   };
   const box=document.getElementById("workflowStabilizationBox");
   if(box){
@@ -315,7 +317,7 @@ function buildStableWorkflowLock(){
   const stabilization=buildWorkflowStabilization();
   const ready=stabilization.status==="STABILIZATION_READY";
   const lock={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"STABLE_WORKFLOW_LOCK_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"STABLE_WORKFLOW_LOCK_v1",created:new Date().toISOString()},
     status:ready?"STABLE_WORKFLOW_LOCKED":"STABLE_WORKFLOW_LOCK_BLOCKED",
     stabilization,
     lockedStandard:ready?{
@@ -347,7 +349,7 @@ function buildCleanupHardening(){
   ];
   const failed=checks.filter(c=>!c.pass);
   const report={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"SYSTEM_CLEANUP_INTEGRATION_HARDENING_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"SYSTEM_CLEANUP_INTEGRATION_HARDENING_v1",created:new Date().toISOString()},
     status:failed.length?"CLEANUP_NEEDS_REVIEW":"CLEANUP_HARDENING_READY",
     stableLock:lock,
     checks,
@@ -388,7 +390,7 @@ function buildCleanupMap(){
     {id:"ACT-004",title:"Avoid new permanent standalone pages",status:"MANDATORY",rule:"New standalone pages allowed only for temporary testing; after success integrate and delete."}
   ];
   const report={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"CLEANUP_MAP_INTEGRATION_REGISTRY_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"CLEANUP_MAP_INTEGRATION_REGISTRY_v1",created:new Date().toISOString()},
     status:"CLEANUP_MAP_READY",
     hardening,
     registry,
@@ -420,12 +422,12 @@ function buildModuleRegistry(){
     note:m.status==="TEMPORARY_REVIEW"?"Temporary file must be reviewed, integrated, then removed if no longer needed.":"Allowed as part of current architecture."
   }));
   const report={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"MODULE_OWNERSHIP_ENTRY_CONTROL_REGISTRY_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"MODULE_OWNERSHIP_ENTRY_CONTROL_REGISTRY_v1",created:new Date().toISOString()},
     status:"MODULE_REGISTRY_READY",
     cleanupMap,
     modules,
     entryControl,
-    nextStep:"Prepare Temporary Module Resolution Gate v1."
+    nextStep:"Prepare Commit Builder Function Extraction Plan v1."
   };
   const box=document.getElementById("moduleRegistryBox");
   if(box){
@@ -462,7 +464,7 @@ function buildCleanOdinGate(){
     blocked:admissions.filter(a=>a.admissionStatus==="BLOCKED").length
   };
   const gate={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"CLEAN_ODIN_ADMISSION_GATE_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"CLEAN_ODIN_ADMISSION_GATE_v1",created:new Date().toISOString()},
     status:summary.blocked>0?"CLEAN_ODIN_BLOCKED":summary.conditional>0?"CLEAN_ODIN_CONDITIONAL":"CLEAN_ODIN_ADMITTED",
     registry,
     admissions,
@@ -492,7 +494,7 @@ function buildCleanOdinLock(){
   if(blocked>0)status="CLEAN_ODIN_LOCK_BLOCKED";
   else if(conditional>0)status="CLEAN_ODIN_CONDITIONAL_LOCK";
   const lock={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"CLEAN_ODIN_LOCK_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"CLEAN_ODIN_LOCK_v1",created:new Date().toISOString()},
     status,
     admissionGate:gate,
     lockScope:[
@@ -513,7 +515,7 @@ function buildCleanOdinLock(){
       "Every package includes README/CHANGELOG/MANIFEST/QA.",
       "No automatic file write or git execution from draft UI."
     ],
-    nextStep:status==="CLEAN_ODIN_LOCKED"?"Proceed to Temporary Module Resolution Gate v1.":status==="CLEAN_ODIN_CONDITIONAL_LOCK"?"Resolve conditional modules before full clean lock.":"Fix blocked modules before continuing."
+    nextStep:status==="CLEAN_ODIN_LOCKED"?"Proceed to Commit Builder Function Extraction Plan v1.":status==="CLEAN_ODIN_CONDITIONAL_LOCK"?"Resolve conditional modules before full clean lock.":"Fix blocked modules before continuing."
   };
   const box=document.getElementById("cleanOdinLockBox");
   if(box){
@@ -544,7 +546,7 @@ function buildOdinControlSurface(){
   const blockers=Object.entries(statusMap).filter(([k,v])=>String(v).includes("BLOCKED")||String(v).includes("NEEDS_REVIEW"));
   const conditional=Object.entries(statusMap).filter(([k,v])=>String(v).includes("CONDITIONAL"));
   const surface={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"ODIN_CONTROL_SURFACE_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"ODIN_CONTROL_SURFACE_v1",created:new Date().toISOString()},
     status:blockers.length?"CONTROL_SURFACE_BLOCKED":conditional.length?"CONTROL_SURFACE_CONDITIONAL":"CONTROL_SURFACE_READY",
     statusMap,
     blockers,
@@ -593,7 +595,7 @@ function buildNextActionRouter(){
     };
   }
   const report={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"ODIN_NEXT_ACTION_ROUTER_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"ODIN_NEXT_ACTION_ROUTER_v1",created:new Date().toISOString()},
     status:"NEXT_ACTION_READY",
     surfaceStatus:surface.status,
     route,
@@ -640,7 +642,7 @@ function buildActionQueue(){
   actionQueue.push(task);
   saveActionQueue();
   document.getElementById("decisionLog").textContent=`ACTION QUEUE: ${task.id} added.`;
-  return {meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"ODIN_ACTION_QUEUE_v1",created:new Date().toISOString()},items:actionQueue,latestTask:task};
+  return {meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"ODIN_ACTION_QUEUE_v1",created:new Date().toISOString()},items:actionQueue,latestTask:task};
 }
 function renderActionQueue(){
   const box=document.getElementById("actionQueueBox");
@@ -648,7 +650,7 @@ function renderActionQueue(){
   if(!actionQueue.length){box.textContent="Action Queue порожня.";return;}
   box.innerHTML=actionQueue.slice().reverse().map(t=>`<div class="history-item"><strong>${escapeHtml(t.id)}</strong> — ${escapeHtml(t.title)}<br><strong>Priority:</strong> ${escapeHtml(t.priority)} | <strong>Status:</strong> ${escapeHtml(t.status)}<br><strong>Action:</strong> ${escapeHtml(t.action)}<br><span class="history-time">${escapeHtml(t.created)}</span></div>`).join("");
 }
-function copyActionQueue(){copyText(JSON.stringify({version:"V03.110.0",type:"ODIN_ACTION_QUEUE_v1",items:actionQueue},null,2),"ACTION QUEUE: copied.");}
+function copyActionQueue(){copyText(JSON.stringify({version:"V03.111.0",type:"ODIN_ACTION_QUEUE_v1",items:actionQueue},null,2),"ACTION QUEUE: copied.");}
 function clearActionQueue(){actionQueue=[];saveActionQueue();document.getElementById("decisionLog").textContent="ACTION QUEUE: cleared.";}
 function archiveDoneTasks(){
   const done=actionQueue.filter(t=>t.status==="DONE");
@@ -667,10 +669,10 @@ function renderActionArchive(){
   const last=actionArchive.slice(-5).reverse();
   box.innerHTML=`<strong>Archived total:</strong> ${actionArchive.length}<br>`+last.map(t=>`<div class="history-item"><strong>${escapeHtml(t.id)}</strong> — ${escapeHtml(t.title)}<br><strong>Archived:</strong> ${escapeHtml(t.archivedAt)}<br><strong>Action:</strong> ${escapeHtml(t.action)}</div>`).join("");
 }
-function copyActionArchive(){copyText(JSON.stringify({version:"V03.110.0",type:"ACTION_QUEUE_ARCHIVE_v1",items:actionArchive},null,2),"ACTION ARCHIVE: copied.");}
+function copyActionArchive(){copyText(JSON.stringify({version:"V03.111.0",type:"ACTION_QUEUE_ARCHIVE_v1",items:actionArchive},null,2),"ACTION ARCHIVE: copied.");}
 function buildActionQueueState(){
   return {
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"ACTION_QUEUE_STATE_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"ACTION_QUEUE_STATE_v1",created:new Date().toISOString()},
     queue:actionQueue,
     archive:actionArchive,
     metrics:buildActionQueueMetrics(),
@@ -712,7 +714,7 @@ function buildActionQueueRecovery(){
   ];
   const failed=checks.filter(c=>!c.pass);
   const checkpoint={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"ACTION_QUEUE_RECOVERY_CHECKPOINT_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"ACTION_QUEUE_RECOVERY_CHECKPOINT_v1",created:new Date().toISOString()},
     status:failed.length?"QUEUE_RECOVERY_NOT_READY":"QUEUE_RECOVERY_READY",
     checks,
     failed,
@@ -729,7 +731,7 @@ function buildActionQueueRecovery(){
 function copyActionQueueRecovery(){copyText(JSON.stringify(buildActionQueueRecovery(),null,2),"ACTION QUEUE RECOVERY: copied.");}
 function buildOdinStateSnapshot(){
   const snapshot={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"ODIN_STATE_SNAPSHOT_FULL_RECOVERY_EXPORT_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"ODIN_STATE_SNAPSHOT_FULL_RECOVERY_EXPORT_v1",created:new Date().toISOString()},
     runtime:{entryState,executionState},
     rules:{items:rules,validationReport},
     decisions:{decisionReport,decisionHistory},
@@ -765,7 +767,7 @@ const SNAPSHOT_RESTORE_AUDIT_KEY="odin_snapshot_restore_audit_v1";
 let snapshotRestoreAudit=[];
 function loadSnapshotRestoreAudit(){try{const raw=localStorage.getItem(SNAPSHOT_RESTORE_AUDIT_KEY);snapshotRestoreAudit=raw?JSON.parse(raw):[];if(!Array.isArray(snapshotRestoreAudit))snapshotRestoreAudit=[];}catch(e){snapshotRestoreAudit=[];}}
 function saveSnapshotRestoreAudit(){localStorage.setItem(SNAPSHOT_RESTORE_AUDIT_KEY,JSON.stringify(snapshotRestoreAudit.slice(-100),null,2));renderSnapshotRestoreAudit();}
-function addSnapshotRestoreAudit(entry){snapshotRestoreAudit.push({...entry,time:new Date().toISOString(),version:"V03.110.0"});saveSnapshotRestoreAudit();}
+function addSnapshotRestoreAudit(entry){snapshotRestoreAudit.push({...entry,time:new Date().toISOString(),version:"V03.111.0"});saveSnapshotRestoreAudit();}
 function renderSnapshotRestoreAudit(){
   const box=document.getElementById("snapshotRestoreAuditBox");
   if(!box)return;
@@ -773,14 +775,14 @@ function renderSnapshotRestoreAudit(){
   const rows=snapshotRestoreAudit.slice(-5).reverse().map(a=>`<div class="history-item"><strong>${escapeHtml(a.status)}</strong> — ${escapeHtml(a.reason||"") }<br><span class="history-time">${escapeHtml(a.time)}</span><br><strong>Runtime:</strong> ${escapeHtml(a.runtime||"—")} | <strong>Queue:</strong> ${escapeHtml(a.queue||"—")} | <strong>Archive:</strong> ${escapeHtml(a.archive||"—")}</div>`).join("");
   box.innerHTML=`<strong>Restore audit items:</strong> ${snapshotRestoreAudit.length}`+rows;
 }
-function copySnapshotRestoreAudit(){copyText(JSON.stringify({version:"V03.110.0",type:"SNAPSHOT_RESTORE_AUDIT_v1",items:snapshotRestoreAudit},null,2),"SNAPSHOT RESTORE AUDIT: copied.");}
+function copySnapshotRestoreAudit(){copyText(JSON.stringify({version:"V03.111.0",type:"SNAPSHOT_RESTORE_AUDIT_v1",items:snapshotRestoreAudit},null,2),"SNAPSHOT RESTORE AUDIT: copied.");}
 function clearSnapshotRestoreAudit(){snapshotRestoreAudit=[];saveSnapshotRestoreAudit();document.getElementById("decisionLog").textContent="SNAPSHOT RESTORE AUDIT: cleared.";}
 function buildRecoveryControlPanel(){
   const currentSnapshotBox=(document.getElementById("odinStateSnapshotBox")?.value||"").trim();
   const hasSnapshotInput=!!currentSnapshotBox;
   const integrity=snapshotIntegrityReport.status==="NOT_RUN"&&hasSnapshotInput?validateOdinStateSnapshot():snapshotIntegrityReport;
   const recovery={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"RECOVERY_CONTROL_PANEL_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"RECOVERY_CONTROL_PANEL_v1",created:new Date().toISOString()},
     status:integrity.status==="SNAPSHOT_VALID"?"RECOVERY_READY":hasSnapshotInput?"RECOVERY_BLOCKED":"RECOVERY_WAITING_FOR_SNAPSHOT",
     snapshotInput:hasSnapshotInput,
     integrityStatus:integrity.status,
@@ -807,7 +809,7 @@ function buildRecoveryLock(){
   const panel=buildRecoveryControlPanel();
   const locked=panel.status==="RECOVERY_READY" && panel.allowedActions?.importSnapshot===true;
   const lock={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"RECOVERY_LOCK_RESTORE_READINESS_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"RECOVERY_LOCK_RESTORE_READINESS_v1",created:new Date().toISOString()},
     status:locked?"RESTORE_READY_LOCKED":"RESTORE_LOCK_BLOCKED",
     recoveryPanel:panel,
     readiness:{
@@ -842,7 +844,7 @@ function buildRecoveryFinalCheckpoint(){
   ];
   const failed=checks.filter(c=>!c.pass);
   const checkpoint={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"RECOVERY_FINAL_CHECKPOINT_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"RECOVERY_FINAL_CHECKPOINT_v1",created:new Date().toISOString()},
     status:failed.length?"RECOVERY_FINAL_NEEDS_REVIEW":(lock.status==="RESTORE_READY_LOCKED"?"RECOVERY_FINAL_READY":"RECOVERY_FINAL_WAITING"),
     recoveryLock:lock,
     checks,
@@ -862,7 +864,7 @@ function buildRecoveryLayerLock(){
   const finalCheckpoint=buildRecoveryFinalCheckpoint();
   const readyLike=["RECOVERY_FINAL_READY","RECOVERY_FINAL_WAITING"].includes(finalCheckpoint.status);
   const lock={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"ODIN_RECOVERY_LAYER_LOCK_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"ODIN_RECOVERY_LAYER_LOCK_v1",created:new Date().toISOString()},
     status:readyLike?"RECOVERY_LAYER_LOCKED":"RECOVERY_LAYER_LOCK_BLOCKED",
     finalCheckpoint,
     lockedCapabilities:[
@@ -898,7 +900,7 @@ function buildNewChatTransfer(){
   const controlSurface=buildOdinControlSurface();
   const nextAction=buildNextActionRouter();
   const transfer={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"SYSTEM_CONTINUITY_NEW_CHAT_TRANSFER_PACKAGE_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"SYSTEM_CONTINUITY_NEW_CHAT_TRANSFER_PACKAGE_v1",created:new Date().toISOString()},
     status:"TRANSFER_PACKAGE_READY",
     purpose:"Continue ODIN work in a new chat without losing system state, rules, workflow locks, action queue, and recovery layer context.",
     startCommand:"ODIN SYSTEM — CONTINUE FROM TRANSFER PACKAGE",
@@ -941,7 +943,7 @@ function validateNewChatTransfer(){
     checks.push({id:"NCTV-001",name:"Valid JSON",pass:true,details:"JSON parsed"});
   }catch(e){
     checks.push({id:"NCTV-001",name:"Valid JSON",pass:false,details:e.message});
-    newChatTransferValidation={meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"NEW_CHAT_TRANSFER_VALIDATION_v1",created:new Date().toISOString()},status:"TRANSFER_INVALID",checks,failed:checks.filter(c=>!c.pass)};
+    newChatTransferValidation={meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"NEW_CHAT_TRANSFER_VALIDATION_v1",created:new Date().toISOString()},status:"TRANSFER_INVALID",checks,failed:checks.filter(c=>!c.pass)};
     renderNewChatTransferValidation();
     return newChatTransferValidation;
   }
@@ -955,7 +957,7 @@ function validateNewChatTransfer(){
   checks.push({id:"NCTV-009",name:"Start command exists",pass:!!parsed.startCommand,details:parsed.startCommand||"missing"});
   const failed=checks.filter(c=>!c.pass);
   newChatTransferValidation={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"NEW_CHAT_TRANSFER_VALIDATION_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"NEW_CHAT_TRANSFER_VALIDATION_v1",created:new Date().toISOString()},
     status:failed.length?"TRANSFER_INVALID":"TRANSFER_VALID",
     checks,
     failed,
@@ -982,7 +984,7 @@ function buildNewChatHandoffLock(){
   const validation=newChatTransferValidation.status==="NOT_RUN"?validateNewChatTransfer():newChatTransferValidation;
   const locked=validation.status==="TRANSFER_VALID";
   const lock={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"NEW_CHAT_HANDOFF_LOCK_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"NEW_CHAT_HANDOFF_LOCK_v1",created:new Date().toISOString()},
     status:locked?"NEW_CHAT_HANDOFF_LOCKED":"NEW_CHAT_HANDOFF_BLOCKED",
     validation,
     startCommand:"ODIN SYSTEM — CONTINUE FROM TRANSFER PACKAGE",
@@ -1021,7 +1023,7 @@ function buildNewChatStartPrompt(){
     transferText || "TRANSFER_PACKAGE_NOT_ATTACHED_IN_FIELD"
   ].join("\n");
   const result={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"NEW_CHAT_START_PROMPT_BUILDER_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"NEW_CHAT_START_PROMPT_BUILDER_v1",created:new Date().toISOString()},
     status:handoff.status==="NEW_CHAT_HANDOFF_LOCKED"?"START_PROMPT_READY":"START_PROMPT_CONDITIONAL",
     handoffStatus:handoff.status,
     prompt,
@@ -1052,7 +1054,7 @@ function runNewChatStartPromptQA(){
   ];
   const failed=checks.filter(c=>!c.pass);
   newChatStartPromptQA={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"NEW_CHAT_START_PROMPT_QA_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"NEW_CHAT_START_PROMPT_QA_v1",created:new Date().toISOString()},
     status:failed.length?"START_PROMPT_QA_FAILED":"START_PROMPT_QA_PASSED",
     checks,
     failed,
@@ -1077,7 +1079,7 @@ function copyNewChatStartPromptQA(){
 function buildNewChatStartPromptLock(){
   const qa=newChatStartPromptQA.status==="NOT_RUN"?runNewChatStartPromptQA():newChatStartPromptQA;
   const lock={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"NEW_CHAT_START_PROMPT_LOCK_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"NEW_CHAT_START_PROMPT_LOCK_v1",created:new Date().toISOString()},
     status:qa.status==="START_PROMPT_QA_PASSED"?"START_PROMPT_LOCKED":"START_PROMPT_LOCK_BLOCKED",
     qa,
     startCommand:"ODIN SYSTEM — CONTINUE FROM TRANSFER PACKAGE",
@@ -1109,7 +1111,7 @@ function buildContinuityFinalLock(){
   ];
   const failed=checks.filter(c=>!c.pass);
   const lock={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"SYSTEM_CONTINUITY_FINAL_LOCK_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"SYSTEM_CONTINUITY_FINAL_LOCK_v1",created:new Date().toISOString()},
     status:failed.length?"CONTINUITY_FINAL_LOCK_BLOCKED":"CONTINUITY_FINAL_LOCKED",
     checks,
     failed,
@@ -1142,7 +1144,7 @@ function buildContinuityMasterStart(){
   const recoveryLayer=buildRecoveryLayerLock();
   const nextAction=buildNextActionRouter();
   const master={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"ODIN_CONTINUITY_MASTER_START_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"ODIN_CONTINUITY_MASTER_START_v1",created:new Date().toISOString()},
     status:finalLock.status==="CONTINUITY_FINAL_LOCKED"?"MASTER_START_READY":"MASTER_START_CONDITIONAL",
     command:"ODIN SYSTEM — MASTER START",
     continuityCommand:"ODIN SYSTEM — CONTINUE FROM TRANSFER PACKAGE",
@@ -1192,7 +1194,7 @@ function runContinuityMasterStartQA(){
   ];
   const failed=checks.filter(c=>!c.pass);
   continuityMasterStartQA={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"ODIN_CONTINUITY_MASTER_START_QA_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"ODIN_CONTINUITY_MASTER_START_QA_v1",created:new Date().toISOString()},
     status:failed.length?"MASTER_START_QA_FAILED":"MASTER_START_QA_PASSED",
     checks,
     failed,
@@ -1220,7 +1222,7 @@ function copyContinuityMasterStartQA(){
 function buildContinuityMasterStartFinalLock(){
   const qa=continuityMasterStartQA.status==="NOT_RUN"?runContinuityMasterStartQA():continuityMasterStartQA;
   const lock={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"ODIN_CONTINUITY_MASTER_START_FINAL_LOCK_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"ODIN_CONTINUITY_MASTER_START_FINAL_LOCK_v1",created:new Date().toISOString()},
     status:qa.status==="MASTER_START_QA_PASSED"?"MASTER_START_FINAL_LOCKED":"MASTER_START_FINAL_LOCK_BLOCKED",
     qa,
     command:"ODIN SYSTEM — MASTER START",
@@ -1241,7 +1243,7 @@ function buildMasterStartButtonRegistry(){
   const finalLock=buildContinuityMasterStartFinalLock();
   const enabled=finalLock.status==="MASTER_START_FINAL_LOCKED";
   const registry={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"ODIN_MASTER_START_BUTTON_REGISTRY_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"ODIN_MASTER_START_BUTTON_REGISTRY_v1",created:new Date().toISOString()},
     status:enabled?"MASTER_START_BUTTON_REGISTERED":"MASTER_START_BUTTON_CONDITIONAL",
     button:{
       id:"odin-system-master-start",
@@ -1285,7 +1287,7 @@ function runQuickSettingsMasterStart(){
   const finalLock=buildContinuityMasterStartFinalLock();
   const allowed=registry.button?.enabled===true && finalLock.status==="MASTER_START_FINAL_LOCKED";
   quickSettingsMasterStartResult={
-    meta:{system:"ODIN Interface",module:"Control Center / Quick Settings",version:"V03.110.0",type:"QUICK_SETTINGS_MASTER_START_RESULT_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center / Quick Settings",version:"V03.111.0",type:"QUICK_SETTINGS_MASTER_START_RESULT_v1",created:new Date().toISOString()},
     status:allowed?"MASTER_START_BUILT_FROM_QUICK_SETTINGS":"MASTER_START_BLOCKED_FROM_QUICK_SETTINGS",
     registry,
     finalLock,
@@ -1323,7 +1325,7 @@ function runQuickSettingsMasterStartQA(){
   ];
   const failed=checks.filter(c=>!c.pass);
   quickSettingsMasterStartQA={
-    meta:{system:"ODIN Interface",module:"Control Center / Quick Settings",version:"V03.110.0",type:"QUICK_SETTINGS_MASTER_START_QA_UI_MATRIX_CHECK_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center / Quick Settings",version:"V03.111.0",type:"QUICK_SETTINGS_MASTER_START_QA_UI_MATRIX_CHECK_v1",created:new Date().toISOString()},
     status:failed.length?"QUICK_SETTINGS_QA_FAILED":"QUICK_SETTINGS_QA_PASSED",
     checks,
     failed,
@@ -1372,7 +1374,7 @@ function buildV03ContinuityCheckpoint(){
   ];
   const failed=checks.filter(c=>!c.pass);
   const checkpoint={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"V03_CONTINUITY_RECOVERY_CONTROL_SURFACE_CHECKPOINT_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"V03_CONTINUITY_RECOVERY_CONTROL_SURFACE_CHECKPOINT_v1",created:new Date().toISOString()},
     status:failed.length?"V03_CHECKPOINT_NEEDS_REVIEW":"V03_CHECKPOINT_READY",
     checkpointName:"ODIN V03.100 — Continuity / Recovery / Control Surface Checkpoint",
     checks,
@@ -1458,7 +1460,7 @@ function buildV03CheckpointHandoffNote(){
     "```"
   ].join("\n");
   const result={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"V03_100_CHECKPOINT_SUMMARY_HANDOFF_NOTE_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"V03_100_CHECKPOINT_SUMMARY_HANDOFF_NOTE_v1",created:new Date().toISOString()},
     status:checkpoint.status==="V03_CHECKPOINT_READY"?"HANDOFF_NOTE_READY":"HANDOFF_NOTE_NEEDS_REVIEW",
     checkpointStatus:checkpoint.status,
     note,
@@ -1487,7 +1489,7 @@ function buildV03NextLayerRouter(){
   ];
   const recommended=ready?routes:[{id:"BLOCKED",name:"Resolve V03.100 checkpoint gaps",priority:"CRITICAL",when:"checkpoint not ready",purpose:"Спочатку довести V03.100 checkpoint до READY."}];
   const router={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"V03_100_STABLE_BASE_NEXT_LAYER_ROUTER_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"V03_100_STABLE_BASE_NEXT_LAYER_ROUTER_v1",created:new Date().toISOString()},
     status:ready?"NEXT_LAYER_ROUTER_READY":"NEXT_LAYER_ROUTER_BLOCKED",
     checkpointStatus:checkpoint.status,
     handoffStatus:handoff.status,
@@ -1523,7 +1525,7 @@ function buildUiPolishRouter(){
     {id:"UIP-005",title:"No standalone pollution review",priority:"HIGH",scope:"dev/V03",rule:"Temporary pages must be tracked, integrated, or deleted later."}
   ];
   const router={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"UI_POLISH_CONSISTENCY_PASS_ROUTER_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"UI_POLISH_CONSISTENCY_PASS_ROUTER_v1",created:new Date().toISOString()},
     status:ready?"UI_POLISH_ROUTER_READY":"UI_POLISH_ROUTER_BLOCKED",
     sourceNextLayer:nextLayer,
     selectedRoute:"UI Polish / Consistency Pass",
@@ -1535,7 +1537,7 @@ function buildUiPolishRouter(){
       "Preserve Quick Settings language switch.",
       "Preserve Master Start gating."
     ],
-    nextStep:ready?"Prepare Temporary Module Resolution Gate v1.":"Resolve V03.100 checkpoint/router blockers first."
+    nextStep:ready?"Prepare Commit Builder Function Extraction Plan v1.":"Resolve V03.100 checkpoint/router blockers first."
   };
   const box=document.getElementById("uiPolishRouterBox");
   if(box){
@@ -1565,7 +1567,7 @@ function runUiMatrixAudit(){
   ];
   const failed=checks.filter(c=>!c.pass);
   uiMatrixAudit={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"UI_MATRIX_AUDIT_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"UI_MATRIX_AUDIT_v1",created:new Date().toISOString()},
     status:failed.length?"UI_MATRIX_AUDIT_FAILED":"UI_MATRIX_AUDIT_PASSED",
     checks,
     failed,
@@ -1607,7 +1609,7 @@ function runWorkspaceAlignmentAudit(){
   ];
   const failed=checks.filter(c=>!c.pass);
   workspaceAlignmentAudit={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"CONTROL_CENTER_FILE_WORKSPACE_ALIGNMENT_AUDIT_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"CONTROL_CENTER_FILE_WORKSPACE_ALIGNMENT_AUDIT_v1",created:new Date().toISOString()},
     status:failed.length?"WORKSPACE_ALIGNMENT_FAILED":"WORKSPACE_ALIGNMENT_PASSED",
     checks,
     failed,
@@ -1649,7 +1651,7 @@ function runQuickSettingsRegressionGate(){
   ];
   const failed=checks.filter(c=>!c.pass);
   quickSettingsRegressionGate={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"QUICK_SETTINGS_LANGUAGE_SWITCH_REGRESSION_GATE_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"QUICK_SETTINGS_LANGUAGE_SWITCH_REGRESSION_GATE_v1",created:new Date().toISOString()},
     status:failed.length?"REGRESSION_GATE_FAILED":"REGRESSION_GATE_PASSED",
     checks,
     failed,
@@ -1697,7 +1699,7 @@ function buildUiPolishLock(){
   ];
   const failed=checks.filter(c=>!c.pass);
   const lock={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"UI_POLISH_LOCK_CONSISTENCY_CHECKPOINT_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"UI_POLISH_LOCK_CONSISTENCY_CHECKPOINT_v1",created:new Date().toISOString()},
     status:failed.length?"UI_POLISH_LOCK_BLOCKED":"UI_POLISH_LOCKED",
     checks,
     failed,
@@ -1735,7 +1737,7 @@ function buildCleanupConsolidationRouter(){
   ];
   const conditional=(admission.admissions||[]).filter(a=>a.admissionStatus==="CONDITIONAL");
   const router={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"CLEANUP_CONSOLIDATION_ROUTER_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"CLEANUP_CONSOLIDATION_ROUTER_v1",created:new Date().toISOString()},
     status:"CLEANUP_ROUTER_READY",
     uiPolishLock:uiLock.status,
     cleanupMapStatus:cleanupMap.status,
@@ -1782,7 +1784,7 @@ function buildTemporaryModuleResolutionPlan(){
     targetLayer:m.path&&m.path.includes("commit_builder")?"File Workspace / Control Center Commit Draft area":"Architecture review"
   }));
   const plan={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"TEMPORARY_MODULE_RESOLUTION_PLAN_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"TEMPORARY_MODULE_RESOLUTION_PLAN_v1",created:new Date().toISOString()},
     status:planItems.length?"TEMPORARY_PLAN_READY":"NO_TEMPORARY_MODULES_FOUND",
     sourceRouter:router.status,
     temporaryModules,
@@ -1823,7 +1825,7 @@ function buildTemporaryModuleResolutionGate(){
   });
   const blockedDelete=gateItems.filter(x=>x.deleteAllowed===false);
   const gate={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"TEMPORARY_MODULE_RESOLUTION_GATE_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"TEMPORARY_MODULE_RESOLUTION_GATE_v1",created:new Date().toISOString()},
     status:gateItems.length?"TEMPORARY_GATE_READY":"TEMPORARY_GATE_EMPTY",
     sourcePlanStatus:plan.status,
     gateItems,
@@ -1851,6 +1853,47 @@ function buildTemporaryModuleResolutionGate(){
 
 function copyTemporaryModuleResolutionGate(){copyText(JSON.stringify(buildTemporaryModuleResolutionGate(),null,2),"TEMPORARY MODULE RESOLUTION GATE: copied.");}
 
+function buildCommitBuilderExtractionPlan(){
+  const gate=buildTemporaryModuleResolutionGate();
+  const commitCandidate=(gate.gateItems||[]).find(x=>String(x.path||"").includes("commit_builder"));
+  const extractionItems=[
+    {id:"CBX-001",name:"Git command draft generation",source:"commit_builder.html",target:"Control Center / package docs area",action:"EXTRACT_AS_DRAFT_BUILDER",risk:"LOW",qa:"Generated commands must remain text only."},
+    {id:"CBX-002",name:"Commit message composition",source:"commit_builder.html",target:"Control Center / Action Queue metadata",action:"EXTRACT_AS_METADATA_HELPER",risk:"LOW",qa:"Message must be editable and Ukrainian by default."},
+    {id:"CBX-003",name:"Included files list builder",source:"commit_builder.html",target:"File Workspace package manifest flow",action:"EXTRACT_TO_MANIFEST_HELPER",risk:"MEDIUM",qa:"Must not auto-stage files."},
+    {id:"CBX-004",name:"Copy git commands",source:"commit_builder.html",target:"File Workspace / package export summary",action:"EXTRACT_AS_COPY_ONLY_ACTION",risk:"LOW",qa:"Copy only; no git execution."},
+    {id:"CBX-005",name:"Standalone page removal candidate",source:"commit_builder.html",target:"cleanup delete package later",action:"DEFER_DELETE_UNTIL_QA",risk:"HIGH",qa:"Delete blocked until integration is validated."}
+  ];
+  const plan={
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"COMMIT_BUILDER_FUNCTION_EXTRACTION_PLAN_v1",created:new Date().toISOString()},
+    status:commitCandidate?"COMMIT_BUILDER_EXTRACTION_PLAN_READY":"COMMIT_BUILDER_CANDIDATE_NOT_FOUND",
+    sourceGateStatus:gate.status,
+    candidate:commitCandidate||null,
+    extractionItems,
+    integrationTargets:[
+      "Control Center package documentation area",
+      "File Workspace package manifest/export flow",
+      "Action Queue task metadata",
+      "Future Package Builder / Git Draft section"
+    ],
+    hardRules:[
+      "Do not delete commit_builder.html in this package.",
+      "Do not execute git.",
+      "Do not auto-stage files.",
+      "Commands remain copyable text only.",
+      "After extraction, run QA before preparing any delete package.",
+      "Do not break V03.100 locked base."
+    ],
+    nextStep:commitCandidate?"Prepare Commit Builder Integration Draft v1.":"Review temporary module registry manually."
+  };
+  const box=document.getElementById("commitBuilderExtractionPlanBox");
+  if(box){
+    box.innerHTML=`<strong>Status:</strong> ${escapeHtml(plan.status)}<br><strong>Extraction items:</strong> ${extractionItems.length}<br><strong>Candidate:</strong> ${escapeHtml(commitCandidate?.path||"not found")}<br><strong>Next:</strong> ${escapeHtml(plan.nextStep)}`;
+  }
+  return plan;
+}
+
+function copyCommitBuilderExtractionPlan(){copyText(JSON.stringify(buildCommitBuilderExtractionPlan(),null,2),"COMMIT BUILDER EXTRACTION PLAN: copied.");}
+
 function validateOdinStateSnapshot(){
   const raw=(document.getElementById("odinStateSnapshotBox")?.value||"").trim();
   const checks=[];
@@ -1861,7 +1904,7 @@ function validateOdinStateSnapshot(){
     checks.push({id:"SNAP-001",name:"Valid JSON",pass:true,details:"JSON parsed"});
   }catch(e){
     checks.push({id:"SNAP-001",name:"Valid JSON",pass:false,details:e.message});
-    snapshotIntegrityReport={meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"SNAPSHOT_INTEGRITY_REPORT_v1",created:new Date().toISOString()},status:"SNAPSHOT_INVALID",checks,failed:checks.filter(c=>!c.pass)};
+    snapshotIntegrityReport={meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"SNAPSHOT_INTEGRITY_REPORT_v1",created:new Date().toISOString()},status:"SNAPSHOT_INVALID",checks,failed:checks.filter(c=>!c.pass)};
     renderSnapshotIntegrity();
     return snapshotIntegrityReport;
   }
@@ -1874,7 +1917,7 @@ function validateOdinStateSnapshot(){
   checks.push({id:"SNAP-008",name:"Manual restore only",pass:parsed.safety?.manualRestoreOnly===true,details:String(parsed.safety?.manualRestoreOnly)});
   const failed=checks.filter(c=>!c.pass);
   snapshotIntegrityReport={
-    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.110.0",type:"SNAPSHOT_INTEGRITY_REPORT_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.111.0",type:"SNAPSHOT_INTEGRITY_REPORT_v1",created:new Date().toISOString()},
     status:failed.length?"SNAPSHOT_INVALID":"SNAPSHOT_VALID",
     checks,
     failed,
@@ -1959,7 +2002,7 @@ function loadDecisionHistory(){try{const raw=localStorage.getItem(DECISION_HISTO
 function saveDecisionHistory(){localStorage.setItem(DECISION_HISTORY_KEY,JSON.stringify(decisionHistory.slice(-200),null,2));}
 function addDecisionHistory(nextReport){nextReport.forEach(d=>{const prev=previousDecisionMap[d.id];if(prev&&prev.decision!==d.decision){decisionHistory.push({time:new Date().toISOString(),id:d.id,name:d.name,from:prev.decision,to:d.decision,reason:d.reason,entry:d.entry,execution:d.execution});}});previousDecisionMap=Object.fromEntries(nextReport.map(d=>[d.id,{decision:d.decision,reason:d.reason}]));saveDecisionHistory();renderDecisionHistory();}
 function renderDecisionHistory(){const box=document.getElementById("decisionHistoryList");if(!box)return;const items=decisionHistory.slice(-20).reverse();box.innerHTML=items.length?items.map(h=>`<div class="history-item"><div class="history-time">${escapeHtml(h.time)}</div><div><strong>${escapeHtml(h.id)}</strong> — ${escapeHtml(h.from)} → <strong>${escapeHtml(h.to)}</strong></div><div class="control-record-desc">${escapeHtml(h.reason)}</div></div>`).join(""):'<p class="control-record-desc">Історія рішень порожня.</p>';}
-function copyDecisionHistory(){copyText(JSON.stringify({version:"V03.110.0",updated:new Date().toISOString(),decisionHistory},null,2),"STATE PACKAGE: copied.");}
+function copyDecisionHistory(){copyText(JSON.stringify({version:"V03.111.0",updated:new Date().toISOString(),decisionHistory},null,2),"STATE PACKAGE: copied.");}
 function clearDecisionHistory(){decisionHistory=[];previousDecisionMap={};saveDecisionHistory();renderDecisionHistory();document.getElementById("decisionLog").textContent="STATE PACKAGE: cleared.";}
 function updateDecisionReport(){const nextReport=allRecords.map(getDecision);decisionReport=nextReport;addDecisionHistory(nextReport);renderDecisionBoard();const counts={ALLOW:0,BLOCK:0,REVIEW:0,RETRY:0};decisionReport.forEach(d=>counts[d.decision]=(counts[d.decision]||0)+1);document.getElementById("decisionLog").textContent=`DECISION LOG: ALLOW ${counts.ALLOW}, BLOCK ${counts.BLOCK}, REVIEW ${counts.REVIEW}, RETRY ${counts.RETRY}. HISTORY ${decisionHistory.length}.`;if(document.getElementById("statePackagePreview")){document.getElementById("statePackagePreview").value=JSON.stringify(buildStatePackage(),null,2);}if(document.getElementById("bridgePreview")){document.getElementById("bridgePreview").value=JSON.stringify(buildBridgePackage(null),null,2);}}
 function renderDecisionBoard(){document.getElementById("decisionBoard").innerHTML=decisionReport.map(d=>`<div class="decision-box decision-${d.decision.toLowerCase()}"><div class="decision-title">${escapeHtml(d.id)} — <span class="decision-status">${escapeHtml(d.decision)}</span></div><div class="control-record-desc">${escapeHtml(d.name)}<br><strong>Reason:</strong> ${escapeHtml(d.reason)}</div><div class="record-actions"><span class="decision-pill">ENTRY: ${escapeHtml(d.entry)}</span><span class="decision-pill">EXEC: ${escapeHtml(d.execution)}</span><span class="decision-pill">PRIORITY: ${escapeHtml(d.priority)}</span></div></div>`).join("");}
@@ -1971,7 +2014,7 @@ function copyRules(){copyText(JSON.stringify(rules,null,2),"RULE LOG: прави
 function toggleRule(id){rules=rules.map(r=>r.id===id?{...r,active:!r.active}:r);saveRules();renderRuleList();renderRecords(filteredRecords);ruleLog(`RULE LOG: ${id} toggled.`);}
 function addRule(){const name=document.getElementById("ruleName").value.trim();const condition=document.getElementById("ruleCondition").value.trim();const action=document.getElementById("ruleAction").value.trim();const result=document.getElementById("ruleResult").value.trim();if(!name||!condition||!action||!result){ruleLog("RULE LOG: Add blocked — заповни всі поля.");return;}const id="RULE-CUSTOM-"+String(Date.now()).slice(-6);rules.push({id,name,condition,action,result,active:true,custom:true});saveRules();["ruleName","ruleCondition","ruleAction","ruleResult"].forEach(x=>document.getElementById(x).value="");renderRuleList();renderRecords(filteredRecords);ruleLog(`RULE LOG: ${id} додано.`);}
 function loadRuntimeState(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return;const parsed=JSON.parse(raw);entryState=parsed.entryState||{};executionState=parsed.executionState||{};}catch(e){entryState={};executionState={};}}
-function saveRuntimeState(){localStorage.setItem(STORAGE_KEY,JSON.stringify({version:"V03.110.0",updated:new Date().toISOString(),entryState,executionState},null,2));}
+function saveRuntimeState(){localStorage.setItem(STORAGE_KEY,JSON.stringify({version:"V03.111.0",updated:new Date().toISOString(),entryState,executionState},null,2));}
 function clearRuntimeState(){entryState={};executionState={};saveRuntimeState();log("RUNTIME STATE: очищено.");updateDecisionReport();renderRecords(filteredRecords);}
 function copyRuntimeState(){copyText(localStorage.getItem(STORAGE_KEY)||"{}","RUNTIME STATE: скопійовано.");}
 function importRuntimeState(){const box=document.getElementById("runtimeImportInput");const raw=box.value.trim();if(!raw){log("IMPORT BLOCKED: поле порожнє.");return;}try{const parsed=JSON.parse(raw);if(typeof parsed!=="object"||Array.isArray(parsed)||parsed===null)throw new Error("Root must be object");entryState=parsed.entryState||{};executionState=parsed.executionState||{};saveRuntimeState();box.value="";log(`RUNTIME STATE IMPORTED: entry=${Object.keys(entryState).length}, execution=${Object.keys(executionState).length}.`);updateDecisionReport();renderRecords(filteredRecords);}catch(e){log("IMPORT FAILED: " + e.message);}}
@@ -1999,7 +2042,7 @@ function renderRuleList(){document.getElementById("ruleList").innerHTML=rules.ma
 function empty(id){document.getElementById(id).innerHTML='<p class="control-record-desc">Записів немає.</p>';}
 function unique(records,key){return [...new Set(records.map(r=>r[key]).filter(Boolean))].sort();}
 function fillSelect(id,values){const s=document.getElementById(id);const current=s.value;s.innerHTML='<option value="">Усі</option>'+values.map(v=>`<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join("");s.value=current;}
-function initFilters(records){fillSelect("filterStatus",unique(records,"status"));fillSelect("filterPriority",unique(records,"priority"));fillSelect("filterCategory",unique(records,"category"));["filterSearch","filterStatus","filterPriority","filterCategory"].forEach(id=>{document.getElementById(id).addEventListener("input",applyFilters);document.getElementById(id).addEventListener("change",applyFilters);});document.getElementById("resetFilters").addEventListener("click",()=>{document.getElementById("filterSearch").value="";document.getElementById("filterStatus").value="";document.getElementById("filterPriority").value="";document.getElementById("filterCategory").value="";applyFilters();});document.getElementById("clearRuntimeState").addEventListener("click",clearRuntimeState);document.getElementById("exportRuntimeState").addEventListener("click",copyRuntimeState);document.getElementById("importRuntimeState").addEventListener("click",importRuntimeState);document.getElementById("addRule").addEventListener("click",addRule);document.getElementById("resetRules").addEventListener("click",resetRules);document.getElementById("copyRules").addEventListener("click",copyRules);document.getElementById("reloadExternalRules").addEventListener("click",()=>loadExternalRules(true));document.getElementById("copyValidation").addEventListener("click",copyValidation);document.getElementById("copyDecisionReport").addEventListener("click",copyDecisionReport);if(document.getElementById("importIntegrationSummary"))document.getElementById("importIntegrationSummary").addEventListener("click",importIntegrationSummary);if(document.getElementById("copyIntegrationResult"))document.getElementById("copyIntegrationResult").addEventListener("click",copyIntegrationResult);if(document.getElementById("clearIntegrationResult"))document.getElementById("clearIntegrationResult").addEventListener("click",clearIntegrationResult);if(document.getElementById("refreshClosedLoop"))document.getElementById("refreshClosedLoop").addEventListener("click",renderClosedLoop);if(document.getElementById("copyClosedLoop"))document.getElementById("copyClosedLoop").addEventListener("click",copyClosedLoop);if(document.getElementById("buildWorkflowStabilization"))document.getElementById("buildWorkflowStabilization").addEventListener("click",buildWorkflowStabilization);if(document.getElementById("copyWorkflowStabilization"))document.getElementById("copyWorkflowStabilization").addEventListener("click",copyWorkflowStabilization);if(document.getElementById("buildStableWorkflowLock"))document.getElementById("buildStableWorkflowLock").addEventListener("click",buildStableWorkflowLock);if(document.getElementById("copyStableWorkflowLock"))document.getElementById("copyStableWorkflowLock").addEventListener("click",copyStableWorkflowLock);if(document.getElementById("buildCleanupHardening"))document.getElementById("buildCleanupHardening").addEventListener("click",buildCleanupHardening);if(document.getElementById("copyCleanupHardening"))document.getElementById("copyCleanupHardening").addEventListener("click",copyCleanupHardening);if(document.getElementById("buildCleanupMap"))document.getElementById("buildCleanupMap").addEventListener("click",buildCleanupMap);if(document.getElementById("copyCleanupMap"))document.getElementById("copyCleanupMap").addEventListener("click",copyCleanupMap);if(document.getElementById("buildModuleRegistry"))document.getElementById("buildModuleRegistry").addEventListener("click",buildModuleRegistry);if(document.getElementById("copyModuleRegistry"))document.getElementById("copyModuleRegistry").addEventListener("click",copyModuleRegistry);if(document.getElementById("buildCleanOdinGate"))document.getElementById("buildCleanOdinGate").addEventListener("click",buildCleanOdinGate);if(document.getElementById("copyCleanOdinGate"))document.getElementById("copyCleanOdinGate").addEventListener("click",copyCleanOdinGate);if(document.getElementById("buildCleanOdinLock"))document.getElementById("buildCleanOdinLock").addEventListener("click",buildCleanOdinLock);if(document.getElementById("copyCleanOdinLock"))document.getElementById("copyCleanOdinLock").addEventListener("click",copyCleanOdinLock);if(document.getElementById("buildOdinControlSurface"))document.getElementById("buildOdinControlSurface").addEventListener("click",buildOdinControlSurface);if(document.getElementById("copyOdinControlSurface"))document.getElementById("copyOdinControlSurface").addEventListener("click",copyOdinControlSurface);if(document.getElementById("buildNextActionRouter"))document.getElementById("buildNextActionRouter").addEventListener("click",buildNextActionRouter);if(document.getElementById("copyNextActionRouter"))document.getElementById("copyNextActionRouter").addEventListener("click",copyNextActionRouter);if(document.getElementById("buildActionQueue"))document.getElementById("buildActionQueue").addEventListener("click",buildActionQueue);if(document.getElementById("copyActionQueue"))document.getElementById("copyActionQueue").addEventListener("click",copyActionQueue);if(document.getElementById("clearActionQueue"))document.getElementById("clearActionQueue").addEventListener("click",clearActionQueue);if(document.getElementById("archiveDoneTasks"))document.getElementById("archiveDoneTasks").addEventListener("click",archiveDoneTasks);if(document.getElementById("copyActionArchive"))document.getElementById("copyActionArchive").addEventListener("click",copyActionArchive);if(document.getElementById("exportActionQueueState"))document.getElementById("exportActionQueueState").addEventListener("click",exportActionQueueState);if(document.getElementById("importActionQueueState"))document.getElementById("importActionQueueState").addEventListener("click",importActionQueueState);if(document.getElementById("buildActionQueueRecovery"))document.getElementById("buildActionQueueRecovery").addEventListener("click",buildActionQueueRecovery);if(document.getElementById("copyActionQueueRecovery"))document.getElementById("copyActionQueueRecovery").addEventListener("click",copyActionQueueRecovery);if(document.getElementById("buildOdinStateSnapshot"))document.getElementById("buildOdinStateSnapshot").addEventListener("click",buildOdinStateSnapshot);if(document.getElementById("copyOdinStateSnapshot"))document.getElementById("copyOdinStateSnapshot").addEventListener("click",copyOdinStateSnapshot);if(document.getElementById("validateOdinStateSnapshot"))document.getElementById("validateOdinStateSnapshot").addEventListener("click",validateOdinStateSnapshot);if(document.getElementById("importOdinStateSnapshot"))document.getElementById("importOdinStateSnapshot").addEventListener("click",importOdinStateSnapshot);if(document.getElementById("clearOdinStateSnapshotBox"))document.getElementById("clearOdinStateSnapshotBox").addEventListener("click",clearOdinStateSnapshotBox);if(document.getElementById("copySnapshotRestoreAudit"))document.getElementById("copySnapshotRestoreAudit").addEventListener("click",copySnapshotRestoreAudit);if(document.getElementById("clearSnapshotRestoreAudit"))document.getElementById("clearSnapshotRestoreAudit").addEventListener("click",clearSnapshotRestoreAudit);if(document.getElementById("buildRecoveryControlPanel"))document.getElementById("buildRecoveryControlPanel").addEventListener("click",buildRecoveryControlPanel);if(document.getElementById("copyRecoveryControlPanel"))document.getElementById("copyRecoveryControlPanel").addEventListener("click",copyRecoveryControlPanel);if(document.getElementById("buildRecoveryLock"))document.getElementById("buildRecoveryLock").addEventListener("click",buildRecoveryLock);if(document.getElementById("copyRecoveryLock"))document.getElementById("copyRecoveryLock").addEventListener("click",copyRecoveryLock);if(document.getElementById("buildRecoveryFinalCheckpoint"))document.getElementById("buildRecoveryFinalCheckpoint").addEventListener("click",buildRecoveryFinalCheckpoint);if(document.getElementById("copyRecoveryFinalCheckpoint"))document.getElementById("copyRecoveryFinalCheckpoint").addEventListener("click",copyRecoveryFinalCheckpoint);if(document.getElementById("buildRecoveryLayerLock"))document.getElementById("buildRecoveryLayerLock").addEventListener("click",buildRecoveryLayerLock);if(document.getElementById("copyRecoveryLayerLock"))document.getElementById("copyRecoveryLayerLock").addEventListener("click",copyRecoveryLayerLock);if(document.getElementById("buildNewChatTransfer"))document.getElementById("buildNewChatTransfer").addEventListener("click",buildNewChatTransfer);if(document.getElementById("copyNewChatTransfer"))document.getElementById("copyNewChatTransfer").addEventListener("click",copyNewChatTransfer);if(document.getElementById("validateNewChatTransfer"))document.getElementById("validateNewChatTransfer").addEventListener("click",validateNewChatTransfer);if(document.getElementById("copyNewChatTransferValidation"))document.getElementById("copyNewChatTransferValidation").addEventListener("click",copyNewChatTransferValidation);if(document.getElementById("buildNewChatHandoffLock"))document.getElementById("buildNewChatHandoffLock").addEventListener("click",buildNewChatHandoffLock);if(document.getElementById("copyNewChatHandoffLock"))document.getElementById("copyNewChatHandoffLock").addEventListener("click",copyNewChatHandoffLock);if(document.getElementById("buildNewChatStartPrompt"))document.getElementById("buildNewChatStartPrompt").addEventListener("click",buildNewChatStartPrompt);if(document.getElementById("copyNewChatStartPrompt"))document.getElementById("copyNewChatStartPrompt").addEventListener("click",copyNewChatStartPrompt);if(document.getElementById("runNewChatStartPromptQA"))document.getElementById("runNewChatStartPromptQA").addEventListener("click",runNewChatStartPromptQA);if(document.getElementById("copyNewChatStartPromptQA"))document.getElementById("copyNewChatStartPromptQA").addEventListener("click",copyNewChatStartPromptQA);if(document.getElementById("buildNewChatStartPromptLock"))document.getElementById("buildNewChatStartPromptLock").addEventListener("click",buildNewChatStartPromptLock);if(document.getElementById("copyNewChatStartPromptLock"))document.getElementById("copyNewChatStartPromptLock").addEventListener("click",copyNewChatStartPromptLock);if(document.getElementById("buildContinuityFinalLock"))document.getElementById("buildContinuityFinalLock").addEventListener("click",buildContinuityFinalLock);if(document.getElementById("copyContinuityFinalLock"))document.getElementById("copyContinuityFinalLock").addEventListener("click",copyContinuityFinalLock);if(document.getElementById("buildContinuityMasterStart"))document.getElementById("buildContinuityMasterStart").addEventListener("click",buildContinuityMasterStart);if(document.getElementById("copyContinuityMasterStart"))document.getElementById("copyContinuityMasterStart").addEventListener("click",copyContinuityMasterStart);if(document.getElementById("runContinuityMasterStartQA"))document.getElementById("runContinuityMasterStartQA").addEventListener("click",runContinuityMasterStartQA);if(document.getElementById("copyContinuityMasterStartQA"))document.getElementById("copyContinuityMasterStartQA").addEventListener("click",copyContinuityMasterStartQA);if(document.getElementById("buildContinuityMasterStartFinalLock"))document.getElementById("buildContinuityMasterStartFinalLock").addEventListener("click",buildContinuityMasterStartFinalLock);if(document.getElementById("copyContinuityMasterStartFinalLock"))document.getElementById("copyContinuityMasterStartFinalLock").addEventListener("click",copyContinuityMasterStartFinalLock);if(document.getElementById("buildMasterStartButtonRegistry"))document.getElementById("buildMasterStartButtonRegistry").addEventListener("click",buildMasterStartButtonRegistry);if(document.getElementById("copyMasterStartButtonRegistry"))document.getElementById("copyMasterStartButtonRegistry").addEventListener("click",copyMasterStartButtonRegistry);if(document.getElementById("quickSettingsMasterStart"))document.getElementById("quickSettingsMasterStart").addEventListener("click",runQuickSettingsMasterStart);if(document.getElementById("quickSettingsMasterStartTop"))document.getElementById("quickSettingsMasterStartTop").addEventListener("click",runQuickSettingsMasterStart);if(document.getElementById("copyQuickSettingsMasterStartResult"))document.getElementById("copyQuickSettingsMasterStartResult").addEventListener("click",copyQuickSettingsMasterStartResult);if(document.getElementById("runQuickSettingsMasterStartQA"))document.getElementById("runQuickSettingsMasterStartQA").addEventListener("click",runQuickSettingsMasterStartQA);if(document.getElementById("copyQuickSettingsMasterStartQA"))document.getElementById("copyQuickSettingsMasterStartQA").addEventListener("click",copyQuickSettingsMasterStartQA);if(document.getElementById("buildV03ContinuityCheckpoint"))document.getElementById("buildV03ContinuityCheckpoint").addEventListener("click",buildV03ContinuityCheckpoint);if(document.getElementById("copyV03ContinuityCheckpoint"))document.getElementById("copyV03ContinuityCheckpoint").addEventListener("click",copyV03ContinuityCheckpoint);if(document.getElementById("buildV03CheckpointHandoffNote"))document.getElementById("buildV03CheckpointHandoffNote").addEventListener("click",buildV03CheckpointHandoffNote);if(document.getElementById("copyV03CheckpointHandoffNote"))document.getElementById("copyV03CheckpointHandoffNote").addEventListener("click",copyV03CheckpointHandoffNote);if(document.getElementById("buildV03NextLayerRouter"))document.getElementById("buildV03NextLayerRouter").addEventListener("click",buildV03NextLayerRouter);if(document.getElementById("copyV03NextLayerRouter"))document.getElementById("copyV03NextLayerRouter").addEventListener("click",copyV03NextLayerRouter);if(document.getElementById("buildUiPolishRouter"))document.getElementById("buildUiPolishRouter").addEventListener("click",buildUiPolishRouter);if(document.getElementById("copyUiPolishRouter"))document.getElementById("copyUiPolishRouter").addEventListener("click",copyUiPolishRouter);if(document.getElementById("runUiMatrixAudit"))document.getElementById("runUiMatrixAudit").addEventListener("click",runUiMatrixAudit);if(document.getElementById("copyUiMatrixAudit"))document.getElementById("copyUiMatrixAudit").addEventListener("click",copyUiMatrixAudit);if(document.getElementById("runWorkspaceAlignmentAudit"))document.getElementById("runWorkspaceAlignmentAudit").addEventListener("click",runWorkspaceAlignmentAudit);if(document.getElementById("copyWorkspaceAlignmentAudit"))document.getElementById("copyWorkspaceAlignmentAudit").addEventListener("click",copyWorkspaceAlignmentAudit);if(document.getElementById("runQuickSettingsRegressionGate"))document.getElementById("runQuickSettingsRegressionGate").addEventListener("click",runQuickSettingsRegressionGate);if(document.getElementById("copyQuickSettingsRegressionGate"))document.getElementById("copyQuickSettingsRegressionGate").addEventListener("click",copyQuickSettingsRegressionGate);if(document.getElementById("buildUiPolishLock"))document.getElementById("buildUiPolishLock").addEventListener("click",buildUiPolishLock);if(document.getElementById("copyUiPolishLock"))document.getElementById("copyUiPolishLock").addEventListener("click",copyUiPolishLock);if(document.getElementById("buildCleanupConsolidationRouter"))document.getElementById("buildCleanupConsolidationRouter").addEventListener("click",buildCleanupConsolidationRouter);if(document.getElementById("copyCleanupConsolidationRouter"))document.getElementById("copyCleanupConsolidationRouter").addEventListener("click",copyCleanupConsolidationRouter);if(document.getElementById("buildTemporaryModuleResolutionPlan"))document.getElementById("buildTemporaryModuleResolutionPlan").addEventListener("click",buildTemporaryModuleResolutionPlan);if(document.getElementById("copyTemporaryModuleResolutionPlan"))document.getElementById("copyTemporaryModuleResolutionPlan").addEventListener("click",copyTemporaryModuleResolutionPlan);if(document.getElementById("buildTemporaryModuleResolutionGate"))document.getElementById("buildTemporaryModuleResolutionGate").addEventListener("click",buildTemporaryModuleResolutionGate);if(document.getElementById("copyTemporaryModuleResolutionGate"))document.getElementById("copyTemporaryModuleResolutionGate").addEventListener("click",copyTemporaryModuleResolutionGate);if(document.getElementById("resetActionQueueFilters"))document.getElementById("resetActionQueueFilters").addEventListener("click",resetActionQueueFilters);["queueFilterStatus","queueFilterPriority","queueFilterAction"].forEach(id=>{if(document.getElementById(id)){document.getElementById(id).addEventListener("input",renderActionQueue);document.getElementById(id).addEventListener("change",renderActionQueue);}});document.getElementById("copyDecisionHistory").addEventListener("click",copyDecisionHistory);document.getElementById("clearDecisionHistory").addEventListener("click",clearDecisionHistory);document.getElementById("copyStatePackage").addEventListener("click",copyStatePackage);document.getElementById("copyStatePackage2").addEventListener("click",copyStatePackage);document.getElementById("previewStatePackage").addEventListener("click",previewStatePackage);document.getElementById("importStatePackage").addEventListener("click",importStatePackage);document.getElementById("copyBridgePackage").addEventListener("click",()=>copyBridgePackage(null));}
+function initFilters(records){fillSelect("filterStatus",unique(records,"status"));fillSelect("filterPriority",unique(records,"priority"));fillSelect("filterCategory",unique(records,"category"));["filterSearch","filterStatus","filterPriority","filterCategory"].forEach(id=>{document.getElementById(id).addEventListener("input",applyFilters);document.getElementById(id).addEventListener("change",applyFilters);});document.getElementById("resetFilters").addEventListener("click",()=>{document.getElementById("filterSearch").value="";document.getElementById("filterStatus").value="";document.getElementById("filterPriority").value="";document.getElementById("filterCategory").value="";applyFilters();});document.getElementById("clearRuntimeState").addEventListener("click",clearRuntimeState);document.getElementById("exportRuntimeState").addEventListener("click",copyRuntimeState);document.getElementById("importRuntimeState").addEventListener("click",importRuntimeState);document.getElementById("addRule").addEventListener("click",addRule);document.getElementById("resetRules").addEventListener("click",resetRules);document.getElementById("copyRules").addEventListener("click",copyRules);document.getElementById("reloadExternalRules").addEventListener("click",()=>loadExternalRules(true));document.getElementById("copyValidation").addEventListener("click",copyValidation);document.getElementById("copyDecisionReport").addEventListener("click",copyDecisionReport);if(document.getElementById("importIntegrationSummary"))document.getElementById("importIntegrationSummary").addEventListener("click",importIntegrationSummary);if(document.getElementById("copyIntegrationResult"))document.getElementById("copyIntegrationResult").addEventListener("click",copyIntegrationResult);if(document.getElementById("clearIntegrationResult"))document.getElementById("clearIntegrationResult").addEventListener("click",clearIntegrationResult);if(document.getElementById("refreshClosedLoop"))document.getElementById("refreshClosedLoop").addEventListener("click",renderClosedLoop);if(document.getElementById("copyClosedLoop"))document.getElementById("copyClosedLoop").addEventListener("click",copyClosedLoop);if(document.getElementById("buildWorkflowStabilization"))document.getElementById("buildWorkflowStabilization").addEventListener("click",buildWorkflowStabilization);if(document.getElementById("copyWorkflowStabilization"))document.getElementById("copyWorkflowStabilization").addEventListener("click",copyWorkflowStabilization);if(document.getElementById("buildStableWorkflowLock"))document.getElementById("buildStableWorkflowLock").addEventListener("click",buildStableWorkflowLock);if(document.getElementById("copyStableWorkflowLock"))document.getElementById("copyStableWorkflowLock").addEventListener("click",copyStableWorkflowLock);if(document.getElementById("buildCleanupHardening"))document.getElementById("buildCleanupHardening").addEventListener("click",buildCleanupHardening);if(document.getElementById("copyCleanupHardening"))document.getElementById("copyCleanupHardening").addEventListener("click",copyCleanupHardening);if(document.getElementById("buildCleanupMap"))document.getElementById("buildCleanupMap").addEventListener("click",buildCleanupMap);if(document.getElementById("copyCleanupMap"))document.getElementById("copyCleanupMap").addEventListener("click",copyCleanupMap);if(document.getElementById("buildModuleRegistry"))document.getElementById("buildModuleRegistry").addEventListener("click",buildModuleRegistry);if(document.getElementById("copyModuleRegistry"))document.getElementById("copyModuleRegistry").addEventListener("click",copyModuleRegistry);if(document.getElementById("buildCleanOdinGate"))document.getElementById("buildCleanOdinGate").addEventListener("click",buildCleanOdinGate);if(document.getElementById("copyCleanOdinGate"))document.getElementById("copyCleanOdinGate").addEventListener("click",copyCleanOdinGate);if(document.getElementById("buildCleanOdinLock"))document.getElementById("buildCleanOdinLock").addEventListener("click",buildCleanOdinLock);if(document.getElementById("copyCleanOdinLock"))document.getElementById("copyCleanOdinLock").addEventListener("click",copyCleanOdinLock);if(document.getElementById("buildOdinControlSurface"))document.getElementById("buildOdinControlSurface").addEventListener("click",buildOdinControlSurface);if(document.getElementById("copyOdinControlSurface"))document.getElementById("copyOdinControlSurface").addEventListener("click",copyOdinControlSurface);if(document.getElementById("buildNextActionRouter"))document.getElementById("buildNextActionRouter").addEventListener("click",buildNextActionRouter);if(document.getElementById("copyNextActionRouter"))document.getElementById("copyNextActionRouter").addEventListener("click",copyNextActionRouter);if(document.getElementById("buildActionQueue"))document.getElementById("buildActionQueue").addEventListener("click",buildActionQueue);if(document.getElementById("copyActionQueue"))document.getElementById("copyActionQueue").addEventListener("click",copyActionQueue);if(document.getElementById("clearActionQueue"))document.getElementById("clearActionQueue").addEventListener("click",clearActionQueue);if(document.getElementById("archiveDoneTasks"))document.getElementById("archiveDoneTasks").addEventListener("click",archiveDoneTasks);if(document.getElementById("copyActionArchive"))document.getElementById("copyActionArchive").addEventListener("click",copyActionArchive);if(document.getElementById("exportActionQueueState"))document.getElementById("exportActionQueueState").addEventListener("click",exportActionQueueState);if(document.getElementById("importActionQueueState"))document.getElementById("importActionQueueState").addEventListener("click",importActionQueueState);if(document.getElementById("buildActionQueueRecovery"))document.getElementById("buildActionQueueRecovery").addEventListener("click",buildActionQueueRecovery);if(document.getElementById("copyActionQueueRecovery"))document.getElementById("copyActionQueueRecovery").addEventListener("click",copyActionQueueRecovery);if(document.getElementById("buildOdinStateSnapshot"))document.getElementById("buildOdinStateSnapshot").addEventListener("click",buildOdinStateSnapshot);if(document.getElementById("copyOdinStateSnapshot"))document.getElementById("copyOdinStateSnapshot").addEventListener("click",copyOdinStateSnapshot);if(document.getElementById("validateOdinStateSnapshot"))document.getElementById("validateOdinStateSnapshot").addEventListener("click",validateOdinStateSnapshot);if(document.getElementById("importOdinStateSnapshot"))document.getElementById("importOdinStateSnapshot").addEventListener("click",importOdinStateSnapshot);if(document.getElementById("clearOdinStateSnapshotBox"))document.getElementById("clearOdinStateSnapshotBox").addEventListener("click",clearOdinStateSnapshotBox);if(document.getElementById("copySnapshotRestoreAudit"))document.getElementById("copySnapshotRestoreAudit").addEventListener("click",copySnapshotRestoreAudit);if(document.getElementById("clearSnapshotRestoreAudit"))document.getElementById("clearSnapshotRestoreAudit").addEventListener("click",clearSnapshotRestoreAudit);if(document.getElementById("buildRecoveryControlPanel"))document.getElementById("buildRecoveryControlPanel").addEventListener("click",buildRecoveryControlPanel);if(document.getElementById("copyRecoveryControlPanel"))document.getElementById("copyRecoveryControlPanel").addEventListener("click",copyRecoveryControlPanel);if(document.getElementById("buildRecoveryLock"))document.getElementById("buildRecoveryLock").addEventListener("click",buildRecoveryLock);if(document.getElementById("copyRecoveryLock"))document.getElementById("copyRecoveryLock").addEventListener("click",copyRecoveryLock);if(document.getElementById("buildRecoveryFinalCheckpoint"))document.getElementById("buildRecoveryFinalCheckpoint").addEventListener("click",buildRecoveryFinalCheckpoint);if(document.getElementById("copyRecoveryFinalCheckpoint"))document.getElementById("copyRecoveryFinalCheckpoint").addEventListener("click",copyRecoveryFinalCheckpoint);if(document.getElementById("buildRecoveryLayerLock"))document.getElementById("buildRecoveryLayerLock").addEventListener("click",buildRecoveryLayerLock);if(document.getElementById("copyRecoveryLayerLock"))document.getElementById("copyRecoveryLayerLock").addEventListener("click",copyRecoveryLayerLock);if(document.getElementById("buildNewChatTransfer"))document.getElementById("buildNewChatTransfer").addEventListener("click",buildNewChatTransfer);if(document.getElementById("copyNewChatTransfer"))document.getElementById("copyNewChatTransfer").addEventListener("click",copyNewChatTransfer);if(document.getElementById("validateNewChatTransfer"))document.getElementById("validateNewChatTransfer").addEventListener("click",validateNewChatTransfer);if(document.getElementById("copyNewChatTransferValidation"))document.getElementById("copyNewChatTransferValidation").addEventListener("click",copyNewChatTransferValidation);if(document.getElementById("buildNewChatHandoffLock"))document.getElementById("buildNewChatHandoffLock").addEventListener("click",buildNewChatHandoffLock);if(document.getElementById("copyNewChatHandoffLock"))document.getElementById("copyNewChatHandoffLock").addEventListener("click",copyNewChatHandoffLock);if(document.getElementById("buildNewChatStartPrompt"))document.getElementById("buildNewChatStartPrompt").addEventListener("click",buildNewChatStartPrompt);if(document.getElementById("copyNewChatStartPrompt"))document.getElementById("copyNewChatStartPrompt").addEventListener("click",copyNewChatStartPrompt);if(document.getElementById("runNewChatStartPromptQA"))document.getElementById("runNewChatStartPromptQA").addEventListener("click",runNewChatStartPromptQA);if(document.getElementById("copyNewChatStartPromptQA"))document.getElementById("copyNewChatStartPromptQA").addEventListener("click",copyNewChatStartPromptQA);if(document.getElementById("buildNewChatStartPromptLock"))document.getElementById("buildNewChatStartPromptLock").addEventListener("click",buildNewChatStartPromptLock);if(document.getElementById("copyNewChatStartPromptLock"))document.getElementById("copyNewChatStartPromptLock").addEventListener("click",copyNewChatStartPromptLock);if(document.getElementById("buildContinuityFinalLock"))document.getElementById("buildContinuityFinalLock").addEventListener("click",buildContinuityFinalLock);if(document.getElementById("copyContinuityFinalLock"))document.getElementById("copyContinuityFinalLock").addEventListener("click",copyContinuityFinalLock);if(document.getElementById("buildContinuityMasterStart"))document.getElementById("buildContinuityMasterStart").addEventListener("click",buildContinuityMasterStart);if(document.getElementById("copyContinuityMasterStart"))document.getElementById("copyContinuityMasterStart").addEventListener("click",copyContinuityMasterStart);if(document.getElementById("runContinuityMasterStartQA"))document.getElementById("runContinuityMasterStartQA").addEventListener("click",runContinuityMasterStartQA);if(document.getElementById("copyContinuityMasterStartQA"))document.getElementById("copyContinuityMasterStartQA").addEventListener("click",copyContinuityMasterStartQA);if(document.getElementById("buildContinuityMasterStartFinalLock"))document.getElementById("buildContinuityMasterStartFinalLock").addEventListener("click",buildContinuityMasterStartFinalLock);if(document.getElementById("copyContinuityMasterStartFinalLock"))document.getElementById("copyContinuityMasterStartFinalLock").addEventListener("click",copyContinuityMasterStartFinalLock);if(document.getElementById("buildMasterStartButtonRegistry"))document.getElementById("buildMasterStartButtonRegistry").addEventListener("click",buildMasterStartButtonRegistry);if(document.getElementById("copyMasterStartButtonRegistry"))document.getElementById("copyMasterStartButtonRegistry").addEventListener("click",copyMasterStartButtonRegistry);if(document.getElementById("quickSettingsMasterStart"))document.getElementById("quickSettingsMasterStart").addEventListener("click",runQuickSettingsMasterStart);if(document.getElementById("quickSettingsMasterStartTop"))document.getElementById("quickSettingsMasterStartTop").addEventListener("click",runQuickSettingsMasterStart);if(document.getElementById("copyQuickSettingsMasterStartResult"))document.getElementById("copyQuickSettingsMasterStartResult").addEventListener("click",copyQuickSettingsMasterStartResult);if(document.getElementById("runQuickSettingsMasterStartQA"))document.getElementById("runQuickSettingsMasterStartQA").addEventListener("click",runQuickSettingsMasterStartQA);if(document.getElementById("copyQuickSettingsMasterStartQA"))document.getElementById("copyQuickSettingsMasterStartQA").addEventListener("click",copyQuickSettingsMasterStartQA);if(document.getElementById("buildV03ContinuityCheckpoint"))document.getElementById("buildV03ContinuityCheckpoint").addEventListener("click",buildV03ContinuityCheckpoint);if(document.getElementById("copyV03ContinuityCheckpoint"))document.getElementById("copyV03ContinuityCheckpoint").addEventListener("click",copyV03ContinuityCheckpoint);if(document.getElementById("buildV03CheckpointHandoffNote"))document.getElementById("buildV03CheckpointHandoffNote").addEventListener("click",buildV03CheckpointHandoffNote);if(document.getElementById("copyV03CheckpointHandoffNote"))document.getElementById("copyV03CheckpointHandoffNote").addEventListener("click",copyV03CheckpointHandoffNote);if(document.getElementById("buildV03NextLayerRouter"))document.getElementById("buildV03NextLayerRouter").addEventListener("click",buildV03NextLayerRouter);if(document.getElementById("copyV03NextLayerRouter"))document.getElementById("copyV03NextLayerRouter").addEventListener("click",copyV03NextLayerRouter);if(document.getElementById("buildUiPolishRouter"))document.getElementById("buildUiPolishRouter").addEventListener("click",buildUiPolishRouter);if(document.getElementById("copyUiPolishRouter"))document.getElementById("copyUiPolishRouter").addEventListener("click",copyUiPolishRouter);if(document.getElementById("runUiMatrixAudit"))document.getElementById("runUiMatrixAudit").addEventListener("click",runUiMatrixAudit);if(document.getElementById("copyUiMatrixAudit"))document.getElementById("copyUiMatrixAudit").addEventListener("click",copyUiMatrixAudit);if(document.getElementById("runWorkspaceAlignmentAudit"))document.getElementById("runWorkspaceAlignmentAudit").addEventListener("click",runWorkspaceAlignmentAudit);if(document.getElementById("copyWorkspaceAlignmentAudit"))document.getElementById("copyWorkspaceAlignmentAudit").addEventListener("click",copyWorkspaceAlignmentAudit);if(document.getElementById("runQuickSettingsRegressionGate"))document.getElementById("runQuickSettingsRegressionGate").addEventListener("click",runQuickSettingsRegressionGate);if(document.getElementById("copyQuickSettingsRegressionGate"))document.getElementById("copyQuickSettingsRegressionGate").addEventListener("click",copyQuickSettingsRegressionGate);if(document.getElementById("buildUiPolishLock"))document.getElementById("buildUiPolishLock").addEventListener("click",buildUiPolishLock);if(document.getElementById("copyUiPolishLock"))document.getElementById("copyUiPolishLock").addEventListener("click",copyUiPolishLock);if(document.getElementById("buildCleanupConsolidationRouter"))document.getElementById("buildCleanupConsolidationRouter").addEventListener("click",buildCleanupConsolidationRouter);if(document.getElementById("copyCleanupConsolidationRouter"))document.getElementById("copyCleanupConsolidationRouter").addEventListener("click",copyCleanupConsolidationRouter);if(document.getElementById("buildTemporaryModuleResolutionPlan"))document.getElementById("buildTemporaryModuleResolutionPlan").addEventListener("click",buildTemporaryModuleResolutionPlan);if(document.getElementById("copyTemporaryModuleResolutionPlan"))document.getElementById("copyTemporaryModuleResolutionPlan").addEventListener("click",copyTemporaryModuleResolutionPlan);if(document.getElementById("buildTemporaryModuleResolutionGate"))document.getElementById("buildTemporaryModuleResolutionGate").addEventListener("click",buildTemporaryModuleResolutionGate);if(document.getElementById("copyTemporaryModuleResolutionGate"))document.getElementById("copyTemporaryModuleResolutionGate").addEventListener("click",copyTemporaryModuleResolutionGate);if(document.getElementById("buildCommitBuilderExtractionPlan"))document.getElementById("buildCommitBuilderExtractionPlan").addEventListener("click",buildCommitBuilderExtractionPlan);if(document.getElementById("copyCommitBuilderExtractionPlan"))document.getElementById("copyCommitBuilderExtractionPlan").addEventListener("click",copyCommitBuilderExtractionPlan);if(document.getElementById("resetActionQueueFilters"))document.getElementById("resetActionQueueFilters").addEventListener("click",resetActionQueueFilters);["queueFilterStatus","queueFilterPriority","queueFilterAction"].forEach(id=>{if(document.getElementById(id)){document.getElementById(id).addEventListener("input",renderActionQueue);document.getElementById(id).addEventListener("change",renderActionQueue);}});document.getElementById("copyDecisionHistory").addEventListener("click",copyDecisionHistory);document.getElementById("clearDecisionHistory").addEventListener("click",clearDecisionHistory);document.getElementById("copyStatePackage").addEventListener("click",copyStatePackage);document.getElementById("copyStatePackage2").addEventListener("click",copyStatePackage);document.getElementById("previewStatePackage").addEventListener("click",previewStatePackage);document.getElementById("importStatePackage").addEventListener("click",importStatePackage);document.getElementById("copyBridgePackage").addEventListener("click",()=>copyBridgePackage(null));}
 function applyFilters(){const q=document.getElementById("filterSearch").value.trim().toLowerCase();const status=document.getElementById("filterStatus").value;const priority=document.getElementById("filterPriority").value;const category=document.getElementById("filterCategory").value;filteredRecords=allRecords.filter(r=>{const text=[r.id,r.name,r.type,r.category,r.status,r.priority,r.description,r.purpose,r.decision,r.next_action,r.owner,r.source].join(" ").toLowerCase();return(!q||text.includes(q))&&(!status||r.status===status)&&(!priority||r.priority===priority)&&(!category||r.category===category);});renderRecords(filteredRecords);const active=[q&&"пошук",status&&"статус",priority&&"пріоритет",category&&"категорія"].filter(Boolean);document.getElementById("filterNote").textContent=active.length?`Показано ${filteredRecords.length} з ${allRecords.length}. Активні фільтри: ${active.join(", ")}.`:`Показано всі записи: ${allRecords.length}.`;}
 function renderRecords(records){updateDecisionReport();const buckets={criticalRecords:records.filter(r=>r.priority==="CRITICAL"||r.status==="BLOCKED"||r.type==="blocker"),issueRecords:records.filter(r=>r.type==="issue"),taskRecords:records.filter(r=>r.type==="task"||r.status==="IN_PROGRESS"),reviewRecords:records.filter(r=>r.status==="IN_REVIEW"),approvedRecords:records.filter(r=>r.status==="APPROVED"),archiveRecords:records.filter(r=>["DONE","ARCHIVED"].includes(r.status))};Object.entries(buckets).forEach(([id,list])=>{document.getElementById(id).innerHTML=list.length?list.map(recordCard).join(""):'<p class="control-record-desc">Записів немає.</p>';});document.getElementById("registryTable").innerHTML=records.length?records.map(r=>{const d=getDecision(r);return `<tr><td>${escapeHtml(r.id)}</td><td>${escapeHtml(r.name)}</td><td>${escapeHtml(r.status)}</td><td>${escapeHtml(r.priority)}</td><td>${escapeHtml(entryStatus(r.id))}</td><td>${escapeHtml(execStatus(r.id))}</td><td>${escapeHtml(d.decision)}</td></tr>`}).join(""):'<tr><td colspan="7">За поточними фільтрами записів немає.</td></tr>';document.getElementById("summaryMeta").innerHTML=`<span class="control-pill">VISIBLE: ${records.length}</span><span class="control-pill">ALLOW: ${decisionReport.filter(d=>d.decision==="ALLOW").length}</span><span class="control-pill">BLOCK: ${decisionReport.filter(d=>d.decision==="BLOCK").length}</span><span class="control-pill">REVIEW: ${decisionReport.filter(d=>d.decision==="REVIEW").length}</span><span class="control-pill">RETRY: ${decisionReport.filter(d=>d.decision==="RETRY").length}</span>`;}
 loadRuntimeState();loadSnapshotRestoreAudit();renderSnapshotRestoreAudit();loadIntegrationResult();renderClosedLoop();loadActionQueue();loadActionArchive();renderActionQueue();renderActionArchive();loadDecisionHistory();renderDecisionHistory();loadRulesFromStorage();renderRuleList();validateRules();loadExternalRules(false);
