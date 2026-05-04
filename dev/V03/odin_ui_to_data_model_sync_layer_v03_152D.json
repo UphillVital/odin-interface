@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "UI/DataModel Sync",
+    "version": "V03.152D.0",
+    "type": "UI_TO_DATA_MODEL_SYNC_LAYER_v1",
+    "created": "2026-05-04T16:43:48.557752+00:00",
+    "sourceRuntimeValidation": "odin_data_model_runtime_validation_v03_151D.json"
+  },
+  "status": "UI_DATA_MODEL_SYNC_LAYER_READY",
+  "line": "D-LINE",
+  "syncMode": "READ_RUNTIME_STATE_FROM_DATA_MODEL",
+  "dataModelStatus": "ACTIVE_SOURCE_OF_TRUTH",
+  "adapterStatus": "RUNTIME_LAYER",
+  "syncTargets": [
+    {
+      "id": "SYNC-001",
+      "uiArea": "System Mode Panel",
+      "dataSource": "odin_system_mode_switch_v03_150C.json",
+      "readFields": [
+        "status",
+        "systemMode",
+        "dataModel.status",
+        "dataModel.adapter",
+        "nextLine",
+        "nextStep"
+      ],
+      "writeAllowed": false
+    },
+    {
+      "id": "SYNC-002",
+      "uiArea": "Runtime Validation Panel",
+      "dataSource": "odin_data_model_runtime_validation_v03_151D.json",
+      "readFields": [
+        "status",
+        "expectedRuntimeState",
+        "runtimeChecks",
+        "manualTestInstructions"
+      ],
+      "writeAllowed": false
+    },
+    {
+      "id": "SYNC-003",
+      "uiArea": "Next Development Panel",
+      "dataSource": "D-LINE runtime state",
+      "readFields": [
+        "nextStep",
+        "blockedActions"
+      ],
+      "writeAllowed": false
+    }
+  ],
+  "runtimeRules": [
+    "UI reads Data Model state as source-of-truth.",
+    "UI must not bypass active Data Model.",
+    "UI sync layer is read-controlled in this package.",
+    "No automatic writes to JSON files.",
+    "No runtime replacement without QA gate.",
+    "Invalid packages 120–123 remain blocked."
+  ],
+  "blockedActions": [
+    "write data model files from UI",
+    "delete data model files",
+    "execute git",
+    "bypass Data Model",
+    "replace runtime without QA",
+    "use invalid packages 120–123"
+  ],
+  "nextStep": "Prepare PACKAGE 153D — UI/Data Model Sync QA Gate v1."
+}
