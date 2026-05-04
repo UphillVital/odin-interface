@@ -1,0 +1,83 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Data Model",
+    "version": "V03.128C.0",
+    "type": "DATA_MODEL_ADAPTER_PLAN_v1",
+    "sourceCandidate": "odin_data_model_source_of_truth_candidate_v03_126C.json",
+    "sourceQaGate": "odin_source_of_truth_candidate_qa_gate_v03_127C.json"
+  },
+  "status": "DATA_MODEL_ADAPTER_PLAN_READY",
+  "adapterMode": "READ_ONLY_PREVIEW_PLAN",
+  "sourceOfTruthStatus": "NOT_ACTIVE",
+  "purpose": "Plan a read-only adapter that lets UI inspect Data Model records without replacing current Control Center runtime logic.",
+  "adapterLayers": [
+    {
+      "id": "ADP-001",
+      "name": "Data Loader",
+      "mode": "READ_ONLY",
+      "input": [
+        "odin_unified_data_model_schema_v03_121C.json",
+        "odin_data_model_registry_migration_map_v03_123C.json",
+        "odin_data_model_stable_base_lock_v03_125C.json"
+      ],
+      "output": "adapterContext",
+      "rule": "Load JSON files as read-only references only."
+    },
+    {
+      "id": "ADP-002",
+      "name": "Record Normalizer",
+      "mode": "READ_ONLY",
+      "input": "adapterContext",
+      "output": "normalizedPreviewRecords",
+      "rule": "Generate preview records in memory only; do not write files."
+    },
+    {
+      "id": "ADP-003",
+      "name": "UI Preview Renderer",
+      "mode": "READ_ONLY",
+      "input": "normalizedPreviewRecords",
+      "output": "preview panel",
+      "rule": "Render data model preview without replacing existing UI controls."
+    },
+    {
+      "id": "ADP-004",
+      "name": "Safety Guard",
+      "mode": "BLOCKING",
+      "input": "adapter actions",
+      "output": "blocked/allowed status",
+      "rule": "Block activation, migration, write, delete and git actions."
+    }
+  ],
+  "allowedActions": [
+    "load data model JSON as text/reference",
+    "preview normalized records in memory",
+    "copy adapter preview report",
+    "compare data model shape against current UI concepts"
+  ],
+  "blockedActions": [
+    "activate data model as source of truth",
+    "replace Control Center runtime logic",
+    "write normalized records to files",
+    "delete legacy structures",
+    "execute git",
+    "use invalid packages 120–123"
+  ],
+  "activationRequirements": [
+    "Adapter Plan QA Gate must pass.",
+    "Read-only Adapter Preview must be built.",
+    "Read-only Adapter Preview QA must pass.",
+    "Manual approval required before any source-of-truth activation."
+  ],
+  "safety": {
+    "readOnly": true,
+    "previewOnly": true,
+    "noRuntimeReplacement": true,
+    "noAutomaticMigration": true,
+    "noAutomaticWrite": true,
+    "noAutomaticDelete": true,
+    "noAutomaticGit": true,
+    "invalidBranchBlocked": true
+  },
+  "nextStep": "Prepare PACKAGE 129C — Data Model Adapter Plan QA Gate v1."
+}
