@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Data Model",
+    "version": "V03.136C.0",
+    "type": "ACTIVATION_READINESS_LOCK_v1",
+    "created": "2026-05-04T11:49:28.531445+00:00",
+    "sourceStrategy": "odin_adapter_activation_strategy_v03_134C.json",
+    "sourceQaGate": "odin_adapter_activation_strategy_qa_gate_v03_135C.json"
+  },
+  "status": "ACTIVATION_READINESS_LOCK_READY",
+  "activationStatus": "NOT_ACTIVATED",
+  "allowedReadiness": [
+    "manual staged activation planning",
+    "read-only observe stage",
+    "shadow compare planning",
+    "copy activation reports",
+    "prepare rollback plan"
+  ],
+  "blockedActions": [
+    "activate source-of-truth",
+    "replace Control Center runtime",
+    "auto-migrate registry",
+    "auto-write data files",
+    "auto-delete legacy code",
+    "execute git",
+    "use invalid packages 120–123"
+  ],
+  "lockedRules": [
+    "Activation readiness does not equal activation.",
+    "Source-of-truth remains NOT_ACTIVE.",
+    "Manual approval is required before any activation package.",
+    "Rollback plan is required before single-panel adapter input.",
+    "No runtime replacement is allowed in this lock."
+  ],
+  "sourceStatus": {
+    "strategy": "ACTIVATION_STRATEGY_READY",
+    "qaGate": "ACTIVATION_STRATEGY_QA_READY"
+  },
+  "nextStep": "Prepare PACKAGE 137C — Activation Rollback Plan v1."
+}
