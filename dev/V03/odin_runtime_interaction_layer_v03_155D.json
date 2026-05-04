@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Runtime Interaction",
+    "version": "V03.155D.0",
+    "type": "RUNTIME_INTERACTION_LAYER_v1",
+    "created": "2026-05-04T19:19:40.801789+00:00",
+    "sourceSyncLock": "odin_ui_data_model_sync_lock_v03_154D.json"
+  },
+  "status": "RUNTIME_INTERACTION_LAYER_READY",
+  "line": "D-LINE",
+  "interactionMode": "CONTROLLED_ACTIONS_THROUGH_DATA_MODEL",
+  "sourceOfTruth": "ACTIVE_DATA_MODEL",
+  "adapter": "RUNTIME_LAYER",
+  "interactionTypes": [
+    {
+      "id": "RIL-001",
+      "name": "View runtime state",
+      "kind": "READ",
+      "allowed": true,
+      "requiresQa": false,
+      "writesData": false
+    },
+    {
+      "id": "RIL-002",
+      "name": "Copy runtime report",
+      "kind": "COPY",
+      "allowed": true,
+      "requiresQa": false,
+      "writesData": false
+    },
+    {
+      "id": "RIL-003",
+      "name": "Request controlled action",
+      "kind": "REQUEST",
+      "allowed": true,
+      "requiresQa": true,
+      "writesData": false
+    },
+    {
+      "id": "RIL-004",
+      "name": "Execute direct write",
+      "kind": "WRITE",
+      "allowed": false,
+      "requiresQa": true,
+      "writesData": true
+    }
+  ],
+  "runtimeRules": [
+    "All user interactions must pass through runtime interaction layer.",
+    "UI cannot directly mutate Data Model.",
+    "Write-capable actions are blocked until separate QA-approved action engine.",
+    "Every controlled action must declare kind, allowed, safety and nextStep.",
+    "Read/copy interactions are allowed.",
+    "Direct write/delete/git interactions are blocked."
+  ],
+  "blockedActions": [
+    "direct data model mutation",
+    "direct JSON file write from UI",
+    "delete data model files",
+    "execute git",
+    "bypass runtime interaction layer",
+    "bypass active Data Model",
+    "enable write action without QA gate"
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Runtime Interaction Layer v1.",
+    "Click Build Runtime Interaction Layer.",
+    "Expected status: RUNTIME_INTERACTION_LAYER_READY.",
+    "Expected interactionMode: CONTROLLED_ACTIONS_THROUGH_DATA_MODEL.",
+    "Check interactionTypes: READ and COPY allowed, WRITE blocked.",
+    "Check blockedActions: direct mutation/write/delete/git/bypass must be listed.",
+    "If WRITE is allowed in this package — stop and roll back to 154D."
+  ],
+  "nextStep": "Prepare PACKAGE 156D — Runtime Interaction QA Gate v1."
+}
