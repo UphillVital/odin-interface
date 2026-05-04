@@ -36,13 +36,13 @@
 
 <main class="work-zone" id="workZone">
 <section class="zone-card">
-<h1 class="zone-title">File Workspace — Context Receiver v1</h1>
-<p>Ця сторінка приймає контекст із Control Center через URL-параметри або вставлений Bridge Package. Реального редагування файлів немає.</p>
+<h1 class="zone-title">File Workspace — File Change Plan v1</h1>
+<p>Ця сторінка приймає контекст із Control Center і формує структурований File Change Plan: target, scope, ризики, QA та approval gate. Реального редагування файлів немає.</p>
 <div class="ws-meta" id="receiverMeta"><span class="ws-pill">RECEIVER READY</span></div>
 <div class="ws-log" id="wsLog">WORKSPACE LOG: очікує контексту.</div>
 <div class="ws-actions">
 <a class="ws-action" href="control_center.html">← Назад у Control Center</a>
-<button class="ws-action" id="copyWorkspaceTask" type="button">Copy Workspace Task</button>
+<button class="ws-action" id="copyWorkspaceTask" type="button">Copy Workspace Task</button><button class="ws-action" id="previewChangePlan" type="button">Preview Change Plan</button><button class="ws-action" id="copyChangePlan" type="button">Copy Change Plan</button>
 <button class="ws-action" id="loadBridgeFromInput" type="button">Load Bridge JSON</button>
 <button class="ws-action" id="clearWorkspace" type="button">Clear</button>
 </div>
@@ -60,6 +60,12 @@
 </section>
 
 <section class="zone-card">
+<h2 class="zone-title">File Change Plan v1</h2>
+<div class="ws-box"><strong>Change Plan:</strong> формує план зміни без реального редагування файлів. План треба затвердити перед будь-якою file operation.</div>
+<textarea class="ws-textarea" id="changePlanPreview" placeholder="File Change Plan preview..." readonly></textarea>
+</section>
+
+<section class="zone-card">
 <h2 class="zone-title">Bridge Package Input / Preview</h2>
 <textarea class="ws-textarea" id="bridgeInput" placeholder="Встав сюди Bridge Package JSON з Control Center..."></textarea>
 </section>
@@ -70,12 +76,12 @@
 <div class="assist-content">
 <p><strong>Context Receiver v1</strong> — приймає record/action/decision/state.</p>
 <p>Мета: підготувати безпечну задачу для роботи з файлами.</p>
-<p>Наступний рівень: File Change Plan v1.</p>
+<p>Наступний рівень: File Diff Preview v1.</p>
 </div>
 </aside>
 </div>
 
-<footer class="status-bar"><span>PROJECT: ODIN Interface</span><span>VERSION: V03.50.0</span><span>MODE: FILE WORKSPACE RECEIVER</span><span>STATUS: CONTEXT READY</span></footer>
+<footer class="status-bar"><span>PROJECT: ODIN Interface</span><span>VERSION: V03.51.0</span><span>MODE: FILE CHANGE PLAN</span><span>STATUS: CHANGE PLAN READY</span></footer>
 <script src="11_PROTOTYPE_SYSTEM_UI/app.js"></script>
 <script>
 const params=new URLSearchParams(location.search);
@@ -89,7 +95,7 @@ function buildUrlContext(){
   const record=params.get("record")||"";
   if(!record)return null;
   return {
-    meta:{type:"FILE_WORKSPACE_CONTEXT_RECEIVER_v1",source:"url",version:"V03.50.0"},
+    meta:{type:"FILE_WORKSPACE_CONTEXT_RECEIVER_v1",source:"url",version:"V03.51.0"},
     selectedRecord:{id:record},
     bridgeInstruction:"URL context received. Use Control Center bridge package for full action/decision/state details.",
     from
@@ -122,7 +128,7 @@ function renderContext(ctx){
     <div>5. Після виконання повернути результат у Control Center.</div>
   `;
   document.getElementById("bridgeInput").value=JSON.stringify(ctx,null,2);
-  document.getElementById("wsLog").textContent="WORKSPACE LOG: context loaded.";
+  document.getElementById("wsLog").textContent="WORKSPACE LOG: context loaded.";previewChangePlan();
 }
 
 function loadBridgeFromInput(){
@@ -144,7 +150,7 @@ function buildWorkspaceTask(){
   const action=ctx.action||{};
   const decision=ctx.decision||{};
   return {
-    meta:{system:"ODIN Interface",module:"File Workspace",version:"V03.50.0",type:"SAFE_FILE_WORKSPACE_TASK_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"File Workspace",version:"V03.51.0",type:"SAFE_FILE_WORKSPACE_TASK_v1",created:new Date().toISOString()},
     sourceContext:ctx,
     task:{
       recordId:record.id||null,
@@ -168,7 +174,7 @@ function clearWorkspace(){
   document.getElementById("wsLog").textContent="WORKSPACE LOG: cleared.";
 }
 
-document.getElementById("copyWorkspaceTask").addEventListener("click",copyWorkspaceTask);
+document.getElementById("copyWorkspaceTask").addEventListener("click",copyWorkspaceTask);document.getElementById("previewChangePlan").addEventListener("click",previewChangePlan);document.getElementById("copyChangePlan").addEventListener("click",copyChangePlan);
 document.getElementById("loadBridgeFromInput").addEventListener("click",loadBridgeFromInput);
 document.getElementById("clearWorkspace").addEventListener("click",clearWorkspace);
 
