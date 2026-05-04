@@ -152,7 +152,7 @@
 </aside>
 </div>
 
-<footer class="status-bar"><span>PROJECT: ODIN Interface</span><span>VERSION: V03.161D-FIX2.0</span><span>MODE: CONTROL CENTER INTEGRATION SUMMARY</span><span>STATUS: INTEGRATION SUMMARY READY</span></footer>
+<footer class="status-bar"><span>PROJECT: ODIN Interface</span><span>VERSION: V03.161D-FIX3.0</span><span>MODE: CONTROL CENTER INTEGRATION SUMMARY</span><span>STATUS: INTEGRATION SUMMARY READY</span></footer>
 <script src="11_PROTOTYPE_SYSTEM_UI/app.js"></script>
 <script>
 const params=new URLSearchParams(location.search);
@@ -170,7 +170,7 @@ function buildUrlContext(){
   const record=params.get("record")||"";
   if(!record)return null;
   return {
-    meta:{type:"FILE_WORKSPACE_CONTEXT_RECEIVER_v1",source:"url",version:"V03.161D-FIX2.0"},
+    meta:{type:"FILE_WORKSPACE_CONTEXT_RECEIVER_v1",source:"url",version:"V03.161D-FIX3.0"},
     selectedRecord:{id:record},
     bridgeInstruction:"URL context received. Use Control Center bridge package for full action/decision/state details.",
     from
@@ -225,7 +225,7 @@ function buildWorkspaceTask(){
   const action=ctx.action||{};
   const decision=ctx.decision||{};
   return {
-    meta:{system:"ODIN Interface",module:"File Workspace",version:"V03.161D-FIX2.0",type:"SAFE_FILE_WORKSPACE_TASK_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"File Workspace",version:"V03.161D-FIX3.0",type:"SAFE_FILE_WORKSPACE_TASK_v1",created:new Date().toISOString()},
     sourceContext:ctx,
     task:{
       recordId:record.id||null,
@@ -246,7 +246,7 @@ function saveApprovalState(){localStorage.setItem(APPROVAL_KEY,JSON.stringify(ap
 function renderApprovalState(){const box=document.getElementById("approvalBox");if(!box)return;const cls=approvalState.status==="APPROVED"?"approval-approved":approvalState.status==="REJECTED"?"approval-rejected":"approval-waiting";box.className="ws-box "+cls;box.innerHTML=`<strong>Approval Status:</strong> ${escapeHtml(approvalState.status)}<br><strong>Updated:</strong> ${escapeHtml(approvalState.updated||"—")}<br><strong>Note:</strong> ${escapeHtml(approvalState.note||"—")}`;}
 function approvePlan(){approvalState={status:"APPROVED",note:document.getElementById("approvalNote")?.value||"",updated:new Date().toISOString()};saveApprovalState();document.getElementById("wsLog").textContent="APPROVAL GATE: APPROVED.";}
 function rejectPlan(){approvalState={status:"REJECTED",note:document.getElementById("approvalNote")?.value||"",updated:new Date().toISOString()};saveApprovalState();document.getElementById("wsLog").textContent="APPROVAL GATE: REJECTED.";}
-function buildApprovalReport(){return {meta:{system:"ODIN Interface",module:"File Workspace",version:"V03.161D-FIX2.0",type:"APPROVAL_GATE_REPORT_v1",created:new Date().toISOString()},approval:approvalState,changePlan:buildChangePlan(),diffPreview:buildDiffPreview(),rule:"No implementation action is allowed unless approval.status === APPROVED"};}
+function buildApprovalReport(){return {meta:{system:"ODIN Interface",module:"File Workspace",version:"V03.161D-FIX3.0",type:"APPROVAL_GATE_REPORT_v1",created:new Date().toISOString()},approval:approvalState,changePlan:buildChangePlan(),diffPreview:buildDiffPreview(),rule:"No implementation action is allowed unless approval.status === APPROVED"};}
 function copyApprovalReport(){copyText(JSON.stringify(buildApprovalReport(),null,2),"APPROVAL REPORT: copied.");}
 
 function buildDiffPreview(){
@@ -261,7 +261,7 @@ function buildDiffPreview(){
   if(!proposed.join("").trim())warnings.push("Proposed text is empty.");
   if((proposed.join("\n")).includes("11_PROTOTYPE_SYSTEM_UI")&&!plan.qaChecklist.includes("Header and Quick Settings match ODIN UI Matrix"))warnings.push("UI Matrix reference detected; verify template compliance.");
   return {
-    meta:{system:"ODIN Interface",module:"File Workspace",version:"V03.161D-FIX2.0",type:"FILE_DIFF_PREVIEW_v1",created:new Date().toISOString(),status:"PREVIEW_ONLY"},
+    meta:{system:"ODIN Interface",module:"File Workspace",version:"V03.161D-FIX3.0",type:"FILE_DIFF_PREVIEW_v1",created:new Date().toISOString(),status:"PREVIEW_ONLY"},
     target:plan.change.target,
     summary:{removed:removed.length,added:added.length,warnings:warnings.length},
     removed,
