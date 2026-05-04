@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Data Model",
+    "version": "V03.129C.0",
+    "type": "DATA_MODEL_ADAPTER_PLAN_QA_GATE_v1",
+    "sourceAdapterPlan": "odin_data_model_adapter_plan_v03_128C.json"
+  },
+  "status": "ADAPTER_PLAN_QA_GATE_READY",
+  "requiredAdapterMode": "READ_ONLY_PREVIEW_PLAN",
+  "requiredSourceOfTruthStatus": "NOT_ACTIVE",
+  "requiredLayers": [
+    "Data Loader",
+    "Record Normalizer",
+    "UI Preview Renderer",
+    "Safety Guard"
+  ],
+  "requiredSafety": [
+    "readOnly",
+    "previewOnly",
+    "noRuntimeReplacement",
+    "noAutomaticMigration",
+    "noAutomaticWrite",
+    "noAutomaticDelete",
+    "noAutomaticGit",
+    "invalidBranchBlocked"
+  ],
+  "requiredBlockedActions": [
+    "activate data model as source of truth",
+    "replace Control Center runtime logic",
+    "write normalized records to files",
+    "delete legacy structures",
+    "execute git",
+    "use invalid packages 120–123"
+  ],
+  "statusEnum": [
+    "ADAPTER_PLAN_QA_PASSED",
+    "ADAPTER_PLAN_QA_FAILED"
+  ],
+  "nextStep": "Prepare PACKAGE 130C — Read-Only Adapter Preview v1."
+}
