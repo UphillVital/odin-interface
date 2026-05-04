@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Control Center",
+    "version": "V03.120C.0",
+    "type": "CORRECTED_DATA_MODEL_HARDENING_ROUTER_FROM_STABLE_BASE_v1"
+  },
+  "status": "DATA_MODEL_ROUTER_READY_FROM_STABLE_BASE",
+  "stableBase": {
+    "validBase": "ODIN_V03_PACKAGE_119_0_V03_118_COMBINED_STABILITY_CHECKPOINT_V1.zip",
+    "rollbackLock": "ODIN_V03_PACKAGE_120R_ROLLBACK_LOCK_INVALID_BRANCH_CUT_V1.zip",
+    "invalidBranch": [
+      "PACKAGE 120",
+      "PACKAGE 121",
+      "PACKAGE 122",
+      "PACKAGE 123"
+    ]
+  },
+  "problemDetected": [
+    "logic scattered in UI/JS",
+    "registry/plan/gate/lock structures duplicated",
+    "no single source of truth for system records",
+    "data model must be rebuilt from stable base only"
+  ],
+  "routes": [
+    {
+      "id": "DMR-001",
+      "name": "Unified Schema Rebuild",
+      "priority": "CRITICAL",
+      "purpose": "Create schema from stable Control Surface / Recovery / Continuity / UI / Cleanup layers.",
+      "nextPackage": "PACKAGE 121C — Unified Data Model Schema from Stable Base v1"
+    },
+    {
+      "id": "DMR-002",
+      "name": "Registry Migration Map",
+      "priority": "HIGH",
+      "purpose": "Map Module Registry, Cleanup Map, Gates, Locks and Action Queue into data-first records.",
+      "nextPackage": "PACKAGE 122C — Data Model Registry Migration Map from Stable Base v1"
+    },
+    {
+      "id": "DMR-003",
+      "name": "Data Validation Gates",
+      "priority": "HIGH",
+      "purpose": "Validate schema and migration records before they can drive UI.",
+      "nextPackage": "PACKAGE 123C — Data Model Validation Gate from Stable Base v1"
+    },
+    {
+      "id": "DMR-004",
+      "name": "UI Adapter Layer",
+      "priority": "NORMAL",
+      "purpose": "Later let UI read data model instead of hardcoded repeated logic.",
+      "nextPackage": "future"
+    }
+  ],
+  "hardRules": [
+    "Do not use invalid packages 120–123 as source.",
+    "Do not overwrite stable Control Center with stub/minimal files.",
+    "All data model work must preserve V03.118 Combined Stability Checkpoint.",
+    "No automatic git execution.",
+    "No automatic file write/delete outside explicit package creation.",
+    "Data model is introduced incrementally and validated before becoming source of truth."
+  ],
+  "nextStep": "Prepare PACKAGE 121C — Unified Data Model Schema from Stable Base v1."
+}
