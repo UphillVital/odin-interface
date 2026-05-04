@@ -1,0 +1,111 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.161D.0",
+    "type": "ACTION_QUEUE_SYSTEM_v1",
+    "created": "2026-05-04T21:58:19.223505+00:00",
+    "sourceRequestLayer": "odin_controlled_action_request_layer_v03_160D.json"
+  },
+  "status": "ACTION_QUEUE_SYSTEM_READY",
+  "line": "D-LINE",
+  "mode": "QUEUE_ONLY_NO_EXECUTION",
+  "queueStates": [
+    "PENDING_REVIEW",
+    "IN_REVIEW",
+    "VALIDATION_REQUIRED",
+    "QA_REQUIRED",
+    "APPROVED_FOR_EXECUTION",
+    "REJECTED",
+    "ARCHIVED"
+  ],
+  "queueItemShape": {
+    "queueId": "string",
+    "actionId": "string",
+    "type": "READ | COPY | REQUEST | WRITE_CANDIDATE",
+    "target": "DataModel | RuntimeState | UIState | Report",
+    "payload": {},
+    "status": "PENDING_REVIEW",
+    "priority": "LOW | NORMAL | HIGH | CRITICAL",
+    "requiresValidation": true,
+    "requiresQa": true,
+    "executionAllowed": false,
+    "createdAt": "ISO datetime",
+    "updatedAt": "ISO datetime",
+    "history": []
+  },
+  "allowedTransitions": [
+    {
+      "from": "PENDING_REVIEW",
+      "to": "IN_REVIEW"
+    },
+    {
+      "from": "IN_REVIEW",
+      "to": "VALIDATION_REQUIRED"
+    },
+    {
+      "from": "VALIDATION_REQUIRED",
+      "to": "QA_REQUIRED"
+    },
+    {
+      "from": "QA_REQUIRED",
+      "to": "APPROVED_FOR_EXECUTION"
+    },
+    {
+      "from": "PENDING_REVIEW",
+      "to": "REJECTED"
+    },
+    {
+      "from": "IN_REVIEW",
+      "to": "REJECTED"
+    },
+    {
+      "from": "VALIDATION_REQUIRED",
+      "to": "REJECTED"
+    },
+    {
+      "from": "QA_REQUIRED",
+      "to": "REJECTED"
+    },
+    {
+      "from": "REJECTED",
+      "to": "ARCHIVED"
+    },
+    {
+      "from": "APPROVED_FOR_EXECUTION",
+      "to": "ARCHIVED"
+    }
+  ],
+  "queueRules": [
+    "Action requests enter queue as PENDING_REVIEW.",
+    "Queue does not execute actions.",
+    "APPROVED_FOR_EXECUTION does not mean executed.",
+    "WRITE_CANDIDATE remains non-executable in this package.",
+    "Validation and QA gates are required before any future execution engine.",
+    "Queue history must preserve status changes."
+  ],
+  "blockedActions": [
+    "execute queued action",
+    "skip queue",
+    "skip validation",
+    "skip QA",
+    "change executionAllowed to true",
+    "direct data model mutation",
+    "execute git",
+    "delete data model files"
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Action Queue System v1.",
+    "Click Build Action Queue System.",
+    "Expected status: ACTION_QUEUE_SYSTEM_READY.",
+    "Expected mode: QUEUE_ONLY_NO_EXECUTION.",
+    "Click Generate Sample Queue Item.",
+    "Expected status: PENDING_REVIEW.",
+    "Expected executionAllowed=false.",
+    "Expected requiresValidation=true and requiresQa=true.",
+    "Confirm queue does not execute write.",
+    "If any queued action executes directly — stop and roll back to 160D."
+  ],
+  "nextStep": "Prepare PACKAGE 162D — Action Validator v1."
+}
