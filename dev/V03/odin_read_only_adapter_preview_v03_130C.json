@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Data Model",
+    "version": "V03.130C.0",
+    "type": "READ_ONLY_ADAPTER_PREVIEW_v1",
+    "created": "2026-05-04T11:15:22.184249Z"
+  },
+  "status": "READ_ONLY_PREVIEW_READY",
+  "mode": "READ_ONLY_IN_MEMORY",
+  "source": {
+    "schema": "odin_unified_data_model_schema_v03_121C.json",
+    "migrationMap": "odin_data_model_registry_migration_map_v03_123C.json",
+    "adapterPlan": "odin_data_model_adapter_plan_v03_128C.json"
+  },
+  "preview": {
+    "collections": [
+      "records",
+      "gates",
+      "locks",
+      "actions"
+    ],
+    "sampleCounts": {
+      "records": 8,
+      "gates": 2,
+      "locks": 4,
+      "actions": 1
+    },
+    "note": "Counts are illustrative; no data is written. All structures are in-memory preview only."
+  },
+  "safety": {
+    "readOnly": true,
+    "noWrite": true,
+    "noDelete": true,
+    "noGit": true,
+    "noRuntimeReplacement": true,
+    "invalidBranchBlocked": true
+  },
+  "nextStep": "Prepare PACKAGE 131C — Read-Only Adapter Preview QA Gate v1."
+}

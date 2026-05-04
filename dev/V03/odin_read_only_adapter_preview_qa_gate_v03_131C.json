@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Data Model",
+    "version": "V03.131C.0",
+    "type": "READ_ONLY_ADAPTER_PREVIEW_QA_GATE_v1",
+    "sourcePreview": "odin_read_only_adapter_preview_v03_130C.json"
+  },
+  "status": "READ_ONLY_ADAPTER_PREVIEW_QA_GATE_READY",
+  "requiredPreviewStatus": "READ_ONLY_PREVIEW_READY",
+  "requiredMode": "READ_ONLY_IN_MEMORY",
+  "requiredSafety": [
+    "readOnly",
+    "noWrite",
+    "noDelete",
+    "noGit",
+    "noRuntimeReplacement",
+    "invalidBranchBlocked"
+  ],
+  "requiredCollections": [
+    "records",
+    "gates",
+    "locks",
+    "actions"
+  ],
+  "blockedActions": [
+    "write_preview_to_files",
+    "delete_legacy_files",
+    "execute_git",
+    "replace_runtime",
+    "activate_source_of_truth",
+    "use_invalid_branch"
+  ],
+  "statusEnum": [
+    "READ_ONLY_ADAPTER_PREVIEW_QA_PASSED",
+    "READ_ONLY_ADAPTER_PREVIEW_QA_FAILED"
+  ],
+  "nextStep": "Prepare PACKAGE 132C — Read-Only Adapter Preview Lock v1."
+}
