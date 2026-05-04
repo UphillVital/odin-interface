@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Data Model",
+    "version": "V03.124C.0",
+    "type": "DATA_MODEL_MIGRATION_GATE_FROM_STABLE_BASE_v1",
+    "sourceSchema": "odin_unified_data_model_schema_v03_121C.json",
+    "sourceValidator": "odin_data_model_schema_validator_v03_122C.json",
+    "sourceMigrationMap": "odin_data_model_registry_migration_map_v03_123C.json"
+  },
+  "status": "MIGRATION_GATE_READY",
+  "requiredInputs": [
+    "UNIFIED_SCHEMA_READY_FROM_STABLE_BASE",
+    "VALIDATOR_READY_FROM_STABLE_BASE",
+    "MIGRATION_MAP_READY_FROM_STABLE_BASE"
+  ],
+  "gateRules": [
+    "Schema must be from stable base.",
+    "Validator must check stable base references.",
+    "Migration map must be descriptive-only.",
+    "Invalid packages 120–123 must remain blocked.",
+    "No automatic write/delete/git is allowed.",
+    "Every mapping must define targetType, targetCollection and blockedActions."
+  ],
+  "blockedActions": [
+    "automatic_data_write",
+    "automatic_file_write",
+    "automatic_file_delete",
+    "automatic_git_execution",
+    "using_invalid_packages_120_123",
+    "weakening_source_safety_rules"
+  ],
+  "statusEnum": [
+    "MIGRATION_GATE_PASSED",
+    "MIGRATION_GATE_FAILED"
+  ],
+  "nextStep": "Prepare PACKAGE 125C — Data Model Stable Base Lock v1."
+}

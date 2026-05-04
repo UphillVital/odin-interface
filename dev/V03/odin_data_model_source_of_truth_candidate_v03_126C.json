@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Data Model",
+    "version": "V03.126C.0",
+    "type": "DATA_MODEL_SOURCE_OF_TRUTH_CANDIDATE_v1",
+    "sourceStableLock": "odin_data_model_stable_base_lock_v03_125C.json"
+  },
+  "status": "SOURCE_OF_TRUTH_CANDIDATE_READY",
+  "sourceOfTruthStatus": "CANDIDATE_ONLY_NOT_ACTIVE",
+  "stableLockStatus": "DATA_MODEL_STABLE_BASE_LOCK_READY",
+  "candidateScope": [
+    "schema definitions",
+    "registry migration planning",
+    "gate/lock/action record shapes",
+    "safety rules",
+    "invalid branch protection",
+    "future UI adapter input model"
+  ],
+  "notYetAllowed": [
+    "switch UI to data-model-only mode",
+    "replace current Control Center runtime logic",
+    "auto-migrate existing registry data",
+    "auto-write generated data files",
+    "auto-delete legacy structures",
+    "use invalid packages 120–123"
+  ],
+  "activationRequirements": [
+    "Source-of-Truth Candidate QA must pass.",
+    "Data Model Adapter Plan must exist.",
+    "Read-only adapter preview must be built first.",
+    "No UI overwrite is allowed.",
+    "Manual approval required before source-of-truth activation."
+  ],
+  "safety": {
+    "readOnlyCandidate": true,
+    "noAutomaticMigration": true,
+    "noAutomaticWrite": true,
+    "noAutomaticGit": true,
+    "noUiReplacement": true,
+    "invalidBranchBlocked": true
+  },
+  "nextStep": "Prepare PACKAGE 127C — Source-of-Truth Candidate QA Gate v1."
+}

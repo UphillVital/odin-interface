@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Data Model",
+    "version": "V03.125C.0",
+    "type": "DATA_MODEL_STABLE_BASE_LOCK_v1",
+    "sourceSchema": "odin_unified_data_model_schema_v03_121C.json",
+    "sourceValidator": "odin_data_model_schema_validator_v03_122C.json",
+    "sourceMigrationMap": "odin_data_model_registry_migration_map_v03_123C.json",
+    "sourceMigrationGate": "odin_data_model_migration_gate_v03_124C.json"
+  },
+  "status": "DATA_MODEL_STABLE_BASE_LOCK_READY",
+  "lockedInputs": {
+    "schema": "UNIFIED_SCHEMA_READY_FROM_STABLE_BASE",
+    "validator": "VALIDATOR_READY_FROM_STABLE_BASE",
+    "migrationMap": "MIGRATION_MAP_READY_FROM_STABLE_BASE",
+    "migrationGate": "MIGRATION_GATE_READY"
+  },
+  "invalidBranchProtection": {
+    "blocked": true,
+    "invalidPackages": [
+      "PACKAGE 120",
+      "PACKAGE 121",
+      "PACKAGE 122",
+      "PACKAGE 123"
+    ],
+    "rule": "Only C-branch packages built from PACKAGE 119 / 120R may be used for data model continuation."
+  },
+  "lockedCapabilities": [
+    "Stable-base Unified Data Model Schema",
+    "Stable-base Schema Validator",
+    "Stable-base Registry Migration Map",
+    "Stable-base Migration Gate",
+    "Descriptive-only migration planning",
+    "Invalid branch rejection"
+  ],
+  "blockedActions": [
+    "automatic data write",
+    "automatic file write",
+    "automatic file delete",
+    "automatic git execution",
+    "using invalid non-C packages 120–123",
+    "weakening V03.118 Combined Stability Checkpoint"
+  ],
+  "hardRules": [
+    "Data Model is ready for controlled next layer planning, not automatic migration.",
+    "No source-of-truth switch happens until a separate approved engine/adapter package.",
+    "UI must not be overwritten by generated stubs.",
+    "Stable base 119 / 120R / 120C / 121C / 122C / 123C / 124C must be preserved.",
+    "All future data-model packages must include C lineage or later approved lock lineage."
+  ],
+  "nextStep": "Prepare PACKAGE 126C — Data Model Source-of-Truth Candidate v1."
+}
