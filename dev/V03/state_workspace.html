@@ -36,13 +36,13 @@
 
 <main class="work-zone" id="workZone">
 <section class="zone-card">
-<h1 class="zone-title">File Workspace — Implementation Queue v1</h1>
-<p>Ця сторінка формує план, diff, approval gate і Implementation Queue. У чергу можна додати тільки APPROVED план. Реального редагування файлів немає.</p>
+<h1 class="zone-title">File Workspace — Implementation Package Builder v1</h1>
+<p>Ця сторінка формує план, diff, approval gate, чергу та Implementation Package Draft. Пакет є проєктом реалізації без реального редагування файлів.</p>
 <div class="ws-meta" id="receiverMeta"><span class="ws-pill">RECEIVER READY</span></div>
 <div class="ws-log" id="wsLog">WORKSPACE LOG: очікує контексту.</div>
 <div class="ws-actions">
 <a class="ws-action" href="control_center.html">← Назад у Control Center</a>
-<button class="ws-action" id="copyWorkspaceTask" type="button">Copy Workspace Task</button><button class="ws-action" id="previewChangePlan" type="button">Preview Change Plan</button><button class="ws-action" id="copyChangePlan" type="button">Copy Change Plan</button><button class="ws-action" id="previewDiff" type="button">Preview Diff</button><button class="ws-action" id="copyDiffPreview" type="button">Copy Diff Preview</button><button class="ws-action" id="approvePlan" type="button">Approve</button><button class="ws-action" id="rejectPlan" type="button">Reject</button><button class="ws-action" id="copyApprovalReport" type="button">Copy Approval Report</button><button class="ws-action" id="addToQueue" type="button">Add to Queue</button><button class="ws-action" id="copyQueue" type="button">Copy Queue</button><button class="ws-action" id="clearQueue" type="button">Clear Queue</button>
+<button class="ws-action" id="copyWorkspaceTask" type="button">Copy Workspace Task</button><button class="ws-action" id="previewChangePlan" type="button">Preview Change Plan</button><button class="ws-action" id="copyChangePlan" type="button">Copy Change Plan</button><button class="ws-action" id="previewDiff" type="button">Preview Diff</button><button class="ws-action" id="copyDiffPreview" type="button">Copy Diff Preview</button><button class="ws-action" id="approvePlan" type="button">Approve</button><button class="ws-action" id="rejectPlan" type="button">Reject</button><button class="ws-action" id="copyApprovalReport" type="button">Copy Approval Report</button><button class="ws-action" id="addToQueue" type="button">Add to Queue</button><button class="ws-action" id="copyQueue" type="button">Copy Queue</button><button class="ws-action" id="clearQueue" type="button">Clear Queue</button><button class="ws-action" id="buildImplementationPackage" type="button">Build Implementation Package</button><button class="ws-action" id="copyImplementationPackage" type="button">Copy Implementation Package</button>
 <button class="ws-action" id="loadBridgeFromInput" type="button">Load Bridge JSON</button>
 <button class="ws-action" id="clearWorkspace" type="button">Clear</button>
 </div>
@@ -89,6 +89,12 @@
 </section>
 
 <section class="zone-card">
+<h2 class="zone-title">Implementation Package Builder v1</h2>
+<div class="ws-box"><strong>Package Draft:</strong> збирає останній approved queue item у пакет реалізації. Нічого не записується у файли.</div>
+<textarea class="ws-textarea" id="implementationPackagePreview" placeholder="Implementation Package preview..." readonly></textarea>
+</section>
+
+<section class="zone-card">
 <h2 class="zone-title">Bridge Package Input / Preview</h2>
 <textarea class="ws-textarea" id="bridgeInput" placeholder="Встав сюди Bridge Package JSON з Control Center..."></textarea>
 </section>
@@ -99,12 +105,12 @@
 <div class="assist-content">
 <p><strong>Context Receiver v1</strong> — приймає record/action/decision/state.</p>
 <p>Мета: підготувати безпечну задачу для роботи з файлами.</p>
-<p>Наступний рівень: Implementation Package Builder v1.</p>
+<p>Наступний рівень: QA Gate for Implementation Package v1.</p>
 </div>
 </aside>
 </div>
 
-<footer class="status-bar"><span>PROJECT: ODIN Interface</span><span>VERSION: V03.54.0</span><span>MODE: IMPLEMENTATION QUEUE</span><span>STATUS: QUEUE READY</span></footer>
+<footer class="status-bar"><span>PROJECT: ODIN Interface</span><span>VERSION: V03.55.0</span><span>MODE: IMPLEMENTATION PACKAGE BUILDER</span><span>STATUS: PACKAGE BUILDER READY</span></footer>
 <script src="11_PROTOTYPE_SYSTEM_UI/app.js"></script>
 <script>
 const params=new URLSearchParams(location.search);
@@ -122,7 +128,7 @@ function buildUrlContext(){
   const record=params.get("record")||"";
   if(!record)return null;
   return {
-    meta:{type:"FILE_WORKSPACE_CONTEXT_RECEIVER_v1",source:"url",version:"V03.54.0"},
+    meta:{type:"FILE_WORKSPACE_CONTEXT_RECEIVER_v1",source:"url",version:"V03.55.0"},
     selectedRecord:{id:record},
     bridgeInstruction:"URL context received. Use Control Center bridge package for full action/decision/state details.",
     from
@@ -177,7 +183,7 @@ function buildWorkspaceTask(){
   const action=ctx.action||{};
   const decision=ctx.decision||{};
   return {
-    meta:{system:"ODIN Interface",module:"File Workspace",version:"V03.54.0",type:"SAFE_FILE_WORKSPACE_TASK_v1",created:new Date().toISOString()},
+    meta:{system:"ODIN Interface",module:"File Workspace",version:"V03.55.0",type:"SAFE_FILE_WORKSPACE_TASK_v1",created:new Date().toISOString()},
     sourceContext:ctx,
     task:{
       recordId:record.id||null,
@@ -198,7 +204,7 @@ function saveApprovalState(){localStorage.setItem(APPROVAL_KEY,JSON.stringify(ap
 function renderApprovalState(){const box=document.getElementById("approvalBox");if(!box)return;const cls=approvalState.status==="APPROVED"?"approval-approved":approvalState.status==="REJECTED"?"approval-rejected":"approval-waiting";box.className="ws-box "+cls;box.innerHTML=`<strong>Approval Status:</strong> ${escapeHtml(approvalState.status)}<br><strong>Updated:</strong> ${escapeHtml(approvalState.updated||"—")}<br><strong>Note:</strong> ${escapeHtml(approvalState.note||"—")}`;}
 function approvePlan(){approvalState={status:"APPROVED",note:document.getElementById("approvalNote")?.value||"",updated:new Date().toISOString()};saveApprovalState();document.getElementById("wsLog").textContent="APPROVAL GATE: APPROVED.";}
 function rejectPlan(){approvalState={status:"REJECTED",note:document.getElementById("approvalNote")?.value||"",updated:new Date().toISOString()};saveApprovalState();document.getElementById("wsLog").textContent="APPROVAL GATE: REJECTED.";}
-function buildApprovalReport(){return {meta:{system:"ODIN Interface",module:"File Workspace",version:"V03.54.0",type:"APPROVAL_GATE_REPORT_v1",created:new Date().toISOString()},approval:approvalState,changePlan:buildChangePlan(),diffPreview:buildDiffPreview(),rule:"No implementation action is allowed unless approval.status === APPROVED"};}
+function buildApprovalReport(){return {meta:{system:"ODIN Interface",module:"File Workspace",version:"V03.55.0",type:"APPROVAL_GATE_REPORT_v1",created:new Date().toISOString()},approval:approvalState,changePlan:buildChangePlan(),diffPreview:buildDiffPreview(),rule:"No implementation action is allowed unless approval.status === APPROVED"};}
 function copyApprovalReport(){copyText(JSON.stringify(buildApprovalReport(),null,2),"APPROVAL REPORT: copied.");}
 
 function buildDiffPreview(){
@@ -213,7 +219,7 @@ function buildDiffPreview(){
   if(!proposed.join("").trim())warnings.push("Proposed text is empty.");
   if((proposed.join("\n")).includes("11_PROTOTYPE_SYSTEM_UI")&&!plan.qaChecklist.includes("Header and Quick Settings match ODIN UI Matrix"))warnings.push("UI Matrix reference detected; verify template compliance.");
   return {
-    meta:{system:"ODIN Interface",module:"File Workspace",version:"V03.54.0",type:"FILE_DIFF_PREVIEW_v1",created:new Date().toISOString(),status:"PREVIEW_ONLY"},
+    meta:{system:"ODIN Interface",module:"File Workspace",version:"V03.55.0",type:"FILE_DIFF_PREVIEW_v1",created:new Date().toISOString(),status:"PREVIEW_ONLY"},
     target:plan.change.target,
     summary:{removed:removed.length,added:added.length,warnings:warnings.length},
     removed,
@@ -251,7 +257,7 @@ function clearWorkspace(){
   document.getElementById("wsLog").textContent="WORKSPACE LOG: cleared.";
 }
 
-document.getElementById("copyWorkspaceTask").addEventListener("click",copyWorkspaceTask);document.getElementById("previewChangePlan").addEventListener("click",previewChangePlan);document.getElementById("copyChangePlan").addEventListener("click",copyChangePlan);document.getElementById("previewDiff").addEventListener("click",renderDiffPreview);document.getElementById("copyDiffPreview").addEventListener("click",copyDiffPreview);document.getElementById("generateSampleDiff").addEventListener("click",generateSampleDiff);document.getElementById("approvePlan").addEventListener("click",approvePlan);document.getElementById("rejectPlan").addEventListener("click",rejectPlan);document.getElementById("copyApprovalReport").addEventListener("click",copyApprovalReport);document.getElementById("addToQueue").addEventListener("click",addToQueue);document.getElementById("copyQueue").addEventListener("click",copyQueue);document.getElementById("clearQueue").addEventListener("click",clearQueue);
+document.getElementById("copyWorkspaceTask").addEventListener("click",copyWorkspaceTask);document.getElementById("previewChangePlan").addEventListener("click",previewChangePlan);document.getElementById("copyChangePlan").addEventListener("click",copyChangePlan);document.getElementById("previewDiff").addEventListener("click",renderDiffPreview);document.getElementById("copyDiffPreview").addEventListener("click",copyDiffPreview);document.getElementById("generateSampleDiff").addEventListener("click",generateSampleDiff);document.getElementById("approvePlan").addEventListener("click",approvePlan);document.getElementById("rejectPlan").addEventListener("click",rejectPlan);document.getElementById("copyApprovalReport").addEventListener("click",copyApprovalReport);document.getElementById("addToQueue").addEventListener("click",addToQueue);document.getElementById("copyQueue").addEventListener("click",copyQueue);document.getElementById("clearQueue").addEventListener("click",clearQueue);document.getElementById("buildImplementationPackage").addEventListener("click",buildImplementationPackage);document.getElementById("copyImplementationPackage").addEventListener("click",copyImplementationPackage);
 document.getElementById("loadBridgeFromInput").addEventListener("click",loadBridgeFromInput);
 document.getElementById("clearWorkspace").addEventListener("click",clearWorkspace);
 
