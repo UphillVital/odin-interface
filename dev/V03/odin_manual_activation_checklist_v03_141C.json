@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Data Model",
+    "version": "V03.141C.0",
+    "type": "MANUAL_ACTIVATION_CHECKLIST_v1",
+    "created": "2026-05-04T14:29:56.246848+00:00",
+    "sourceEntryGate": "odin_controlled_activation_entry_gate_v03_140C.json"
+  },
+  "status": "MANUAL_ACTIVATION_CHECKLIST_READY",
+  "activationStatus": "NOT_ACTIVATED",
+  "checklistMode": "MANUAL_REVIEW_ONLY",
+  "sections": [
+    {
+      "id": "MAC-001",
+      "name": "Readiness",
+      "items": [
+        "Activation Readiness Lock exists",
+        "Final Safety Lock exists",
+        "Controlled Activation Entry Gate exists",
+        "C-lineage confirmed",
+        "Invalid packages 120–123 blocked"
+      ]
+    },
+    {
+      "id": "MAC-002",
+      "name": "Rollback",
+      "items": [
+        "Rollback Plan exists",
+        "Rollback QA Gate exists",
+        "Stable checkpoint reference exists",
+        "Manual abort path exists"
+      ]
+    },
+    {
+      "id": "MAC-003",
+      "name": "Safety",
+      "items": [
+        "No automatic source-of-truth activation",
+        "No runtime replacement",
+        "No auto migration",
+        "No file write/delete",
+        "No git execution"
+      ]
+    },
+    {
+      "id": "MAC-004",
+      "name": "Manual approval",
+      "items": [
+        "User explicitly approves activation package",
+        "Activation scope is defined",
+        "Rollback package is available",
+        "QA result is accepted"
+      ]
+    }
+  ],
+  "blockedActions": [
+    "activate source-of-truth",
+    "replace runtime",
+    "auto migrate data",
+    "write files",
+    "delete files",
+    "execute git"
+  ],
+  "nextStep": "Prepare PACKAGE 142C — Manual Activation Checklist QA Gate v1."
+}
