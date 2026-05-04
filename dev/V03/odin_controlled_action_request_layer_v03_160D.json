@@ -1,0 +1,94 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.160D.0",
+    "type": "CONTROLLED_ACTION_REQUEST_LAYER_v1",
+    "created": "2026-05-04T21:40:58.439489+00:00",
+    "sourceAuditLock": "odin_system_audit_lock_v03_159D.json"
+  },
+  "status": "CONTROLLED_ACTION_REQUEST_LAYER_READY",
+  "line": "D-LINE",
+  "mode": "REQUEST_ONLY_NO_EXECUTION",
+  "requestLifecycle": [
+    "DRAFT",
+    "PENDING_REVIEW",
+    "VALIDATION_REQUIRED",
+    "QA_REQUIRED",
+    "APPROVED_FOR_EXECUTION",
+    "REJECTED",
+    "ARCHIVED"
+  ],
+  "actionRequestShape": {
+    "actionId": "string",
+    "type": "READ | COPY | REQUEST | WRITE_CANDIDATE",
+    "target": "DataModel | RuntimeState | UIState | Report",
+    "payload": {},
+    "requiresValidation": true,
+    "requiresQa": true,
+    "executionAllowed": false,
+    "status": "PENDING_REVIEW",
+    "createdAt": "ISO datetime",
+    "source": "UI controlled request",
+    "nextStep": "Validation / QA / approval"
+  },
+  "allowedRequestTypes": [
+    {
+      "type": "READ",
+      "executionAllowed": true,
+      "requiresQa": false,
+      "writesData": false
+    },
+    {
+      "type": "COPY",
+      "executionAllowed": true,
+      "requiresQa": false,
+      "writesData": false
+    },
+    {
+      "type": "REQUEST",
+      "executionAllowed": false,
+      "requiresQa": true,
+      "writesData": false
+    },
+    {
+      "type": "WRITE_CANDIDATE",
+      "executionAllowed": false,
+      "requiresQa": true,
+      "writesData": true
+    }
+  ],
+  "rules": [
+    "UI may create action requests.",
+    "UI may not execute write actions.",
+    "WRITE_CANDIDATE is only a request, not execution.",
+    "Every write-capable request requires validation, QA, approval, and future execution engine.",
+    "System Audit Lock remains required before continuing.",
+    "Direct write remains blocked."
+  ],
+  "blockedActions": [
+    "execute write request directly",
+    "change executionAllowed to true from UI",
+    "skip validation",
+    "skip QA",
+    "bypass Action Request Layer",
+    "bypass Runtime Interaction Lock",
+    "bypass active Data Model",
+    "execute git",
+    "delete data model files"
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Controlled Action Request Layer v1.",
+    "Click Build Action Request Layer.",
+    "Expected status: CONTROLLED_ACTION_REQUEST_LAYER_READY.",
+    "Expected mode: REQUEST_ONLY_NO_EXECUTION.",
+    "Click Generate Sample Action Request.",
+    "Expected sample request status: PENDING_REVIEW.",
+    "Expected executionAllowed=false.",
+    "Expected requiresValidation=true and requiresQa=true.",
+    "Confirm WRITE_CANDIDATE does not execute anything.",
+    "If any write executes directly — stop and roll back to 159D."
+  ],
+  "nextStep": "Prepare PACKAGE 161D — Action Queue System v1."
+}
