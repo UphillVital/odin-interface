@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "UI/DataModel Sync",
+    "version": "V03.153D.0",
+    "type": "UI_DATA_MODEL_SYNC_QA_GATE_v1",
+    "created": "2026-05-04T17:06:47.778222+00:00",
+    "sourceSyncLayer": "odin_ui_to_data_model_sync_layer_v03_152D.json"
+  },
+  "status": "UI_DATA_MODEL_SYNC_QA_GATE_READY",
+  "requiredSyncLayerStatus": "UI_DATA_MODEL_SYNC_LAYER_READY",
+  "requiredSyncMode": "READ_RUNTIME_STATE_FROM_DATA_MODEL",
+  "requiredDataModelStatus": "ACTIVE_SOURCE_OF_TRUTH",
+  "requiredAdapterStatus": "RUNTIME_LAYER",
+  "requiredTargetsMin": 3,
+  "requiredBlockedActions": [
+    "write data model files from UI",
+    "delete data model files",
+    "execute git",
+    "bypass Data Model",
+    "replace runtime without QA",
+    "use invalid packages 120–123"
+  ],
+  "statusEnum": [
+    "UI_DATA_MODEL_SYNC_QA_PASSED",
+    "UI_DATA_MODEL_SYNC_QA_FAILED"
+  ],
+  "nextStep": "Prepare PACKAGE 154D — UI/Data Model Sync Lock v1."
+}
