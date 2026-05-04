@@ -1,0 +1,73 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Runtime Interaction",
+    "version": "V03.157D.0",
+    "type": "RUNTIME_INTERACTION_LOCK_v1",
+    "created": "2026-05-04T19:59:50.404220+00:00",
+    "sourceInteractionLayer": "odin_runtime_interaction_layer_v03_155D.json",
+    "sourceQaGate": "odin_runtime_interaction_qa_gate_v03_156D.json"
+  },
+  "status": "RUNTIME_INTERACTION_LOCKED",
+  "line": "D-LINE",
+  "interactionMode": "CONTROLLED_ACTIONS_THROUGH_DATA_MODEL_LOCKED",
+  "sourceOfTruth": "ACTIVE_DATA_MODEL",
+  "adapter": "RUNTIME_LAYER",
+  "lockedInteractions": [
+    {
+      "name": "View runtime state",
+      "kind": "READ",
+      "allowed": true,
+      "writesData": false
+    },
+    {
+      "name": "Copy runtime report",
+      "kind": "COPY",
+      "allowed": true,
+      "writesData": false
+    },
+    {
+      "name": "Request controlled action",
+      "kind": "REQUEST",
+      "allowed": true,
+      "requiresQa": true,
+      "writesData": false
+    },
+    {
+      "name": "Execute direct write",
+      "kind": "WRITE",
+      "allowed": false,
+      "writesData": true
+    }
+  ],
+  "lockedRules": [
+    "All runtime user interactions must pass through Runtime Interaction Layer.",
+    "READ and COPY interactions are allowed.",
+    "REQUEST interaction is allowed only as controlled request requiring QA.",
+    "Direct WRITE is blocked.",
+    "UI cannot directly mutate Data Model.",
+    "UI cannot bypass Runtime Interaction Layer.",
+    "Any write-capable engine requires separate plan, QA gate, lock, and manual approval."
+  ],
+  "blockedActions": [
+    "direct data model mutation",
+    "direct JSON file write from UI",
+    "delete data model files",
+    "execute git",
+    "bypass runtime interaction layer",
+    "bypass active Data Model",
+    "enable write action without QA gate",
+    "change direct write to allowed without a new approved package"
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Runtime Interaction Lock v1.",
+    "Click Build Runtime Interaction Lock.",
+    "Expected status: RUNTIME_INTERACTION_LOCKED.",
+    "Expected interactionMode: CONTROLLED_ACTIONS_THROUGH_DATA_MODEL_LOCKED.",
+    "Check lockedInteractions: READ/COPY/REQUEST allowed, direct WRITE blocked.",
+    "Check blockedActions: mutation/write/delete/git/bypass must be listed.",
+    "If direct WRITE is allowed — stop and roll back to 155D/156D."
+  ],
+  "nextStep": "Prepare PACKAGE 158D — Controlled Action Request Layer v1."
+}
