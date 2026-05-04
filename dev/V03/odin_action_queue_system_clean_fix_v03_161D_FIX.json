@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.161D-FIX.0",
+    "type": "ACTION_QUEUE_SYSTEM_CLEAN_FIX_v1",
+    "created": "2026-05-04T22:17:40.060615+00:00",
+    "sourcePackage": "ODIN_V03_PACKAGE_161D_ACTION_QUEUE_SYSTEM_V1.zip",
+    "fixedIssue": "Stale DATA_MODEL_ADAPTER_PLAN_v1 block appeared under 161D identity."
+  },
+  "status": "ACTION_QUEUE_SYSTEM_CLEAN_FIX_READY",
+  "activeExpectedType": "ACTION_QUEUE_SYSTEM_v1",
+  "activeExpectedStatus": "ACTION_QUEUE_SYSTEM_READY",
+  "activeExpectedMode": "QUEUE_ONLY_NO_EXECUTION",
+  "activeExpectedNextStep": "Prepare PACKAGE 162D — Action Validator v1.",
+  "staleIdentityBlocked": [
+    "DATA_MODEL_ADAPTER_PLAN_v1 as active 161D block",
+    "DATA_MODEL_ADAPTER_PLAN_READY as active 161D status",
+    "READ_ONLY_PREVIEW_PLAN as active 161D mode",
+    "sourceOfTruthStatus NOT_ACTIVE as active 161D source state",
+    "Prepare PACKAGE 129C — Action Queue System v1. as active 161D nextStep"
+  ],
+  "qaChecks": [
+    "Active Action Queue JSON type is ACTION_QUEUE_SYSTEM_v1.",
+    "Active Action Queue status is ACTION_QUEUE_SYSTEM_READY.",
+    "Active Action Queue mode is QUEUE_ONLY_NO_EXECUTION.",
+    "Active Action Queue nextStep is PACKAGE 162D — Action Validator v1.",
+    "No active panel should present DATA_MODEL_ADAPTER_PLAN_v1 as current 161D state.",
+    "README must instruct testing Action Queue System, not Adapter Plan."
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Action Queue System v1 — CLEAN FIX.",
+    "Click Build Action Queue System.",
+    "Expected status: ACTION_QUEUE_SYSTEM_READY.",
+    "Expected mode: QUEUE_ONLY_NO_EXECUTION.",
+    "Click Generate Sample Queue Item.",
+    "Expected status: PENDING_REVIEW.",
+    "Expected executionAllowed=false.",
+    "Search page for active visible DATA_MODEL_ADAPTER_PLAN_v1 under 161D identity.",
+    "Expected: it must not appear as current active package state.",
+    "If Adapter Plan appears as active 161D state — stop and do not continue to 162D."
+  ],
+  "nextStep": "Prepare PACKAGE 162D — Action Validator v1."
+}
