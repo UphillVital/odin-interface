@@ -1,0 +1,219 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Data Model",
+    "version": "V03.123C.0",
+    "type": "DATA_MODEL_REGISTRY_MIGRATION_MAP_FROM_STABLE_BASE_v1",
+    "sourceSchema": "odin_unified_data_model_schema_v03_121C.json",
+    "sourceValidator": "odin_data_model_schema_validator_v03_122C.json",
+    "stableBase": "ODIN_V03_PACKAGE_119_0_V03_118_COMBINED_STABILITY_CHECKPOINT_V1.zip"
+  },
+  "status": "MIGRATION_MAP_READY_FROM_STABLE_BASE",
+  "invalidBranchProtection": {
+    "invalidPackages": [
+      "PACKAGE 120",
+      "PACKAGE 121",
+      "PACKAGE 122",
+      "PACKAGE 123"
+    ],
+    "rule": "This migration map must not use invalid non-C packages as source."
+  },
+  "schemaStatusRequired": "SCHEMA_VALID_FROM_STABLE_BASE",
+  "mappings": [
+    {
+      "id": "CMIG-001",
+      "source": "Control Surface",
+      "sourceFunction": "buildOdinControlSurface()",
+      "targetType": "record",
+      "targetCollection": "records",
+      "priority": "CRITICAL",
+      "requiredFields": [
+        "id",
+        "type",
+        "title",
+        "status",
+        "source",
+        "payload",
+        "nextStep"
+      ],
+      "migrationRule": "Control Surface becomes a data-first record describing active control modules and statuses.",
+      "blockedActions": [
+        "auto_execute",
+        "overwrite_control_center"
+      ]
+    },
+    {
+      "id": "CMIG-002",
+      "source": "Recovery Layer Lock",
+      "sourceFunction": "buildRecoveryLayerLock()",
+      "targetType": "lock",
+      "targetCollection": "locks",
+      "priority": "CRITICAL",
+      "requiredFields": [
+        "id",
+        "name",
+        "status",
+        "checks",
+        "lockedRules",
+        "blockedActions",
+        "nextStep"
+      ],
+      "migrationRule": "Recovery lock becomes immutable safety lock record.",
+      "blockedActions": [
+        "auto_restore",
+        "unvalidated_import"
+      ]
+    },
+    {
+      "id": "CMIG-003",
+      "source": "Continuity Final Lock / Master Start Final Lock",
+      "sourceFunction": "buildContinuityFinalLock(), buildContinuityMasterStartFinalLock()",
+      "targetType": "lock",
+      "targetCollection": "locks",
+      "priority": "CRITICAL",
+      "requiredFields": [
+        "id",
+        "name",
+        "status",
+        "checks",
+        "lockedRules",
+        "blockedActions",
+        "nextStep"
+      ],
+      "migrationRule": "Continuity and Master Start locks become handoff safety lock records.",
+      "blockedActions": [
+        "unvalidated_handoff",
+        "auto_task_execution"
+      ]
+    },
+    {
+      "id": "CMIG-004",
+      "source": "UI Polish Lock / Quick Settings Regression Gate",
+      "sourceFunction": "buildUiPolishLock(), runQuickSettingsRegressionGate()",
+      "targetType": "gate",
+      "targetCollection": "gates",
+      "priority": "HIGH",
+      "requiredFields": [
+        "id",
+        "name",
+        "status",
+        "checks",
+        "failed",
+        "rules",
+        "blockedActions",
+        "nextStep"
+      ],
+      "migrationRule": "UI safeguards become gates protecting Quick Settings, language switch and UI Matrix.",
+      "blockedActions": [
+        "remove_language_switch",
+        "break_quick_settings"
+      ]
+    },
+    {
+      "id": "CMIG-005",
+      "source": "Cleanup Consolidation Lock",
+      "sourceFunction": "buildCleanupConsolidationLock()",
+      "targetType": "lock",
+      "targetCollection": "locks",
+      "priority": "HIGH",
+      "requiredFields": [
+        "id",
+        "name",
+        "status",
+        "checks",
+        "lockedRules",
+        "blockedActions",
+        "nextStep"
+      ],
+      "migrationRule": "Cleanup lock becomes data lock preserving no-delete and no-git rules.",
+      "blockedActions": [
+        "delete_commit_builder",
+        "automatic_delete"
+      ]
+    },
+    {
+      "id": "CMIG-006",
+      "source": "Commit Builder Widget Lock",
+      "sourceFunction": "buildCommitWidgetLock()",
+      "targetType": "lock",
+      "targetCollection": "locks",
+      "priority": "HIGH",
+      "requiredFields": [
+        "id",
+        "name",
+        "status",
+        "checks",
+        "lockedRules",
+        "blockedActions",
+        "nextStep"
+      ],
+      "migrationRule": "Commit Builder widget safety becomes copy-only lock record.",
+      "blockedActions": [
+        "git_execution",
+        "auto_stage",
+        "file_write"
+      ]
+    },
+    {
+      "id": "CMIG-007",
+      "source": "Action Queue / Action Queue Recovery",
+      "sourceFunction": "actionQueue, buildActionQueueRecovery()",
+      "targetType": "action",
+      "targetCollection": "actions",
+      "priority": "CRITICAL",
+      "requiredFields": [
+        "id",
+        "label",
+        "type",
+        "allowed",
+        "safety",
+        "output",
+        "nextStep"
+      ],
+      "migrationRule": "Action queue tasks become action records with explicit safety and no auto-execute.",
+      "blockedActions": [
+        "auto_execute_task"
+      ]
+    },
+    {
+      "id": "CMIG-008",
+      "source": "Temporary Module Plan / Gate",
+      "sourceFunction": "buildTemporaryModuleResolutionPlan(), buildTemporaryModuleResolutionGate()",
+      "targetType": "gate",
+      "targetCollection": "gates",
+      "priority": "HIGH",
+      "requiredFields": [
+        "id",
+        "name",
+        "status",
+        "checks",
+        "failed",
+        "rules",
+        "blockedActions",
+        "nextStep"
+      ],
+      "migrationRule": "Temporary module decisions become gates; deletion remains blocked.",
+      "blockedActions": [
+        "delete_before_integration_qa"
+      ]
+    }
+  ],
+  "targetCollections": {
+    "modules": [],
+    "records": [],
+    "gates": [],
+    "locks": [],
+    "actions": [],
+    "routes": [],
+    "snapshots": []
+  },
+  "migrationRules": [
+    "Migration map is descriptive only.",
+    "No data migration writes happen automatically.",
+    "Every migrated item must preserve id, status, checks/rules, blockedActions and nextStep.",
+    "Safety rules from source locks/gates must not be weakened.",
+    "Stable base 119/120R/120C/121C/122C must be preserved.",
+    "Invalid packages 120–123 must not be used."
+  ],
+  "nextStep": "Prepare PACKAGE 124C — Data Model Migration Gate from Stable Base v1."
+}
