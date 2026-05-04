@@ -1,0 +1,136 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Data Model",
+    "version": "V03.121.0",
+    "type": "UNIFIED_DATA_MODEL_SCHEMA_v1"
+  },
+  "coreTypes": {
+    "module": {
+      "required": [
+        "id",
+        "name",
+        "type",
+        "status",
+        "path",
+        "ownerLayer",
+        "description",
+        "rules",
+        "nextStep"
+      ],
+      "statusEnum": [
+        "ACTIVE",
+        "LOCKED",
+        "CONDITIONAL",
+        "TEMPORARY_REVIEW",
+        "BLOCKED",
+        "DEPRECATED"
+      ]
+    },
+    "record": {
+      "required": [
+        "id",
+        "type",
+        "title",
+        "status",
+        "priority",
+        "createdAt",
+        "source",
+        "payload"
+      ]
+    },
+    "gate": {
+      "required": [
+        "id",
+        "name",
+        "status",
+        "checks",
+        "failed",
+        "rules",
+        "nextStep"
+      ],
+      "statusEnum": [
+        "PASSED",
+        "FAILED",
+        "BLOCKED",
+        "READY",
+        "NEEDS_REVIEW"
+      ]
+    },
+    "lock": {
+      "required": [
+        "id",
+        "name",
+        "status",
+        "checks",
+        "lockedRules",
+        "blockedActions",
+        "nextStep"
+      ],
+      "statusEnum": [
+        "LOCKED",
+        "BLOCKED",
+        "CONDITIONAL"
+      ]
+    },
+    "check": {
+      "required": [
+        "id",
+        "name",
+        "pass",
+        "details"
+      ]
+    },
+    "action": {
+      "required": [
+        "id",
+        "label",
+        "type",
+        "allowed",
+        "safety",
+        "output",
+        "nextStep"
+      ]
+    }
+  },
+  "unifiedRecordShape": {
+    "id": "string",
+    "type": "module | record | gate | lock | check | action | route | snapshot",
+    "title": "string",
+    "status": "string",
+    "priority": "CRITICAL | HIGH | NORMAL | LOW",
+    "createdAt": "ISO datetime",
+    "updatedAt": "ISO datetime | null",
+    "source": {
+      "layer": "string",
+      "module": "string",
+      "path": "string"
+    },
+    "checks": [],
+    "rules": [],
+    "blockedActions": [],
+    "payload": {},
+    "nextStep": "string"
+  },
+  "safetyRules": [
+    "No automatic restore.",
+    "No automatic git execution.",
+    "No automatic git staging.",
+    "No automatic file write.",
+    "No automatic file deletion.",
+    "Every package must include README / CHANGELOG / MANIFEST / QA_REPORT.",
+    "Do not break V03.100 locked base.",
+    "Do not remove Quick Settings language switch."
+  ],
+  "migrationTargets": [
+    "Module Registry",
+    "Cleanup Map",
+    "Temporary Module Plan",
+    "Temporary Module Gate",
+    "Commit Builder Integration",
+    "Action Queue",
+    "Recovery / Continuity locks",
+    "UI Matrix audits"
+  ],
+  "nextStep": "Prepare Data Model Schema Validator v1."
+}
