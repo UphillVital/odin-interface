@@ -1,0 +1,212 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Data Model",
+    "version": "V03.121C.0",
+    "type": "UNIFIED_DATA_MODEL_SCHEMA_FROM_STABLE_BASE_v1",
+    "stableBase": "ODIN_V03_PACKAGE_119_0_V03_118_COMBINED_STABILITY_CHECKPOINT_V1.zip",
+    "rollbackLock": "ODIN_V03_PACKAGE_120R_ROLLBACK_LOCK_INVALID_BRANCH_CUT_V1.zip",
+    "router": "ODIN_V03_PACKAGE_120C_CORRECTED_DATA_MODEL_HARDENING_ROUTER_FROM_STABLE_BASE_V1.zip"
+  },
+  "status": "UNIFIED_SCHEMA_READY_FROM_STABLE_BASE",
+  "invalidBranchProtection": {
+    "invalidPackages": [
+      "PACKAGE 120",
+      "PACKAGE 121",
+      "PACKAGE 122",
+      "PACKAGE 123"
+    ],
+    "rule": "Never use invalid packages 120–123 as source for data model."
+  },
+  "coreTypes": {
+    "module": {
+      "required": [
+        "id",
+        "name",
+        "type",
+        "status",
+        "path",
+        "ownerLayer",
+        "description",
+        "rules",
+        "nextStep"
+      ],
+      "statusEnum": [
+        "ACTIVE",
+        "LOCKED",
+        "CONDITIONAL",
+        "TEMPORARY_REVIEW",
+        "BLOCKED",
+        "DEPRECATED"
+      ]
+    },
+    "record": {
+      "required": [
+        "id",
+        "type",
+        "title",
+        "status",
+        "priority",
+        "createdAt",
+        "source",
+        "payload",
+        "nextStep"
+      ],
+      "statusEnum": [
+        "READY",
+        "ACTIVE",
+        "WAITING",
+        "NEEDS_REVIEW",
+        "BLOCKED",
+        "ARCHIVED"
+      ]
+    },
+    "gate": {
+      "required": [
+        "id",
+        "name",
+        "status",
+        "checks",
+        "failed",
+        "rules",
+        "blockedActions",
+        "nextStep"
+      ],
+      "statusEnum": [
+        "PASSED",
+        "FAILED",
+        "BLOCKED",
+        "READY",
+        "NEEDS_REVIEW"
+      ]
+    },
+    "lock": {
+      "required": [
+        "id",
+        "name",
+        "status",
+        "checks",
+        "lockedRules",
+        "blockedActions",
+        "sourceGate",
+        "nextStep"
+      ],
+      "statusEnum": [
+        "LOCKED",
+        "BLOCKED",
+        "CONDITIONAL"
+      ]
+    },
+    "check": {
+      "required": [
+        "id",
+        "name",
+        "pass",
+        "details",
+        "severity"
+      ],
+      "severityEnum": [
+        "CRITICAL",
+        "HIGH",
+        "NORMAL",
+        "LOW"
+      ]
+    },
+    "action": {
+      "required": [
+        "id",
+        "label",
+        "type",
+        "allowed",
+        "safety",
+        "output",
+        "nextStep"
+      ],
+      "typeEnum": [
+        "COPY_ONLY",
+        "BUILD_DRAFT",
+        "VALIDATE",
+        "EXPORT",
+        "IMPORT_MANUAL",
+        "ROUTE"
+      ]
+    },
+    "route": {
+      "required": [
+        "id",
+        "name",
+        "priority",
+        "purpose",
+        "allowed",
+        "nextPackage",
+        "rules"
+      ]
+    },
+    "snapshot": {
+      "required": [
+        "id",
+        "name",
+        "type",
+        "createdAt",
+        "state",
+        "restoreRules",
+        "safety"
+      ]
+    }
+  },
+  "unifiedRecordShape": {
+    "id": "string",
+    "type": "module | record | gate | lock | check | action | route | snapshot",
+    "title": "string",
+    "status": "string",
+    "priority": "CRITICAL | HIGH | NORMAL | LOW",
+    "createdAt": "ISO datetime",
+    "updatedAt": "ISO datetime | null",
+    "source": {
+      "layer": "string",
+      "module": "string",
+      "path": "string"
+    },
+    "checks": [],
+    "rules": [],
+    "lockedRules": [],
+    "blockedActions": [],
+    "payload": {},
+    "nextStep": "string"
+  },
+  "stableBaseLayers": [
+    "Control Surface",
+    "Recovery Layer",
+    "Continuity Layer",
+    "UI Polish Lock",
+    "Cleanup Consolidation Lock",
+    "Commit Builder Widget Lock",
+    "Action Queue Recovery",
+    "Quick Settings Regression Gate"
+  ],
+  "safetyRules": [
+    "No automatic restore.",
+    "No automatic git execution.",
+    "No automatic git staging.",
+    "No automatic file write.",
+    "No automatic file deletion.",
+    "Do not use invalid packages 120–123 as source.",
+    "Every package must include README / CHANGELOG / MANIFEST / QA_REPORT.",
+    "Do not break V03.118 Combined Stability Checkpoint.",
+    "Do not remove Quick Settings language switch.",
+    "Do not delete commit_builder.html without separate approved delete package."
+  ],
+  "migrationTargets": [
+    "Module Registry",
+    "Cleanup Map",
+    "Temporary Module Plan",
+    "Temporary Module Gate",
+    "Commit Builder Integration",
+    "Commit Builder Widget Lock",
+    "Action Queue",
+    "Recovery / Continuity locks",
+    "UI Matrix audits",
+    "Quick Settings Regression Gate"
+  ],
+  "nextStep": "Prepare PACKAGE 122C — Data Model Schema Validator from Stable Base v1."
+}
