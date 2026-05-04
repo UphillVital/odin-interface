@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "UI/DataModel Sync",
+    "version": "V03.154D.0",
+    "type": "UI_DATA_MODEL_SYNC_LOCK_v1",
+    "created": "2026-05-04T17:32:10.933038+00:00",
+    "sourceSyncLayer": "odin_ui_to_data_model_sync_layer_v03_152D.json",
+    "sourceQaGate": "odin_ui_data_model_sync_qa_gate_v03_153D.json"
+  },
+  "status": "UI_DATA_MODEL_SYNC_LOCKED",
+  "line": "D-LINE",
+  "syncMode": "READ_ONLY_ENFORCED",
+  "dataModel": "ACTIVE_SOURCE_OF_TRUTH",
+  "adapter": "RUNTIME_LAYER",
+  "lockedInputs": {
+    "syncLayerStatus": "UI_DATA_MODEL_SYNC_LAYER_READY",
+    "syncQaGateStatus": "UI_DATA_MODEL_SYNC_QA_GATE_READY"
+  },
+  "enforcement": [
+    "UI cannot write data model files.",
+    "UI cannot delete data model files.",
+    "UI cannot bypass active Data Model.",
+    "UI must read runtime state through sync layer.",
+    "All sync targets remain writeAllowed=false.",
+    "Runtime replacement requires a separate QA-approved package."
+  ],
+  "lockedTargets": [
+    {
+      "id": "SYNC-001",
+      "uiArea": "System Mode Panel",
+      "dataSource": "odin_system_mode_switch_v03_150C.json",
+      "readFields": [
+        "status",
+        "systemMode",
+        "dataModel.status",
+        "dataModel.adapter",
+        "nextLine",
+        "nextStep"
+      ],
+      "writeAllowed": false
+    },
+    {
+      "id": "SYNC-002",
+      "uiArea": "Runtime Validation Panel",
+      "dataSource": "odin_data_model_runtime_validation_v03_151D.json",
+      "readFields": [
+        "status",
+        "expectedRuntimeState",
+        "runtimeChecks",
+        "manualTestInstructions"
+      ],
+      "writeAllowed": false
+    },
+    {
+      "id": "SYNC-003",
+      "uiArea": "Next Development Panel",
+      "dataSource": "D-LINE runtime state",
+      "readFields": [
+        "nextStep",
+        "blockedActions"
+      ],
+      "writeAllowed": false
+    }
+  ],
+  "blockedActions": [
+    "write data model files from UI",
+    "delete data model files",
+    "execute git",
+    "bypass Data Model",
+    "replace runtime without QA",
+    "use invalid packages 120–123",
+    "change writeAllowed to true without new QA gate"
+  ],
+  "runtimeRules": [
+    "Data Model remains ACTIVE_SOURCE_OF_TRUTH.",
+    "Adapter remains RUNTIME_LAYER.",
+    "UI is display + controlled trigger layer, not source-of-truth.",
+    "Any future write-capable sync requires separate plan, QA gate, lock, and manual approval."
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: UI/Data Model Sync Lock v1.",
+    "Click Build Sync Lock.",
+    "Expected status: UI_DATA_MODEL_SYNC_LOCKED.",
+    "Expected syncMode: READ_ONLY_ENFORCED.",
+    "Expected dataModel: ACTIVE_SOURCE_OF_TRUTH.",
+    "Expected adapter: RUNTIME_LAYER.",
+    "Check lockedTargets: every target must have writeAllowed=false.",
+    "Check blockedActions: write/delete/git/bypass/runtime replacement must be blocked.",
+    "If any target has writeAllowed=true, stop and roll back to 152D/153D.",
+    "If Sync QA Gate block is still visible, Run Sync QA must show UI_DATA_MODEL_SYNC_QA_PASSED and Failed=0."
+  ],
+  "nextStep": "Prepare PACKAGE 155D — Runtime Interaction Layer v1."
+}
