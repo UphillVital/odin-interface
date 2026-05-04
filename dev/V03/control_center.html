@@ -42,11 +42,11 @@
 <main class="work-zone" id="workZone">
 <section class="zone-card"><h1 class="zone-title">Центр керування ODIN — File Workspace Execution Bridge v1</h1><p>File Workspace Execution Bridge формує структурований bridge context для передачі задачі з Control Center у File Workspace: record, action, decision, entry, execution, rules і state package.</p><div class="control-meta" id="summaryMeta"><span class="control-pill">LOADING DATA MODEL...</span></div><div class="json-status" id="jsonStatus">Підключення JSON...</div><div class="json-status" id="rulesStatus">Підключення Rules JSON...</div><div class="system-panel"><strong>Decision rule:</strong> Auto Decision спирається на Entry, Execution, Rule Validation і Priority. Run залишається симуляційним.</div><div class="record-actions"><button class="record-action" id="clearRuntimeState" type="button">Очистити Runtime State</button><button class="record-action" id="exportRuntimeState" type="button">Copy Runtime State</button><button class="record-action" id="importRuntimeState" type="button">Import Runtime State</button><button class="record-action" id="resetRules" type="button">Reset Rules</button><button class="record-action" id="copyRules" type="button">Copy Rules</button><button class="record-action" id="reloadExternalRules" type="button">Reload External Rules</button><button class="record-action" id="copyValidation" type="button">Copy Validation Report</button><button class="record-action" id="copyDecisionReport" type="button">Copy Decision Report</button><button class="record-action" id="copyDecisionHistory" type="button">Copy Decision History</button><button class="record-action" id="clearDecisionHistory" type="button">Clear Decision History</button><button class="record-action" id="copyStatePackage" type="button">Copy State Package</button></div><textarea class="runtime-import" id="runtimeImportInput" placeholder="Встав Runtime State JSON..."></textarea><div class="execution-log" id="executionLog">EXECUTION LOG: очікує запуску.</div><div class="rule-log" id="ruleLog">RULE LOG: правила готові.</div><div class="validation-log" id="validationLog">VALIDATION LOG: очікує перевірки.</div><div class="decision-log" id="decisionLog">DECISION LOG: очікує оцінки.</div></section>
 
-<section class="zone-card"><h2 class="zone-title">↩ File Workspace Integration Result</h2>
+<section class="zone-card"><h2 class="zone-title">↩ File Workspace Import Result v1</h2>
 <p>Встав сюди Integration Summary з File Workspace, щоб Control Center бачив результат flow.</p>
 <div class="record-actions"><button class="record-action" id="importIntegrationSummary" type="button">Import Integration Summary</button><button class="record-action" id="copyIntegrationResult" type="button">Copy Integration Result</button><button class="record-action" id="clearIntegrationResult" type="button">Clear Integration Result</button></div>
 <textarea class="runtime-import" id="integrationSummaryInput" placeholder="Paste CONTROL_CENTER_INTEGRATION_SUMMARY_v1 JSON..."></textarea>
-<div class="system-panel" id="integrationResultBox">Integration Result ще не імпортовано.</div></section>
+<div class="system-panel" id="integrationResultBox">Integration Result ще не імпортовано.</div><div class="system-panel" id="integrationActionBox">Import Action ще не сформовано.</div></section>
 
 <section class="zone-card"><h2 class="zone-title">🧭 Auto Decision Board</h2><div class="decision-grid" id="decisionBoard"></div></section>
 <section class="zone-card"><h2 class="zone-title">📦 State Package Export / Import</h2><div class="system-panel"><strong>State Package:</strong> один JSON з runtime state, rules, validation, decision report і history. Тепер його можна не тільки копіювати, а й імпортувати назад для відновлення.</div><div class="record-actions"><button class="record-action" id="previewStatePackage" type="button">Preview State Package</button><button class="record-action" id="copyStatePackage2" type="button">Copy State Package</button><button class="record-action" id="importStatePackage" type="button">Import State Package</button><button class="record-action" id="copyBridgePackage" type="button">Copy Bridge Package</button></div><textarea class="runtime-import" id="statePackagePreview" placeholder="State Package preview / встав State Package JSON для імпорту..."></textarea></section>
@@ -62,7 +62,7 @@
 </main>
 <aside class="assist-panel"><div class="assist-title"><span>Пояснення</span><span class="hint" tabindex="0" data-help-uk="Права панель пояснює Auto Decision.">?</span></div><div class="assist-content"><p><strong>STATE PACKAGE v1</strong> — рекомендаційний шар.</p><p>Він не виконує файли, а підказує рішення.</p><p>Наступний рівень: Decision History / Decision Export.</p></div></aside>
 </div>
-<footer class="status-bar"><span>PROJECT: ODIN Interface</span><span>VERSION: V03.62.0</span><span>MODE: STATE PACKAGE</span><span>STATUS: BRIDGE READY</span></footer>
+<footer class="status-bar"><span>PROJECT: ODIN Interface</span><span>VERSION: V03.63.0</span><span>MODE: STATE PACKAGE</span><span>STATUS: BRIDGE READY</span></footer>
 <script src="11_PROTOTYPE_SYSTEM_UI/app.js"></script>
 <script>
 const DATA_URL="_data/control_center_dataset_v1.json";
@@ -82,15 +82,57 @@ const fallbackRules=[
 let externalRules=[...fallbackRules];let rules=[...fallbackRules];
 function validateRules(){const ids=rules.map(r=>r.id);validationReport=rules.map(r=>{let issues=[];["id","name","condition","action","result"].forEach(f=>{if(!r[f])issues.push("missing_"+f);});if(!allowedActions.includes(r.action))issues.push("unknown_action");if(ids.filter(id=>id===r.id).length>1)issues.push("duplicate_id");if(r.active!==true)issues.push("inactive");let status="VALID";if(issues.includes("unknown_action")||issues.some(x=>x.startsWith("missing_"))||issues.includes("duplicate_id"))status="INVALID";else if(issues.includes("inactive"))status="WARNING";return {id:r.id,status,issues};});renderValidationMatrix();document.getElementById("validationLog").textContent=`VALIDATION LOG: ${validationReport.filter(x=>x.status==="VALID").length} valid, ${validationReport.filter(x=>x.status==="WARNING").length} warnings, ${validationReport.filter(x=>x.status==="INVALID").length} invalid.`;}
 function renderValidationMatrix(){document.getElementById("validationMatrix").innerHTML=validationReport.map(v=>`<div class="validation-box rule-${v.status.toLowerCase()}"><div class="validation-title">${escapeHtml(v.id)} — ${escapeHtml(v.status)}</div><div class="control-record-desc">${v.issues.length?escapeHtml(v.issues.join(", ")):"No issues"}</div><span class="validation-pill">${escapeHtml(v.status)}</span></div>`).join("");}
-function copyValidation(){copyText(JSON.stringify({version:"V03.62.0",updated:new Date().toISOString(),validationReport},null,2),"VALIDATION LOG: report copied.");}
-function copyDecisionReport(){copyText(JSON.stringify({version:"V03.62.0",updated:new Date().toISOString(),decisionReport},null,2),"DECISION LOG: report copied.");}
+function copyValidation(){copyText(JSON.stringify({version:"V03.63.0",updated:new Date().toISOString(),validationReport},null,2),"VALIDATION LOG: report copied.");}
+function copyDecisionReport(){copyText(JSON.stringify({version:"V03.63.0",updated:new Date().toISOString(),decisionReport},null,2),"DECISION LOG: report copied.");}
 const INTEGRATION_RESULT_KEY="odin_control_center_integration_result_v1";
 let integrationResult=null;
 function loadIntegrationResult(){try{const raw=localStorage.getItem(INTEGRATION_RESULT_KEY);integrationResult=raw?JSON.parse(raw):null;}catch(e){integrationResult=null;}renderIntegrationResult();}
 function saveIntegrationResult(){localStorage.setItem(INTEGRATION_RESULT_KEY,JSON.stringify(integrationResult,null,2));renderIntegrationResult();}
-function renderIntegrationResult(){const box=document.getElementById("integrationResultBox");if(!box)return;if(!integrationResult){box.textContent="Integration Result ще не імпортовано.";return;}box.innerHTML=`<strong>Status:</strong> ${escapeHtml(integrationResult.status)}<br><strong>Lock:</strong> ${escapeHtml(integrationResult.lockStatus)}<br><strong>Next:</strong> ${escapeHtml(integrationResult.nextAllowedStep)}<br><strong>Blocked:</strong> ${escapeHtml((integrationResult.blocked||[]).length)}`;}
-function importIntegrationSummary(){const raw=(document.getElementById("integrationSummaryInput")?.value||"").trim();if(!raw){document.getElementById("decisionLog").textContent="INTEGRATION IMPORT BLOCKED: поле порожнє.";return;}try{const parsed=JSON.parse(raw);if(!parsed.meta||parsed.meta.type!=="CONTROL_CENTER_INTEGRATION_SUMMARY_v1")throw new Error("Wrong integration summary type");integrationResult=parsed;saveIntegrationResult();document.getElementById("decisionLog").textContent=`INTEGRATION IMPORTED: ${parsed.status}.`;}catch(e){document.getElementById("decisionLog").textContent="INTEGRATION IMPORT FAILED: "+e.message;}}
-function copyIntegrationResult(){copyText(JSON.stringify(integrationResult||{},null,2),"INTEGRATION RESULT: copied.");}
+function buildImportAction(){
+  if(!integrationResult)return null;
+  const blocked=(integrationResult.blocked||[]).length;
+  const actionStatus=integrationResult.status==="INTEGRATION_READY"&&blocked===0?"READY_FOR_NEXT_STEP":"NEEDS_REVIEW";
+  return {
+    meta:{system:"ODIN Interface",module:"Control Center",version:"V03.63.0",type:"CONTROL_CENTER_IMPORT_ACTION_v1",created:new Date().toISOString()},
+    status:actionStatus,
+    sourceStatus:integrationResult.status,
+    lockStatus:integrationResult.lockStatus,
+    nextAllowedStep:integrationResult.nextAllowedStep,
+    blocked:integrationResult.blocked||[],
+    gates:integrationResult.gates||{},
+    recommendation:actionStatus==="READY_FOR_NEXT_STEP"?"Move to next controlled package step.":"Review blocked gates before continuing.",
+    safety:"Import result does not modify files."
+  };
+}
+function renderIntegrationResult(){
+  const box=document.getElementById("integrationResultBox");
+  const actionBox=document.getElementById("integrationActionBox");
+  if(!box)return;
+  if(!integrationResult){
+    box.textContent="Integration Result ще не імпортовано.";
+    if(actionBox)actionBox.textContent="Import Action ще не сформовано.";
+    return;
+  }
+  const action=buildImportAction();
+  box.innerHTML=`<strong>Status:</strong> ${escapeHtml(integrationResult.status)}<br><strong>Lock:</strong> ${escapeHtml(integrationResult.lockStatus)}<br><strong>Next:</strong> ${escapeHtml(integrationResult.nextAllowedStep)}<br><strong>Blocked:</strong> ${escapeHtml((integrationResult.blocked||[]).length)}`;
+  if(actionBox)actionBox.innerHTML=`<strong>Import Action:</strong> ${escapeHtml(action.status)}<br><strong>Recommendation:</strong> ${escapeHtml(action.recommendation)}`;
+}
+function importIntegrationSummary(){
+  const raw=(document.getElementById("integrationSummaryInput")?.value||"").trim();
+  if(!raw){document.getElementById("decisionLog").textContent="INTEGRATION IMPORT BLOCKED: поле порожнє.";return;}
+  try{
+    const parsed=JSON.parse(raw);
+    if(!parsed.meta||parsed.meta.type!=="CONTROL_CENTER_INTEGRATION_SUMMARY_v1")throw new Error("Wrong integration summary type");
+    integrationResult=parsed;
+    saveIntegrationResult();
+    const action=buildImportAction();
+    decisionHistory.push({time:new Date().toISOString(),id:"INTEGRATION_RESULT",name:"File Workspace Integration Result",from:"NONE",to:action.status,reason:action.recommendation,entry:"IMPORT",execution:parsed.lockStatus});
+    saveDecisionHistory();
+    renderDecisionHistory();
+    document.getElementById("decisionLog").textContent=`INTEGRATION IMPORTED: ${parsed.status} → ${action.status}.`;
+  }catch(e){document.getElementById("decisionLog").textContent="INTEGRATION IMPORT FAILED: "+e.message;}
+}
+function copyIntegrationResult(){copyText(JSON.stringify({integrationResult,importAction:buildImportAction()},null,2),"INTEGRATION RESULT: copied.");}
 function clearIntegrationResult(){integrationResult=null;localStorage.removeItem(INTEGRATION_RESULT_KEY);renderIntegrationResult();document.getElementById("decisionLog").textContent="INTEGRATION RESULT: cleared.";}
 function validateSingleRule(r){let issues=[];["id","name","condition","action","result"].forEach(f=>{if(!r[f])issues.push("missing_"+f);});if(!allowedActions.includes(r.action))issues.push("unknown_action");let status="VALID";if(issues.length)status="INVALID";else if(r.active!==true)status="WARNING";return {id:r.id,status,issues};}
 function isRuleUsable(action){return rules.some(r=>r.active&&r.action===action&&validateSingleRule(r).status!=="INVALID");}
@@ -99,7 +141,7 @@ function loadDecisionHistory(){try{const raw=localStorage.getItem(DECISION_HISTO
 function saveDecisionHistory(){localStorage.setItem(DECISION_HISTORY_KEY,JSON.stringify(decisionHistory.slice(-200),null,2));}
 function addDecisionHistory(nextReport){nextReport.forEach(d=>{const prev=previousDecisionMap[d.id];if(prev&&prev.decision!==d.decision){decisionHistory.push({time:new Date().toISOString(),id:d.id,name:d.name,from:prev.decision,to:d.decision,reason:d.reason,entry:d.entry,execution:d.execution});}});previousDecisionMap=Object.fromEntries(nextReport.map(d=>[d.id,{decision:d.decision,reason:d.reason}]));saveDecisionHistory();renderDecisionHistory();}
 function renderDecisionHistory(){const box=document.getElementById("decisionHistoryList");if(!box)return;const items=decisionHistory.slice(-20).reverse();box.innerHTML=items.length?items.map(h=>`<div class="history-item"><div class="history-time">${escapeHtml(h.time)}</div><div><strong>${escapeHtml(h.id)}</strong> — ${escapeHtml(h.from)} → <strong>${escapeHtml(h.to)}</strong></div><div class="control-record-desc">${escapeHtml(h.reason)}</div></div>`).join(""):'<p class="control-record-desc">Історія рішень порожня.</p>';}
-function copyDecisionHistory(){copyText(JSON.stringify({version:"V03.62.0",updated:new Date().toISOString(),decisionHistory},null,2),"STATE PACKAGE: copied.");}
+function copyDecisionHistory(){copyText(JSON.stringify({version:"V03.63.0",updated:new Date().toISOString(),decisionHistory},null,2),"STATE PACKAGE: copied.");}
 function clearDecisionHistory(){decisionHistory=[];previousDecisionMap={};saveDecisionHistory();renderDecisionHistory();document.getElementById("decisionLog").textContent="STATE PACKAGE: cleared.";}
 function updateDecisionReport(){const nextReport=allRecords.map(getDecision);decisionReport=nextReport;addDecisionHistory(nextReport);renderDecisionBoard();const counts={ALLOW:0,BLOCK:0,REVIEW:0,RETRY:0};decisionReport.forEach(d=>counts[d.decision]=(counts[d.decision]||0)+1);document.getElementById("decisionLog").textContent=`DECISION LOG: ALLOW ${counts.ALLOW}, BLOCK ${counts.BLOCK}, REVIEW ${counts.REVIEW}, RETRY ${counts.RETRY}. HISTORY ${decisionHistory.length}.`;if(document.getElementById("statePackagePreview")){document.getElementById("statePackagePreview").value=JSON.stringify(buildStatePackage(),null,2);}if(document.getElementById("bridgePreview")){document.getElementById("bridgePreview").value=JSON.stringify(buildBridgePackage(null),null,2);}}
 function renderDecisionBoard(){document.getElementById("decisionBoard").innerHTML=decisionReport.map(d=>`<div class="decision-box decision-${d.decision.toLowerCase()}"><div class="decision-title">${escapeHtml(d.id)} — <span class="decision-status">${escapeHtml(d.decision)}</span></div><div class="control-record-desc">${escapeHtml(d.name)}<br><strong>Reason:</strong> ${escapeHtml(d.reason)}</div><div class="record-actions"><span class="decision-pill">ENTRY: ${escapeHtml(d.entry)}</span><span class="decision-pill">EXEC: ${escapeHtml(d.execution)}</span><span class="decision-pill">PRIORITY: ${escapeHtml(d.priority)}</span></div></div>`).join("");}
@@ -111,7 +153,7 @@ function copyRules(){copyText(JSON.stringify(rules,null,2),"RULE LOG: прави
 function toggleRule(id){rules=rules.map(r=>r.id===id?{...r,active:!r.active}:r);saveRules();renderRuleList();renderRecords(filteredRecords);ruleLog(`RULE LOG: ${id} toggled.`);}
 function addRule(){const name=document.getElementById("ruleName").value.trim();const condition=document.getElementById("ruleCondition").value.trim();const action=document.getElementById("ruleAction").value.trim();const result=document.getElementById("ruleResult").value.trim();if(!name||!condition||!action||!result){ruleLog("RULE LOG: Add blocked — заповни всі поля.");return;}const id="RULE-CUSTOM-"+String(Date.now()).slice(-6);rules.push({id,name,condition,action,result,active:true,custom:true});saveRules();["ruleName","ruleCondition","ruleAction","ruleResult"].forEach(x=>document.getElementById(x).value="");renderRuleList();renderRecords(filteredRecords);ruleLog(`RULE LOG: ${id} додано.`);}
 function loadRuntimeState(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return;const parsed=JSON.parse(raw);entryState=parsed.entryState||{};executionState=parsed.executionState||{};}catch(e){entryState={};executionState={};}}
-function saveRuntimeState(){localStorage.setItem(STORAGE_KEY,JSON.stringify({version:"V03.62.0",updated:new Date().toISOString(),entryState,executionState},null,2));}
+function saveRuntimeState(){localStorage.setItem(STORAGE_KEY,JSON.stringify({version:"V03.63.0",updated:new Date().toISOString(),entryState,executionState},null,2));}
 function clearRuntimeState(){entryState={};executionState={};saveRuntimeState();log("RUNTIME STATE: очищено.");updateDecisionReport();renderRecords(filteredRecords);}
 function copyRuntimeState(){copyText(localStorage.getItem(STORAGE_KEY)||"{}","RUNTIME STATE: скопійовано.");}
 function importRuntimeState(){const box=document.getElementById("runtimeImportInput");const raw=box.value.trim();if(!raw){log("IMPORT BLOCKED: поле порожнє.");return;}try{const parsed=JSON.parse(raw);if(typeof parsed!=="object"||Array.isArray(parsed)||parsed===null)throw new Error("Root must be object");entryState=parsed.entryState||{};executionState=parsed.executionState||{};saveRuntimeState();box.value="";log(`RUNTIME STATE IMPORTED: entry=${Object.keys(entryState).length}, execution=${Object.keys(executionState).length}.`);updateDecisionReport();renderRecords(filteredRecords);}catch(e){log("IMPORT FAILED: " + e.message);}}
