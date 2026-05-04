@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Data Model",
+    "version": "V03.122C.0",
+    "type": "DATA_MODEL_SCHEMA_VALIDATOR_FROM_STABLE_BASE_v1",
+    "sourceSchema": "odin_unified_data_model_schema_v03_121C.json"
+  },
+  "status": "VALIDATOR_READY_FROM_STABLE_BASE",
+  "requiredCoreTypes": [
+    "module",
+    "record",
+    "gate",
+    "lock",
+    "check",
+    "action",
+    "route",
+    "snapshot"
+  ],
+  "requiredMetaFields": [
+    "stableBase",
+    "rollbackLock",
+    "router"
+  ],
+  "requiredSafetyRules": [
+    "No automatic restore.",
+    "No automatic git execution.",
+    "No automatic git staging.",
+    "No automatic file write.",
+    "No automatic file deletion.",
+    "Do not use invalid packages 120–123 as source."
+  ],
+  "requiredStableBaseLayers": [
+    "Control Surface",
+    "Recovery Layer",
+    "Continuity Layer",
+    "UI Polish Lock",
+    "Cleanup Consolidation Lock"
+  ],
+  "invalidBranchMustContain": [
+    "PACKAGE 120",
+    "PACKAGE 121",
+    "PACKAGE 122",
+    "PACKAGE 123"
+  ],
+  "validationStatusEnum": [
+    "SCHEMA_VALID_FROM_STABLE_BASE",
+    "SCHEMA_INVALID_FROM_STABLE_BASE"
+  ],
+  "hardRules": [
+    "Validator must not modify schema automatically.",
+    "Validator must not write files automatically.",
+    "Validator must not execute git.",
+    "Validator must reject schemas without stableBase reference.",
+    "Validator must reject schemas without invalid branch protection."
+  ],
+  "nextStep": "Prepare PACKAGE 123C — Data Model Registry Migration Map from Stable Base v1."
+}
