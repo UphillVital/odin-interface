@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Data Model",
+    "version": "V03.122.0",
+    "type": "DATA_MODEL_SCHEMA_VALIDATOR_v1"
+  },
+  "validationRules": [
+    {
+      "id": "DMV-001",
+      "name": "meta exists",
+      "target": "meta"
+    },
+    {
+      "id": "DMV-002",
+      "name": "coreTypes exists",
+      "target": "coreTypes"
+    },
+    {
+      "id": "DMV-003",
+      "name": "module type exists",
+      "target": "coreTypes.module"
+    },
+    {
+      "id": "DMV-004",
+      "name": "record type exists",
+      "target": "coreTypes.record"
+    },
+    {
+      "id": "DMV-005",
+      "name": "gate type exists",
+      "target": "coreTypes.gate"
+    },
+    {
+      "id": "DMV-006",
+      "name": "lock type exists",
+      "target": "coreTypes.lock"
+    },
+    {
+      "id": "DMV-007",
+      "name": "check type exists",
+      "target": "coreTypes.check"
+    },
+    {
+      "id": "DMV-008",
+      "name": "action type exists",
+      "target": "coreTypes.action"
+    },
+    {
+      "id": "DMV-009",
+      "name": "unifiedRecordShape exists",
+      "target": "unifiedRecordShape"
+    },
+    {
+      "id": "DMV-010",
+      "name": "safetyRules exist",
+      "target": "safetyRules"
+    },
+    {
+      "id": "DMV-011",
+      "name": "migrationTargets exist",
+      "target": "migrationTargets"
+    },
+    {
+      "id": "DMV-012",
+      "name": "nextStep exists",
+      "target": "nextStep"
+    }
+  ],
+  "requiredCoreTypes": [
+    "module",
+    "record",
+    "gate",
+    "lock",
+    "check",
+    "action"
+  ],
+  "requiredSafetyRules": [
+    "No automatic restore.",
+    "No automatic git execution.",
+    "No automatic git staging.",
+    "No automatic file write.",
+    "No automatic file deletion."
+  ],
+  "statusEnum": [
+    "SCHEMA_VALID",
+    "SCHEMA_INVALID"
+  ],
+  "nextStep": "Prepare Data Model Registry Migration Map v1."
+}
