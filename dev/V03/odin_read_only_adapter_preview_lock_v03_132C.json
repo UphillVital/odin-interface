@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Data Model",
+    "version": "V03.132C.0",
+    "type": "READ_ONLY_ADAPTER_PREVIEW_LOCK_v1",
+    "sourcePreview": "odin_read_only_adapter_preview_v03_130C.json",
+    "sourceQaGate": "odin_read_only_adapter_preview_qa_gate_v03_131C.json"
+  },
+  "status": "READ_ONLY_ADAPTER_PREVIEW_LOCK_READY",
+  "lockedMode": "READ_ONLY_IN_MEMORY",
+  "sourcePreviewStatus": "READ_ONLY_PREVIEW_READY",
+  "sourceQaGateStatus": "READ_ONLY_ADAPTER_PREVIEW_QA_GATE_READY",
+  "lockedCapabilities": [
+    "in-memory data model preview",
+    "preview collections: records/gates/locks/actions",
+    "copy preview JSON",
+    "inspect adapter shape without runtime replacement"
+  ],
+  "blockedActions": [
+    "write_preview_to_files",
+    "delete_legacy_files",
+    "execute_git",
+    "replace_runtime",
+    "activate_source_of_truth",
+    "use_invalid_branch",
+    "auto_migrate_registry"
+  ],
+  "hardRules": [
+    "Preview remains read-only.",
+    "Preview remains in-memory.",
+    "Preview does not activate Data Model as source-of-truth.",
+    "Preview does not replace Control Center runtime.",
+    "Preview does not write/delete files.",
+    "Preview does not execute git.",
+    "Invalid packages 120–123 remain blocked."
+  ],
+  "nextStep": "Prepare PACKAGE 133C — Data Model Adapter Stability Checkpoint v1."
+}
