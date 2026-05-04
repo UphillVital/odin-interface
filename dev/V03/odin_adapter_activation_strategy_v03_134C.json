@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Data Model",
+    "version": "V03.134C.0",
+    "type": "ADAPTER_ACTIVATION_STRATEGY_v1",
+    "sourceCheckpoint": "odin_data_model_adapter_stability_checkpoint_v03_133C.json",
+    "created": "2026-05-04T11:28:55.209138+00:00"
+  },
+  "status": "ACTIVATION_STRATEGY_READY",
+  "activationMode": "MANUAL_STAGED_ACTIVATION_ONLY",
+  "sourceOfTruthStatus": "NOT_ACTIVE",
+  "strategyStages": [
+    {
+      "id": "ACT-001",
+      "name": "Read-only observe",
+      "status": "ALLOWED",
+      "purpose": "UI can preview adapter data without changing runtime.",
+      "exitGate": "Preview QA passed and lock remains valid."
+    },
+    {
+      "id": "ACT-002",
+      "name": "Shadow compare",
+      "status": "PLANNED",
+      "purpose": "Compare current UI logic with data model output side-by-side.",
+      "exitGate": "No mismatch or manually approved mismatch list."
+    },
+    {
+      "id": "ACT-003",
+      "name": "Single-panel adapter input",
+      "status": "BLOCKED_UNTIL_APPROVED",
+      "purpose": "One non-critical panel may read adapter output.",
+      "exitGate": "Manual approval + rollback plan."
+    },
+    {
+      "id": "ACT-004",
+      "name": "Source-of-truth activation",
+      "status": "BLOCKED",
+      "purpose": "Data Model becomes active source-of-truth.",
+      "exitGate": "Not allowed in this package."
+    }
+  ],
+  "allowedNow": [
+    "read-only preview",
+    "copy reports",
+    "manual comparison",
+    "planning next adapter QA"
+  ],
+  "blockedNow": [
+    "activate source-of-truth",
+    "replace Control Center runtime",
+    "auto-migrate registry",
+    "auto-write data files",
+    "auto-delete legacy code",
+    "execute git",
+    "use invalid packages 120–123"
+  ],
+  "activationRequirements": [
+    "Read-only preview lock must remain valid.",
+    "Adapter activation QA gate must pass.",
+    "Rollback plan must exist.",
+    "Manual approval required.",
+    "No runtime replacement in the activation strategy package."
+  ],
+  "nextStep": "Prepare PACKAGE 135C — Adapter Activation Strategy QA Gate v1."
+}
