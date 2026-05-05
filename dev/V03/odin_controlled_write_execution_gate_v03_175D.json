@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.175D.0",
+    "type": "CONTROLLED_WRITE_EXECUTION_GATE_v1",
+    "created": "2026-05-05T22:07:09.213528+00:00",
+    "sourceWritePreview": "odin_controlled_write_engine_preview_v03_174D.json"
+  },
+  "status": "CONTROLLED_WRITE_EXECUTION_GATE_READY",
+  "line": "D-LINE",
+  "executionMode": "CONTROLLED_WRITE_LOCKED",
+  "realWriteAllowed": false,
+  "executionAllowed": false,
+  "requiresExplicitEnable": true,
+  "requiresFinalConfirmation": true,
+  "enableMode": "SIMULATION_ONLY_ENABLE",
+  "acceptedPreviewStatus": "WRITE_PREVIEW_READY",
+  "requiredPreviewState": "PREVIEW_VERIFIED",
+  "executionPolicy": {
+    "executionAllowedByDefault": false,
+    "executionCanBeEnabledInThisPackage": true,
+    "realWriteAllowedInThisPackage": false,
+    "enableOnlyUnlocksExecutionPipeline": true,
+    "enableDoesNotUnlockRealWrite": true,
+    "controlledWriteEngineRequiredLater": true
+  },
+  "readinessChecks": [
+    {
+      "id": "EXEGATE-001",
+      "name": "Preview ready"
+    },
+    {
+      "id": "EXEGATE-002",
+      "name": "Preview verified"
+    },
+    {
+      "id": "EXEGATE-003",
+      "name": "Preview generated"
+    },
+    {
+      "id": "EXEGATE-004",
+      "name": "Preview did not write"
+    },
+    {
+      "id": "EXEGATE-005",
+      "name": "Data Model not mutated"
+    },
+    {
+      "id": "EXEGATE-006",
+      "name": "Git/delete not executed"
+    },
+    {
+      "id": "EXEGATE-007",
+      "name": "Gate real write remains false"
+    }
+  ],
+  "blockedActions": [
+    "perform real write in execution gate",
+    "set realWriteAllowed to true in execution gate",
+    "mutate Data Model in execution gate",
+    "execute git in execution gate",
+    "delete files in execution gate",
+    "skip preview readiness check",
+    "enable execution without explicit simulation enable",
+    "treat simulation enable as real write permission"
+  ],
+  "nextStep": "Prepare PACKAGE 176D — Controlled Write Engine v1."
+}
