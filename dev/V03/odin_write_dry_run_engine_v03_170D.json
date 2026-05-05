@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.170D.0",
+    "type": "WRITE_DRY_RUN_ENGINE_v1",
+    "created": "2026-05-05T20:04:24.228711+00:00",
+    "sourceWriteSafetyLock": "odin_controlled_write_safety_lock_v03_169D.json"
+  },
+  "status": "WRITE_DRY_RUN_ENGINE_READY",
+  "line": "D-LINE",
+  "mode": "DRY_RUN_ONLY_NO_REAL_WRITE",
+  "realWriteAllowed": false,
+  "sandboxMutationAllowed": true,
+  "dataModelMutationAllowed": false,
+  "gitAllowed": false,
+  "deleteAllowed": false,
+  "dryRunPurpose": "Simulate a future controlled write in memory/sandbox report only.",
+  "dryRunChecks": [
+    {
+      "id": "DRY-001",
+      "name": "Safety lock exists",
+      "rule": "Controlled Write Safety Lock must exist before dry run."
+    },
+    {
+      "id": "DRY-002",
+      "name": "Real write disabled",
+      "rule": "realWriteAllowed must be false."
+    },
+    {
+      "id": "DRY-003",
+      "name": "Sandbox only",
+      "rule": "dry run may produce preview/sandbox result only."
+    },
+    {
+      "id": "DRY-004",
+      "name": "Rollback present",
+      "rule": "write candidate must include rollback plan."
+    },
+    {
+      "id": "DRY-005",
+      "name": "Manual approval still required",
+      "rule": "dry run does not replace manual approval."
+    },
+    {
+      "id": "DRY-006",
+      "name": "No git/delete",
+      "rule": "dry run cannot execute git/delete."
+    }
+  ],
+  "sampleDryRunInputShape": {
+    "writeId": "string",
+    "operation": "CREATE | UPDATE | PATCH | DELETE_CANDIDATE",
+    "target": "DataModel | RuntimeState | Config",
+    "payload": {},
+    "rollbackPlan": {},
+    "realWriteAllowed": false,
+    "requiresManualApproval": true
+  },
+  "dryRunResultShape": {
+    "dryRunId": "string",
+    "writeId": "string",
+    "status": "WRITE_DRY_RUN_PASSED | WRITE_DRY_RUN_FAILED",
+    "realWritePerformed": false,
+    "dataModelMutated": false,
+    "sandboxPreviewGenerated": true,
+    "gitExecuted": false,
+    "deletePerformed": false,
+    "nextState": "DRY_RUN_VERIFIED | DRY_RUN_REJECTED"
+  },
+  "blockedActions": [
+    "perform real write during dry run",
+    "mutate Data Model during dry run",
+    "execute git during dry run",
+    "delete files during dry run",
+    "skip rollback check",
+    "skip manual approval requirement",
+    "treat dry run as real execution",
+    "set realWriteAllowed to true"
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Write Dry Run Engine v1.",
+    "Click Build Write Dry Run Engine.",
+    "Expected status: WRITE_DRY_RUN_ENGINE_READY.",
+    "Expected mode: DRY_RUN_ONLY_NO_REAL_WRITE.",
+    "Click Load Sample Write Candidate.",
+    "Click Run Write Dry Run.",
+    "Expected status: WRITE_DRY_RUN_PASSED.",
+    "Expected realWritePerformed=false.",
+    "Expected dataModelMutated=false.",
+    "Expected sandboxPreviewGenerated=true.",
+    "Expected gitExecuted=false and deletePerformed=false.",
+    "If any real write/mutation/git/delete is true — stop and do not continue."
+  ],
+  "nextStep": "Prepare PACKAGE 171D — Write Dry Run QA Gate v1."
+}
