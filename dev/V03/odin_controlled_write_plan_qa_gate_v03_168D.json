@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.168D.0",
+    "type": "CONTROLLED_WRITE_PLAN_QA_GATE_v1",
+    "created": "2026-05-05T18:27:52.273526+00:00",
+    "sourceWritePlanningLayer": "odin_controlled_write_planning_layer_v03_167D.json"
+  },
+  "status": "CONTROLLED_WRITE_PLAN_QA_GATE_READY",
+  "line": "D-LINE",
+  "mode": "WRITE_PLAN_QA_ONLY_NO_EXECUTION",
+  "acceptedWritePlanStatus": "WRITE_PLANNING",
+  "requiredRealWriteAllowed": false,
+  "requiredPlanFlags": {
+    "requiresPlanQa": true,
+    "requiresDryRun": true,
+    "requiresManualApproval": true,
+    "rollbackPlanRequired": true
+  },
+  "qaChecks": [
+    {
+      "id": "WPQA-001",
+      "name": "Write candidate is planning only",
+      "rule": "candidate.status must be WRITE_PLANNING"
+    },
+    {
+      "id": "WPQA-002",
+      "name": "No real write allowed",
+      "rule": "candidate.realWriteAllowed must be false"
+    },
+    {
+      "id": "WPQA-003",
+      "name": "Plan QA required",
+      "rule": "candidate.requiresPlanQa must be true"
+    },
+    {
+      "id": "WPQA-004",
+      "name": "Dry run required",
+      "rule": "candidate.requiresDryRun must be true"
+    },
+    {
+      "id": "WPQA-005",
+      "name": "Manual approval required",
+      "rule": "candidate.requiresManualApproval must be true"
+    },
+    {
+      "id": "WPQA-006",
+      "name": "Rollback plan required",
+      "rule": "candidate.rollbackPlan.required must be true"
+    },
+    {
+      "id": "WPQA-007",
+      "name": "Operation is controlled",
+      "rule": "operation must be CREATE, UPDATE, PATCH, or DELETE_CANDIDATE"
+    },
+    {
+      "id": "WPQA-008",
+      "name": "Target is controlled",
+      "rule": "target must be DataModel, RuntimeState, or Config"
+    }
+  ],
+  "allowedOperations": [
+    "CREATE",
+    "UPDATE",
+    "PATCH",
+    "DELETE_CANDIDATE"
+  ],
+  "allowedTargets": [
+    "DataModel",
+    "RuntimeState",
+    "Config"
+  ],
+  "qaResultShape": {
+    "qaId": "string",
+    "writeId": "string",
+    "status": "WRITE_PLAN_QA_PASSED | WRITE_PLAN_QA_FAILED",
+    "failed": [],
+    "realWriteAllowedForNext": false,
+    "nextState": "WRITE_PLAN_VERIFIED | WRITE_PLAN_REJECTED"
+  },
+  "blockedActions": [
+    "approve write plan with realWriteAllowed=true",
+    "approve write plan without rollback",
+    "approve write plan without dry run requirement",
+    "approve write plan without manual approval requirement",
+    "approve unknown operation",
+    "approve unknown target",
+    "perform real write during plan QA",
+    "mutate Data Model during plan QA",
+    "execute git during plan QA",
+    "delete files during plan QA"
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Controlled Write Plan QA Gate v1.",
+    "Click Build Write Plan QA Gate.",
+    "Click Load Sample Write Candidate.",
+    "Click Run Write Plan QA.",
+    "Expected status: WRITE_PLAN_QA_PASSED.",
+    "Expected Failed=0.",
+    "Expected realWriteAllowedForNext=false.",
+    "Expected nextState=WRITE_PLAN_VERIFIED.",
+    "If QA fails or realWriteAllowed becomes true — stop and do not continue."
+  ],
+  "nextStep": "Prepare PACKAGE 169D — Controlled Write Safety Lock v1."
+}
