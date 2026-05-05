@@ -1,0 +1,85 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.178D.0",
+    "type": "IMMUTABLE_REGISTRY_LOCK_v1",
+    "created": "2026-05-05T22:57:04.044755+00:00",
+    "sourceProtectionLayer": "odin_production_write_protection_layer_v03_177D.json"
+  },
+  "status": "IMMUTABLE_REGISTRY_LOCKED",
+  "line": "D-LINE",
+  "mode": "REGISTRY_IMMUTABLE_NO_MUTATION",
+  "immutableRegistryProtected": true,
+  "registryWriteAllowed": false,
+  "registryMutationAllowed": false,
+  "checksumValidationRequired": true,
+  "antiCorruptionVerificationRequired": true,
+  "immutableSections": [
+    "registry/immutable/core",
+    "registry/immutable/schema",
+    "registry/immutable/locks",
+    "registry/immutable/audit"
+  ],
+  "registryChecksum": "4d285394590b882f3ef36c2a951caa736d85889c708037fb2e7bddb37ff4644f",
+  "lockRules": [
+    "Immutable registry sections cannot be written.",
+    "Immutable registry sections cannot be deleted.",
+    "Checksum validation is required before and after registry inspection.",
+    "Anti-corruption verification must pass before continuing.",
+    "Any registry change requires a new approved migration package.",
+    "Sandbox write cannot modify immutable registry."
+  ],
+  "auditChecks": [
+    {
+      "id": "IMREG-001",
+      "name": "Immutable registry protected"
+    },
+    {
+      "id": "IMREG-002",
+      "name": "Registry write blocked"
+    },
+    {
+      "id": "IMREG-003",
+      "name": "Registry delete blocked"
+    },
+    {
+      "id": "IMREG-004",
+      "name": "Checksum exists"
+    },
+    {
+      "id": "IMREG-005",
+      "name": "Anti-corruption required"
+    },
+    {
+      "id": "IMREG-006",
+      "name": "Production protection remains active"
+    }
+  ],
+  "blockedActions": [
+    "write immutable registry",
+    "delete immutable registry",
+    "mutate registry locks",
+    "bypass checksum validation",
+    "bypass anti-corruption verification",
+    "replace registry schema without approved migration",
+    "set registryWriteAllowed to true",
+    "execute git",
+    "delete files"
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Immutable Registry Lock v1.",
+    "Click Build Immutable Registry Lock.",
+    "Expected status: IMMUTABLE_REGISTRY_LOCKED.",
+    "Expected registryWriteAllowed=false.",
+    "Click Run Immutable Registry Audit.",
+    "Expected status: IMMUTABLE_REGISTRY_AUDIT_PASSED.",
+    "Click Test Immutable Registry Route.",
+    "Expected allowed=false and blockedBy=IMMUTABLE_REGISTRY_LOCK.",
+    "Click Validate Registry Checksum.",
+    "Expected checksumValid=true.",
+    "If immutable route is allowed — stop and do not continue."
+  ],
+  "nextStep": "Prepare PACKAGE 179D — Runtime Partition Protection Lock v1."
+}
