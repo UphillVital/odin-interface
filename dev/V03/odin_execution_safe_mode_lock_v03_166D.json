@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.166D.0",
+    "type": "EXECUTION_SAFE_MODE_LOCK_v1",
+    "created": "2026-05-05T18:07:44.446964+00:00",
+    "sourceSafeModeQaGate": "odin_execution_safe_mode_qa_gate_v03_165D.json"
+  },
+  "status": "EXECUTION_SAFE_MODE_LOCKED",
+  "line": "D-LINE",
+  "lockMode": "SAFE_EXECUTION_VERIFIED_NO_REAL_WRITE",
+  "lockedSafeExecutionState": {
+    "safeExecutionQaRequired": true,
+    "safeExecutionQaStatus": "EXECUTION_SAFE_MODE_QA_PASSED",
+    "safeExecutionNextState": "SAFE_EXECUTION_VERIFIED",
+    "realWriteAllowed": false,
+    "dataModelMutationAllowed": false,
+    "gitAllowed": false,
+    "deleteAllowed": false
+  },
+  "lockedRules": [
+    "Safe execution is verified only when Execution Safe Mode QA passed.",
+    "Real write remains blocked after this lock.",
+    "Data Model mutation remains blocked after this lock.",
+    "Git/delete remain blocked after this lock.",
+    "Safe simulation must not be treated as real execution.",
+    "Any real write engine requires a separate future plan, QA gate, lock, and manual approval."
+  ],
+  "blockedActions": [
+    "perform real write after safe mode lock",
+    "mutate Data Model after safe mode lock",
+    "execute git after safe mode lock",
+    "delete files after safe mode lock",
+    "treat safe simulation as real execution",
+    "skip future real-write approval package",
+    "remove safe mode lock without approved rollback/reset"
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Execution Safe Mode Lock v1.",
+    "Click Build Execution Safe Mode Lock.",
+    "Expected status: EXECUTION_SAFE_MODE_LOCKED.",
+    "Expected lockMode: SAFE_EXECUTION_VERIFIED_NO_REAL_WRITE.",
+    "Expected realWriteAllowed=false.",
+    "Expected dataModelMutationAllowed=false.",
+    "Expected gitAllowed=false.",
+    "Expected deleteAllowed=false.",
+    "If any flag is true — stop and do not continue."
+  ],
+  "nextStep": "Prepare PACKAGE 167D — Controlled Write Planning Layer v1."
+}
