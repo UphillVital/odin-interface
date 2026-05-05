@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.169D.0",
+    "type": "CONTROLLED_WRITE_SAFETY_LOCK_v1",
+    "created": "2026-05-05T19:23:39.725998+00:00",
+    "sourceWritePlanQaGate": "odin_controlled_write_plan_qa_gate_v03_168D.json"
+  },
+  "status": "CONTROLLED_WRITE_SAFETY_LOCKED",
+  "line": "D-LINE",
+  "lockMode": "WRITE_PLAN_VERIFIED_NO_EXECUTION",
+  "writePlanState": "WRITE_PLAN_VERIFIED",
+  "realWriteAllowed": false,
+  "requiresDryRun": true,
+  "requiresManualApproval": true,
+  "requiresRollbackPlan": true,
+  "requiresPreWriteAudit": true,
+  "requiresPostWriteAudit": true,
+  "lockedRules": [
+    "Write plan is considered verified only after Controlled Write Plan QA passed.",
+    "Real write remains blocked after this safety lock.",
+    "Dry run is mandatory before any future write engine.",
+    "Manual approval is mandatory before any future real write.",
+    "Rollback plan is mandatory before any future real write.",
+    "Pre-write and post-write audits are mandatory."
+  ],
+  "blockedActions": [
+    "perform real write after write safety lock",
+    "mutate Data Model after write safety lock",
+    "execute git after write safety lock",
+    "delete files after write safety lock",
+    "skip dry run",
+    "skip manual approval",
+    "skip rollback plan",
+    "skip pre-write audit",
+    "skip post-write audit",
+    "treat write plan verification as write execution",
+    "set realWriteAllowed to true"
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Controlled Write Safety Lock v1.",
+    "Click Build Write Safety Lock.",
+    "Expected status: CONTROLLED_WRITE_SAFETY_LOCKED.",
+    "Expected lockMode: WRITE_PLAN_VERIFIED_NO_EXECUTION.",
+    "Expected realWriteAllowed=false.",
+    "Expected requiresDryRun=true.",
+    "Expected requiresManualApproval=true.",
+    "Expected requiresRollbackPlan=true.",
+    "If any safety flag is wrong — stop and do not continue to 170D."
+  ],
+  "nextStep": "Prepare PACKAGE 170D — Write Dry Run Engine v1."
+}
