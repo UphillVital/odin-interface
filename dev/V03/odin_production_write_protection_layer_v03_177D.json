@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.177D.0",
+    "type": "PRODUCTION_WRITE_PROTECTION_LAYER_v1",
+    "created": "2026-05-05T22:53:43.943214+00:00",
+    "sourceControlledWriteEngine": "odin_controlled_write_engine_v03_176D.json"
+  },
+  "status": "PRODUCTION_WRITE_PROTECTION_READY",
+  "line": "D-LINE",
+  "mode": "ZONE_PROTECTION_ACTIVE",
+  "sandboxZone": {
+    "zone": "SANDBOX",
+    "writeAllowed": true,
+    "scope": "sandbox/*"
+  },
+  "productionZone": {
+    "zone": "PRODUCTION",
+    "writeAllowed": false,
+    "scope": "production/*",
+    "requiresProtectionOverride": true
+  },
+  "protectedZones": {
+    "sandboxZoneProtected": true,
+    "productionZoneProtected": true,
+    "immutableRegistryProtected": true,
+    "runtimePartitionProtected": true
+  },
+  "zoneRouterRules": [
+    {
+      "match": "sandbox/*",
+      "route": "sandbox",
+      "allowed": true,
+      "blockedBy": null
+    },
+    {
+      "match": "production/*",
+      "route": "production",
+      "allowed": false,
+      "blockedBy": "PROTECTION_LAYER"
+    },
+    {
+      "match": "registry/immutable/*",
+      "route": "immutableRegistry",
+      "allowed": false,
+      "blockedBy": "IMMUTABLE_REGISTRY_PROTECTION"
+    },
+    {
+      "match": "runtime/protected/*",
+      "route": "runtimePartition",
+      "allowed": false,
+      "blockedBy": "RUNTIME_PARTITION_PROTECTION"
+    }
+  ],
+  "auditChecks": [
+    {
+      "id": "PROT-001",
+      "name": "Sandbox write route allowed"
+    },
+    {
+      "id": "PROT-002",
+      "name": "Production write route blocked"
+    },
+    {
+      "id": "PROT-003",
+      "name": "Immutable registry protected"
+    },
+    {
+      "id": "PROT-004",
+      "name": "Runtime partition protected"
+    },
+    {
+      "id": "PROT-005",
+      "name": "No protection override active"
+    },
+    {
+      "id": "PROT-006",
+      "name": "Production write allowed remains false"
+    }
+  ],
+  "blockedActions": [
+    "write to production zone",
+    "bypass production protection layer",
+    "mutate immutable registry",
+    "mutate runtime partition",
+    "override protection without approved package",
+    "treat sandbox route as production route",
+    "set productionWriteAllowed to true",
+    "execute git",
+    "delete files"
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Production Write Protection Layer v1.",
+    "Click Build Protection Layer.",
+    "Expected status: PRODUCTION_WRITE_PROTECTION_READY.",
+    "Click Run Zone Protection Audit.",
+    "Expected status: ZONE_PROTECTION_AUDIT_PASSED.",
+    "Click Test Sandbox Route.",
+    "Expected route=sandbox and allowed=true.",
+    "Click Test Production Route.",
+    "Expected route=production, allowed=false, blockedBy=PROTECTION_LAYER.",
+    "If production route is allowed — stop and do not continue."
+  ],
+  "nextStep": "Prepare PACKAGE 178D — Immutable Registry Lock v1."
+}
