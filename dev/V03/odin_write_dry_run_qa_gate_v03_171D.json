@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.171D.0",
+    "type": "WRITE_DRY_RUN_QA_GATE_v1",
+    "created": "2026-05-05T20:24:42.564622+00:00",
+    "sourceDryRunEngine": "odin_write_dry_run_engine_v03_170D.json"
+  },
+  "status": "WRITE_DRY_RUN_QA_GATE_READY",
+  "line": "D-LINE",
+  "mode": "DRY_RUN_QA_ONLY_NO_REAL_WRITE",
+  "acceptedDryRunStatus": "WRITE_DRY_RUN_PASSED",
+  "requiredNextState": "DRY_RUN_VERIFIED",
+  "requiredFlags": {
+    "realWritePerformed": false,
+    "dataModelMutated": false,
+    "sandboxPreviewGenerated": true,
+    "gitExecuted": false,
+    "deletePerformed": false
+  },
+  "qaChecks": [
+    {
+      "id": "DRYQA-001",
+      "name": "Dry run passed",
+      "rule": "dryRun.status must be WRITE_DRY_RUN_PASSED"
+    },
+    {
+      "id": "DRYQA-002",
+      "name": "No dry run failures",
+      "rule": "dryRun.failed length must be 0"
+    },
+    {
+      "id": "DRYQA-003",
+      "name": "No real write",
+      "rule": "realWritePerformed must be false"
+    },
+    {
+      "id": "DRYQA-004",
+      "name": "No Data Model mutation",
+      "rule": "dataModelMutated must be false"
+    },
+    {
+      "id": "DRYQA-005",
+      "name": "Sandbox preview generated",
+      "rule": "sandboxPreviewGenerated must be true"
+    },
+    {
+      "id": "DRYQA-006",
+      "name": "No git execution",
+      "rule": "gitExecuted must be false"
+    },
+    {
+      "id": "DRYQA-007",
+      "name": "No delete operation",
+      "rule": "deletePerformed must be false"
+    },
+    {
+      "id": "DRYQA-008",
+      "name": "Next state verified",
+      "rule": "nextState must be DRY_RUN_VERIFIED"
+    }
+  ],
+  "qaResultShape": {
+    "qaId": "string",
+    "dryRunId": "string",
+    "writeId": "string",
+    "status": "WRITE_DRY_RUN_QA_PASSED | WRITE_DRY_RUN_QA_FAILED",
+    "failed": [],
+    "realWriteAllowedForNext": false,
+    "nextState": "DRY_RUN_QA_VERIFIED | DRY_RUN_QA_REJECTED"
+  },
+  "blockedActions": [
+    "accept dry run if realWritePerformed is true",
+    "accept dry run if dataModelMutated is true",
+    "accept dry run if sandboxPreviewGenerated is false",
+    "accept dry run if gitExecuted is true",
+    "accept dry run if deletePerformed is true",
+    "promote dry run to real write execution",
+    "skip dry run QA",
+    "bypass manual approval gate"
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Write Dry Run QA Gate v1.",
+    "Click Build Write Dry Run QA Gate.",
+    "Click Load Sample Dry Run Report.",
+    "Click Run Write Dry Run QA.",
+    "Expected status: WRITE_DRY_RUN_QA_PASSED.",
+    "Expected Failed=0.",
+    "Expected realWriteAllowedForNext=false.",
+    "Expected nextState=DRY_RUN_QA_VERIFIED.",
+    "If QA fails or any write/mutation/git/delete flag is true — stop and do not continue."
+  ],
+  "nextStep": "Prepare PACKAGE 172D — Manual Approval Gate v1."
+}
