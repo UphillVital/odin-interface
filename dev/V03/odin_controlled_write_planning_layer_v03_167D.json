@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.167D.0",
+    "type": "CONTROLLED_WRITE_PLANNING_LAYER_v1",
+    "created": "2026-05-05T18:16:30.451746+00:00",
+    "sourceSafeModeLock": "odin_execution_safe_mode_lock_v03_166D.json"
+  },
+  "status": "CONTROLLED_WRITE_PLANNING_LAYER_READY",
+  "line": "D-LINE",
+  "mode": "WRITE_PLANNING_ONLY_NO_EXECUTION",
+  "realWriteStatus": "NOT_ALLOWED",
+  "purpose": "Plan a future controlled write layer without enabling any real write in this package.",
+  "writePlanningScope": [
+    {
+      "id": "WPLAN-001",
+      "name": "Allowed write candidates",
+      "description": "Define which future write candidates may be considered after QA and manual approval.",
+      "status": "PLANNING_ONLY"
+    },
+    {
+      "id": "WPLAN-002",
+      "name": "Write target boundaries",
+      "description": "Define exact targets; Data Model write remains blocked until future approved package.",
+      "status": "PLANNING_ONLY"
+    },
+    {
+      "id": "WPLAN-003",
+      "name": "Rollback requirement",
+      "description": "Every future real write must have a rollback plan.",
+      "status": "MANDATORY"
+    },
+    {
+      "id": "WPLAN-004",
+      "name": "Manual approval requirement",
+      "description": "No real write may occur without explicit manual approval.",
+      "status": "MANDATORY"
+    },
+    {
+      "id": "WPLAN-005",
+      "name": "Audit requirement",
+      "description": "Pre-write and post-write audit gates are mandatory before and after any future real write.",
+      "status": "MANDATORY"
+    }
+  ],
+  "futureWritePipeline": [
+    "Write Plan",
+    "Write Plan QA Gate",
+    "Write Safety Lock",
+    "Write Dry Run",
+    "Dry Run QA Gate",
+    "Manual Approval Gate",
+    "Controlled Write Engine",
+    "Post-Write Audit",
+    "Write Completion Lock"
+  ],
+  "writeCandidateShape": {
+    "writeId": "string",
+    "actionId": "string",
+    "target": "DataModel | RuntimeState | Config",
+    "operation": "CREATE | UPDATE | PATCH | DELETE_CANDIDATE",
+    "payload": {},
+    "rollbackPlan": {},
+    "requiresPlanQa": true,
+    "requiresDryRun": true,
+    "requiresManualApproval": true,
+    "realWriteAllowed": false,
+    "status": "WRITE_PLANNING"
+  },
+  "safetyRules": [
+    "This package does not enable real write.",
+    "realWriteAllowed must remain false.",
+    "DELETE remains only DELETE_CANDIDATE and cannot execute.",
+    "Every future write requires rollback plan.",
+    "Every future write requires dry run and QA.",
+    "Every future write requires manual approval.",
+    "System Audit must remain secure before write planning continues."
+  ],
+  "blockedActions": [
+    "perform real write in planning layer",
+    "mutate Data Model in planning layer",
+    "execute git in planning layer",
+    "delete files in planning layer",
+    "skip write plan QA",
+    "skip dry run",
+    "skip manual approval",
+    "treat planning as execution",
+    "set realWriteAllowed to true"
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Controlled Write Planning Layer v1.",
+    "Click Build Write Planning Layer.",
+    "Expected status: CONTROLLED_WRITE_PLANNING_LAYER_READY.",
+    "Expected mode: WRITE_PLANNING_ONLY_NO_EXECUTION.",
+    "Expected realWriteStatus: NOT_ALLOWED.",
+    "Click Generate Sample Write Candidate.",
+    "Expected status: WRITE_PLANNING.",
+    "Expected realWriteAllowed=false.",
+    "Expected requiresDryRun=true and requiresManualApproval=true.",
+    "If any real write is allowed — stop and roll back to 166D."
+  ],
+  "nextStep": "Prepare PACKAGE 168D — Controlled Write Plan QA Gate v1."
+}
