@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.172D.0",
+    "type": "MANUAL_APPROVAL_GATE_v1",
+    "created": "2026-05-05T20:30:32.033763+00:00",
+    "sourceDryRunQaGate": "odin_write_dry_run_qa_gate_v03_171D.json"
+  },
+  "status": "MANUAL_APPROVAL_GATE_READY",
+  "line": "D-LINE",
+  "mode": "MANUAL_APPROVAL_REQUIRED_NO_REAL_WRITE",
+  "acceptedDryRunQaStatus": "WRITE_DRY_RUN_QA_PASSED",
+  "requiredDryRunQaNextState": "DRY_RUN_QA_VERIFIED",
+  "approvalPolicy": {
+    "manualApprovalRequired": true,
+    "realWriteAllowedBeforeApproval": false,
+    "realWriteAllowedAfterApprovalInThisPackage": false,
+    "approvalCanOnlyPrepareNextGate": true,
+    "approvalDoesNotExecuteWrite": true
+  },
+  "approvalRequestShape": {
+    "approvalId": "string",
+    "writeId": "string",
+    "dryRunQaId": "string",
+    "requestedBy": "UI controlled workflow",
+    "status": "APPROVAL_PENDING | APPROVAL_GRANTED_FOR_NEXT_GATE | APPROVAL_REJECTED",
+    "manualApprovalGiven": false,
+    "realWriteAllowed": false,
+    "createdAt": "ISO datetime"
+  },
+  "qaChecks": [
+    {
+      "id": "APP-001",
+      "name": "Dry Run QA passed",
+      "rule": "dryRunQa.status must be WRITE_DRY_RUN_QA_PASSED"
+    },
+    {
+      "id": "APP-002",
+      "name": "Dry Run QA verified",
+      "rule": "dryRunQa.nextState must be DRY_RUN_QA_VERIFIED"
+    },
+    {
+      "id": "APP-003",
+      "name": "No real write allowed for next",
+      "rule": "dryRunQa.realWriteAllowedForNext must be false"
+    },
+    {
+      "id": "APP-004",
+      "name": "Manual approval still required",
+      "rule": "manualApprovalRequired must be true"
+    },
+    {
+      "id": "APP-005",
+      "name": "Approval does not execute write",
+      "rule": "realWriteAllowedAfterApprovalInThisPackage must be false"
+    }
+  ],
+  "blockedActions": [
+    "perform real write in manual approval gate",
+    "set realWriteAllowed to true in this package",
+    "treat approval as execution",
+    "skip manual approval",
+    "approve failed dry run QA",
+    "approve dry run QA with realWriteAllowedForNext=true",
+    "execute git",
+    "delete files",
+    "mutate Data Model"
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Manual Approval Gate v1.",
+    "Click Build Manual Approval Gate.",
+    "Expected status: MANUAL_APPROVAL_GATE_READY.",
+    "Click Load Sample Dry Run QA Report.",
+    "Click Generate Approval Request.",
+    "Expected status: APPROVAL_PENDING.",
+    "Expected manualApprovalGiven=false.",
+    "Expected realWriteAllowed=false.",
+    "Click Simulate Manual Approval For Next Gate.",
+    "Expected status: APPROVAL_GRANTED_FOR_NEXT_GATE.",
+    "Expected manualApprovalGiven=true.",
+    "Expected realWriteAllowed=false.",
+    "If realWriteAllowed becomes true — stop and do not continue."
+  ],
+  "nextStep": "Prepare PACKAGE 173D — Real Write Preflight Gate v1."
+}
