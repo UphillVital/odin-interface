@@ -1,0 +1,82 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.163D.0",
+    "type": "ACTION_QA_GATE_v1",
+    "created": "2026-05-05T08:24:47.316032+00:00",
+    "sourceValidator": "odin_action_validator_v03_162D.json"
+  },
+  "status": "ACTION_QA_GATE_READY",
+  "line": "D-LINE",
+  "mode": "QA_ONLY_NO_EXECUTION",
+  "acceptedValidationStatus": "VALIDATION_PASSED",
+  "acceptedErrorsCount": 0,
+  "requiredNextState": "QA_REQUIRED",
+  "qaChecks": [
+    {
+      "id": "QA-001",
+      "name": "Validation passed",
+      "rule": "validation.status must be VALIDATION_PASSED"
+    },
+    {
+      "id": "QA-002",
+      "name": "No validation errors",
+      "rule": "validation.errors length must be 0"
+    },
+    {
+      "id": "QA-003",
+      "name": "Next state is QA_REQUIRED",
+      "rule": "validation.nextState must be QA_REQUIRED"
+    },
+    {
+      "id": "QA-004",
+      "name": "Execution remains blocked",
+      "rule": "validation.executionAllowed must be false"
+    },
+    {
+      "id": "QA-005",
+      "name": "Action ID exists",
+      "rule": "validation.actionId must exist"
+    },
+    {
+      "id": "QA-006",
+      "name": "No write during QA",
+      "rule": "QA gate does not execute action"
+    }
+  ],
+  "qaResultShape": {
+    "qaId": "string",
+    "actionId": "string",
+    "status": "ACTION_QA_PASSED | ACTION_QA_FAILED",
+    "checks": [],
+    "failed": [],
+    "executionAllowed": false,
+    "nextState": "APPROVED_FOR_EXECUTION | REJECTED",
+    "nextStep": "Execution package only after QA passed"
+  },
+  "blockedActions": [
+    "execute action during QA",
+    "set executionAllowed to true in QA gate",
+    "approve validation with errors",
+    "approve failed validation",
+    "skip validation",
+    "skip QA",
+    "direct data model mutation",
+    "execute git",
+    "delete data model files"
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Action QA Gate v1.",
+    "Click Build Action QA Gate.",
+    "Click Load Sample Validation Report.",
+    "Click Run Action QA.",
+    "Expected status: ACTION_QA_PASSED.",
+    "Expected Failed=0.",
+    "Expected executionAllowed=false.",
+    "Expected nextState=APPROVED_FOR_EXECUTION.",
+    "If QA fails or executionAllowed becomes true — stop and do not continue."
+  ],
+  "nextStep": "Prepare PACKAGE 164D — Action Execution Engine Safe Mode v1."
+}
