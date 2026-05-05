@@ -1,0 +1,92 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.173D.0",
+    "type": "REAL_WRITE_PREFLIGHT_GATE_v1",
+    "created": "2026-05-05T20:37:55.014120+00:00",
+    "sourceManualApprovalGate": "odin_manual_approval_gate_v03_172D.json"
+  },
+  "status": "REAL_WRITE_PREFLIGHT_GATE_READY",
+  "line": "D-LINE",
+  "mode": "PREFLIGHT_ONLY_NO_REAL_WRITE",
+  "acceptedApprovalStatus": "APPROVAL_GRANTED_FOR_NEXT_GATE",
+  "requiredApprovalState": "MANUAL_APPROVAL_VERIFIED",
+  "preflightPolicy": {
+    "realWriteAllowedInThisPackage": false,
+    "manualApprovalRequired": true,
+    "manualApprovalMustBeVerified": true,
+    "dryRunQaMustBeVerified": true,
+    "rollbackPlanRequired": true,
+    "preWriteAuditRequired": true,
+    "postWriteAuditRequired": true,
+    "controlledWriteEngineRequiredLater": true
+  },
+  "preflightChecks": [
+    {
+      "id": "PREF-001",
+      "name": "Manual approval granted",
+      "rule": "approval.status must be APPROVAL_GRANTED_FOR_NEXT_GATE"
+    },
+    {
+      "id": "PREF-002",
+      "name": "Manual approval verified",
+      "rule": "approval.nextState must be MANUAL_APPROVAL_VERIFIED"
+    },
+    {
+      "id": "PREF-003",
+      "name": "Approval flag true",
+      "rule": "approval.manualApprovalGiven must be true"
+    },
+    {
+      "id": "PREF-004",
+      "name": "Real write still false",
+      "rule": "approval.realWriteAllowed must be false"
+    },
+    {
+      "id": "PREF-005",
+      "name": "Write engine not executed",
+      "rule": "preflight does not execute write"
+    },
+    {
+      "id": "PREF-006",
+      "name": "Pre/post audit required",
+      "rule": "audit requirements remain mandatory"
+    }
+  ],
+  "preflightResultShape": {
+    "preflightId": "string",
+    "approvalId": "string",
+    "writeId": "string",
+    "status": "REAL_WRITE_PREFLIGHT_PASSED | REAL_WRITE_PREFLIGHT_FAILED",
+    "failed": [],
+    "realWriteAllowedForEngine": false,
+    "nextState": "PREFLIGHT_VERIFIED | PREFLIGHT_REJECTED"
+  },
+  "blockedActions": [
+    "perform real write in preflight gate",
+    "set realWriteAllowedForEngine to true in this package",
+    "skip manual approval verification",
+    "skip dry run QA verification",
+    "skip rollback plan requirement",
+    "skip pre-write audit",
+    "skip post-write audit",
+    "execute git",
+    "delete files",
+    "mutate Data Model"
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Real Write Preflight Gate v1.",
+    "Click Build Real Write Preflight Gate.",
+    "Expected status: REAL_WRITE_PREFLIGHT_GATE_READY.",
+    "Click Load Sample Manual Approval Report.",
+    "Click Run Real Write Preflight.",
+    "Expected status: REAL_WRITE_PREFLIGHT_PASSED.",
+    "Expected Failed=0.",
+    "Expected realWriteAllowedForEngine=false.",
+    "Expected nextState=PREFLIGHT_VERIFIED.",
+    "If realWriteAllowedForEngine becomes true — stop and do not continue."
+  ],
+  "nextStep": "Prepare PACKAGE 174D — Controlled Write Engine Preview v1."
+}
