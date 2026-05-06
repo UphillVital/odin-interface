@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.181D.0",
+    "type": "PROTECTED_WRITE_RECOVERY_PLAN_v1",
+    "created": "2026-05-05T23:41:02.656241+00:00",
+    "sourceCheckpoint": "odin_protected_write_system_checkpoint_v03_180D.json"
+  },
+  "status": "PROTECTED_WRITE_RECOVERY_PLAN_READY",
+  "line": "D-LINE",
+  "mode": "RECOVERY_PLAN_ONLY_NO_MUTATION",
+  "recoveryHash": "81fad79b0449bfd4fb053ec2244e03007e47937d909e3aa8a773a6c5415d6561",
+  "baseCheckpoint": "V03.180D",
+  "recoveryCapabilities": {
+    "sandboxRollbackPlanAvailable": true,
+    "checkpointRestorePlanAvailable": true,
+    "productionProtectionRecheckAvailable": true,
+    "immutableRegistryRecheckAvailable": true,
+    "runtimePartitionRecheckAvailable": true,
+    "realWriteRecoveryAllowed": false,
+    "automaticProductionMutationAllowed": false
+  },
+  "recoverySteps": [
+    {
+      "id": "REC-001",
+      "name": "Stop write pipeline",
+      "action": "Block further write actions and freeze current output."
+    },
+    {
+      "id": "REC-002",
+      "name": "Rollback sandbox transaction",
+      "action": "Use last sandbox transaction rollback if available."
+    },
+    {
+      "id": "REC-003",
+      "name": "Restore checkpoint",
+      "action": "Return protected write state to checkpoint 180D."
+    },
+    {
+      "id": "REC-004",
+      "name": "Re-audit production protection",
+      "action": "Verify productionWriteBlocked=true."
+    },
+    {
+      "id": "REC-005",
+      "name": "Re-audit immutable registry",
+      "action": "Verify registryWriteAllowed=false and checksum valid."
+    },
+    {
+      "id": "REC-006",
+      "name": "Re-audit runtime partitions",
+      "action": "Verify runtimeProtectedWriteAllowed=false."
+    },
+    {
+      "id": "REC-007",
+      "name": "Prepare recovery report",
+      "action": "Record failure reason and restore status."
+    }
+  ],
+  "blockedActions": [
+    "perform real write during recovery",
+    "mutate production during recovery",
+    "mutate immutable registry during recovery",
+    "mutate runtime protected partition during recovery",
+    "execute git during recovery",
+    "delete files during recovery",
+    "skip recovery audit",
+    "declare recovery complete without checkpoint verification"
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Protected Write Recovery Plan v1.",
+    "Click Build Recovery Plan.",
+    "Expected status: PROTECTED_WRITE_RECOVERY_PLAN_READY.",
+    "Click Simulate Recovery Scenario.",
+    "Expected status: RECOVERY_SCENARIO_SIMULATED.",
+    "Click Run Recovery Plan QA.",
+    "Expected status: RECOVERY_PLAN_QA_PASSED.",
+    "Expected realWriteRecoveryAllowed=false.",
+    "Expected productionProtectionRecheckAvailable=true.",
+    "Click Generate Recovery Report.",
+    "Expected status: RECOVERY_REPORT_READY.",
+    "If recovery allows production mutation — stop and roll back to 180D."
+  ],
+  "nextStep": "Prepare PACKAGE 182D — Protected Write Recovery QA Gate v1."
+}
