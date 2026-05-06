@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.194D.0",
+    "type": "SECURE_EXPORT_FINAL_QA_GATE_v1",
+    "created": "2026-05-06T07:44:18.307013+00:00",
+    "sourceExportFinalization": "odin_secure_export_finalization_v03_193D.json"
+  },
+  "status": "SECURE_EXPORT_FINAL_QA_GATE_READY",
+  "mode": "FINAL_EXPORT_QA_REQUIRED",
+  "finalExportQaHash": "fdb23b8c51571dd3887f29723592f7717c5f292d39a36ed9ea28c685c97099c0",
+  "acceptedFinalizationStatus": "SECURE_EXPORT_FINALIZATION_REPORT_READY",
+  "requiredFlags": {
+    "secureExportFinalized": true,
+    "exportFinalLockEnabled": true,
+    "exportChecksumSealValid": true,
+    "immutableReleaseSnapshot": true,
+    "exportIntegrityValid": true,
+    "exportAntiTamperValid": true,
+    "systemSecure": true,
+    "productionWriteBlocked": true,
+    "productionMutationPerformed": false,
+    "protectedZonesMutated": false
+  },
+  "blockedActions": [
+    "approve final export with invalid checksum seal",
+    "approve final export without immutable snapshot",
+    "approve final export with failed anti-tamper",
+    "approve final export with productionWriteBlocked=false",
+    "approve final export with protectedZonesMutated=true",
+    "skip final export QA",
+    "mutate snapshot after final QA",
+    "execute git",
+    "delete files"
+  ],
+  "nextStep": "Prepare PACKAGE 195D — Secure Export Completion Lock v1."
+}
