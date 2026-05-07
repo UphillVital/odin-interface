@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.198D.0",
+    "type": "SECURE_EXPORT_RELEASE_CANDIDATE_v1",
+    "created": "2026-05-06T09:02:39.479458+00:00",
+    "sourceStableCheckpoint": "odin_secure_export_stable_checkpoint_v03_197D.json"
+  },
+  "status": "SECURE_EXPORT_RC_READY",
+  "mode": "SECURE_EXPORT_RELEASE_CANDIDATE_NO_FINAL_RELEASE",
+  "secureExportRcHash": "3e37cde2e0c3b4eb8716099b0ccb9aef406d82f6337d09d433ed6816561feef9",
+  "rcState": {
+    "secureExportRcReady": true,
+    "stableCheckpointVerified": true,
+    "secureExportCompleted": true,
+    "completionLockEnabled": true,
+    "exportLocked": true,
+    "snapshotImmutable": true,
+    "tamperDetected": false,
+    "productionMutationPerformed": false,
+    "protectedMutationPerformed": false,
+    "systemSecure": true,
+    "productionWriteBlocked": true,
+    "finalReleaseAllowed": false
+  },
+  "blockedActions": [
+    "treat RC as final release",
+    "enable final release without Release QA",
+    "modify immutable snapshot",
+    "unlock export",
+    "allow tamper after RC",
+    "allow protected mutation after RC",
+    "execute git",
+    "delete files"
+  ],
+  "nextStep": "Prepare PACKAGE 199D — Secure Export Release QA Gate v1."
+}
