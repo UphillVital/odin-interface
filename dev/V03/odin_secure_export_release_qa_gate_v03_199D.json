@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.199D.0",
+    "type": "SECURE_EXPORT_RELEASE_QA_GATE_v1",
+    "created": "2026-05-06T09:11:08.023321+00:00",
+    "sourceReleaseCandidate": "odin_secure_export_release_candidate_v03_198D.json"
+  },
+  "status": "SECURE_EXPORT_RELEASE_QA_GATE_READY",
+  "mode": "FINAL_RELEASE_QA_REQUIRED",
+  "releaseQaHash": "875fc5df6f163f0bc1000a1d0cdd239c80007657630c538c6cf5c9ab0d4d1306",
+  "releaseQaRequired": true,
+  "releaseQaPassed": false,
+  "finalReleaseAllowed": false,
+  "rcRequired": true,
+  "stableCheckpointRequired": true,
+  "blockedActions": [
+    "bypass release QA",
+    "approve final release without QA",
+    "approve RC with tamper",
+    "approve RC with mutation",
+    "bypass immutable snapshot validation",
+    "bypass checksum validation",
+    "unlock export before release",
+    "execute git",
+    "delete files"
+  ],
+  "nextStep": "Prepare PACKAGE 200D — Final Secure Export Release v1."
+}
