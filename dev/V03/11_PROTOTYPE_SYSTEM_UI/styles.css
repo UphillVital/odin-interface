@@ -1561,3 +1561,56 @@ body {
   color: var(--text);
   overflow: auto;
 }
+
+/* ODIN V04.5 — Autonomous Loop */
+.autonomous-loop-tool { display: grid; gap: 14px; margin-top: 18px; }
+.loop-safety-banner, .loop-summary article, .loop-observer-card {
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  border-radius: 18px;
+  padding: 14px;
+}
+.loop-safety-banner strong, .loop-safety-banner span,
+.loop-summary span, .loop-summary strong,
+.loop-observer-card span, .loop-observer-card strong, .loop-observer-card em { display: block; }
+.loop-safety-banner span, .loop-summary span, .loop-observer-card span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  margin-top: 6px;
+}
+.loop-summary, .loop-observer-list {
+  display: grid;
+  gap: 12px;
+}
+.loop-summary { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.loop-observer-card em { margin-top: 8px; font-style: normal; color: var(--accent); font-weight: 800; }
+.loop-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.loop-actions button {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 800;
+}
+.loop-actions .primary-action { background: var(--accent); border-color: var(--accent); color: #fff; }
+.loop-status {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 800;
+}
+.loop-output {
+  white-space: pre-wrap;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+  background: var(--surface-soft);
+  color: var(--text);
+  overflow: auto;
+}

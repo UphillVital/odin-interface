@@ -614,6 +614,52 @@ Object.assign(i18n.de, {
 
 const odinRecoveryReplayV044 = {"schema": "ODIN_RECOVERY_REPLAY_ENGINE_v1", "version": "V04.4.0", "created": "2026-05-08T10:59:14.018374+00:00", "status": "RECOVERY_REPLAY_ENGINE_READY", "phase": "V04.4 — RECOVERY REPLAY ENGINE", "activeBase": "199D", "capabilities": ["snapshot creation", "replay plan generation", "rollback preview", "recovery validation"], "snapshots": [{"id": "SNAP-199D", "name": "Last Clean Foundation", "source": "ODIN_V03_PACKAGE_199D_SECURE_EXPORT_RELEASE_QA_GATE_V1.zip", "status": "PRIMARY"}, {"id": "SNAP-V04.3", "name": "Live Runtime Graph Checkpoint", "source": "ODIN_V04_3_LIVE_RUNTIME_GRAPH_V1.zip", "status": "CURRENT"}], "replayFlow": ["LOAD_SNAPSHOT", "VALIDATE_STATE", "REPLAY_EVENTS", "CHECK_REGISTRIES", "VERIFY_UI_MATRIX", "REPORT_RECOVERY_STATUS"], "nextStep": "V04.5 — Autonomous Loop"};
 
+
+Object.assign(i18n.ua, {
+  zoneAutonomousLoop: 'Autonomous Loop',
+  autonomousLoopTitle: 'V04.5 — Autonomous Loop',
+  autonomousLoopBody: 'Безпечний автономний цикл ODIN: heartbeat, tick, observers, health check, runtime log.',
+  hintAutonomousLoop: 'Autonomous Loop запускає безпечне спостереження без самовільного запису файлів.',
+  autonomousLoopAssist: '<strong>Autonomous Loop</strong> — перший цикл життя ODIN. Режим: SAFE_OBSERVATION_ONLY.',
+  loopStart: 'Start Loop',
+  loopStop: 'Stop Loop',
+  loopTick: 'Manual Tick',
+  loopHealth: 'Run Health Check',
+  loopCopy: 'Copy Loop Snapshot',
+  loopReset: 'Reset Loop'
+});
+Object.assign(i18n.en, {
+  zoneAutonomousLoop: 'Autonomous Loop',
+  autonomousLoopTitle: 'V04.5 — Autonomous Loop',
+  autonomousLoopBody: 'Safe ODIN autonomous cycle: heartbeat, tick, observers, health check, runtime log.',
+  hintAutonomousLoop: 'Autonomous Loop starts safe observation without autonomous file writes.',
+  autonomousLoopAssist: '<strong>Autonomous Loop</strong> — first ODIN life cycle. Mode: SAFE_OBSERVATION_ONLY.',
+  loopStart: 'Start Loop',
+  loopStop: 'Stop Loop',
+  loopTick: 'Manual Tick',
+  loopHealth: 'Run Health Check',
+  loopCopy: 'Copy Loop Snapshot',
+  loopReset: 'Reset Loop'
+});
+Object.assign(i18n.de, {
+  zoneAutonomousLoop: 'Autonomous Loop',
+  autonomousLoopTitle: 'V04.5 — Autonomous Loop',
+  autonomousLoopBody: 'Sicherer autonomer ODIN-Zyklus: Heartbeat, Tick, Observers, Health Check, Runtime Log.',
+  hintAutonomousLoop: 'Autonomous Loop startet sichere Beobachtung ohne autonome Dateischreibvorgänge.',
+  autonomousLoopAssist: '<strong>Autonomous Loop</strong> — erster ODIN-Lebenszyklus. Modus: SAFE_OBSERVATION_ONLY.',
+  loopStart: 'Loop starten',
+  loopStop: 'Loop stoppen',
+  loopTick: 'Manueller Tick',
+  loopHealth: 'Health Check starten',
+  loopCopy: 'Loop Snapshot kopieren',
+  loopReset: 'Loop zurücksetzen'
+});
+
+
+const odinAutonomousLoopV045Base = {"schema": "ODIN_AUTONOMOUS_LOOP_v1", "version": "V04.5.0", "created": "2026-05-08T12:14:43.029872+00:00", "status": "AUTONOMOUS_LOOP_READY", "phase": "V04.5 — AUTONOMOUS LOOP", "activeBase": "199D", "safety": {"mode": "SAFE_OBSERVATION_ONLY", "destructiveActionsAllowed": false, "fileWritesAllowed": false, "requiresHumanApprovalForExecution": true}, "loop": {"defaultIntervalMs": 3000, "maxAutoTicksPerSession": 20, "heartbeat": "READY", "tick": 0, "running": false}, "observers": [{"id": "OBS-STATE", "name": "State Health Observer", "status": "READY"}, {"id": "OBS-EXECUTION", "name": "Execution Queue Observer", "status": "READY"}, {"id": "OBS-UI", "name": "UI Matrix Observer", "status": "READY"}, {"id": "OBS-FILES", "name": "File Workspace Observer", "status": "READY"}, {"id": "OBS-RECOVERY", "name": "Recovery Observer", "status": "READY"}], "events": [{"time": "2026-05-08T12:14:43.029872+00:00", "type": "BOOTSTRAP", "status": "AUTONOMOUS_LOOP_READY"}], "nextStep": "V04.6 — Observer System Expansion"};
+let odinAutonomousLoopV045 = JSON.parse(JSON.stringify(odinAutonomousLoopV045Base));
+let odinAutonomousLoopTimerV045 = null;
+
 const workZone = document.getElementById('workZone');
 const assistContent = document.getElementById('assistContent');
 const modeValue = document.getElementById('modeValue');
@@ -769,6 +815,13 @@ function renderZone(zone) {
 
 
 
+
+
+  if (zone === 'autonomousLoop') {
+    workZone.innerHTML = zoneTemplate(t('autonomousLoopTitle'), t('autonomousLoopBody'), renderAutonomousLoopV045());
+    assistContent.innerHTML = t('autonomousLoopAssist');
+    setTimeout(runAutonomousHealthV045, 0);
+  }
 
   if (zone === 'recoveryReplay') {
     workZone.innerHTML = zoneTemplate(t('recoveryReplayTitle'), t('recoveryReplayBody'), renderRecoveryReplayV044());
@@ -959,6 +1012,126 @@ function cloneStateWorkspace199D6() {
 
 
 
+
+
+
+function renderAutonomousLoopV045() {
+  const observers = odinAutonomousLoopV045.observers.map((obs) => `
+    <article class="loop-observer-card">
+      <span>${escapeHtml(obs.id)}</span>
+      <strong>${escapeHtml(obs.name)}</strong>
+      <em>${escapeHtml(obs.status)}</em>
+    </article>
+  `).join('');
+
+  return `
+    <div class="autonomous-loop-tool">
+      <div class="loop-safety-banner">
+        <strong>${escapeHtml(odinAutonomousLoopV045.safety.mode)}</strong>
+        <span>fileWritesAllowed = ${escapeHtml(String(odinAutonomousLoopV045.safety.fileWritesAllowed))}</span>
+        <span>destructiveActionsAllowed = ${escapeHtml(String(odinAutonomousLoopV045.safety.destructiveActionsAllowed))}</span>
+      </div>
+      <div class="loop-summary">
+        <article><span>STATUS</span><strong>${escapeHtml(odinAutonomousLoopV045.status)}</strong></article>
+        <article><span>HEARTBEAT</span><strong id="loopHeartbeatValue">${escapeHtml(odinAutonomousLoopV045.loop.heartbeat)}</strong></article>
+        <article><span>TICK</span><strong id="loopTickValue">${escapeHtml(String(odinAutonomousLoopV045.loop.tick))}</strong></article>
+        <article><span>RUNNING</span><strong id="loopRunningValue">${escapeHtml(String(odinAutonomousLoopV045.loop.running))}</strong></article>
+      </div>
+      <div class="loop-actions">
+        <button type="button" class="primary-action" onclick="startAutonomousLoopV045()">${t('loopStart')}</button>
+        <button type="button" onclick="stopAutonomousLoopV045()">${t('loopStop')}</button>
+        <button type="button" onclick="manualAutonomousTickV045()">${t('loopTick')}</button>
+        <button type="button" onclick="runAutonomousHealthV045()">${t('loopHealth')}</button>
+        <button type="button" onclick="copyAutonomousLoopSnapshotV045()">${t('loopCopy')}</button>
+        <button type="button" onclick="resetAutonomousLoopV045()">${t('loopReset')}</button>
+      </div>
+      <div class="loop-observer-list">${observers}</div>
+      <div id="autonomousLoopStatus" class="loop-status">AUTONOMOUS_LOOP_READY</div>
+      <pre id="autonomousLoopOutput" class="loop-output"></pre>
+    </div>
+  `;
+}
+
+function writeAutonomousLoopOutputV045(payload, status) {
+  const output = document.getElementById('autonomousLoopOutput');
+  const statusEl = document.getElementById('autonomousLoopStatus');
+  const heartbeatEl = document.getElementById('loopHeartbeatValue');
+  const tickEl = document.getElementById('loopTickValue');
+  const runningEl = document.getElementById('loopRunningValue');
+  if (output) output.textContent = JSON.stringify(payload, null, 2);
+  if (statusEl) statusEl.textContent = status || payload.status || 'READY';
+  if (heartbeatEl) heartbeatEl.textContent = odinAutonomousLoopV045.loop.heartbeat;
+  if (tickEl) tickEl.textContent = String(odinAutonomousLoopV045.loop.tick);
+  if (runningEl) runningEl.textContent = String(odinAutonomousLoopV045.loop.running);
+}
+
+function pushAutonomousLoopEventV045(type, status, message) {
+  odinAutonomousLoopV045.events.push({ time: new Date().toISOString(), type, status, message });
+}
+
+function manualAutonomousTickV045() {
+  if (odinAutonomousLoopV045.loop.tick >= odinAutonomousLoopV045.loop.maxAutoTicksPerSession) {
+    stopAutonomousLoopV045();
+    writeAutonomousLoopOutputV045({ status: 'AUTONOMOUS_LOOP_SAFETY_LIMIT_REACHED' }, 'AUTONOMOUS_LOOP_SAFETY_LIMIT_REACHED');
+    return;
+  }
+  odinAutonomousLoopV045.loop.tick += 1;
+  odinAutonomousLoopV045.loop.heartbeat = 'HEARTBEAT_' + odinAutonomousLoopV045.loop.tick;
+  pushAutonomousLoopEventV045('TICK', 'OK', 'Safe observation tick executed.');
+  writeAutonomousLoopOutputV045({ status: 'AUTONOMOUS_TICK_OK', tick: odinAutonomousLoopV045.loop.tick, observers: odinAutonomousLoopV045.observers }, 'AUTONOMOUS_TICK_OK');
+}
+
+function startAutonomousLoopV045() {
+  if (odinAutonomousLoopTimerV045) return;
+  odinAutonomousLoopV045.loop.running = true;
+  pushAutonomousLoopEventV045('LOOP_START', 'OK', 'Safe autonomous loop started.');
+  writeAutonomousLoopOutputV045({ status: 'AUTONOMOUS_LOOP_RUNNING' }, 'AUTONOMOUS_LOOP_RUNNING');
+  odinAutonomousLoopTimerV045 = setInterval(() => {
+    manualAutonomousTickV045();
+    if (odinAutonomousLoopV045.loop.tick >= odinAutonomousLoopV045.loop.maxAutoTicksPerSession) stopAutonomousLoopV045();
+  }, odinAutonomousLoopV045.loop.defaultIntervalMs);
+}
+
+function stopAutonomousLoopV045() {
+  if (odinAutonomousLoopTimerV045) {
+    clearInterval(odinAutonomousLoopTimerV045);
+    odinAutonomousLoopTimerV045 = null;
+  }
+  odinAutonomousLoopV045.loop.running = false;
+  pushAutonomousLoopEventV045('LOOP_STOP', 'OK', 'Safe autonomous loop stopped.');
+  writeAutonomousLoopOutputV045({ status: 'AUTONOMOUS_LOOP_STOPPED', tick: odinAutonomousLoopV045.loop.tick }, 'AUTONOMOUS_LOOP_STOPPED');
+}
+
+function runAutonomousHealthV045() {
+  const result = {
+    status: 'AUTONOMOUS_LOOP_HEALTH_PASSED',
+    checks: [
+      { id: 'LOOP-001', name: 'safe observation mode', pass: odinAutonomousLoopV045.safety.mode === 'SAFE_OBSERVATION_ONLY' },
+      { id: 'LOOP-002', name: 'file writes disabled', pass: odinAutonomousLoopV045.safety.fileWritesAllowed === false },
+      { id: 'LOOP-003', name: 'destructive actions disabled', pass: odinAutonomousLoopV045.safety.destructiveActionsAllowed === false },
+      { id: 'LOOP-004', name: 'observers exist', pass: odinAutonomousLoopV045.observers.length > 0 }
+    ]
+  };
+  result.passed = result.checks.every((check) => check.pass);
+  result.status = result.passed ? 'AUTONOMOUS_LOOP_HEALTH_PASSED' : 'AUTONOMOUS_LOOP_HEALTH_FAILED';
+  writeAutonomousLoopOutputV045(result, result.status);
+}
+
+async function copyAutonomousLoopSnapshotV045() {
+  const snapshot = { status: 'AUTONOMOUS_LOOP_SNAPSHOT_READY', created: new Date().toISOString(), loop: odinAutonomousLoopV045 };
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(snapshot, null, 2));
+    writeAutonomousLoopOutputV045(snapshot, 'AUTONOMOUS_LOOP_SNAPSHOT_COPIED');
+  } catch (error) {
+    writeAutonomousLoopOutputV045(snapshot, 'COPY_UNAVAILABLE');
+  }
+}
+
+function resetAutonomousLoopV045() {
+  stopAutonomousLoopV045();
+  odinAutonomousLoopV045 = JSON.parse(JSON.stringify(odinAutonomousLoopV045Base));
+  writeAutonomousLoopOutputV045(odinAutonomousLoopV045, 'AUTONOMOUS_LOOP_READY');
+}
 
 
 function renderRecoveryReplayV044() {
