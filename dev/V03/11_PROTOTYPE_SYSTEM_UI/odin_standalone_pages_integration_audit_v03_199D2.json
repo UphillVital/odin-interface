@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Standalone Pages Integration Audit",
+    "version": "V03.199D.2",
+    "type": "STANDALONE_PAGES_INTEGRATION_AUDIT_v1",
+    "created": "2026-05-08T02:52:56.886404+00:00",
+    "workingFolder": "dev/V03/11_PROTOTYPE_SYSTEM_UI",
+    "templateEtalon": "dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html"
+  },
+  "status": "STANDALONE_PAGES_AUDIT_READY",
+  "phase": "PHASE 0.5 — STANDALONE PAGES INTEGRATION AUDIT",
+  "activeBase": "199D",
+  "oneMainPageRule": true,
+  "auditedStandalonePages": [
+    {
+      "file": "dev/V03/commit_builder.html",
+      "currentQuickSettingsLinks": [
+        "../commit_builder.html"
+      ],
+      "decision": "INTEGRATE_AS_INTERNAL_ZONE",
+      "targetZone": "commitBuilder",
+      "deleteNow": false
+    },
+    {
+      "file": "dev/V03/state_workspace.html",
+      "currentQuickSettingsLinks": [
+        "../state_workspace.html"
+      ],
+      "decision": "INTEGRATE_AS_INTERNAL_ZONE",
+      "targetZone": "stateWorkspace",
+      "deleteNow": false
+    }
+  ],
+  "rules": {
+    "doNotCreateNewHtmlPages": true,
+    "doNotExposeStandalonePagesAsNavigation": true,
+    "leftTreeMustUseInternalZones": true,
+    "quickSettingsMustNotNavigateToStandaloneLegacyPages": true
+  },
+  "nextStep": "Prepare 199D.3 — Commit Builder + State Workspace Internal Function Migration."
+}

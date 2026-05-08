@@ -209,6 +209,45 @@ Object.assign(i18n.de, {
 });
 
 
+
+Object.assign(i18n.ua, {
+  zoneCommitBuilder: 'Commit Builder',
+  zoneStateWorkspace: 'State Workspace',
+  commitBuilderTitle: 'Commit Builder — аудит інтеграції',
+  commitBuilderBody: 'Окрема сторінка має бути інтегрована як внутрішня зона ODIN Interface. Поки що це audit-зона без перенесеної логіки.',
+  stateWorkspaceTitle: 'State Workspace — аудит інтеграції',
+  stateWorkspaceBody: 'Окрема сторінка має бути інтегрована як внутрішня зона ODIN Interface. Поки що це audit-зона без перенесеної логіки.',
+  hintCommitBuilder: 'Commit Builder буде внутрішньою зоною, не окремою HTML-сторінкою.',
+  hintStateWorkspace: 'State Workspace буде внутрішньою зоною, не окремою HTML-сторінкою.',
+  commitBuilderAssist: '<strong>Commit Builder</strong> — наступний крок: перевірити старий файл і перенести корисну логіку в цю зону.',
+  stateWorkspaceAssist: '<strong>State Workspace</strong> — наступний крок: перевірити старий файл і перенести корисну логіку в цю зону.'
+});
+Object.assign(i18n.en, {
+  zoneCommitBuilder: 'Commit Builder',
+  zoneStateWorkspace: 'State Workspace',
+  commitBuilderTitle: 'Commit Builder — integration audit',
+  commitBuilderBody: 'Standalone page must be integrated as an internal ODIN Interface zone. This is currently an audit zone without migrated logic.',
+  stateWorkspaceTitle: 'State Workspace — integration audit',
+  stateWorkspaceBody: 'Standalone page must be integrated as an internal ODIN Interface zone. This is currently an audit zone without migrated logic.',
+  hintCommitBuilder: 'Commit Builder will become an internal zone, not a standalone HTML page.',
+  hintStateWorkspace: 'State Workspace will become an internal zone, not a standalone HTML page.',
+  commitBuilderAssist: '<strong>Commit Builder</strong> — next step: audit old file and migrate useful logic into this zone.',
+  stateWorkspaceAssist: '<strong>State Workspace</strong> — next step: audit old file and migrate useful logic into this zone.'
+});
+Object.assign(i18n.de, {
+  zoneCommitBuilder: 'Commit Builder',
+  zoneStateWorkspace: 'State Workspace',
+  commitBuilderTitle: 'Commit Builder — Integrationsaudit',
+  commitBuilderBody: 'Standalone-Seite muss als interne ODIN-Interface-Zone integriert werden. Aktuell ist dies eine Audit-Zone ohne migrierte Logik.',
+  stateWorkspaceTitle: 'State Workspace — Integrationsaudit',
+  stateWorkspaceBody: 'Standalone-Seite muss als interne ODIN-Interface-Zone integriert werden. Aktuell ist dies eine Audit-Zone ohne migrierte Logik.',
+  hintCommitBuilder: 'Commit Builder wird interne Zone, keine separate HTML-Seite.',
+  hintStateWorkspace: 'State Workspace wird interne Zone, keine separate HTML-Seite.',
+  commitBuilderAssist: '<strong>Commit Builder</strong> — nächster Schritt: alte Datei prüfen und nützliche Logik migrieren.',
+  stateWorkspaceAssist: '<strong>State Workspace</strong> — nächster Schritt: alte Datei prüfen und nützliche Logik migrieren.'
+});
+
+
 const workZone = document.getElementById('workZone');
 const assistContent = document.getElementById('assistContent');
 const modeValue = document.getElementById('modeValue');
@@ -341,6 +380,17 @@ function renderZone(zone) {
     assistContent.innerHTML = t('capabilitiesAssist');
   }
 
+
+  if (zone === 'commitBuilder') {
+    workZone.innerHTML = zoneTemplate(t('commitBuilderTitle'), t('commitBuilderBody'), renderStandaloneIntegrationAudit('commitBuilder'));
+    assistContent.innerHTML = t('commitBuilderAssist');
+  }
+
+  if (zone === 'stateWorkspace') {
+    workZone.innerHTML = zoneTemplate(t('stateWorkspaceTitle'), t('stateWorkspaceBody'), renderStandaloneIntegrationAudit('stateWorkspace'));
+    assistContent.innerHTML = t('stateWorkspaceAssist');
+  }
+
   if (zone === 'files') {
     renderFileWorkspace();
   }
@@ -414,6 +464,30 @@ function renderCapabilitiesRegistry() {
           <em>${escapeHtml(cap.status)}</em>
         </article>
       `).join('')}
+    </div>
+  `;
+}
+
+
+
+function renderStandaloneIntegrationAudit(kind) {
+  const isCommit = kind === 'commitBuilder';
+  const legacyFile = isCommit ? 'dev/V03/commit_builder.html' : 'dev/V03/state_workspace.html';
+  const targetZone = isCommit ? 'commitBuilder' : 'stateWorkspace';
+  return `
+    <div class="standalone-audit-card">
+      <div class="standalone-audit-status">PHASE 0.5 — AUDIT</div>
+      <h3>${escapeHtml(legacyFile)}</h3>
+      <p><strong>Decision:</strong> integrate as internal zone <code>${escapeHtml(targetZone)}</code>.</p>
+      <p><strong>Rule:</strong> do not use as active standalone HTML page.</p>
+      <p><strong>Delete now:</strong> no. First audit and migrate useful logic.</p>
+      <ol>
+        <li>Audit legacy page source.</li>
+        <li>Extract useful function blocks.</li>
+        <li>Move logic into <code>app.js</code> render zone.</li>
+        <li>Keep UI inside existing <code>workZone</code>.</li>
+        <li>Remove standalone legacy pages after successful migration.</li>
+      </ol>
     </div>
   `;
 }
@@ -681,6 +755,20 @@ settingsToggle.addEventListener('click', (event) => {
   settingsMenu.hidden = isOpen;
   settingsToggle.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
 });
+
+
+document.querySelectorAll('[data-zone-jump]').forEach((link) => {
+  link.addEventListener('click', (event) => {
+    event.preventDefault();
+    const zone = link.dataset.zoneJump;
+    if (zone) {
+      setZone(zone);
+      settingsMenu.hidden = true;
+      settingsToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+});
+
 
 document.addEventListener('click', (event) => {
   if (!document.getElementById('quickSettings').contains(event.target)) {

@@ -814,3 +814,31 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* ODIN V03.199D.2 — Standalone Integration Audit */
+.standalone-audit-card {
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  border-radius: 18px;
+  padding: 16px;
+  margin-top: 18px;
+}
+
+.standalone-audit-status {
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 4px 10px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.standalone-audit-card code {
+  font-weight: 800;
+}
+
+.standalone-audit-card li {
+  margin: 6px 0;
+}
