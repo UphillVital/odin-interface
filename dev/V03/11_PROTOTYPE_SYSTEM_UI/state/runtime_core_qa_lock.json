@@ -1,0 +1,82 @@
+{
+  "schema": "ODIN_RUNTIME_CORE_QA_LOCK_v1",
+  "version": "V04.10.0",
+  "created": "2026-05-08T18:37:20.072513+00:00",
+  "status": "RUNTIME_CORE_QA_LOCK_READY",
+  "phase": "V04.10 — RUNTIME CORE QA LOCK",
+  "activeBase": "199D",
+  "lockedScope": [
+    "Real State Engine",
+    "Real Execution Engine",
+    "Persistence Layer",
+    "Live Runtime Graph",
+    "Recovery Replay Engine",
+    "Autonomous Loop",
+    "Observer System",
+    "Event Bus",
+    "Live State DB",
+    "Real Runtime Core",
+    "File Workspace HTML Diff Fix",
+    "File Workspace Editor Unlock"
+  ],
+  "qaGates": [
+    {
+      "id": "QA-CORE-001",
+      "name": "One Main Page Rule",
+      "required": true
+    },
+    {
+      "id": "QA-CORE-002",
+      "name": "No New Standalone HTML",
+      "required": true
+    },
+    {
+      "id": "QA-CORE-003",
+      "name": "UI Matrix Preserved",
+      "required": true
+    },
+    {
+      "id": "QA-CORE-004",
+      "name": "Runtime Core Health",
+      "required": true
+    },
+    {
+      "id": "QA-CORE-005",
+      "name": "Safe Runtime Mode",
+      "required": true
+    },
+    {
+      "id": "QA-CORE-006",
+      "name": "File Workspace Editor Editable",
+      "required": true
+    },
+    {
+      "id": "QA-CORE-007",
+      "name": "HTML Aware Diff Preserved",
+      "required": true
+    },
+    {
+      "id": "QA-CORE-008",
+      "name": "Event Bus Internal Only",
+      "required": true
+    },
+    {
+      "id": "QA-CORE-009",
+      "name": "Observer Safe Mode",
+      "required": true
+    },
+    {
+      "id": "QA-CORE-010",
+      "name": "Recovery Replay Preview Only",
+      "required": true
+    }
+  ],
+  "safetyLocks": {
+    "fileWritesAllowed": false,
+    "destructiveActionsAllowed": false,
+    "networkRequired": false,
+    "humanApprovalRequiredForWrites": true,
+    "activeHtmlPage": "dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html"
+  },
+  "nextStep": "V04.11 — Runtime Core Release Candidate"
+}

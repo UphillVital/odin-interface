@@ -1972,3 +1972,97 @@ body {
   color: var(--text);
   overflow: auto;
 }
+
+/* ODIN V04.10 — Runtime Core QA Lock */
+.runtime-qa-lock-tool {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.qa-lock-banner,
+.qa-lock-summary article,
+.qa-gate-card {
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.qa-lock-banner strong,
+.qa-lock-banner span,
+.qa-lock-summary span,
+.qa-lock-summary strong,
+.qa-gate-card span,
+.qa-gate-card strong,
+.qa-gate-card em {
+  display: block;
+}
+
+.qa-lock-banner span,
+.qa-lock-summary span,
+.qa-gate-card span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  margin-top: 6px;
+}
+
+.qa-lock-summary,
+.qa-gate-list {
+  display: grid;
+  gap: 12px;
+}
+
+.qa-lock-summary {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.qa-gate-card em {
+  margin-top: 8px;
+  font-style: normal;
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.qa-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.qa-actions button {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.qa-actions .primary-action {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.qa-status {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.qa-output {
+  white-space: pre-wrap;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+  background: var(--surface-soft);
+  color: var(--text);
+  overflow: auto;
+}
