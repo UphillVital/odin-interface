@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Data Model",
+    "version": "V03.137C.0",
+    "type": "ACTIVATION_ROLLBACK_PLAN_v1",
+    "created": "2026-05-04T11:55:59.517813Z"
+  },
+  "status": "ROLLBACK_PLAN_READY",
+  "purpose": "Ensure safe rollback if activation causes instability.",
+  "rollbackSteps": [
+    "Disable adapter input layer",
+    "Revert UI to previous runtime state",
+    "Restore stable checkpoint (133C)",
+    "Clear adapter preview memory",
+    "Validate system integrity"
+  ],
+  "triggerConditions": [
+    "UI inconsistency detected",
+    "Data mismatch beyond threshold",
+    "Performance degradation",
+    "Manual abort command"
+  ],
+  "safety": {
+    "noDataLoss": true,
+    "noAutoDelete": true,
+    "manualControl": true
+  },
+  "nextStep": "Prepare PACKAGE 138C — Activation Rollback QA Gate v1."
+}

@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "version": "V03.143C.0",
+    "type": "MANUAL_ACTIVATION_PREFLIGHT_LOCK_v1",
+    "created": "2026-05-04T14:51:12.632290+00:00"
+  },
+  "status": "PREFLIGHT_LOCK_READY",
+  "activationStatus": "NOT_ACTIVATED",
+  "preflightChecks": [
+    "Checklist QA passed",
+    "Rollback plan present",
+    "Safety locks active",
+    "Manual approval pending",
+    "No forbidden actions executed"
+  ],
+  "blocked": [
+    "activation",
+    "runtime_replace",
+    "auto_migration",
+    "write/delete/git"
+  ],
+  "nextStep": "Prepare PACKAGE 144C — Controlled Activation Trigger v1."
+}

@@ -1,0 +1,164 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Main Control Hub",
+    "version": "V03.199D.1",
+    "type": "MAIN_CONTROL_HUB_V04_PLAN_TRACKER_v1",
+    "created": "2026-05-07T18:04:46.721529Z",
+    "activeBase": "199D",
+    "lastCleanFoundation": "ODIN_V03_PACKAGE_199D_SECURE_EXPORT_RELEASE_QA_GATE_V1.zip"
+  },
+  "status": "MAIN_CONTROL_HUB_READY",
+  "phase": "PHASE 0.1 — MAIN CONTROL HUB CLEANUP",
+  "purpose": "Create one main ODIN page with left-side integrated capabilities menu and V04 planning tracker before Real Core implementation.",
+  "rules": {
+    "activeBase": "199D",
+    "packages200to230": "EXPERIMENTAL_REFERENCE_ONLY",
+    "noMetaExpansion": true,
+    "singleMainPage": true,
+    "removeExtraHtmlPagesFromActiveUse": true
+  },
+  "integratedCapabilities": [
+    {
+      "id": "CAP-001",
+      "name": "System Overview",
+      "status": "INTEGRATED"
+    },
+    {
+      "id": "CAP-002",
+      "name": "V04 Planning / Plan Tracker",
+      "status": "INTEGRATED"
+    },
+    {
+      "id": "CAP-003",
+      "name": "Active Base / Foundation Lock",
+      "status": "INTEGRATED"
+    },
+    {
+      "id": "CAP-004",
+      "name": "Package Registry View",
+      "status": "PLANNED"
+    },
+    {
+      "id": "CAP-005",
+      "name": "Module Registry View",
+      "status": "PLANNED"
+    },
+    {
+      "id": "CAP-006",
+      "name": "QA / Release Flow View",
+      "status": "PLANNED"
+    },
+    {
+      "id": "CAP-007",
+      "name": "State Engine",
+      "status": "NEXT_PHASE"
+    },
+    {
+      "id": "CAP-008",
+      "name": "Execution Engine",
+      "status": "FUTURE"
+    },
+    {
+      "id": "CAP-009",
+      "name": "Persistence Layer",
+      "status": "FUTURE"
+    },
+    {
+      "id": "CAP-010",
+      "name": "Live UI State Graph",
+      "status": "FUTURE"
+    },
+    {
+      "id": "CAP-011",
+      "name": "Recovery Replay",
+      "status": "FUTURE"
+    },
+    {
+      "id": "CAP-012",
+      "name": "Autonomous Loop",
+      "status": "FUTURE"
+    },
+    {
+      "id": "CAP-013",
+      "name": "Deutsch Trainer / Lesson Factory",
+      "status": "FUTURE_INTEGRATION"
+    }
+  ],
+  "phases": [
+    {
+      "id": "PHASE-0",
+      "name": "Foundation Lock",
+      "status": "DONE",
+      "what": "Fix 199D as ACTIVE BASE, archive 200D–230D as experimental reference, stop meta-expansion.",
+      "why": "Reduce entropy, keep clean foundation, prevent endless QA/seal layering.",
+      "result": "Clean starting point for V04."
+    },
+    {
+      "id": "PHASE-0.1",
+      "name": "Main Control Hub Cleanup",
+      "status": "CURRENT",
+      "what": "Create one main page, left menu of integrated capabilities, V04 plan tracker.",
+      "why": "User must see the system, the plan, and progress from one place.",
+      "result": "Controlled ODIN main hub before Real Core work."
+    },
+    {
+      "id": "V04.0",
+      "name": "Real State Engine",
+      "status": "NEXT",
+      "what": "Create real active state, package registry, module registry, rollback points.",
+      "why": "ODIN must know its current state before executing real actions.",
+      "result": "Real system state foundation."
+    },
+    {
+      "id": "V04.1",
+      "name": "Real Execution Engine",
+      "status": "PLANNED",
+      "what": "Action Request → Validation → Execution → Result → Log → State Update.",
+      "why": "Move from demo buttons to real system actions.",
+      "result": "Workflow runtime and execution queue."
+    },
+    {
+      "id": "V04.2",
+      "name": "Persistence Layer",
+      "status": "PLANNED",
+      "what": "Local JSON, IndexedDB, file persistence, later Git/GitHub persistence.",
+      "why": "State must survive reloads and become restorable.",
+      "result": "Real memory and snapshot base."
+    },
+    {
+      "id": "V04.3",
+      "name": "Live UI State Graph",
+      "status": "PLANNED",
+      "what": "Live state viewer, execution graph, logs, health monitor, module manager.",
+      "why": "User must see real system state and actions.",
+      "result": "Live ODIN control interface."
+    },
+    {
+      "id": "V04.4",
+      "name": "Recovery Replay Engine",
+      "status": "PLANNED",
+      "what": "Snapshots, replay, rollback, restore, corruption detection.",
+      "why": "Recovery must become real, not conceptual.",
+      "result": "Real restore and replay engine."
+    },
+    {
+      "id": "V04.5",
+      "name": "Autonomous Loop",
+      "status": "PLANNED",
+      "what": "Observers, watchdogs, schedulers, background tasks, integrity monitors.",
+      "why": "ODIN should begin operating autonomously within defined limits.",
+      "result": "Self-monitoring runtime loop."
+    },
+    {
+      "id": "V04.6",
+      "name": "Real Product System",
+      "status": "PLANNED",
+      "what": "Integrate Deutsch Trainer, Lesson Factory, QA, Export, Workflow, Runtime.",
+      "why": "Turn ODIN into productive platform, not only system architecture.",
+      "result": "AI-assisted production system."
+    }
+  ],
+  "planHash": "18cc9c396d621f5d2f5f2bcef4ec83c13908117fc2151656f08b376195d45ca7",
+  "nextStep": "Prepare V04.0 — Real State Engine Bootstrap."
+}

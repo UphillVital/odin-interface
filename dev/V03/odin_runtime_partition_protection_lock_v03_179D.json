@@ -1,0 +1,94 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.179D.0",
+    "type": "RUNTIME_PARTITION_PROTECTION_LOCK_v1",
+    "created": "2026-05-05T23:09:48.581503+00:00",
+    "sourceImmutableRegistryLock": "odin_immutable_registry_lock_v03_178D.json"
+  },
+  "status": "RUNTIME_PARTITION_PROTECTION_LOCKED",
+  "line": "D-LINE",
+  "mode": "RUNTIME_PROTECTED_PARTITIONS_NO_MUTATION",
+  "runtimePartitionProtected": true,
+  "runtimeProtectedWriteAllowed": false,
+  "runtimeProtectedMutationAllowed": false,
+  "runtimePreviewWriteAllowed": true,
+  "sandboxRuntimeWriteAllowed": true,
+  "partitionChecksumValidationRequired": true,
+  "runtimeAntiCorruptionVerificationRequired": true,
+  "protectedPartitions": [
+    "runtime/protected/state",
+    "runtime/protected/locks",
+    "runtime/protected/audit",
+    "runtime/protected/execution"
+  ],
+  "previewPartitions": [
+    "runtime/preview/*",
+    "sandbox/runtime/*"
+  ],
+  "partitionChecksum": "7bbbd4d6401a13fb4aeaf77a20e62cfdef91182f34f758b80ff8df5aa8b02154",
+  "lockRules": [
+    "Protected runtime partitions cannot be written.",
+    "Protected runtime partitions cannot be deleted.",
+    "Runtime preview/sandbox partitions are separate from protected runtime.",
+    "Partition checksum validation is required before and after runtime inspection.",
+    "Anti-corruption verification must pass before continuing.",
+    "Any protected runtime change requires a future approved package."
+  ],
+  "auditChecks": [
+    {
+      "id": "RTPROT-001",
+      "name": "Runtime protected partitions locked"
+    },
+    {
+      "id": "RTPROT-002",
+      "name": "Protected runtime write blocked"
+    },
+    {
+      "id": "RTPROT-003",
+      "name": "Protected runtime mutation blocked"
+    },
+    {
+      "id": "RTPROT-004",
+      "name": "Preview/sandbox runtime allowed"
+    },
+    {
+      "id": "RTPROT-005",
+      "name": "Partition checksum exists"
+    },
+    {
+      "id": "RTPROT-006",
+      "name": "Anti-corruption required"
+    }
+  ],
+  "blockedActions": [
+    "write runtime/protected/*",
+    "delete runtime/protected/*",
+    "mutate protected runtime state",
+    "mutate protected runtime locks",
+    "bypass partition checksum validation",
+    "bypass runtime anti-corruption verification",
+    "treat runtime preview as protected runtime",
+    "set runtimeProtectedWriteAllowed to true",
+    "execute git",
+    "delete files"
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Runtime Partition Protection Lock v1.",
+    "Click Build Runtime Partition Lock.",
+    "Expected status: RUNTIME_PARTITION_PROTECTION_LOCKED.",
+    "Expected runtimeProtectedWriteAllowed=false.",
+    "Click Run Runtime Partition Audit.",
+    "Expected status: RUNTIME_PARTITION_AUDIT_PASSED.",
+    "Click Test Runtime Preview Route.",
+    "Expected allowed=true.",
+    "Click Test Runtime Protected Route.",
+    "Expected allowed=false and blockedBy=RUNTIME_PARTITION_PROTECTION_LOCK.",
+    "Click Validate Partition Checksum.",
+    "Expected checksumValid=true.",
+    "If protected runtime route is allowed — stop and do not continue."
+  ],
+  "nextStep": "Prepare PACKAGE 180D — Protected Write System Checkpoint v1."
+}

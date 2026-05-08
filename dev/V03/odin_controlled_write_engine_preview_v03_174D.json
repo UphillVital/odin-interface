@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.174D.0",
+    "type": "CONTROLLED_WRITE_ENGINE_PREVIEW_v1",
+    "created": "2026-05-05T20:45:42.466951+00:00",
+    "sourcePreflightGate": "odin_real_write_preflight_gate_v03_173D.json"
+  },
+  "status": "CONTROLLED_WRITE_ENGINE_PREVIEW_READY",
+  "line": "D-LINE",
+  "mode": "PREVIEW_ONLY_NO_EXECUTION",
+  "realWriteAllowed": false,
+  "previewOnly": true,
+  "previewPolicy": {
+    "requiresPreflightVerified": true,
+    "requiresManualApprovalVerified": true,
+    "requiresDryRunVerified": true,
+    "requiresRollbackPlan": true,
+    "noMutation": true,
+    "noGit": true,
+    "noDelete": true
+  },
+  "previewResultShape": {
+    "previewId": "string",
+    "writeId": "string",
+    "status": "WRITE_PREVIEW_READY | WRITE_PREVIEW_FAILED",
+    "previewGenerated": true,
+    "plannedOperations": [],
+    "affectedPaths": [],
+    "beforeState": "string|object",
+    "afterStatePreview": "string|object",
+    "rollbackPlan": {},
+    "realWritePerformed": false,
+    "dataModelMutated": false,
+    "gitExecuted": false,
+    "deletePerformed": false,
+    "nextState": "PREVIEW_VERIFIED | PREVIEW_REJECTED"
+  },
+  "blockedActions": [
+    "perform real write in preview",
+    "mutate Data Model in preview",
+    "execute git in preview",
+    "delete files in preview",
+    "skip preflight verification",
+    "skip approval verification",
+    "skip dry run verification",
+    "set realWriteAllowed to true"
+  ],
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Controlled Write Engine Preview v1.",
+    "Click Build Write Engine Preview.",
+    "Click Load Approved Write Chain.",
+    "Click Generate Write Preview.",
+    "Expected status: WRITE_PREVIEW_READY.",
+    "Expected previewGenerated=true.",
+    "Expected realWritePerformed=false.",
+    "Expected dataModelMutated=false.",
+    "Expected gitExecuted=false and deletePerformed=false."
+  ],
+  "nextStep": "Prepare PACKAGE 175D — Controlled Write Execution Gate v1."
+}

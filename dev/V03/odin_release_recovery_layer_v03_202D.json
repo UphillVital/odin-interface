@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Release Recovery",
+    "version": "V03.202D.0",
+    "type": "RELEASE_RECOVERY_LAYER_v1",
+    "created": "2026-05-06T10:47:32.369446+00:00",
+    "sourceRegistry": "odin_secure_release_registry_v03_201D.json"
+  },
+  "status": "RELEASE_RECOVERY_LAYER_READY",
+  "recoveryLayerEnabled": true,
+  "registryRestoreAvailable": true,
+  "releaseRollbackTrackingEnabled": true,
+  "secureRecoveryLineageEnabled": true,
+  "immutableHistoryMutationAllowed": false,
+  "recoveryHash": "5203943f2b8517b312d010aca9e4927aca79240f076e007395a89a58ffa8fa66",
+  "recoveryTargets": [
+    "ODIN-V03-200D",
+    "SECURE_RELEASE_REGISTRY_v1"
+  ],
+  "blockedActions": [
+    "mutate immutable release history",
+    "delete release registry",
+    "overwrite release seals",
+    "bypass recovery lineage validation",
+    "restore unverified release",
+    "execute git from recovery layer",
+    "delete registry files"
+  ],
+  "nextStep": "Prepare PACKAGE 203D — Release Recovery QA Gate v1."
+}

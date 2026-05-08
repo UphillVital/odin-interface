@@ -1,0 +1,94 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.162D.0",
+    "type": "ACTION_VALIDATOR_v1",
+    "created": "2026-05-04T23:29:45.001025+00:00",
+    "sourceQueueSystem": "odin_action_queue_system_v03_161D_FIX3.json"
+  },
+  "status": "ACTION_VALIDATOR_READY",
+  "line": "D-LINE",
+  "mode": "VALIDATION_ONLY_NO_EXECUTION",
+  "allowedTypes": [
+    "READ",
+    "COPY",
+    "REQUEST",
+    "WRITE_CANDIDATE"
+  ],
+  "allowedTargets": [
+    "DataModel",
+    "RuntimeState",
+    "UIState",
+    "Report"
+  ],
+  "requiredFields": [
+    "actionId",
+    "type",
+    "target",
+    "payload",
+    "status",
+    "requiresValidation",
+    "requiresQa",
+    "executionAllowed"
+  ],
+  "validationChecks": [
+    {
+      "id": "VAL-STRUCTURE",
+      "name": "Structure Check",
+      "description": "Required action fields must exist."
+    },
+    {
+      "id": "VAL-TYPE",
+      "name": "Type Check",
+      "description": "Action type must be allowed."
+    },
+    {
+      "id": "VAL-TARGET",
+      "name": "Target Check",
+      "description": "Action target must be allowed."
+    },
+    {
+      "id": "VAL-SAFETY",
+      "name": "Safety Check",
+      "description": "executionAllowed must remain false for WRITE_CANDIDATE."
+    },
+    {
+      "id": "VAL-STATE",
+      "name": "State Check",
+      "description": "Queued action must be PENDING_REVIEW, IN_REVIEW, or VALIDATION_REQUIRED before validation."
+    },
+    {
+      "id": "VAL-QA-REQUIRED",
+      "name": "QA Requirement Check",
+      "description": "WRITE_CANDIDATE requires validation and QA."
+    }
+  ],
+  "blockedActions": [
+    "execute action during validation",
+    "set executionAllowed to true",
+    "validate unknown action type",
+    "validate unknown target",
+    "skip QA for WRITE_CANDIDATE",
+    "direct data model mutation",
+    "execute git",
+    "delete data model files",
+    "bypass Action Queue System"
+  ],
+  "validNextState": "QA_REQUIRED",
+  "invalidNextState": "REJECTED",
+  "manualTestInstructions": [
+    "Open dev/V03/control_center.html through Live Server.",
+    "Find block: Action Queue System v1 / FIX3 if needed.",
+    "Generate sample queue item.",
+    "Find block: Action Validator v1.",
+    "Click Load Sample Queue Item.",
+    "Click Run Validation.",
+    "Expected status: VALIDATION_PASSED.",
+    "Expected nextState: QA_REQUIRED.",
+    "Expected errors: [].",
+    "Confirm executionAllowed remains false.",
+    "If VALIDATION_FAILED or executionAllowed becomes true — stop and do not continue to 163D."
+  ],
+  "nextStep": "Prepare PACKAGE 163D — Action QA Gate v1."
+}

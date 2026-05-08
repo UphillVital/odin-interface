@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Controlled Actions",
+    "version": "V03.200D.0",
+    "type": "FINAL_SECURE_EXPORT_RELEASE_v1"
+  },
+  "status": "FINAL_SECURE_EXPORT_RELEASE_READY",
+  "finalReleaseAllowed": true,
+  "finalSecureRelease": true,
+  "releaseSealCreated": true,
+  "releaseSeal": "9c0b812df02b8ebc24175524224eea0d1bc241fde1c6b72d42950720da5bcdcb",
+  "immutableReleaseState": true,
+  "releaseCompleted": true
+}

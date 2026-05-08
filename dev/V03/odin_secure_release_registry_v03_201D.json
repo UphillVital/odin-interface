@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Secure Release Registry",
+    "version": "V03.201D.0",
+    "type": "SECURE_RELEASE_REGISTRY_v1",
+    "created": "2026-05-06T10:45:28.675007+00:00"
+  },
+  "registryEnabled": true,
+  "immutableRegistry": true,
+  "releaseHistoryProtected": true,
+  "lineageTrackingEnabled": true,
+  "registeredReleases": [
+    {
+      "releaseId": "ODIN-V03-200D",
+      "sourcePackage": "FINAL_SECURE_EXPORT_RELEASE_v1",
+      "seal": "4441d0595d867a4e6c6629069d2ea6eaf215450276ae1e14e80b4ee06eb6334b",
+      "validated": true
+    }
+  ],
+  "nextStep": "Prepare PACKAGE 202D — ODIN Release Recovery Layer v1."
+}

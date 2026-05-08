@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Release Recovery",
+    "version": "V03.203D.0",
+    "type": "RELEASE_RECOVERY_QA_GATE_v1",
+    "created": "2026-05-06T10:51:14.719568+00:00",
+    "sourceRecoveryLayer": "odin_release_recovery_layer_v03_202D.json"
+  },
+  "status": "RELEASE_RECOVERY_QA_GATE_READY",
+  "qaGateEnabled": true,
+  "recoveryQaRequired": true,
+  "acceptedRestoreStatus": "REGISTRY_RESTORE_SIMULATED",
+  "acceptedRollbackStatus": "RELEASE_ROLLBACK_TRACKED",
+  "acceptedLineageStatus": "RECOVERY_LINEAGE_VALID",
+  "requiredFlags": {
+    "registryRestoreAvailable": true,
+    "rollbackTrackingEnabled": true,
+    "secureRecoveryLineageEnabled": true,
+    "immutableHistoryMutationAllowed": false,
+    "releaseSealOverwritten": false,
+    "destructiveRollback": false,
+    "lineageBroken": false
+  },
+  "qaHash": "9d8157a695a73cb021c18fca810dd4e91dcbf28fd0021882a734a21ab11c8a6b",
+  "blockedActions": [
+    "approve recovery with immutableHistoryMutationAllowed=true",
+    "approve recovery with releaseSealOverwritten=true",
+    "approve recovery with destructiveRollback=true",
+    "approve recovery with lineageBroken=true",
+    "skip recovery QA gate",
+    "delete release history",
+    "overwrite release seals",
+    "execute git from recovery QA"
+  ],
+  "nextStep": "Prepare PACKAGE 204D — Release Recovery Stable Checkpoint v1."
+}
