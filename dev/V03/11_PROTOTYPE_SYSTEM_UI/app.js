@@ -478,6 +478,48 @@ Object.assign(i18n.de, {
 
 const odinRealStateEngineV040 = {"activeState": {"schema": "ODIN_ACTIVE_STATE_v1", "version": "V04.0.0", "created": "2026-05-08T04:51:41.141520+00:00", "activeBase": "199D", "currentPhase": "V04.0 — REAL STATE ENGINE BOOTSTRAP", "previousPhase": "199D.8 — LEGACY STANDALONE CLEANUP", "oneMainPageRule": true, "mainPage": "dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html", "status": "REAL_STATE_ENGINE_BOOTSTRAP_READY", "systemMode": "FOUNDATION_TO_REAL_CORE", "legacyStandalonePages": {"commit_builder.html": "DEPRECATED_REMOVABLE", "state_workspace.html": "DEPRECATED_REMOVABLE", "control_center.html": "DEPRECATED_REMOVABLE"}, "nextPhase": "V04.1 — REAL EXECUTION ENGINE"}, "packageRegistry": {"schema": "ODIN_PACKAGE_REGISTRY_v1", "activeBase": "199D", "currentPackage": "ODIN_V04_0_REAL_STATE_ENGINE_BOOTSTRAP_V1", "history": [{"version": "199D", "name": "SECURE_EXPORT_RELEASE_QA_GATE", "status": "LAST_CLEAN_FOUNDATION"}, {"version": "199D.1", "name": "TRUE_TEMPLATE_INTEGRATION", "status": "APPLIED"}, {"version": "199D.2", "name": "STANDALONE_PAGES_INTEGRATION_AUDIT", "status": "APPLIED"}, {"version": "199D.3", "name": "CONTROL_CENTER_INTEGRATION_AUDIT", "status": "APPLIED"}, {"version": "199D.4", "name": "LEGACY_FUNCTION_MIGRATION_PLAN", "status": "APPLIED"}, {"version": "199D.5", "name": "COMMIT_BUILDER_INTERNAL_FUNCTION_MIGRATION", "status": "APPLIED"}, {"version": "199D.6", "name": "STATE_WORKSPACE_INTERNAL_FUNCTION_MIGRATION", "status": "APPLIED"}, {"version": "199D.7", "name": "CONTROL_CENTER_INTERNAL_FUNCTION_MIGRATION", "status": "APPLIED"}, {"version": "199D.8", "name": "LEGACY_STANDALONE_CLEANUP", "status": "APPLIED"}, {"version": "V04.0", "name": "REAL_STATE_ENGINE_BOOTSTRAP", "status": "CURRENT"}], "experimentalReferenceOnly": ["200D-230D"]}, "moduleRegistry": {"schema": "ODIN_MODULE_REGISTRY_v1", "modules": [{"id": "mainInterface", "name": "Main ODIN Interface", "status": "ACTIVE", "zone": "command"}, {"id": "v04Plan", "name": "V04 Plan Tracker", "status": "ACTIVE", "zone": "v04plan"}, {"id": "foundation", "name": "Foundation Lock", "status": "ACTIVE", "zone": "foundation"}, {"id": "capabilities", "name": "Capabilities Registry", "status": "ACTIVE", "zone": "capabilities"}, {"id": "commitBuilder", "name": "Commit Builder", "status": "ACTIVE_INTERNAL", "zone": "commitBuilder"}, {"id": "stateWorkspace", "name": "State Workspace", "status": "ACTIVE_INTERNAL", "zone": "stateWorkspace"}, {"id": "controlCenter", "name": "Control Center", "status": "ACTIVE_INTERNAL", "zone": "controlCenter"}, {"id": "realStateEngine", "name": "Real State Engine", "status": "BOOTSTRAP", "zone": "realStateEngine"}]}, "rollbackPoints": {"schema": "ODIN_ROLLBACK_POINTS_v1", "points": [{"id": "RB-199D", "name": "Last Clean Foundation", "package": "ODIN_V03_PACKAGE_199D_SECURE_EXPORT_RELEASE_QA_GATE_V1.zip", "status": "PRIMARY_ROLLBACK"}, {"id": "RB-199D8", "name": "One Main Page Cleanup", "package": "ODIN_V03_199D8_LEGACY_STANDALONE_CLEANUP_V1.zip", "status": "SECONDARY_ROLLBACK"}]}};
 
+
+Object.assign(i18n.ua, {
+  zoneExecutionEngine: 'Execution Engine',
+  executionEngineTitle: 'V04.1 — Real Execution Engine',
+  executionEngineBody: 'Реальний execution layer ODIN: action request, validation, execution, result, log, state update.',
+  hintExecutionEngine: 'Execution Engine запускає контрольовані action-запити та веде execution log.',
+  executionAssist: '<strong>Execution Engine</strong> — перший runtime-шар ODIN. Він ще працює локально в UI, але вже має queue, validation, execution log і state update model.',
+  actionSelectLabel: 'Action Request',
+  actionRunButton: 'Run Action',
+  actionValidateButton: 'Validate',
+  actionResetButton: 'Reset Engine',
+  executionCopyLogButton: 'Copy Execution Log'
+});
+Object.assign(i18n.en, {
+  zoneExecutionEngine: 'Execution Engine',
+  executionEngineTitle: 'V04.1 — Real Execution Engine',
+  executionEngineBody: 'Real ODIN execution layer: action request, validation, execution, result, log, state update.',
+  hintExecutionEngine: 'Execution Engine runs controlled action requests and maintains execution log.',
+  executionAssist: '<strong>Execution Engine</strong> — first ODIN runtime layer. It still runs locally in UI, but now has queue, validation, execution log and state update model.',
+  actionSelectLabel: 'Action Request',
+  actionRunButton: 'Run Action',
+  actionValidateButton: 'Validate',
+  actionResetButton: 'Reset Engine',
+  executionCopyLogButton: 'Copy Execution Log'
+});
+Object.assign(i18n.de, {
+  zoneExecutionEngine: 'Execution Engine',
+  executionEngineTitle: 'V04.1 — Real Execution Engine',
+  executionEngineBody: 'Realer ODIN Execution Layer: Action Request, Validation, Execution, Result, Log, State Update.',
+  hintExecutionEngine: 'Execution Engine startet kontrollierte Action Requests und führt Execution Log.',
+  executionAssist: '<strong>Execution Engine</strong> — erster ODIN Runtime-Layer. Läuft noch lokal im UI, hat aber Queue, Validation, Execution Log und State-Update-Modell.',
+  actionSelectLabel: 'Action Request',
+  actionRunButton: 'Action starten',
+  actionValidateButton: 'Validieren',
+  actionResetButton: 'Engine zurücksetzen',
+  executionCopyLogButton: 'Execution Log kopieren'
+});
+
+
+const odinExecutionEngineV041 = {"engine": {"schema": "ODIN_EXECUTION_ENGINE_v1", "version": "V04.1.0", "created": "2026-05-08T05:01:06.725185+00:00", "status": "REAL_EXECUTION_ENGINE_READY", "phase": "V04.1 — REAL EXECUTION ENGINE", "activeBase": "199D", "flow": ["ACTION_REQUEST", "VALIDATION", "EXECUTION", "RESULT", "LOG", "STATE_UPDATE"], "queues": {"pending": [], "running": [], "completed": [], "failed": []}, "supportedActions": [{"id": "ACTION-STATE-DIAGNOSTICS", "name": "Run State Diagnostics", "requires": ["realStateEngine"], "updatesState": true}, {"id": "ACTION-QA-CHECK", "name": "Run QA Check", "requires": ["controlCenter"], "updatesState": true}, {"id": "ACTION-EXPORT-CHECK", "name": "Run Export Check", "requires": ["controlCenter"], "updatesState": true}, {"id": "ACTION-COMMIT-PREPARE", "name": "Prepare Commit Commands", "requires": ["commitBuilder"], "updatesState": false}], "nextStep": "V04.2 — Persistence Layer"}, "log": {"schema": "ODIN_EXECUTION_LOG_v1", "created": "2026-05-08T05:01:06.725185+00:00", "events": [{"time": "2026-05-08T05:01:06.725185+00:00", "type": "ENGINE_BOOTSTRAP", "status": "REAL_EXECUTION_ENGINE_READY", "message": "Execution Engine initialized after Real State Engine."}]}};
+let odinExecutionRuntimeV041 = JSON.parse(JSON.stringify(odinExecutionEngineV041));
+
 const workZone = document.getElementById('workZone');
 const assistContent = document.getElementById('assistContent');
 const modeValue = document.getElementById('modeValue');
@@ -630,6 +672,13 @@ function renderZone(zone) {
     setTimeout(buildCommitCommands199D5, 0);
   }
 
+
+
+  if (zone === 'executionEngine') {
+    workZone.innerHTML = zoneTemplate(t('executionEngineTitle'), t('executionEngineBody'), renderExecutionEngineV041());
+    assistContent.innerHTML = t('executionAssist');
+    setTimeout(resetExecutionEngineV041, 0);
+  }
 
   if (zone === 'realStateEngine') {
     workZone.innerHTML = zoneTemplate(t('realStateEngineTitle'), t('realStateEngineBody'), renderRealStateEngineV040());
@@ -798,6 +847,139 @@ async function copyCommitCommands199D5() {
 
 function cloneStateWorkspace199D6() {
   return JSON.parse(JSON.stringify(odinStateWorkspace199D6));
+}
+
+
+
+function renderExecutionEngineV041() {
+  const options = odinExecutionRuntimeV041.engine.supportedActions.map((action) => `
+    <option value="${escapeHtml(action.id)}">${escapeHtml(action.id)} — ${escapeHtml(action.name)}</option>
+  `).join('');
+
+  return `
+    <div class="execution-engine-tool">
+      <div class="execution-flow">
+        ${odinExecutionRuntimeV041.engine.flow.map((step) => `<span>${escapeHtml(step)}</span>`).join('')}
+      </div>
+
+      <div class="execution-grid">
+        <article><span>STATUS</span><strong>${escapeHtml(odinExecutionRuntimeV041.engine.status)}</strong></article>
+        <article><span>PHASE</span><strong>${escapeHtml(odinExecutionRuntimeV041.engine.phase)}</strong></article>
+        <article><span>NEXT</span><strong>${escapeHtml(odinExecutionRuntimeV041.engine.nextStep)}</strong></article>
+        <article><span>COMPLETED</span><strong>${escapeHtml(String(odinExecutionRuntimeV041.engine.queues.completed.length))}</strong></article>
+      </div>
+
+      <label class="execution-select-label">
+        <span>${t('actionSelectLabel')}</span>
+        <select id="executionActionSelect">${options}</select>
+      </label>
+
+      <div class="execution-actions">
+        <button type="button" onclick="validateExecutionActionV041()">${t('actionValidateButton')}</button>
+        <button type="button" class="primary-action" onclick="runExecutionActionV041()">${t('actionRunButton')}</button>
+        <button type="button" onclick="copyExecutionLogV041()">${t('executionCopyLogButton')}</button>
+        <button type="button" onclick="resetExecutionEngineV041()">${t('actionResetButton')}</button>
+      </div>
+
+      <div id="executionStatus" class="execution-status">REAL_EXECUTION_ENGINE_READY</div>
+      <pre id="executionOutput" class="execution-output"></pre>
+    </div>
+  `;
+}
+
+function selectedExecutionActionV041() {
+  const select = document.getElementById('executionActionSelect');
+  const id = select?.value || odinExecutionRuntimeV041.engine.supportedActions[0]?.id;
+  return odinExecutionRuntimeV041.engine.supportedActions.find((action) => action.id === id);
+}
+
+function writeExecutionOutputV041(payload, status) {
+  const output = document.getElementById('executionOutput');
+  const statusEl = document.getElementById('executionStatus');
+  if (output) output.textContent = JSON.stringify(payload, null, 2);
+  if (statusEl) statusEl.textContent = status || payload.status || 'READY';
+}
+
+function pushExecutionEventV041(event) {
+  odinExecutionRuntimeV041.log.events.push({
+    time: new Date().toISOString(),
+    ...event
+  });
+}
+
+function validateExecutionActionV041() {
+  const action = selectedExecutionActionV041();
+  const result = {
+    status: 'ACTION_VALIDATED',
+    action,
+    validation: {
+      hasAction: !!action,
+      hasRequirements: Array.isArray(action?.requires),
+      updatesStateKnown: typeof action?.updatesState === 'boolean'
+    }
+  };
+  result.validationPassed = Object.values(result.validation).every(Boolean);
+  pushExecutionEventV041({
+    type: 'VALIDATION',
+    status: result.validationPassed ? 'PASSED' : 'FAILED',
+    actionId: action?.id || null
+  });
+  writeExecutionOutputV041(result, result.status);
+  return result;
+}
+
+function runExecutionActionV041() {
+  const validation = validateExecutionActionV041();
+  const action = selectedExecutionActionV041();
+
+  if (!validation.validationPassed) {
+    writeExecutionOutputV041(validation, 'ACTION_VALIDATION_FAILED');
+    return;
+  }
+
+  const executionId = 'EXEC-' + Date.now();
+  const result = {
+    status: 'ACTION_EXECUTED',
+    executionId,
+    actionId: action.id,
+    actionName: action.name,
+    flow: odinExecutionRuntimeV041.engine.flow,
+    stateUpdate: action.updatesState ? 'STATE_UPDATE_REQUESTED' : 'NO_STATE_UPDATE_REQUIRED',
+    completedAt: new Date().toISOString()
+  };
+
+  odinExecutionRuntimeV041.engine.queues.completed.push(result);
+  pushExecutionEventV041({
+    type: 'EXECUTION',
+    status: 'COMPLETED',
+    executionId,
+    actionId: action.id
+  });
+
+  writeExecutionOutputV041(result, 'ACTION_EXECUTED');
+}
+
+async function copyExecutionLogV041() {
+  const payload = {
+    status: 'EXECUTION_LOG_READY',
+    log: odinExecutionRuntimeV041.log,
+    completed: odinExecutionRuntimeV041.engine.queues.completed
+  };
+
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
+    writeExecutionOutputV041(payload, 'EXECUTION_LOG_COPIED');
+  } catch (error) {
+    writeExecutionOutputV041(payload, 'COPY_UNAVAILABLE');
+  }
+}
+
+function resetExecutionEngineV041() {
+  odinExecutionRuntimeV041 = JSON.parse(JSON.stringify(odinExecutionEngineV041));
+  writeExecutionOutputV041({
+    status: 'REAL_EXECUTION_ENGINE_RESET',
+    engine: odinExecutionRuntimeV041.engine
+  }, 'REAL_EXECUTION_ENGINE_READY');
 }
 
 

@@ -1258,3 +1258,113 @@ body {
   color: var(--text);
   overflow: auto;
 }
+
+/* ODIN V04.1 — Real Execution Engine */
+.execution-engine-tool {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.execution-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.execution-flow span {
+  border: 1px solid var(--border);
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.execution-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+}
+
+.execution-grid article {
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.execution-grid span,
+.execution-grid strong {
+  display: block;
+}
+
+.execution-grid span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .06em;
+}
+
+.execution-grid strong {
+  margin-top: 6px;
+  overflow-wrap: anywhere;
+}
+
+.execution-select-label {
+  display: grid;
+  gap: 6px;
+  font-weight: 800;
+}
+
+.execution-select-label select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text);
+  padding: 12px;
+  font: inherit;
+}
+
+.execution-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.execution-actions button {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.execution-actions .primary-action {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.execution-status {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.execution-output {
+  white-space: pre-wrap;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+  background: var(--surface-soft);
+  color: var(--text);
+  overflow: auto;
+}
