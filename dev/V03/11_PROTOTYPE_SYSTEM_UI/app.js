@@ -53,6 +53,162 @@ const i18n = {
   }
 };
 
+
+const odinV04PlanTracker = {
+  activeBase: '199D',
+  lastCleanFoundation: 'ODIN_V03_PACKAGE_199D_SECURE_EXPORT_RELEASE_QA_GATE_V1.zip',
+  templateEtalon: 'dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html',
+  workingFolder: 'dev/V03/11_PROTOTYPE_SYSTEM_UI',
+  cancelledPackages: [
+    'ODIN_V03_199D1_MAIN_CONTROL_HUB_V04_PLAN_TRACKER_V1.zip',
+    'ODIN_V03_199D1_FIX_UI_MATRIX_MAIN_CONTROL_HUB_V04_PLAN_TRACKER_V1.zip'
+  ],
+  rules: {
+    noNewHtmlPages: true,
+    noNewShell: true,
+    useExistingLeftTree: true,
+    useExistingWorkZone: true,
+    useExistingAssistPanel: true,
+    useExistingStatusBar: true,
+    keepQuickSettings: true
+  },
+  phases: [
+    {
+      id: 'PHASE 0',
+      title: 'Foundation Lock',
+      status: 'DONE',
+      what: '199D is fixed as ACTIVE BASE. 200D–230D are not active core.',
+      why: 'Keep a clean rollback-safe foundation and stop meta-expansion.',
+      result: 'Stable clean starting point for V04.'
+    },
+    {
+      id: 'PHASE 0.1',
+      title: 'True Template Integration',
+      status: 'CURRENT',
+      what: 'Integrate planning and capabilities into the approved 11_PROTOTYPE_SYSTEM_UI template.',
+      why: 'All ODIN interface functions must live inside the canonical UI shell.',
+      result: 'One main page, one left tree, one work zone, one assist panel.'
+    },
+    {
+      id: 'V04.0',
+      title: 'Real State Engine',
+      status: 'NEXT',
+      what: 'Create real active state, package registry, module registry, rollback points and QA tracking.',
+      why: 'ODIN must know its own state before real execution starts.',
+      result: 'Real system state foundation.'
+    },
+    {
+      id: 'V04.1',
+      title: 'Real Execution Engine',
+      status: 'PLANNED',
+      what: 'Action Request → Validation → Execution → Result → Log → State Update.',
+      why: 'Move from demo buttons to real controlled actions.',
+      result: 'Workflow runtime and execution queue.'
+    },
+    {
+      id: 'V04.2',
+      title: 'Persistence Layer',
+      status: 'PLANNED',
+      what: 'Local JSON, IndexedDB, file persistence, and later Git/GitHub persistence.',
+      why: 'State must survive reloads and become restorable.',
+      result: 'Real memory and snapshot base.'
+    },
+    {
+      id: 'V04.3',
+      title: 'Live UI State Graph',
+      status: 'PLANNED',
+      what: 'Live state viewer, execution graph, logs, health monitor and module manager.',
+      why: 'User must see real system state and transitions.',
+      result: 'Live ODIN control interface.'
+    },
+    {
+      id: 'V04.4',
+      title: 'Recovery Replay Engine',
+      status: 'PLANNED',
+      what: 'Snapshots, replay, rollback, restore and corruption detection.',
+      why: 'Recovery must become real instead of conceptual.',
+      result: 'Real restore and replay engine.'
+    },
+    {
+      id: 'V04.5',
+      title: 'Autonomous Loop',
+      status: 'PLANNED',
+      what: 'Observers, watchdogs, schedulers, background tasks and integrity monitors.',
+      why: 'ODIN should begin controlled autonomy.',
+      result: 'Self-monitoring runtime loop.'
+    }
+  ],
+  capabilities: [
+    { id: 'CAP-001', name: 'System Overview', status: 'INTEGRATED' },
+    { id: 'CAP-002', name: 'V04 Planning / Plan Tracker', status: 'INTEGRATED' },
+    { id: 'CAP-003', name: 'Foundation Lock', status: 'INTEGRATED' },
+    { id: 'CAP-004', name: 'Capabilities Registry', status: 'INTEGRATED' },
+    { id: 'CAP-005', name: 'QA / Release Flow', status: 'FOUNDATION' },
+    { id: 'CAP-006', name: 'Deutsch Trainer / Lesson Factory', status: 'FOUNDATION' },
+    { id: 'CAP-007', name: 'Real State Engine', status: 'NEXT' },
+    { id: 'CAP-008', name: 'Real Execution Engine', status: 'PLANNED' },
+    { id: 'CAP-009', name: 'Persistence Layer', status: 'PLANNED' },
+    { id: 'CAP-010', name: 'Live UI State Graph', status: 'PLANNED' },
+    { id: 'CAP-011', name: 'Recovery Replay', status: 'PLANNED' },
+    { id: 'CAP-012', name: 'Autonomous Loop', status: 'PLANNED' }
+  ]
+};
+
+
+
+Object.assign(i18n.ua, {
+  zoneV04Plan: 'План V04',
+  zoneFoundation: 'Foundation Lock',
+  zoneCapabilities: 'Можливості',
+  v04PlanTitle: 'V04 — Real Core Plan Tracker',
+  v04PlanBody: 'План переходу від чистої бази 199D до реального ядра ODIN. Інтегровано в еталонний шаблон 11_PROTOTYPE_SYSTEM_UI.',
+  foundationTitle: 'Foundation Lock / Active Base',
+  foundationBody: '199D зафіксовано як ACTIVE BASE. 200D–230D скасовано як активні збірки та залишено тільки як experimental reference.',
+  capabilitiesTitle: 'Capabilities Registry',
+  capabilitiesBody: 'Список інтегрованих і запланованих можливостей ODIN у межах одного шаблону інтерфейсу.',
+  hintV04Plan: 'План V04 показує фази переходу до real core.',
+  hintFoundation: 'Foundation Lock фіксує активну базу 199D і правила чистого переходу.',
+  hintCapabilities: 'Registry показує, які можливості вже інтегровані та які заплановані.',
+  v04PlanAssist: '<strong>V04 Plan Tracker</strong> — контроль переходу до Real Core. Поточна фаза: True Template Integration. Наступна: V04.0 Real State Engine.',
+  foundationAssist: '<strong>Foundation Lock</strong> — захист чистої бази. Працюємо тільки в dev/V03/11_PROTOTYPE_SYSTEM_UI і не створюємо нові HTML-сторінки.',
+  capabilitiesAssist: '<strong>Capabilities Registry</strong> — карта можливостей, які підключаються до єдиного ODIN Interface.'
+});
+Object.assign(i18n.en, {
+  zoneV04Plan: 'V04 Plan',
+  zoneFoundation: 'Foundation Lock',
+  zoneCapabilities: 'Capabilities',
+  v04PlanTitle: 'V04 — Real Core Plan Tracker',
+  v04PlanBody: 'Transition plan from clean 199D base to the real ODIN core. Integrated into the canonical 11_PROTOTYPE_SYSTEM_UI template.',
+  foundationTitle: 'Foundation Lock / Active Base',
+  foundationBody: '199D is fixed as ACTIVE BASE. 200D–230D are cancelled as active builds and kept only as experimental reference.',
+  capabilitiesTitle: 'Capabilities Registry',
+  capabilitiesBody: 'List of integrated and planned ODIN capabilities inside the single interface template.',
+  hintV04Plan: 'The V04 plan shows phases for the transition to real core.',
+  hintFoundation: 'Foundation Lock fixes active base 199D and clean transition rules.',
+  hintCapabilities: 'Registry shows integrated and planned capabilities.',
+  v04PlanAssist: '<strong>V04 Plan Tracker</strong> controls transition to Real Core. Current phase: True Template Integration. Next: V04.0 Real State Engine.',
+  foundationAssist: '<strong>Foundation Lock</strong> protects the clean base. Work only in dev/V03/11_PROTOTYPE_SYSTEM_UI and do not create new HTML pages.',
+  capabilitiesAssist: '<strong>Capabilities Registry</strong> maps capabilities connected to the single ODIN Interface.'
+});
+Object.assign(i18n.de, {
+  zoneV04Plan: 'V04 Plan',
+  zoneFoundation: 'Foundation Lock',
+  zoneCapabilities: 'Fähigkeiten',
+  v04PlanTitle: 'V04 — Real Core Plan Tracker',
+  v04PlanBody: 'Übergangsplan von der sauberen 199D-Basis zum realen ODIN-Core. In die kanonische Vorlage 11_PROTOTYPE_SYSTEM_UI integriert.',
+  foundationTitle: 'Foundation Lock / Aktive Basis',
+  foundationBody: '199D ist als ACTIVE BASE fixiert. 200D–230D sind als aktive Builds annulliert und bleiben nur experimentelle Referenz.',
+  capabilitiesTitle: 'Capabilities Registry',
+  capabilitiesBody: 'Liste integrierter und geplanter ODIN-Fähigkeiten innerhalb einer einzigen Interface-Vorlage.',
+  hintV04Plan: 'Der V04-Plan zeigt die Phasen des Übergangs zum Real Core.',
+  hintFoundation: 'Foundation Lock fixiert die aktive Basis 199D und Regeln für den sauberen Übergang.',
+  hintCapabilities: 'Registry zeigt integrierte und geplante Fähigkeiten.',
+  v04PlanAssist: '<strong>V04 Plan Tracker</strong> steuert den Übergang zum Real Core. Aktuelle Phase: True Template Integration. Nächste Phase: V04.0 Real State Engine.',
+  foundationAssist: '<strong>Foundation Lock</strong> schützt die saubere Basis. Arbeit nur in dev/V03/11_PROTOTYPE_SYSTEM_UI, keine neuen HTML-Seiten.',
+  capabilitiesAssist: '<strong>Capabilities Registry</strong> zeigt Fähigkeiten im einheitlichen ODIN Interface.'
+});
+
+
 const workZone = document.getElementById('workZone');
 const assistContent = document.getElementById('assistContent');
 const modeValue = document.getElementById('modeValue');
@@ -169,6 +325,22 @@ function renderZone(zone) {
     assistContent.innerHTML = t('projectsAssist');
   }
 
+
+  if (zone === 'v04plan') {
+    workZone.innerHTML = zoneTemplate(t('v04PlanTitle'), t('v04PlanBody'), renderV04PlanTracker());
+    assistContent.innerHTML = t('v04PlanAssist');
+  }
+
+  if (zone === 'foundation') {
+    workZone.innerHTML = zoneTemplate(t('foundationTitle'), t('foundationBody'), renderFoundationLock());
+    assistContent.innerHTML = t('foundationAssist');
+  }
+
+  if (zone === 'capabilities') {
+    workZone.innerHTML = zoneTemplate(t('capabilitiesTitle'), t('capabilitiesBody'), renderCapabilitiesRegistry());
+    assistContent.innerHTML = t('capabilitiesAssist');
+  }
+
   if (zone === 'files') {
     renderFileWorkspace();
   }
@@ -180,6 +352,72 @@ function renderZone(zone) {
 
   applyI18n();
 }
+
+
+function statusClass(status) {
+  return String(status || '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+}
+
+function renderV04PlanTracker() {
+  const cards = odinV04PlanTracker.phases.map(phase => `
+    <article class="v04-phase-card status-${statusClass(phase.status)}">
+      <div class="v04-phase-head">
+        <span class="v04-phase-id">${escapeHtml(phase.id)}</span>
+        <span class="v04-status">${escapeHtml(phase.status)}</span>
+      </div>
+      <h3>${escapeHtml(phase.title)}</h3>
+      <p><strong>Що робимо:</strong> ${escapeHtml(phase.what)}</p>
+      <p><strong>Навіщо:</strong> ${escapeHtml(phase.why)}</p>
+      <p><strong>Що матимемо:</strong> ${escapeHtml(phase.result)}</p>
+    </article>
+  `).join('');
+
+  return `
+    <div class="v04-tracker">
+      <div class="v04-summary">
+        <div><strong>ACTIVE BASE</strong><span>${escapeHtml(odinV04PlanTracker.activeBase)}</span></div>
+        <div><strong>TEMPLATE</strong><span>${escapeHtml(odinV04PlanTracker.templateEtalon)}</span></div>
+        <div><strong>WORK FOLDER</strong><span>${escapeHtml(odinV04PlanTracker.workingFolder)}</span></div>
+      </div>
+      <div class="v04-phase-list">${cards}</div>
+    </div>
+  `;
+}
+
+function renderFoundationLock() {
+  const cancelled = odinV04PlanTracker.cancelledPackages.map(item => `<li>${escapeHtml(item)}</li>`).join('');
+  const rules = Object.entries(odinV04PlanTracker.rules).map(([key, value]) => `
+    <div class="v04-rule-row"><span>${escapeHtml(key)}</span><strong>${escapeHtml(String(value))}</strong></div>
+  `).join('');
+
+  return `
+    <div class="v04-foundation">
+      <div class="v04-lock-banner">
+        <strong>ACTIVE BASE = ${escapeHtml(odinV04PlanTracker.activeBase)}</strong>
+        <span>LAST CLEAN FOUNDATION</span>
+      </div>
+      <h3>Cancelled / not active builds</h3>
+      <ul>${cancelled}</ul>
+      <h3>Clean transition rules</h3>
+      <div class="v04-rule-list">${rules}</div>
+    </div>
+  `;
+}
+
+function renderCapabilitiesRegistry() {
+  return `
+    <div class="v04-capability-list">
+      ${odinV04PlanTracker.capabilities.map(cap => `
+        <article class="v04-capability-card">
+          <span>${escapeHtml(cap.id)}</span>
+          <strong>${escapeHtml(cap.name)}</strong>
+          <em>${escapeHtml(cap.status)}</em>
+        </article>
+      `).join('')}
+    </div>
+  `;
+}
+
 
 function escapeHtml(value) {
   return String(value || '').replace(/[&<>"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));

@@ -692,3 +692,125 @@ body {
 @media (max-width: 900px) {
   .commit-form-grid { grid-template-columns: 1fr; }
 }
+
+
+/* ODIN V03.199D.1 — True Template Integration additions
+   Scope: only Work Zone content for V04 Plan / Foundation / Capabilities.
+   No shell/header/sidebar replacement. */
+.v04-tracker,
+.v04-foundation,
+.v04-capability-list {
+  margin-top: 18px;
+}
+
+.v04-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.v04-summary div,
+.v04-lock-banner,
+.v04-phase-card,
+.v04-capability-card,
+.v04-rule-row {
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.v04-summary strong,
+.v04-summary span {
+  display: block;
+}
+
+.v04-summary strong {
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: .06em;
+}
+
+.v04-summary span {
+  margin-top: 6px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.v04-phase-list {
+  display: grid;
+  gap: 12px;
+}
+
+.v04-phase-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.v04-phase-id,
+.v04-status,
+.v04-capability-card em {
+  border-radius: 999px;
+  padding: 4px 9px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.v04-phase-card h3 {
+  margin: 6px 0 10px;
+}
+
+.v04-phase-card p {
+  margin: 7px 0;
+  color: var(--text);
+}
+
+.v04-lock-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--accent-soft);
+}
+
+.v04-lock-banner strong {
+  font-size: 18px;
+}
+
+.v04-rule-list,
+.v04-capability-list {
+  display: grid;
+  gap: 10px;
+}
+
+.v04-rule-row,
+.v04-capability-card {
+  display: grid;
+  grid-template-columns: 180px 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.v04-rule-row span,
+.v04-capability-card span {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.v04-capability-card strong {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+  .v04-summary,
+  .v04-rule-row,
+  .v04-capability-card {
+    grid-template-columns: 1fr;
+  }
+}
