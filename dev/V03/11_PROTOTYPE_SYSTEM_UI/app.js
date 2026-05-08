@@ -390,6 +390,50 @@ Object.assign(i18n.de, {
 
 const odinStateWorkspace199D6 = {"activeBase": "199D", "currentPhase": "PHASE 0.9", "nextPhase": "199D.7 — Control Center Internal Function Migration", "oneMainPageRule": true, "templatePath": "dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html", "legacyStandalonePages": {"commit_builder.html": "MIGRATED_INTERNAL_ZONE", "state_workspace.html": "MIGRATED_INTERNAL_ZONE", "control_center.html": "AUDIT_ZONE_PENDING_MIGRATION"}};
 
+
+Object.assign(i18n.ua, {
+  controlCenterTitle: 'Control Center',
+  controlCenterBody: 'Внутрішній центр керування ODIN для QA, release readiness та системного контролю.',
+  controlCenterAssist: '<strong>Control Center</strong> — orchestration-зона для QA/status/release контролю всередині єдиного ODIN Interface.',
+  controlQaButton: 'Запустити QA',
+  controlExportButton: 'Перевірити Export',
+  controlReleaseButton: 'Release Status',
+  controlResetButton: 'Відновити demo control state',
+  controlStatusReady: 'CONTROL_CENTER_READY',
+  controlStatusQa: 'QA_PASSED',
+  controlStatusExport: 'EXPORT_READY',
+  controlStatusRelease: 'RELEASE_CONTROLLED'
+});
+Object.assign(i18n.en, {
+  controlCenterTitle: 'Control Center',
+  controlCenterBody: 'Internal ODIN control center for QA, release readiness and system control.',
+  controlCenterAssist: '<strong>Control Center</strong> — orchestration zone for QA/status/release control inside one ODIN Interface.',
+  controlQaButton: 'Run QA',
+  controlExportButton: 'Check Export',
+  controlReleaseButton: 'Release Status',
+  controlResetButton: 'Restore demo control state',
+  controlStatusReady: 'CONTROL_CENTER_READY',
+  controlStatusQa: 'QA_PASSED',
+  controlStatusExport: 'EXPORT_READY',
+  controlStatusRelease: 'RELEASE_CONTROLLED'
+});
+Object.assign(i18n.de, {
+  controlCenterTitle: 'Control Center',
+  controlCenterBody: 'Internes ODIN Control Center für QA, Release-Readiness und Systemkontrolle.',
+  controlCenterAssist: '<strong>Control Center</strong> — Orchestrierungszone für QA/Status/Release-Kontrolle innerhalb eines ODIN Interface.',
+  controlQaButton: 'QA starten',
+  controlExportButton: 'Export prüfen',
+  controlReleaseButton: 'Release-Status',
+  controlResetButton: 'Demo-Control-State wiederherstellen',
+  controlStatusReady: 'CONTROL_CENTER_READY',
+  controlStatusQa: 'QA_PASSED',
+  controlStatusExport: 'EXPORT_READY',
+  controlStatusRelease: 'RELEASE_CONTROLLED'
+});
+
+
+const odinControlCenter199D7 = {"activeBase": "199D", "qa": "READY", "release": "CONTROLLED", "export": "READY", "runtime": "FOUNDATION_ONLY", "nextPhase": "199D.8 — Legacy Standalone Cleanup"};
+
 const workZone = document.getElementById('workZone');
 const assistContent = document.getElementById('assistContent');
 const modeValue = document.getElementById('modeValue');
@@ -531,8 +575,9 @@ function renderZone(zone) {
   }
 
   if (zone === 'controlCenter') {
-    workZone.innerHTML = zoneTemplate(t('controlCenterTitle'), t('controlCenterBody'), renderControlCenterIntegrationAudit());
+    workZone.innerHTML = zoneTemplate(t('controlCenterTitle'), t('controlCenterBody'), renderControlCenterTool());
     assistContent.innerHTML = t('controlCenterAssist');
+    setTimeout(resetControlCenter199D7, 0);
   }
 
   if (zone === 'commitBuilder') {
@@ -809,6 +854,91 @@ function renderStandaloneIntegrationAudit(kind) {
   `;
 }
 
+
+
+
+function cloneControlCenter199D7() {
+  return JSON.parse(JSON.stringify(odinControlCenter199D7));
+}
+
+function renderControlCenterTool() {
+  return `
+    <div class="control-center-tool">
+      <div class="control-center-grid">
+        <article class="control-card">
+          <span>QA</span>
+          <strong>${escapeHtml(odinControlCenter199D7.qa)}</strong>
+        </article>
+
+        <article class="control-card">
+          <span>RELEASE</span>
+          <strong>${escapeHtml(odinControlCenter199D7.release)}</strong>
+        </article>
+
+        <article class="control-card">
+          <span>EXPORT</span>
+          <strong>${escapeHtml(odinControlCenter199D7.export)}</strong>
+        </article>
+
+        <article class="control-card">
+          <span>RUNTIME</span>
+          <strong>${escapeHtml(odinControlCenter199D7.runtime)}</strong>
+        </article>
+      </div>
+
+      <div class="control-center-actions">
+        <button type="button" class="primary-action" onclick="runQaControl199D7()">${t('controlQaButton')}</button>
+        <button type="button" onclick="runExportControl199D7()">${t('controlExportButton')}</button>
+        <button type="button" onclick="runReleaseControl199D7()">${t('controlReleaseButton')}</button>
+        <button type="button" onclick="resetControlCenter199D7()">${t('controlResetButton')}</button>
+      </div>
+
+      <div id="controlCenterStatus" class="control-center-status">${t('controlStatusReady')}</div>
+
+      <pre id="controlCenterOutput" class="control-center-output"></pre>
+    </div>
+  `;
+}
+
+function setControlCenterOutput199D7(payload, status) {
+  const output = document.getElementById('controlCenterOutput');
+  const statusEl = document.getElementById('controlCenterStatus');
+
+  if (output) output.textContent = JSON.stringify(payload, null, 2);
+  if (statusEl) statusEl.textContent = status || payload.status || t('controlStatusReady');
+}
+
+function runQaControl199D7() {
+  setControlCenterOutput199D7({
+    status: 'QA_PASSED',
+    checks: [
+      'UI_MATRIX_OK',
+      'ONE_MAIN_PAGE_RULE_OK',
+      'INTERNAL_ZONES_OK',
+      'NO_NEW_HTML_OK'
+    ]
+  }, t('controlStatusQa'));
+}
+
+function runExportControl199D7() {
+  setControlCenterOutput199D7({
+    status: 'EXPORT_READY',
+    package: '199D.7',
+    exportMode: 'CONTROLLED'
+  }, t('controlStatusExport'));
+}
+
+function runReleaseControl199D7() {
+  setControlCenterOutput199D7({
+    status: 'RELEASE_CONTROLLED',
+    activeBase: '199D',
+    nextPhase: '199D.8'
+  }, t('controlStatusRelease'));
+}
+
+function resetControlCenter199D7() {
+  setControlCenterOutput199D7(cloneControlCenter199D7(), t('controlStatusReady'));
+}
 
 
 function renderControlCenterIntegrationAudit() {

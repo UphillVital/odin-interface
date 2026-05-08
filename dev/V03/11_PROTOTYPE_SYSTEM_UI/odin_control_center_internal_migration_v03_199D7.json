@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Control Center Internal Function Migration",
+    "version": "V03.199D.7",
+    "type": "CONTROL_CENTER_INTERNAL_FUNCTION_MIGRATION_v1",
+    "created": "2026-05-08T04:28:53.756044+00:00",
+    "workingFolder": "dev/V03/11_PROTOTYPE_SYSTEM_UI",
+    "templateEtalon": "dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html"
+  },
+  "status": "CONTROL_CENTER_INTERNAL_ZONE_READY",
+  "phase": "PHASE 1.0 — CONTROL CENTER INTERNAL FUNCTION MIGRATION",
+  "activeBase": "199D",
+  "sourceLegacyPage": "dev/V03/control_center.html",
+  "targetZone": "controlCenter",
+  "standaloneRole": "DEPRECATED_AFTER_QA",
+  "implementedFunctions": [
+    "QA status overview",
+    "release readiness status",
+    "system diagnostics",
+    "export readiness simulation",
+    "checkpoint overview"
+  ],
+  "controlState": {
+    "activeBase": "199D",
+    "qa": "READY",
+    "release": "CONTROLLED",
+    "export": "READY",
+    "runtime": "FOUNDATION_ONLY",
+    "nextPhase": "199D.8 — Legacy Standalone Cleanup"
+  },
+  "nextStep": "Prepare 199D.8 — Legacy Standalone Cleanup."
+}
