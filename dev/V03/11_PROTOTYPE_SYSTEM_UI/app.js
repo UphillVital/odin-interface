@@ -702,6 +702,96 @@ Object.assign(i18n.de, {
 const odinObserverSystemV046 = {"schema": "ODIN_OBSERVER_SYSTEM_v1", "version": "V04.6.0", "created": "2026-05-08T12:28:46.194271+00:00", "status": "OBSERVER_SYSTEM_READY", "phase": "V04.6 — OBSERVER SYSTEM EXPANSION", "activeBase": "199D", "safety": {"mode": "SAFE_OBSERVATION_ONLY", "fileWritesAllowed": false, "destructiveActionsAllowed": false, "autoFixAllowed": false, "requiresHumanApprovalForFixes": true}, "observers": [{"id": "OBS-STATE-001", "name": "Active State Observer", "domain": "state", "severity": "high", "checks": ["activeState exists", "activeBase = 199D", "nextPhase defined"]}, {"id": "OBS-EXEC-001", "name": "Execution Engine Observer", "domain": "execution", "severity": "high", "checks": ["execution engine exists", "supported actions defined", "execution log exists"]}, {"id": "OBS-PERSIST-001", "name": "Persistence Layer Observer", "domain": "persistence", "severity": "medium", "checks": ["persistence metadata exists", "state files mapped", "registry files mapped"]}, {"id": "OBS-UI-001", "name": "UI Matrix Observer", "domain": "ui", "severity": "critical", "checks": ["one main page rule", "left-tree zones", "quick settings preserved", "no standalone html expansion"]}, {"id": "OBS-FILE-001", "name": "File Workspace Observer", "domain": "files", "severity": "medium", "checks": ["md/txt/json diff", "html preview", "html-aware diff"]}, {"id": "OBS-RECOVERY-001", "name": "Recovery Replay Observer", "domain": "recovery", "severity": "high", "checks": ["snapshots exist", "replay flow exists", "rollback preview available"]}, {"id": "OBS-LOOP-001", "name": "Autonomous Loop Safety Observer", "domain": "loop", "severity": "critical", "checks": ["safe observation mode", "file writes disabled", "destructive actions disabled", "tick safety limit"]}], "healthModel": {"pass": "All required checks valid", "warn": "Non-critical observer needs attention", "fail": "Critical observer failed"}, "nextStep": "V04.7 — Event Bus"};
 let odinObserverReportV046 = null;
 
+
+Object.assign(i18n.ua, {
+  zoneEventBus: 'Event Bus',
+  eventBusTitle: 'V04.7 — Event Bus',
+  eventBusBody: 'Внутрішня система подій ODIN: event registry, subscriptions, dispatch, history, trace.',
+  hintEventBus: 'Event Bus звʼязує модулі ODIN через контрольовані внутрішні події.',
+  eventBusAssist: '<strong>Event Bus</strong> — безпечна внутрішня реактивна система ODIN. Без network, sockets, auto-write або destructive actions.',
+  eventDispatch: 'Dispatch Event',
+  eventShowRegistry: 'Show Event Registry',
+  eventShowSubscriptions: 'Show Subscriptions',
+  eventShowHistory: 'Show History',
+  eventCopyTrace: 'Copy Event Trace',
+  eventReset: 'Reset Runtime History'
+});
+Object.assign(i18n.en, {
+  zoneEventBus: 'Event Bus',
+  eventBusTitle: 'V04.7 — Event Bus',
+  eventBusBody: 'Internal ODIN event system: event registry, subscriptions, dispatch, history, trace.',
+  hintEventBus: 'Event Bus connects ODIN modules through controlled internal events.',
+  eventBusAssist: '<strong>Event Bus</strong> — safe internal reactive ODIN system. No network, sockets, auto-write or destructive actions.',
+  eventDispatch: 'Dispatch Event',
+  eventShowRegistry: 'Show Event Registry',
+  eventShowSubscriptions: 'Show Subscriptions',
+  eventShowHistory: 'Show History',
+  eventCopyTrace: 'Copy Event Trace',
+  eventReset: 'Reset Runtime History'
+});
+Object.assign(i18n.de, {
+  zoneEventBus: 'Event Bus',
+  eventBusTitle: 'V04.7 — Event Bus',
+  eventBusBody: 'Internes ODIN Event-System: Event Registry, Subscriptions, Dispatch, History, Trace.',
+  hintEventBus: 'Event Bus verbindet ODIN-Module über kontrollierte interne Events.',
+  eventBusAssist: '<strong>Event Bus</strong> — sicheres internes reaktives ODIN-System. Kein Network, keine Sockets, kein Auto-Write, keine destructive actions.',
+  eventDispatch: 'Event dispatchen',
+  eventShowRegistry: 'Event Registry anzeigen',
+  eventShowSubscriptions: 'Subscriptions anzeigen',
+  eventShowHistory: 'History anzeigen',
+  eventCopyTrace: 'Event Trace kopieren',
+  eventReset: 'Runtime History zurücksetzen'
+});
+
+
+const odinEventBusV047Base = {"schema": "ODIN_EVENT_BUS_v1", "version": "V04.7.0", "created": "2026-05-08T13:12:28.286412+00:00", "status": "EVENT_BUS_READY", "phase": "V04.7 — EVENT BUS", "activeBase": "199D", "safety": {"mode": "SAFE_INTERNAL_ONLY", "networkAllowed": false, "externalSocketsAllowed": false, "fileWritesAllowed": false, "destructiveActionsAllowed": false}, "events": [{"id": "EVT-STATE-DIAGNOSTICS", "name": "State Diagnostics Requested", "domain": "state", "severity": "info"}, {"id": "EVT-EXECUTION-RUN", "name": "Execution Action Requested", "domain": "execution", "severity": "info"}, {"id": "EVT-OBSERVERS-RUN", "name": "Observers Run Requested", "domain": "observers", "severity": "medium"}, {"id": "EVT-RECOVERY-VALIDATE", "name": "Recovery Validation Requested", "domain": "recovery", "severity": "high"}, {"id": "EVT-LOOP-TICK", "name": "Autonomous Loop Tick", "domain": "loop", "severity": "info"}, {"id": "EVT-FILE-DIFF", "name": "File Diff Check Requested", "domain": "files", "severity": "medium"}], "subscriptions": [{"event": "EVT-STATE-DIAGNOSTICS", "subscribers": ["realStateEngine", "stateWorkspace", "runtimeGraph"]}, {"event": "EVT-EXECUTION-RUN", "subscribers": ["executionEngine", "controlCenter"]}, {"event": "EVT-OBSERVERS-RUN", "subscribers": ["observerSystem", "autonomousLoop"]}, {"event": "EVT-RECOVERY-VALIDATE", "subscribers": ["recoveryReplay", "controlCenter"]}, {"event": "EVT-LOOP-TICK", "subscribers": ["autonomousLoop", "observerSystem", "runtimeGraph"]}, {"event": "EVT-FILE-DIFF", "subscribers": ["stateWorkspace", "observerSystem"]}], "history": [{"time": "2026-05-08T13:12:28.286412+00:00", "type": "BOOTSTRAP", "status": "EVENT_BUS_READY", "message": "Internal Event Bus initialized."}], "nextStep": "V04.8 — Live State DB"};
+let odinEventBusV047 = JSON.parse(JSON.stringify(odinEventBusV047Base));
+
+
+Object.assign(i18n.ua, {
+  zoneLiveStateDb: 'Live State DB',
+  liveStateDbTitle: 'V04.8 — Live State DB',
+  liveStateDbBody: 'Локальна жива база стану ODIN у межах UI: tables, records, query, snapshot, restore preview.',
+  hintLiveStateDb: 'Live State DB показує системний стан як локальні таблиці без backend і без запису файлів.',
+  liveStateDbAssist: '<strong>Live State DB</strong> — локальний UI-memory шар для стану ODIN. Без network, backend або самовільного запису файлів.',
+  dbShowTables: 'Show Tables',
+  dbQuery: 'Query Record',
+  dbSnapshot: 'Create Snapshot',
+  dbRestorePreview: 'Restore Preview',
+  dbCopyExport: 'Copy DB Export',
+  dbReset: 'Reset DB Runtime'
+});
+Object.assign(i18n.en, {
+  zoneLiveStateDb: 'Live State DB',
+  liveStateDbTitle: 'V04.8 — Live State DB',
+  liveStateDbBody: 'Local live ODIN state database inside UI: tables, records, query, snapshot, restore preview.',
+  hintLiveStateDb: 'Live State DB shows system state as local tables without backend and without file writes.',
+  liveStateDbAssist: '<strong>Live State DB</strong> — local UI-memory layer for ODIN state. No network, backend or autonomous file writes.',
+  dbShowTables: 'Show Tables',
+  dbQuery: 'Query Record',
+  dbSnapshot: 'Create Snapshot',
+  dbRestorePreview: 'Restore Preview',
+  dbCopyExport: 'Copy DB Export',
+  dbReset: 'Reset DB Runtime'
+});
+Object.assign(i18n.de, {
+  zoneLiveStateDb: 'Live State DB',
+  liveStateDbTitle: 'V04.8 — Live State DB',
+  liveStateDbBody: 'Lokale Live-State-Datenbank in der UI: Tabellen, Records, Query, Snapshot, Restore Preview.',
+  hintLiveStateDb: 'Live State DB zeigt Systemzustand als lokale Tabellen ohne Backend und ohne Dateischreibvorgänge.',
+  liveStateDbAssist: '<strong>Live State DB</strong> — lokale UI-Memory-Schicht für ODIN State. Kein Network, Backend oder autonomes Schreiben.',
+  dbShowTables: 'Tabellen anzeigen',
+  dbQuery: 'Record suchen',
+  dbSnapshot: 'Snapshot erstellen',
+  dbRestorePreview: 'Restore Preview',
+  dbCopyExport: 'DB Export kopieren',
+  dbReset: 'DB Runtime zurücksetzen'
+});
+
+
+const odinLiveStateDbV048Base = {"schema": "ODIN_LIVE_STATE_DB_v1", "version": "V04.8.0", "created": "2026-05-08T17:12:00.593899+00:00", "status": "LIVE_STATE_DB_READY", "phase": "V04.8 — LIVE STATE DB", "activeBase": "199D", "safety": {"mode": "LOCAL_UI_MEMORY_ONLY", "backendRequired": false, "networkAllowed": false, "fileWritesAllowed": false}, "tables": [{"id": "active_state", "name": "Active State", "records": [{"key": "activeBase", "value": "199D", "type": "string"}, {"key": "currentPhase", "value": "V04.8 — LIVE STATE DB", "type": "string"}, {"key": "nextPhase", "value": "V04.9 — Real Runtime Core", "type": "string"}]}, {"id": "runtime_modules", "name": "Runtime Modules", "records": [{"key": "stateEngine", "value": "ACTIVE", "type": "module"}, {"key": "executionEngine", "value": "ACTIVE", "type": "module"}, {"key": "eventBus", "value": "ACTIVE", "type": "module"}]}, {"id": "safety_locks", "name": "Safety Locks", "records": [{"key": "oneMainPageRule", "value": true, "type": "boolean"}, {"key": "fileWritesAllowed", "value": false, "type": "boolean"}]}], "operations": ["READ_TABLE", "QUERY_RECORD", "CREATE_SNAPSHOT", "RESTORE_PREVIEW", "COPY_DB_EXPORT"], "nextStep": "V04.9 — Real Runtime Core"};
+let odinLiveStateDbV048 = JSON.parse(JSON.stringify(odinLiveStateDbV048Base));
+
 const workZone = document.getElementById('workZone');
 const assistContent = document.getElementById('assistContent');
 const modeValue = document.getElementById('modeValue');
@@ -859,6 +949,20 @@ function renderZone(zone) {
 
 
 
+
+
+
+  if (zone === 'liveStateDb') {
+    workZone.innerHTML = zoneTemplate(t('liveStateDbTitle'), t('liveStateDbBody'), renderLiveStateDbV048());
+    assistContent.innerHTML = t('liveStateDbAssist');
+    setTimeout(showLiveStateDbTablesV048, 0);
+  }
+
+  if (zone === 'eventBus') {
+    workZone.innerHTML = zoneTemplate(t('eventBusTitle'), t('eventBusBody'), renderEventBusV047());
+    assistContent.innerHTML = t('eventBusAssist');
+    setTimeout(showEventRegistryV047, 0);
+  }
 
   if (zone === 'observerSystem') {
     workZone.innerHTML = zoneTemplate(t('observerSystemTitle'), t('observerSystemBody'), renderObserverSystemV046());
@@ -1063,6 +1167,184 @@ function cloneStateWorkspace199D6() {
 
 
 
+
+
+
+
+function renderLiveStateDbV048() {
+  const tableOptions = odinLiveStateDbV048.tables.map((table) => `<option value="${escapeHtml(table.id)}">${escapeHtml(table.name)}</option>`).join('');
+  const cards = odinLiveStateDbV048.tables.map((table) => `
+    <article class="db-table-card"><span>${escapeHtml(table.id)}</span><strong>${escapeHtml(table.name)}</strong><em>${escapeHtml(String(table.records.length))} records</em></article>
+  `).join('');
+  return `
+    <div class="live-state-db-tool">
+      <div class="db-safety-banner"><strong>${escapeHtml(odinLiveStateDbV048.safety.mode)}</strong><span>backendRequired = ${escapeHtml(String(odinLiveStateDbV048.safety.backendRequired))}</span><span>fileWritesAllowed = ${escapeHtml(String(odinLiveStateDbV048.safety.fileWritesAllowed))}</span></div>
+      <div class="db-summary">
+        <article><span>STATUS</span><strong>${escapeHtml(odinLiveStateDbV048.status)}</strong></article>
+        <article><span>TABLES</span><strong>${escapeHtml(String(odinLiveStateDbV048.tables.length))}</strong></article>
+        <article><span>OPERATIONS</span><strong>${escapeHtml(String(odinLiveStateDbV048.operations.length))}</strong></article>
+        <article><span>NEXT</span><strong>${escapeHtml(odinLiveStateDbV048.nextStep)}</strong></article>
+      </div>
+      <label class="db-select-label"><span>Table</span><select id="liveStateDbSelect">${tableOptions}</select></label>
+      <label class="db-select-label"><span>Query key</span><input id="liveStateDbQuery" type="text" value="activeBase" /></label>
+      <div class="db-actions">
+        <button type="button" class="primary-action" onclick="showLiveStateDbTablesV048()">${t('dbShowTables')}</button>
+        <button type="button" onclick="queryLiveStateDbV048()">${t('dbQuery')}</button>
+        <button type="button" onclick="snapshotLiveStateDbV048()">${t('dbSnapshot')}</button>
+        <button type="button" onclick="restorePreviewLiveStateDbV048()">${t('dbRestorePreview')}</button>
+        <button type="button" onclick="copyLiveStateDbExportV048()">${t('dbCopyExport')}</button>
+        <button type="button" onclick="resetLiveStateDbV048()">${t('dbReset')}</button>
+      </div>
+      <div class="db-table-list">${cards}</div>
+      <div id="liveStateDbStatus" class="db-status">LIVE_STATE_DB_READY</div>
+      <pre id="liveStateDbOutput" class="db-output"></pre>
+    </div>`;
+}
+function writeLiveStateDbOutputV048(payload, status) {
+  const output = document.getElementById('liveStateDbOutput');
+  const statusEl = document.getElementById('liveStateDbStatus');
+  if (output) output.textContent = JSON.stringify(payload, null, 2);
+  if (statusEl) statusEl.textContent = status || payload.status || 'READY';
+}
+function selectedLiveStateDbTableV048() {
+  const selected = document.getElementById('liveStateDbSelect')?.value || odinLiveStateDbV048.tables[0]?.id;
+  return odinLiveStateDbV048.tables.find((table) => table.id === selected);
+}
+function showLiveStateDbTablesV048() { writeLiveStateDbOutputV048({ status: 'LIVE_STATE_DB_TABLES_READY', tables: odinLiveStateDbV048.tables }, 'LIVE_STATE_DB_TABLES_READY'); }
+function queryLiveStateDbV048() {
+  const table = selectedLiveStateDbTableV048();
+  const key = document.getElementById('liveStateDbQuery')?.value || '';
+  const result = table?.records?.filter((record) => String(record.key).toLowerCase().includes(String(key).toLowerCase())) || [];
+  writeLiveStateDbOutputV048({ status: result.length ? 'LIVE_STATE_DB_QUERY_MATCH' : 'LIVE_STATE_DB_QUERY_EMPTY', table: table?.id, query: key, records: result }, result.length ? 'LIVE_STATE_DB_QUERY_MATCH' : 'LIVE_STATE_DB_QUERY_EMPTY');
+}
+function snapshotLiveStateDbV048() { writeLiveStateDbOutputV048({ status: 'LIVE_STATE_DB_SNAPSHOT_READY', created: new Date().toISOString(), db: odinLiveStateDbV048 }, 'LIVE_STATE_DB_SNAPSHOT_READY'); }
+function restorePreviewLiveStateDbV048() { writeLiveStateDbOutputV048({ status: 'LIVE_STATE_DB_RESTORE_PREVIEW_READY', mode: 'PREVIEW_ONLY', destructiveAction: false, restoreTarget: 'odinLiveStateDbV048Base' }, 'LIVE_STATE_DB_RESTORE_PREVIEW_READY'); }
+async function copyLiveStateDbExportV048() {
+  const exportPayload = { status: 'LIVE_STATE_DB_EXPORT_READY', created: new Date().toISOString(), db: odinLiveStateDbV048 };
+  try { await navigator.clipboard.writeText(JSON.stringify(exportPayload, null, 2)); writeLiveStateDbOutputV048(exportPayload, 'LIVE_STATE_DB_EXPORT_COPIED'); }
+  catch (error) { writeLiveStateDbOutputV048(exportPayload, 'COPY_UNAVAILABLE'); }
+}
+function resetLiveStateDbV048() { odinLiveStateDbV048 = JSON.parse(JSON.stringify(odinLiveStateDbV048Base)); writeLiveStateDbOutputV048(odinLiveStateDbV048, 'LIVE_STATE_DB_READY'); }
+
+
+function renderEventBusV047() {
+  const options = odinEventBusV047.events.map((event) => `
+    <option value="${escapeHtml(event.id)}">${escapeHtml(event.id)} — ${escapeHtml(event.name)}</option>
+  `).join('');
+
+  const cards = odinEventBusV047.events.map((event) => `
+    <article class="event-card severity-${escapeHtml(event.severity)}">
+      <span>${escapeHtml(event.id)} · ${escapeHtml(event.domain)}</span>
+      <strong>${escapeHtml(event.name)}</strong>
+      <em>${escapeHtml(event.severity)}</em>
+    </article>
+  `).join('');
+
+  return `
+    <div class="event-bus-tool">
+      <div class="event-safety-banner">
+        <strong>${escapeHtml(odinEventBusV047.safety.mode)}</strong>
+        <span>networkAllowed = ${escapeHtml(String(odinEventBusV047.safety.networkAllowed))}</span>
+        <span>fileWritesAllowed = ${escapeHtml(String(odinEventBusV047.safety.fileWritesAllowed))}</span>
+      </div>
+
+      <div class="event-summary">
+        <article><span>STATUS</span><strong>${escapeHtml(odinEventBusV047.status)}</strong></article>
+        <article><span>EVENTS</span><strong>${escapeHtml(String(odinEventBusV047.events.length))}</strong></article>
+        <article><span>SUBSCRIPTIONS</span><strong>${escapeHtml(String(odinEventBusV047.subscriptions.length))}</strong></article>
+        <article><span>NEXT</span><strong>${escapeHtml(odinEventBusV047.nextStep)}</strong></article>
+      </div>
+
+      <label class="event-select-label">
+        <span>Event</span>
+        <select id="eventBusSelect">${options}</select>
+      </label>
+
+      <div class="event-actions">
+        <button type="button" class="primary-action" onclick="dispatchEventBusV047()">${t('eventDispatch')}</button>
+        <button type="button" onclick="showEventRegistryV047()">${t('eventShowRegistry')}</button>
+        <button type="button" onclick="showEventSubscriptionsV047()">${t('eventShowSubscriptions')}</button>
+        <button type="button" onclick="showEventHistoryV047()">${t('eventShowHistory')}</button>
+        <button type="button" onclick="copyEventTraceV047()">${t('eventCopyTrace')}</button>
+        <button type="button" onclick="resetEventBusV047()">${t('eventReset')}</button>
+      </div>
+
+      <div class="event-card-list">${cards}</div>
+      <div id="eventBusStatus" class="event-status">EVENT_BUS_READY</div>
+      <pre id="eventBusOutput" class="event-output"></pre>
+    </div>
+  `;
+}
+
+function writeEventBusOutputV047(payload, status) {
+  const output = document.getElementById('eventBusOutput');
+  const statusEl = document.getElementById('eventBusStatus');
+  if (output) output.textContent = JSON.stringify(payload, null, 2);
+  if (statusEl) statusEl.textContent = status || payload.status || 'READY';
+}
+
+function selectedEventBusEventV047() {
+  const selected = document.getElementById('eventBusSelect')?.value || odinEventBusV047.events[0]?.id;
+  return odinEventBusV047.events.find((event) => event.id === selected);
+}
+
+function dispatchEventBusV047() {
+  const event = selectedEventBusEventV047();
+  const subscription = odinEventBusV047.subscriptions.find((sub) => sub.event === event?.id);
+  const trace = {
+    time: new Date().toISOString(),
+    type: 'EVENT_DISPATCH',
+    status: 'EVENT_DISPATCHED',
+    eventId: event?.id,
+    eventName: event?.name,
+    domain: event?.domain,
+    subscribers: subscription?.subscribers || [],
+    safeInternalOnly: true
+  };
+
+  odinEventBusV047.history.push(trace);
+  writeEventBusOutputV047(trace, 'EVENT_DISPATCHED');
+}
+
+function showEventRegistryV047() {
+  writeEventBusOutputV047({
+    status: 'EVENT_REGISTRY_READY',
+    events: odinEventBusV047.events
+  }, 'EVENT_REGISTRY_READY');
+}
+
+function showEventSubscriptionsV047() {
+  writeEventBusOutputV047({
+    status: 'EVENT_SUBSCRIPTIONS_READY',
+    subscriptions: odinEventBusV047.subscriptions
+  }, 'EVENT_SUBSCRIPTIONS_READY');
+}
+
+function showEventHistoryV047() {
+  writeEventBusOutputV047({
+    status: 'EVENT_HISTORY_READY',
+    history: odinEventBusV047.history
+  }, 'EVENT_HISTORY_READY');
+}
+
+async function copyEventTraceV047() {
+  const trace = {
+    status: 'EVENT_TRACE_READY',
+    created: new Date().toISOString(),
+    eventBus: odinEventBusV047
+  };
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(trace, null, 2));
+    writeEventBusOutputV047(trace, 'EVENT_TRACE_COPIED');
+  } catch (error) {
+    writeEventBusOutputV047(trace, 'COPY_UNAVAILABLE');
+  }
+}
+
+function resetEventBusV047() {
+  odinEventBusV047 = JSON.parse(JSON.stringify(odinEventBusV047Base));
+  writeEventBusOutputV047(odinEventBusV047, 'EVENT_BUS_READY');
+}
 
 
 function renderObserverSystemV046() {
@@ -2006,6 +2288,18 @@ function renderPreviewPanel() {
   assistContent.innerHTML = t('previewUpdated') + '<br>' + workflowSuggestion();
 }
 
+
+function unlockFileWorkspaceEditorV0481() {
+  const editor = document.getElementById('fileEditor');
+  if (!editor) return;
+  unlockFileWorkspaceEditorV0481();
+  editor.disabled = false;
+  editor.removeAttribute('disabled');
+  editor.readOnly = false;
+  editor.removeAttribute('readonly');
+  editor.setAttribute('aria-disabled', 'false');
+}
+
 function renderFileWorkspace() {
   const hasProject = Boolean(state.project);
   const diff = computeDiff();
@@ -2050,7 +2344,7 @@ function renderFileWorkspace() {
       <div class="file-grid">
         <section class="file-panel editor-panel compare-panel" id="editorPanel">
           <h3>${t('fileEditorTitle')} ${hint()}</h3>
-          <textarea id="fileEditor" ${hasProject ? '' : 'disabled'} placeholder="${escapeHtml(t('fileEmptyEditor'))}">${escapeHtml(fileState.draft)}</textarea>
+          <textarea id="fileEditor" placeholder="${escapeHtml(t('fileEmptyEditor'))}" aria-label="${escapeHtml(t('fileEditorTitle'))}">${escapeHtml(fileState.draft)}</textarea>
         </section>
         <section class="file-panel original-panel compare-panel" id="originalPanel">
           <h3>${t('fileOriginalTitle')}</h3>

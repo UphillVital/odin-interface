@@ -1,0 +1,108 @@
+{
+  "schema": "ODIN_EVENT_BUS_v1",
+  "version": "V04.7.0",
+  "created": "2026-05-08T13:12:28.286412+00:00",
+  "status": "EVENT_BUS_READY",
+  "phase": "V04.7 — EVENT BUS",
+  "activeBase": "199D",
+  "safety": {
+    "mode": "SAFE_INTERNAL_ONLY",
+    "networkAllowed": false,
+    "externalSocketsAllowed": false,
+    "fileWritesAllowed": false,
+    "destructiveActionsAllowed": false
+  },
+  "events": [
+    {
+      "id": "EVT-STATE-DIAGNOSTICS",
+      "name": "State Diagnostics Requested",
+      "domain": "state",
+      "severity": "info"
+    },
+    {
+      "id": "EVT-EXECUTION-RUN",
+      "name": "Execution Action Requested",
+      "domain": "execution",
+      "severity": "info"
+    },
+    {
+      "id": "EVT-OBSERVERS-RUN",
+      "name": "Observers Run Requested",
+      "domain": "observers",
+      "severity": "medium"
+    },
+    {
+      "id": "EVT-RECOVERY-VALIDATE",
+      "name": "Recovery Validation Requested",
+      "domain": "recovery",
+      "severity": "high"
+    },
+    {
+      "id": "EVT-LOOP-TICK",
+      "name": "Autonomous Loop Tick",
+      "domain": "loop",
+      "severity": "info"
+    },
+    {
+      "id": "EVT-FILE-DIFF",
+      "name": "File Diff Check Requested",
+      "domain": "files",
+      "severity": "medium"
+    }
+  ],
+  "subscriptions": [
+    {
+      "event": "EVT-STATE-DIAGNOSTICS",
+      "subscribers": [
+        "realStateEngine",
+        "stateWorkspace",
+        "runtimeGraph"
+      ]
+    },
+    {
+      "event": "EVT-EXECUTION-RUN",
+      "subscribers": [
+        "executionEngine",
+        "controlCenter"
+      ]
+    },
+    {
+      "event": "EVT-OBSERVERS-RUN",
+      "subscribers": [
+        "observerSystem",
+        "autonomousLoop"
+      ]
+    },
+    {
+      "event": "EVT-RECOVERY-VALIDATE",
+      "subscribers": [
+        "recoveryReplay",
+        "controlCenter"
+      ]
+    },
+    {
+      "event": "EVT-LOOP-TICK",
+      "subscribers": [
+        "autonomousLoop",
+        "observerSystem",
+        "runtimeGraph"
+      ]
+    },
+    {
+      "event": "EVT-FILE-DIFF",
+      "subscribers": [
+        "stateWorkspace",
+        "observerSystem"
+      ]
+    }
+  ],
+  "history": [
+    {
+      "time": "2026-05-08T13:12:28.286412+00:00",
+      "type": "BOOTSTRAP",
+      "status": "EVENT_BUS_READY",
+      "message": "Internal Event Bus initialized."
+    }
+  ],
+  "nextStep": "V04.8 — Live State DB"
+}

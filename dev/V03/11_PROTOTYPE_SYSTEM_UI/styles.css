@@ -1715,3 +1715,150 @@ body {
   color: var(--text);
   overflow: auto;
 }
+
+/* ODIN V04.7 — Event Bus */
+.event-bus-tool {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.event-safety-banner,
+.event-summary article,
+.event-card {
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.event-safety-banner strong,
+.event-safety-banner span,
+.event-summary span,
+.event-summary strong,
+.event-card span,
+.event-card strong,
+.event-card em {
+  display: block;
+}
+
+.event-safety-banner span,
+.event-summary span,
+.event-card span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  margin-top: 6px;
+}
+
+.event-summary,
+.event-card-list {
+  display: grid;
+  gap: 12px;
+}
+
+.event-summary {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.event-card em {
+  margin-top: 8px;
+  font-style: normal;
+  color: var(--accent);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.event-select-label {
+  display: grid;
+  gap: 6px;
+  font-weight: 800;
+}
+
+.event-select-label select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text);
+  padding: 12px;
+  font: inherit;
+}
+
+.event-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.event-actions button {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.event-actions .primary-action {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.event-status {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.event-output {
+  white-space: pre-wrap;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+  background: var(--surface-soft);
+  color: var(--text);
+  overflow: auto;
+}
+
+/* ODIN V04.8 — Live State DB */
+.live-state-db-tool{display:grid;gap:14px;margin-top:18px}
+.db-safety-banner,.db-summary article,.db-table-card{border:1px solid var(--border);background:var(--surface-soft);border-radius:18px;padding:14px}
+.db-safety-banner strong,.db-safety-banner span,.db-summary span,.db-summary strong,.db-table-card span,.db-table-card strong,.db-table-card em{display:block}
+.db-safety-banner span,.db-summary span,.db-table-card span{color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.06em;margin-top:6px}
+.db-summary,.db-table-list{display:grid;gap:12px}
+.db-summary{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.db-table-card em{margin-top:8px;font-style:normal;color:var(--accent);font-weight:800}
+.db-select-label{display:grid;gap:6px;font-weight:800}
+.db-select-label select,.db-select-label input{width:100%;border:1px solid var(--border);border-radius:14px;background:var(--surface);color:var(--text);padding:12px;font:inherit}
+.db-actions{display:flex;flex-wrap:wrap;gap:10px}
+.db-actions button{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:14px;padding:10px 14px;cursor:pointer;font-weight:800}
+.db-actions .primary-action{background:var(--accent);border-color:var(--accent);color:#fff}
+.db-status{border:1px solid var(--border);border-radius:14px;padding:10px 12px;background:var(--accent-soft);color:var(--accent);font-weight:800}
+.db-output{white-space:pre-wrap;border:1px solid var(--border);border-radius:16px;padding:14px;background:var(--surface-soft);color:var(--text);overflow:auto}
+
+/* ODIN V04.8.1 — File Workspace Editor Unlock */
+#fileEditor {
+  cursor: text;
+  user-select: text;
+}
+
+#fileEditor:disabled {
+  opacity: 1;
+  cursor: text;
+}
+
+.editor-unlock-note {
+  border: 1px solid var(--border);
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 14px;
+  padding: 10px 12px;
+  font-weight: 800;
+}

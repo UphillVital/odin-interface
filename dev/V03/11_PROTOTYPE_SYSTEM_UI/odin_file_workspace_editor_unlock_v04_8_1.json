@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "File Workspace Editor Unlock",
+    "version": "V04.8.1",
+    "type": "FILE_WORKSPACE_EDITOR_UNLOCK_v1",
+    "created": "2026-05-08T17:48:02.199637+00:00",
+    "workingFolder": "dev/V03/11_PROTOTYPE_SYSTEM_UI"
+  },
+  "status": "FILE_WORKSPACE_EDITOR_UNLOCK_READY",
+  "problem": "Редактор у File Workspace був неактивний через disabled-залежність від вибраного project context.",
+  "rootCause": "textarea#fileEditor рендерився з disabled, якщо state.project не вибрано.",
+  "fix": [
+    "Прибрано disabled з textarea#fileEditor",
+    "Додано unlockFileWorkspaceEditorV0481()",
+    "Редактор завжди активний після завантаження файлу або прикладу",
+    "Project context більше не блокує саме редагування"
+  ],
+  "nextStep": "Continue roadmap: V04.9 — Real Runtime Core"
+}
