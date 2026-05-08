@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "File Workspace HTML Diff Fix",
+    "version": "V04.2.1",
+    "type": "FILE_WORKSPACE_HTML_DIFF_FIX_v1",
+    "created": "2026-05-08T06:08:42.242444+00:00",
+    "workingFolder": "dev/V03/11_PROTOTYPE_SYSTEM_UI"
+  },
+  "status": "HTML_DIFF_FIX_READY",
+  "problem": "HTML files render in preview, but Diff / changes does not show useful changes.",
+  "fix": [
+    "HTML-aware diff normalization",
+    "Split HTML around tags before line diff",
+    "Raw editor/preview behavior preserved",
+    "Preview iframe behavior unchanged",
+    "Visible diff rows for .html/.htm"
+  ],
+  "nextStep": "Return to V04.3 — Live Runtime Graph"
+}

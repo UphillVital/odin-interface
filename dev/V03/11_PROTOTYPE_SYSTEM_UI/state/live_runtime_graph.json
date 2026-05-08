@@ -1,0 +1,123 @@
+{
+  "schema": "ODIN_LIVE_RUNTIME_GRAPH_v1",
+  "version": "V04.3.0",
+  "created": "2026-05-08T06:21:58.445345+00:00",
+  "status": "LIVE_RUNTIME_GRAPH_READY",
+  "phase": "V04.3 — LIVE RUNTIME GRAPH",
+  "activeBase": "199D",
+  "nodes": [
+    {
+      "id": "stateEngine",
+      "label": "Real State Engine",
+      "status": "ACTIVE",
+      "type": "core"
+    },
+    {
+      "id": "executionEngine",
+      "label": "Real Execution Engine",
+      "status": "ACTIVE",
+      "type": "runtime"
+    },
+    {
+      "id": "persistenceLayer",
+      "label": "Persistence Layer",
+      "status": "BOOTSTRAP",
+      "type": "storage"
+    },
+    {
+      "id": "moduleRegistry",
+      "label": "Module Registry",
+      "status": "ACTIVE",
+      "type": "registry"
+    },
+    {
+      "id": "packageRegistry",
+      "label": "Package Registry",
+      "status": "ACTIVE",
+      "type": "registry"
+    },
+    {
+      "id": "rollbackPoints",
+      "label": "Rollback Points",
+      "status": "ACTIVE",
+      "type": "recovery"
+    },
+    {
+      "id": "commitBuilder",
+      "label": "Commit Builder",
+      "status": "INTERNAL_ZONE",
+      "type": "tool"
+    },
+    {
+      "id": "stateWorkspace",
+      "label": "State Workspace",
+      "status": "INTERNAL_ZONE",
+      "type": "tool"
+    },
+    {
+      "id": "controlCenter",
+      "label": "Control Center",
+      "status": "INTERNAL_ZONE",
+      "type": "tool"
+    },
+    {
+      "id": "htmlDiffFix",
+      "label": "HTML Diff Fix",
+      "status": "APPLIED",
+      "type": "fix"
+    }
+  ],
+  "edges": [
+    {
+      "from": "stateEngine",
+      "to": "moduleRegistry",
+      "relation": "reads/writes"
+    },
+    {
+      "from": "stateEngine",
+      "to": "packageRegistry",
+      "relation": "tracks"
+    },
+    {
+      "from": "stateEngine",
+      "to": "rollbackPoints",
+      "relation": "protects"
+    },
+    {
+      "from": "executionEngine",
+      "to": "stateEngine",
+      "relation": "updates"
+    },
+    {
+      "from": "executionEngine",
+      "to": "persistenceLayer",
+      "relation": "logs"
+    },
+    {
+      "from": "persistenceLayer",
+      "to": "stateEngine",
+      "relation": "persists"
+    },
+    {
+      "from": "controlCenter",
+      "to": "executionEngine",
+      "relation": "orchestrates"
+    },
+    {
+      "from": "stateWorkspace",
+      "to": "stateEngine",
+      "relation": "views"
+    },
+    {
+      "from": "commitBuilder",
+      "to": "packageRegistry",
+      "relation": "release support"
+    },
+    {
+      "from": "htmlDiffFix",
+      "to": "stateWorkspace",
+      "relation": "file workspace repair"
+    }
+  ],
+  "nextStep": "V04.4 — Recovery Replay Engine"
+}

@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Live Runtime Graph",
+    "version": "V04.3.0",
+    "type": "LIVE_RUNTIME_GRAPH_v1",
+    "created": "2026-05-08T06:21:58.445345+00:00",
+    "workingFolder": "dev/V03/11_PROTOTYPE_SYSTEM_UI"
+  },
+  "status": "LIVE_RUNTIME_GRAPH_READY",
+  "stateFiles": [
+    "state/live_runtime_graph.json"
+  ],
+  "includesFixes": [
+    "V04.2.1 — File Workspace HTML Diff Fix"
+  ],
+  "nextStep": "V04.4 — Recovery Replay Engine"
+}

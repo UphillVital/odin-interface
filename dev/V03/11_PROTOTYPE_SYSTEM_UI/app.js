@@ -520,6 +520,59 @@ Object.assign(i18n.de, {
 const odinExecutionEngineV041 = {"engine": {"schema": "ODIN_EXECUTION_ENGINE_v1", "version": "V04.1.0", "created": "2026-05-08T05:01:06.725185+00:00", "status": "REAL_EXECUTION_ENGINE_READY", "phase": "V04.1 — REAL EXECUTION ENGINE", "activeBase": "199D", "flow": ["ACTION_REQUEST", "VALIDATION", "EXECUTION", "RESULT", "LOG", "STATE_UPDATE"], "queues": {"pending": [], "running": [], "completed": [], "failed": []}, "supportedActions": [{"id": "ACTION-STATE-DIAGNOSTICS", "name": "Run State Diagnostics", "requires": ["realStateEngine"], "updatesState": true}, {"id": "ACTION-QA-CHECK", "name": "Run QA Check", "requires": ["controlCenter"], "updatesState": true}, {"id": "ACTION-EXPORT-CHECK", "name": "Run Export Check", "requires": ["controlCenter"], "updatesState": true}, {"id": "ACTION-COMMIT-PREPARE", "name": "Prepare Commit Commands", "requires": ["commitBuilder"], "updatesState": false}], "nextStep": "V04.2 — Persistence Layer"}, "log": {"schema": "ODIN_EXECUTION_LOG_v1", "created": "2026-05-08T05:01:06.725185+00:00", "events": [{"time": "2026-05-08T05:01:06.725185+00:00", "type": "ENGINE_BOOTSTRAP", "status": "REAL_EXECUTION_ENGINE_READY", "message": "Execution Engine initialized after Real State Engine."}]}};
 let odinExecutionRuntimeV041 = JSON.parse(JSON.stringify(odinExecutionEngineV041));
 
+
+Object.assign(i18n.ua, {
+  htmlDiffFixReady: 'HTML_DIFF_FIX_READY',
+  htmlAwareDiffMode: 'HTML-aware diff'
+});
+Object.assign(i18n.en, {
+  htmlDiffFixReady: 'HTML_DIFF_FIX_READY',
+  htmlAwareDiffMode: 'HTML-aware diff'
+});
+Object.assign(i18n.de, {
+  htmlDiffFixReady: 'HTML_DIFF_FIX_READY',
+  htmlAwareDiffMode: 'HTML-aware diff'
+});
+
+
+
+Object.assign(i18n.ua, {
+  zoneRuntimeGraph: 'Runtime Graph',
+  runtimeGraphTitle: 'V04.3 — Live Runtime Graph',
+  runtimeGraphBody: 'Візуальна карта звʼязків між State Engine, Execution Engine, Persistence Layer, Registry, Rollback і внутрішніми зонами.',
+  hintRuntimeGraph: 'Live Runtime Graph показує, як основні частини ODIN повʼязані між собою.',
+  runtimeGraphAssist: '<strong>Live Runtime Graph</strong> — перший живий огляд архітектури ODIN. Наступний крок: Recovery Replay Engine.',
+  graphShowNodes: 'Показати Nodes',
+  graphShowEdges: 'Показати Edges',
+  graphRunHealth: 'Graph Health Check',
+  graphCopy: 'Copy Graph Snapshot'
+});
+Object.assign(i18n.en, {
+  zoneRuntimeGraph: 'Runtime Graph',
+  runtimeGraphTitle: 'V04.3 — Live Runtime Graph',
+  runtimeGraphBody: 'Visual map of links between State Engine, Execution Engine, Persistence Layer, Registry, Rollback and internal zones.',
+  hintRuntimeGraph: 'Live Runtime Graph shows how main ODIN parts are connected.',
+  runtimeGraphAssist: '<strong>Live Runtime Graph</strong> — first live overview of ODIN architecture. Next step: Recovery Replay Engine.',
+  graphShowNodes: 'Show Nodes',
+  graphShowEdges: 'Show Edges',
+  graphRunHealth: 'Graph Health Check',
+  graphCopy: 'Copy Graph Snapshot'
+});
+Object.assign(i18n.de, {
+  zoneRuntimeGraph: 'Runtime Graph',
+  runtimeGraphTitle: 'V04.3 — Live Runtime Graph',
+  runtimeGraphBody: 'Visuelle Karte der Verbindungen zwischen State Engine, Execution Engine, Persistence Layer, Registry, Rollback und internen Zonen.',
+  hintRuntimeGraph: 'Live Runtime Graph zeigt, wie ODIN-Hauptteile verbunden sind.',
+  runtimeGraphAssist: '<strong>Live Runtime Graph</strong> — erster Live-Überblick der ODIN-Architektur. Nächster Schritt: Recovery Replay Engine.',
+  graphShowNodes: 'Nodes anzeigen',
+  graphShowEdges: 'Edges anzeigen',
+  graphRunHealth: 'Graph Health Check',
+  graphCopy: 'Graph Snapshot kopieren'
+});
+
+
+const odinRuntimeGraphV043 = {"schema": "ODIN_LIVE_RUNTIME_GRAPH_v1", "version": "V04.3.0", "created": "2026-05-08T06:21:58.445345+00:00", "status": "LIVE_RUNTIME_GRAPH_READY", "phase": "V04.3 — LIVE RUNTIME GRAPH", "activeBase": "199D", "nodes": [{"id": "stateEngine", "label": "Real State Engine", "status": "ACTIVE", "type": "core"}, {"id": "executionEngine", "label": "Real Execution Engine", "status": "ACTIVE", "type": "runtime"}, {"id": "persistenceLayer", "label": "Persistence Layer", "status": "BOOTSTRAP", "type": "storage"}, {"id": "moduleRegistry", "label": "Module Registry", "status": "ACTIVE", "type": "registry"}, {"id": "packageRegistry", "label": "Package Registry", "status": "ACTIVE", "type": "registry"}, {"id": "rollbackPoints", "label": "Rollback Points", "status": "ACTIVE", "type": "recovery"}, {"id": "commitBuilder", "label": "Commit Builder", "status": "INTERNAL_ZONE", "type": "tool"}, {"id": "stateWorkspace", "label": "State Workspace", "status": "INTERNAL_ZONE", "type": "tool"}, {"id": "controlCenter", "label": "Control Center", "status": "INTERNAL_ZONE", "type": "tool"}, {"id": "htmlDiffFix", "label": "HTML Diff Fix", "status": "APPLIED", "type": "fix"}], "edges": [{"from": "stateEngine", "to": "moduleRegistry", "relation": "reads/writes"}, {"from": "stateEngine", "to": "packageRegistry", "relation": "tracks"}, {"from": "stateEngine", "to": "rollbackPoints", "relation": "protects"}, {"from": "executionEngine", "to": "stateEngine", "relation": "updates"}, {"from": "executionEngine", "to": "persistenceLayer", "relation": "logs"}, {"from": "persistenceLayer", "to": "stateEngine", "relation": "persists"}, {"from": "controlCenter", "to": "executionEngine", "relation": "orchestrates"}, {"from": "stateWorkspace", "to": "stateEngine", "relation": "views"}, {"from": "commitBuilder", "to": "packageRegistry", "relation": "release support"}, {"from": "htmlDiffFix", "to": "stateWorkspace", "relation": "file workspace repair"}], "nextStep": "V04.4 — Recovery Replay Engine"};
+
 const workZone = document.getElementById('workZone');
 const assistContent = document.getElementById('assistContent');
 const modeValue = document.getElementById('modeValue');
@@ -673,6 +726,13 @@ function renderZone(zone) {
   }
 
 
+
+
+  if (zone === 'runtimeGraph') {
+    workZone.innerHTML = zoneTemplate(t('runtimeGraphTitle'), t('runtimeGraphBody'), renderRuntimeGraphV043());
+    assistContent.innerHTML = t('runtimeGraphAssist');
+    setTimeout(runRuntimeGraphHealthV043, 0);
+  }
 
   if (zone === 'executionEngine') {
     workZone.innerHTML = zoneTemplate(t('executionEngineTitle'), t('executionEngineBody'), renderExecutionEngineV041());
@@ -849,6 +909,98 @@ function cloneStateWorkspace199D6() {
   return JSON.parse(JSON.stringify(odinStateWorkspace199D6));
 }
 
+
+
+
+function renderRuntimeGraphV043() {
+  const nodes = odinRuntimeGraphV043.nodes.map((node) => `
+    <article class="runtime-node node-${escapeHtml(node.type)}">
+      <span>${escapeHtml(node.type)}</span>
+      <strong>${escapeHtml(node.label)}</strong>
+      <em>${escapeHtml(node.status)}</em>
+    </article>
+  `).join('');
+
+  const edges = odinRuntimeGraphV043.edges.map((edge) => `
+    <article class="runtime-edge">
+      <strong>${escapeHtml(edge.from)} → ${escapeHtml(edge.to)}</strong>
+      <span>${escapeHtml(edge.relation)}</span>
+    </article>
+  `).join('');
+
+  return `
+    <div class="runtime-graph-tool">
+      <div class="runtime-graph-summary">
+        <article><span>STATUS</span><strong>${escapeHtml(odinRuntimeGraphV043.status)}</strong></article>
+        <article><span>NODES</span><strong>${escapeHtml(String(odinRuntimeGraphV043.nodes.length))}</strong></article>
+        <article><span>EDGES</span><strong>${escapeHtml(String(odinRuntimeGraphV043.edges.length))}</strong></article>
+        <article><span>NEXT</span><strong>${escapeHtml(odinRuntimeGraphV043.nextStep)}</strong></article>
+      </div>
+
+      <div class="runtime-graph-actions">
+        <button type="button" class="primary-action" onclick="showRuntimeNodesV043()">${t('graphShowNodes')}</button>
+        <button type="button" onclick="showRuntimeEdgesV043()">${t('graphShowEdges')}</button>
+        <button type="button" onclick="runRuntimeGraphHealthV043()">${t('graphRunHealth')}</button>
+        <button type="button" onclick="copyRuntimeGraphSnapshotV043()">${t('graphCopy')}</button>
+      </div>
+
+      <div class="runtime-graph-map">
+        <div class="runtime-node-list">${nodes}</div>
+        <div class="runtime-edge-list">${edges}</div>
+      </div>
+
+      <div id="runtimeGraphStatus" class="runtime-graph-status">LIVE_RUNTIME_GRAPH_READY</div>
+      <pre id="runtimeGraphOutput" class="runtime-graph-output"></pre>
+    </div>
+  `;
+}
+
+function writeRuntimeGraphOutputV043(payload, status) {
+  const output = document.getElementById('runtimeGraphOutput');
+  const statusEl = document.getElementById('runtimeGraphStatus');
+  if (output) output.textContent = JSON.stringify(payload, null, 2);
+  if (statusEl) statusEl.textContent = status || payload.status || 'READY';
+}
+
+function showRuntimeNodesV043() {
+  writeRuntimeGraphOutputV043({
+    status: 'RUNTIME_GRAPH_NODES_READY',
+    nodes: odinRuntimeGraphV043.nodes
+  }, 'RUNTIME_GRAPH_NODES_READY');
+}
+
+function showRuntimeEdgesV043() {
+  writeRuntimeGraphOutputV043({
+    status: 'RUNTIME_GRAPH_EDGES_READY',
+    edges: odinRuntimeGraphV043.edges
+  }, 'RUNTIME_GRAPH_EDGES_READY');
+}
+
+function runRuntimeGraphHealthV043() {
+  const nodeIds = new Set(odinRuntimeGraphV043.nodes.map((node) => node.id));
+  const invalidEdges = odinRuntimeGraphV043.edges.filter((edge) => !nodeIds.has(edge.from) || !nodeIds.has(edge.to));
+  const result = {
+    status: invalidEdges.length ? 'RUNTIME_GRAPH_HEALTH_FAILED' : 'RUNTIME_GRAPH_HEALTH_PASSED',
+    totalNodes: odinRuntimeGraphV043.nodes.length,
+    totalEdges: odinRuntimeGraphV043.edges.length,
+    invalidEdges
+  };
+  writeRuntimeGraphOutputV043(result, result.status);
+}
+
+async function copyRuntimeGraphSnapshotV043() {
+  const snapshot = {
+    status: 'RUNTIME_GRAPH_SNAPSHOT_READY',
+    created: new Date().toISOString(),
+    graph: odinRuntimeGraphV043
+  };
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(snapshot, null, 2));
+    writeRuntimeGraphOutputV043(snapshot, 'RUNTIME_GRAPH_SNAPSHOT_COPIED');
+  } catch (error) {
+    writeRuntimeGraphOutputV043(snapshot, 'COPY_UNAVAILABLE');
+  }
+}
 
 
 function renderExecutionEngineV041() {
@@ -1309,24 +1461,53 @@ function escapeHtml(value) {
   return String(value || '').replace(/[&<>"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
 }
 
+function normalizeHtmlForDiff(content) {
+  return String(content || '')
+    .replace(/\r\n/g, '\n')
+    .replace(/>\s*</g, '>\n<')
+    .replace(/(<\/?[^>]+>)/g, '\n$1\n')
+    .split('\n')
+    .map((line) => line.trimEnd())
+    .filter((line, index, arr) => line.trim() || index < arr.length - 1)
+    .join('\n');
+}
+
+function diffSourceForCurrentFile(value) {
+  if (isHtmlPreviewFile()) {
+    return normalizeHtmlForDiff(value);
+  }
+  return String(value || '').replace(/\r\n/g, '\n');
+}
+
 function computeDiff() {
-  const originalLines = (fileState.original || '').split('\n');
-  const draftLines = (fileState.draft || '').split('\n');
+  const originalSource = diffSourceForCurrentFile(fileState.original || '');
+  const draftSource = diffSourceForCurrentFile(fileState.draft || '');
+  const originalLines = originalSource.split('\n');
+  const draftLines = draftSource.split('\n');
   const max = Math.max(originalLines.length, draftLines.length);
   const rows = [];
   let changes = 0;
+
   for (let i = 0; i < max; i += 1) {
     const original = originalLines[i] ?? '';
     const draft = draftLines[i] ?? '';
+
     if (original === draft) {
-      if (original || draft || i < max - 1) rows.push(`<div class="diff-row diff-same"><span>${i + 1}</span><code>${escapeHtml(draft)}</code></div>`);
+      if (original || draft || i < max - 1) {
+        rows.push(`<div class="diff-row diff-same"><span>${i + 1}</span><code>${escapeHtml(draft || ' ')}</code></div>`);
+      }
     } else {
       changes += 1;
-      rows.push(`<div class="diff-row diff-removed"><span>${i + 1}</span><code>- ${escapeHtml(original)}</code></div>`);
-      rows.push(`<div class="diff-row diff-added"><span>${i + 1}</span><code>+ ${escapeHtml(draft)}</code></div>`);
+      rows.push(`<div class="diff-row diff-removed"><span>${i + 1}</span><code>- ${escapeHtml(original || ' ')}</code></div>`);
+      rows.push(`<div class="diff-row diff-added"><span>${i + 1}</span><code>+ ${escapeHtml(draft || ' ')}</code></div>`);
     }
   }
-  return { changes, html: changes ? rows.join('') : `<div class="empty-state">${t('diffNoChanges')}</div>` };
+
+  return {
+    changes,
+    html: changes ? rows.join('') : `<div class="empty-state">${t('diffNoChanges')}</div>`,
+    mode: isHtmlPreviewFile() ? 'HTML_AWARE_DIFF' : 'TEXT_DIFF'
+  };
 }
 
 function renderHistory() {
@@ -1398,6 +1579,7 @@ function renderFileWorkspace() {
         <span><strong>${t('fileNameLabel')}:</strong> ${escapeHtml(fileState.name || t('fileNoFile'))}</span>
         <span class="file-status ${isChanged ? 'changed' : 'clean'}">${isChanged ? t('fileChanged') : t('fileClean')}</span>
         <span>${t('fileLinesChanged')}: <strong>${diff.changes}</strong></span>
+        <span class="diff-mode-badge">${escapeHtml(diff.mode || 'TEXT_DIFF')}</span>
       </div>
 
       <div class="browser-note">${t('fileBrowserLimit')}</div>
@@ -1480,6 +1662,8 @@ function refreshFileWorkspaceLiveParts() {
     status.textContent = isChanged ? t('fileChanged') : t('fileClean');
   }
   if (meta) meta.textContent = String(diff.changes);
+  const diffMode = document.querySelector('.diff-mode-badge');
+  if (diffMode) diffMode.textContent = diff.mode || 'TEXT_DIFF';
   if (diffView) diffView.innerHTML = diff.html;
   const previewFrame = document.getElementById('previewFrame');
   const previewMeta = document.getElementById('previewMeta');
