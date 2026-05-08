@@ -340,6 +340,56 @@ Object.assign(i18n.de, {
 });
 
 
+
+Object.assign(i18n.ua, {
+  stateWorkspaceTitle: 'State Workspace',
+  stateWorkspaceBody: 'Внутрішня зона ODIN для перегляду, експорту, імпорту та діагностики системного стану.',
+  stateWorkspaceAssist: '<strong>State Workspace</strong> — перший реальний міст до V04.0 State Engine. Тут видно active state, snapshot і базову перевірку JSON.',
+  stateSnapshotButton: 'Створити snapshot',
+  stateCopyButton: 'Скопіювати state',
+  stateImportButton: 'Імпортувати / перевірити JSON',
+  stateResetButton: 'Відновити demo state',
+  stateImportLabel: 'JSON для імпорту / перевірки',
+  stateStatusReady: 'STATE_WORKSPACE_READY',
+  stateStatusSnapshot: 'STATE_SNAPSHOT_READY',
+  stateStatusCopied: 'STATE_JSON_COPIED',
+  stateStatusImportOk: 'STATE_IMPORT_VALID',
+  stateStatusImportFail: 'STATE_IMPORT_INVALID'
+});
+Object.assign(i18n.en, {
+  stateWorkspaceTitle: 'State Workspace',
+  stateWorkspaceBody: 'Internal ODIN zone for viewing, exporting, importing and diagnosing system state.',
+  stateWorkspaceAssist: '<strong>State Workspace</strong> — first real bridge to V04.0 State Engine. It shows active state, snapshot and basic JSON validation.',
+  stateSnapshotButton: 'Create snapshot',
+  stateCopyButton: 'Copy state',
+  stateImportButton: 'Import / validate JSON',
+  stateResetButton: 'Restore demo state',
+  stateImportLabel: 'JSON for import / validation',
+  stateStatusReady: 'STATE_WORKSPACE_READY',
+  stateStatusSnapshot: 'STATE_SNAPSHOT_READY',
+  stateStatusCopied: 'STATE_JSON_COPIED',
+  stateStatusImportOk: 'STATE_IMPORT_VALID',
+  stateStatusImportFail: 'STATE_IMPORT_INVALID'
+});
+Object.assign(i18n.de, {
+  stateWorkspaceTitle: 'State Workspace',
+  stateWorkspaceBody: 'Interne ODIN-Zone zum Anzeigen, Exportieren, Importieren und Diagnostizieren des Systemzustands.',
+  stateWorkspaceAssist: '<strong>State Workspace</strong> — erste reale Brücke zu V04.0 State Engine. Zeigt aktiven Zustand, Snapshot und JSON-Basisprüfung.',
+  stateSnapshotButton: 'Snapshot erstellen',
+  stateCopyButton: 'State kopieren',
+  stateImportButton: 'JSON importieren / prüfen',
+  stateResetButton: 'Demo-State wiederherstellen',
+  stateImportLabel: 'JSON für Import / Prüfung',
+  stateStatusReady: 'STATE_WORKSPACE_READY',
+  stateStatusSnapshot: 'STATE_SNAPSHOT_READY',
+  stateStatusCopied: 'STATE_JSON_COPIED',
+  stateStatusImportOk: 'STATE_IMPORT_VALID',
+  stateStatusImportFail: 'STATE_IMPORT_INVALID'
+});
+
+
+const odinStateWorkspace199D6 = {"activeBase": "199D", "currentPhase": "PHASE 0.9", "nextPhase": "199D.7 — Control Center Internal Function Migration", "oneMainPageRule": true, "templatePath": "dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html", "legacyStandalonePages": {"commit_builder.html": "MIGRATED_INTERNAL_ZONE", "state_workspace.html": "MIGRATED_INTERNAL_ZONE", "control_center.html": "AUDIT_ZONE_PENDING_MIGRATION"}};
+
 const workZone = document.getElementById('workZone');
 const assistContent = document.getElementById('assistContent');
 const modeValue = document.getElementById('modeValue');
@@ -492,8 +542,9 @@ function renderZone(zone) {
   }
 
   if (zone === 'stateWorkspace') {
-    workZone.innerHTML = zoneTemplate(t('stateWorkspaceTitle'), t('stateWorkspaceBody'), renderStandaloneIntegrationAudit('stateWorkspace'));
+    workZone.innerHTML = zoneTemplate(t('stateWorkspaceTitle'), t('stateWorkspaceBody'), renderStateWorkspaceTool());
     assistContent.innerHTML = t('stateWorkspaceAssist');
+    setTimeout(resetStateWorkspace199D6, 0);
   }
 
   if (zone === 'files') {
@@ -645,6 +696,94 @@ async function copyCommitCommands199D5() {
     const status = document.getElementById('commitBuilderStatus');
     if (status) status.textContent = 'COPY_UNAVAILABLE';
   }
+}
+
+
+
+function cloneStateWorkspace199D6() {
+  return JSON.parse(JSON.stringify(odinStateWorkspace199D6));
+}
+
+function renderStateWorkspaceTool() {
+  return `
+    <div class="state-workspace-tool">
+      <div class="state-workspace-grid">
+        <article class="state-stat-card"><span>ACTIVE BASE</span><strong>${escapeHtml(odinStateWorkspace199D6.activeBase)}</strong></article>
+        <article class="state-stat-card"><span>CURRENT PHASE</span><strong>${escapeHtml(odinStateWorkspace199D6.currentPhase)}</strong></article>
+        <article class="state-stat-card"><span>NEXT</span><strong>${escapeHtml(odinStateWorkspace199D6.nextPhase)}</strong></article>
+        <article class="state-stat-card"><span>ONE PAGE</span><strong>${escapeHtml(String(odinStateWorkspace199D6.oneMainPageRule))}</strong></article>
+      </div>
+
+      <div class="state-workspace-actions">
+        <button type="button" class="primary-action" onclick="createStateSnapshot199D6()">${t('stateSnapshotButton')}</button>
+        <button type="button" onclick="copyStateWorkspace199D6()">${t('stateCopyButton')}</button>
+        <button type="button" onclick="importStateWorkspace199D6()">${t('stateImportButton')}</button>
+        <button type="button" onclick="resetStateWorkspace199D6()">${t('stateResetButton')}</button>
+      </div>
+
+      <div id="stateWorkspaceStatus" class="state-workspace-status">${t('stateStatusReady')}</div>
+
+      <label class="state-import-label">
+        <span>${t('stateImportLabel')}</span>
+        <textarea id="stateWorkspaceImport" rows="7"></textarea>
+      </label>
+
+      <pre id="stateWorkspaceOutput" class="state-workspace-output"></pre>
+    </div>
+  `;
+}
+
+function setStateWorkspaceOutput199D6(payload, status) {
+  const output = document.getElementById('stateWorkspaceOutput');
+  const statusEl = document.getElementById('stateWorkspaceStatus');
+  if (output) output.textContent = JSON.stringify(payload, null, 2);
+  if (statusEl) statusEl.textContent = status || payload.status || t('stateStatusReady');
+}
+
+function createStateSnapshot199D6() {
+  const snapshot = {
+    status: 'STATE_SNAPSHOT_READY',
+    created: new Date().toISOString(),
+    state: cloneStateWorkspace199D6()
+  };
+  setStateWorkspaceOutput199D6(snapshot, t('stateStatusSnapshot'));
+  return snapshot;
+}
+
+async function copyStateWorkspace199D6() {
+  const snapshot = createStateSnapshot199D6();
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(snapshot, null, 2));
+    const statusEl = document.getElementById('stateWorkspaceStatus');
+    if (statusEl) statusEl.textContent = t('stateStatusCopied');
+  } catch (error) {
+    const statusEl = document.getElementById('stateWorkspaceStatus');
+    if (statusEl) statusEl.textContent = 'COPY_UNAVAILABLE';
+  }
+}
+
+function importStateWorkspace199D6() {
+  const raw = document.getElementById('stateWorkspaceImport')?.value || '';
+  try {
+    const parsed = JSON.parse(raw);
+    const result = {
+      status: 'STATE_IMPORT_VALID',
+      importedKeys: Object.keys(parsed),
+      imported: parsed
+    };
+    setStateWorkspaceOutput199D6(result, t('stateStatusImportOk'));
+  } catch (error) {
+    setStateWorkspaceOutput199D6({
+      status: 'STATE_IMPORT_INVALID',
+      message: String(error.message || error)
+    }, t('stateStatusImportFail'));
+  }
+}
+
+function resetStateWorkspace199D6() {
+  const input = document.getElementById('stateWorkspaceImport');
+  if (input) input.value = JSON.stringify(cloneStateWorkspace199D6(), null, 2);
+  createStateSnapshot199D6();
 }
 
 

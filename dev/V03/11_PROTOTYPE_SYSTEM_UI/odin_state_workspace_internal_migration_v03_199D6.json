@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "State Workspace Internal Function Migration",
+    "version": "V03.199D.6",
+    "type": "STATE_WORKSPACE_INTERNAL_FUNCTION_MIGRATION_v1",
+    "created": "2026-05-08T04:21:13.345736+00:00",
+    "workingFolder": "dev/V03/11_PROTOTYPE_SYSTEM_UI",
+    "templateEtalon": "dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html"
+  },
+  "status": "STATE_WORKSPACE_INTERNAL_ZONE_READY",
+  "phase": "PHASE 0.9 — STATE WORKSPACE INTERNAL FUNCTION MIGRATION",
+  "activeBase": "199D",
+  "sourceLegacyPage": "dev/V03/state_workspace.html",
+  "targetZone": "stateWorkspace",
+  "standaloneRole": "DEPRECATED_AFTER_QA",
+  "implementedFunctions": [
+    "active state preview",
+    "state snapshot generation",
+    "state JSON export/copy",
+    "state JSON import/validate",
+    "state diagnostics"
+  ],
+  "stateModel": {
+    "activeBase": "199D",
+    "currentPhase": "PHASE 0.9",
+    "nextPhase": "199D.7 — Control Center Internal Function Migration",
+    "oneMainPageRule": true,
+    "templatePath": "dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html",
+    "legacyStandalonePages": {
+      "commit_builder.html": "MIGRATED_INTERNAL_ZONE",
+      "state_workspace.html": "MIGRATED_INTERNAL_ZONE",
+      "control_center.html": "AUDIT_ZONE_PENDING_MIGRATION"
+    }
+  },
+  "rules": {
+    "noNewHtmlPages": true,
+    "renderInsideWorkZone": true,
+    "logicInAppJs": true,
+    "stylesInStylesCss": true,
+    "preserveTemplateShell": true
+  },
+  "nextStep": "Prepare 199D.7 — Control Center Internal Function Migration."
+}
