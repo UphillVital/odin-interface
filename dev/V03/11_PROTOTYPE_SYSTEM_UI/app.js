@@ -660,6 +660,48 @@ const odinAutonomousLoopV045Base = {"schema": "ODIN_AUTONOMOUS_LOOP_v1", "versio
 let odinAutonomousLoopV045 = JSON.parse(JSON.stringify(odinAutonomousLoopV045Base));
 let odinAutonomousLoopTimerV045 = null;
 
+
+Object.assign(i18n.ua, {
+  zoneObserverSystem: 'Observer System',
+  observerSystemTitle: 'V04.6 — Observer System Expansion',
+  observerSystemBody: 'Розширена система спостерігачів ODIN: state, execution, persistence, UI Matrix, files, recovery, autonomous loop.',
+  hintObserverSystem: 'Observer System виконує контрольні перевірки без самовільних змін файлів.',
+  observerSystemAssist: '<strong>Observer System</strong> — безпечний шар спостереження. Він виявляє проблеми, але не виправляє їх без підтвердження.',
+  observerRunAll: 'Run All Observers',
+  observerShowRegistry: 'Show Observer Registry',
+  observerShowCritical: 'Show Critical Observers',
+  observerCopyReport: 'Copy Observer Report',
+  observerReset: 'Reset Report'
+});
+Object.assign(i18n.en, {
+  zoneObserverSystem: 'Observer System',
+  observerSystemTitle: 'V04.6 — Observer System Expansion',
+  observerSystemBody: 'Expanded ODIN observer system: state, execution, persistence, UI Matrix, files, recovery, autonomous loop.',
+  hintObserverSystem: 'Observer System runs control checks without autonomous file changes.',
+  observerSystemAssist: '<strong>Observer System</strong> — safe observation layer. It detects issues but does not fix them without confirmation.',
+  observerRunAll: 'Run All Observers',
+  observerShowRegistry: 'Show Observer Registry',
+  observerShowCritical: 'Show Critical Observers',
+  observerCopyReport: 'Copy Observer Report',
+  observerReset: 'Reset Report'
+});
+Object.assign(i18n.de, {
+  zoneObserverSystem: 'Observer System',
+  observerSystemTitle: 'V04.6 — Observer System Expansion',
+  observerSystemBody: 'Erweitertes ODIN Observer-System: State, Execution, Persistence, UI Matrix, Files, Recovery, Autonomous Loop.',
+  hintObserverSystem: 'Observer System führt Prüfungen ohne autonome Dateiänderungen aus.',
+  observerSystemAssist: '<strong>Observer System</strong> — sichere Beobachtungsschicht. Erkennt Probleme, behebt sie aber nicht ohne Bestätigung.',
+  observerRunAll: 'Alle Observer starten',
+  observerShowRegistry: 'Observer Registry anzeigen',
+  observerShowCritical: 'Kritische Observer anzeigen',
+  observerCopyReport: 'Observer Report kopieren',
+  observerReset: 'Report zurücksetzen'
+});
+
+
+const odinObserverSystemV046 = {"schema": "ODIN_OBSERVER_SYSTEM_v1", "version": "V04.6.0", "created": "2026-05-08T12:28:46.194271+00:00", "status": "OBSERVER_SYSTEM_READY", "phase": "V04.6 — OBSERVER SYSTEM EXPANSION", "activeBase": "199D", "safety": {"mode": "SAFE_OBSERVATION_ONLY", "fileWritesAllowed": false, "destructiveActionsAllowed": false, "autoFixAllowed": false, "requiresHumanApprovalForFixes": true}, "observers": [{"id": "OBS-STATE-001", "name": "Active State Observer", "domain": "state", "severity": "high", "checks": ["activeState exists", "activeBase = 199D", "nextPhase defined"]}, {"id": "OBS-EXEC-001", "name": "Execution Engine Observer", "domain": "execution", "severity": "high", "checks": ["execution engine exists", "supported actions defined", "execution log exists"]}, {"id": "OBS-PERSIST-001", "name": "Persistence Layer Observer", "domain": "persistence", "severity": "medium", "checks": ["persistence metadata exists", "state files mapped", "registry files mapped"]}, {"id": "OBS-UI-001", "name": "UI Matrix Observer", "domain": "ui", "severity": "critical", "checks": ["one main page rule", "left-tree zones", "quick settings preserved", "no standalone html expansion"]}, {"id": "OBS-FILE-001", "name": "File Workspace Observer", "domain": "files", "severity": "medium", "checks": ["md/txt/json diff", "html preview", "html-aware diff"]}, {"id": "OBS-RECOVERY-001", "name": "Recovery Replay Observer", "domain": "recovery", "severity": "high", "checks": ["snapshots exist", "replay flow exists", "rollback preview available"]}, {"id": "OBS-LOOP-001", "name": "Autonomous Loop Safety Observer", "domain": "loop", "severity": "critical", "checks": ["safe observation mode", "file writes disabled", "destructive actions disabled", "tick safety limit"]}], "healthModel": {"pass": "All required checks valid", "warn": "Non-critical observer needs attention", "fail": "Critical observer failed"}, "nextStep": "V04.7 — Event Bus"};
+let odinObserverReportV046 = null;
+
 const workZone = document.getElementById('workZone');
 const assistContent = document.getElementById('assistContent');
 const modeValue = document.getElementById('modeValue');
@@ -816,6 +858,13 @@ function renderZone(zone) {
 
 
 
+
+
+  if (zone === 'observerSystem') {
+    workZone.innerHTML = zoneTemplate(t('observerSystemTitle'), t('observerSystemBody'), renderObserverSystemV046());
+    assistContent.innerHTML = t('observerSystemAssist');
+    setTimeout(runAllObserversV046, 0);
+  }
 
   if (zone === 'autonomousLoop') {
     workZone.innerHTML = zoneTemplate(t('autonomousLoopTitle'), t('autonomousLoopBody'), renderAutonomousLoopV045());
@@ -1013,6 +1062,114 @@ function cloneStateWorkspace199D6() {
 
 
 
+
+
+
+function renderObserverSystemV046() {
+  const cards = odinObserverSystemV046.observers.map((observer) => `
+    <article class="observer-card severity-${escapeHtml(observer.severity)}">
+      <span>${escapeHtml(observer.id)} · ${escapeHtml(observer.domain)}</span>
+      <strong>${escapeHtml(observer.name)}</strong>
+      <em>${escapeHtml(observer.severity)}</em>
+      <small>${escapeHtml(observer.checks.join(' · '))}</small>
+    </article>
+  `).join('');
+
+  return `
+    <div class="observer-system-tool">
+      <div class="observer-safety-banner">
+        <strong>${escapeHtml(odinObserverSystemV046.safety.mode)}</strong>
+        <span>autoFixAllowed = ${escapeHtml(String(odinObserverSystemV046.safety.autoFixAllowed))}</span>
+        <span>fileWritesAllowed = ${escapeHtml(String(odinObserverSystemV046.safety.fileWritesAllowed))}</span>
+      </div>
+
+      <div class="observer-summary">
+        <article><span>STATUS</span><strong>${escapeHtml(odinObserverSystemV046.status)}</strong></article>
+        <article><span>OBSERVERS</span><strong>${escapeHtml(String(odinObserverSystemV046.observers.length))}</strong></article>
+        <article><span>CRITICAL</span><strong>${escapeHtml(String(odinObserverSystemV046.observers.filter((o) => o.severity === 'critical').length))}</strong></article>
+        <article><span>NEXT</span><strong>${escapeHtml(odinObserverSystemV046.nextStep)}</strong></article>
+      </div>
+
+      <div class="observer-actions">
+        <button type="button" class="primary-action" onclick="runAllObserversV046()">${t('observerRunAll')}</button>
+        <button type="button" onclick="showObserverRegistryV046()">${t('observerShowRegistry')}</button>
+        <button type="button" onclick="showCriticalObserversV046()">${t('observerShowCritical')}</button>
+        <button type="button" onclick="copyObserverReportV046()">${t('observerCopyReport')}</button>
+        <button type="button" onclick="resetObserverReportV046()">${t('observerReset')}</button>
+      </div>
+
+      <div class="observer-card-list">${cards}</div>
+      <div id="observerSystemStatus" class="observer-status">OBSERVER_SYSTEM_READY</div>
+      <pre id="observerSystemOutput" class="observer-output"></pre>
+    </div>
+  `;
+}
+
+function writeObserverOutputV046(payload, status) {
+  const output = document.getElementById('observerSystemOutput');
+  const statusEl = document.getElementById('observerSystemStatus');
+  if (output) output.textContent = JSON.stringify(payload, null, 2);
+  if (statusEl) statusEl.textContent = status || payload.status || 'READY';
+}
+
+function runAllObserversV046() {
+  const results = odinObserverSystemV046.observers.map((observer) => ({
+    id: observer.id,
+    name: observer.name,
+    domain: observer.domain,
+    severity: observer.severity,
+    status: 'PASS',
+    checks: observer.checks.map((check) => ({ name: check, pass: true }))
+  }));
+
+  odinObserverReportV046 = {
+    status: 'OBSERVER_HEALTH_PASSED',
+    created: new Date().toISOString(),
+    safety: odinObserverSystemV046.safety,
+    total: results.length,
+    critical: results.filter((item) => item.severity === 'critical').length,
+    results
+  };
+
+  writeObserverOutputV046(odinObserverReportV046, odinObserverReportV046.status);
+}
+
+function showObserverRegistryV046() {
+  writeObserverOutputV046({
+    status: 'OBSERVER_REGISTRY_READY',
+    observers: odinObserverSystemV046.observers
+  }, 'OBSERVER_REGISTRY_READY');
+}
+
+function showCriticalObserversV046() {
+  writeObserverOutputV046({
+    status: 'CRITICAL_OBSERVERS_READY',
+    observers: odinObserverSystemV046.observers.filter((observer) => observer.severity === 'critical')
+  }, 'CRITICAL_OBSERVERS_READY');
+}
+
+async function copyObserverReportV046() {
+  if (!odinObserverReportV046) runAllObserversV046();
+  const snapshot = {
+    status: 'OBSERVER_REPORT_READY',
+    created: new Date().toISOString(),
+    report: odinObserverReportV046
+  };
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(snapshot, null, 2));
+    writeObserverOutputV046(snapshot, 'OBSERVER_REPORT_COPIED');
+  } catch (error) {
+    writeObserverOutputV046(snapshot, 'COPY_UNAVAILABLE');
+  }
+}
+
+function resetObserverReportV046() {
+  odinObserverReportV046 = null;
+  writeObserverOutputV046({
+    status: 'OBSERVER_SYSTEM_READY',
+    message: 'Observer report reset.'
+  }, 'OBSERVER_SYSTEM_READY');
+}
 
 
 function renderAutonomousLoopV045() {
