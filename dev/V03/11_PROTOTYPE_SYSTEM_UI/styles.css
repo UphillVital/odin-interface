@@ -1180,3 +1180,81 @@ body {
   color: var(--text);
   overflow: auto;
 }
+
+/* ODIN V04.0 — Real State Engine */
+.real-state-engine {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.real-state-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+}
+
+.real-state-grid article {
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.real-state-grid span,
+.real-state-grid strong {
+  display: block;
+}
+
+.real-state-grid span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .06em;
+}
+
+.real-state-grid strong {
+  margin-top: 6px;
+  overflow-wrap: anywhere;
+}
+
+.real-state-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.real-state-actions button {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.real-state-actions .primary-action {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.real-state-status {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.real-state-output {
+  white-space: pre-wrap;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+  background: var(--surface-soft);
+  color: var(--text);
+  overflow: auto;
+}

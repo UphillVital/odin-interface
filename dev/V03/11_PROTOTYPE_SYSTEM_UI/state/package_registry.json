@@ -1,0 +1,60 @@
+{
+  "schema": "ODIN_PACKAGE_REGISTRY_v1",
+  "activeBase": "199D",
+  "currentPackage": "ODIN_V04_0_REAL_STATE_ENGINE_BOOTSTRAP_V1",
+  "history": [
+    {
+      "version": "199D",
+      "name": "SECURE_EXPORT_RELEASE_QA_GATE",
+      "status": "LAST_CLEAN_FOUNDATION"
+    },
+    {
+      "version": "199D.1",
+      "name": "TRUE_TEMPLATE_INTEGRATION",
+      "status": "APPLIED"
+    },
+    {
+      "version": "199D.2",
+      "name": "STANDALONE_PAGES_INTEGRATION_AUDIT",
+      "status": "APPLIED"
+    },
+    {
+      "version": "199D.3",
+      "name": "CONTROL_CENTER_INTEGRATION_AUDIT",
+      "status": "APPLIED"
+    },
+    {
+      "version": "199D.4",
+      "name": "LEGACY_FUNCTION_MIGRATION_PLAN",
+      "status": "APPLIED"
+    },
+    {
+      "version": "199D.5",
+      "name": "COMMIT_BUILDER_INTERNAL_FUNCTION_MIGRATION",
+      "status": "APPLIED"
+    },
+    {
+      "version": "199D.6",
+      "name": "STATE_WORKSPACE_INTERNAL_FUNCTION_MIGRATION",
+      "status": "APPLIED"
+    },
+    {
+      "version": "199D.7",
+      "name": "CONTROL_CENTER_INTERNAL_FUNCTION_MIGRATION",
+      "status": "APPLIED"
+    },
+    {
+      "version": "199D.8",
+      "name": "LEGACY_STANDALONE_CLEANUP",
+      "status": "APPLIED"
+    },
+    {
+      "version": "V04.0",
+      "name": "REAL_STATE_ENGINE_BOOTSTRAP",
+      "status": "CURRENT"
+    }
+  ],
+  "experimentalReferenceOnly": [
+    "200D-230D"
+  ]
+}

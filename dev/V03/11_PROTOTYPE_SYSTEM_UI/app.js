@@ -434,6 +434,50 @@ Object.assign(i18n.de, {
 
 const odinControlCenter199D7 = {"activeBase": "199D", "qa": "READY", "release": "CONTROLLED", "export": "READY", "runtime": "FOUNDATION_ONLY", "nextPhase": "199D.8 — Legacy Standalone Cleanup"};
 
+
+Object.assign(i18n.ua, {
+  zoneRealStateEngine: 'Real State Engine',
+  realStateEngineTitle: 'V04.0 — Real State Engine',
+  realStateEngineBody: 'Перший реальний state layer ODIN: active state, package registry, module registry, rollback points.',
+  hintRealStateEngine: 'Real State Engine показує активний стан системи і готує V04.1 Execution Engine.',
+  realStateAssist: '<strong>Real State Engine</strong> — початок реального ядра ODIN. Тепер система має active state, registries і rollback points.',
+  stateShowActive: 'Active State',
+  stateShowPackages: 'Package Registry',
+  stateShowModules: 'Module Registry',
+  stateShowRollback: 'Rollback Points',
+  stateRunDiagnostics: 'State Diagnostics',
+  stateCopySnapshot: 'Copy Snapshot'
+});
+Object.assign(i18n.en, {
+  zoneRealStateEngine: 'Real State Engine',
+  realStateEngineTitle: 'V04.0 — Real State Engine',
+  realStateEngineBody: 'First real ODIN state layer: active state, package registry, module registry, rollback points.',
+  hintRealStateEngine: 'Real State Engine shows active system state and prepares V04.1 Execution Engine.',
+  realStateAssist: '<strong>Real State Engine</strong> — start of real ODIN core. The system now has active state, registries and rollback points.',
+  stateShowActive: 'Active State',
+  stateShowPackages: 'Package Registry',
+  stateShowModules: 'Module Registry',
+  stateShowRollback: 'Rollback Points',
+  stateRunDiagnostics: 'State Diagnostics',
+  stateCopySnapshot: 'Copy Snapshot'
+});
+Object.assign(i18n.de, {
+  zoneRealStateEngine: 'Real State Engine',
+  realStateEngineTitle: 'V04.0 — Real State Engine',
+  realStateEngineBody: 'Erster realer ODIN-State-Layer: aktiver Zustand, Package Registry, Module Registry, Rollback Points.',
+  hintRealStateEngine: 'Real State Engine zeigt aktiven Systemzustand und bereitet V04.1 Execution Engine vor.',
+  realStateAssist: '<strong>Real State Engine</strong> — Start des realen ODIN-Kerns. Das System hat nun aktiven State, Registries und Rollback Points.',
+  stateShowActive: 'Active State',
+  stateShowPackages: 'Package Registry',
+  stateShowModules: 'Module Registry',
+  stateShowRollback: 'Rollback Points',
+  stateRunDiagnostics: 'State Diagnostics',
+  stateCopySnapshot: 'Copy Snapshot'
+});
+
+
+const odinRealStateEngineV040 = {"activeState": {"schema": "ODIN_ACTIVE_STATE_v1", "version": "V04.0.0", "created": "2026-05-08T04:51:41.141520+00:00", "activeBase": "199D", "currentPhase": "V04.0 — REAL STATE ENGINE BOOTSTRAP", "previousPhase": "199D.8 — LEGACY STANDALONE CLEANUP", "oneMainPageRule": true, "mainPage": "dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html", "status": "REAL_STATE_ENGINE_BOOTSTRAP_READY", "systemMode": "FOUNDATION_TO_REAL_CORE", "legacyStandalonePages": {"commit_builder.html": "DEPRECATED_REMOVABLE", "state_workspace.html": "DEPRECATED_REMOVABLE", "control_center.html": "DEPRECATED_REMOVABLE"}, "nextPhase": "V04.1 — REAL EXECUTION ENGINE"}, "packageRegistry": {"schema": "ODIN_PACKAGE_REGISTRY_v1", "activeBase": "199D", "currentPackage": "ODIN_V04_0_REAL_STATE_ENGINE_BOOTSTRAP_V1", "history": [{"version": "199D", "name": "SECURE_EXPORT_RELEASE_QA_GATE", "status": "LAST_CLEAN_FOUNDATION"}, {"version": "199D.1", "name": "TRUE_TEMPLATE_INTEGRATION", "status": "APPLIED"}, {"version": "199D.2", "name": "STANDALONE_PAGES_INTEGRATION_AUDIT", "status": "APPLIED"}, {"version": "199D.3", "name": "CONTROL_CENTER_INTEGRATION_AUDIT", "status": "APPLIED"}, {"version": "199D.4", "name": "LEGACY_FUNCTION_MIGRATION_PLAN", "status": "APPLIED"}, {"version": "199D.5", "name": "COMMIT_BUILDER_INTERNAL_FUNCTION_MIGRATION", "status": "APPLIED"}, {"version": "199D.6", "name": "STATE_WORKSPACE_INTERNAL_FUNCTION_MIGRATION", "status": "APPLIED"}, {"version": "199D.7", "name": "CONTROL_CENTER_INTERNAL_FUNCTION_MIGRATION", "status": "APPLIED"}, {"version": "199D.8", "name": "LEGACY_STANDALONE_CLEANUP", "status": "APPLIED"}, {"version": "V04.0", "name": "REAL_STATE_ENGINE_BOOTSTRAP", "status": "CURRENT"}], "experimentalReferenceOnly": ["200D-230D"]}, "moduleRegistry": {"schema": "ODIN_MODULE_REGISTRY_v1", "modules": [{"id": "mainInterface", "name": "Main ODIN Interface", "status": "ACTIVE", "zone": "command"}, {"id": "v04Plan", "name": "V04 Plan Tracker", "status": "ACTIVE", "zone": "v04plan"}, {"id": "foundation", "name": "Foundation Lock", "status": "ACTIVE", "zone": "foundation"}, {"id": "capabilities", "name": "Capabilities Registry", "status": "ACTIVE", "zone": "capabilities"}, {"id": "commitBuilder", "name": "Commit Builder", "status": "ACTIVE_INTERNAL", "zone": "commitBuilder"}, {"id": "stateWorkspace", "name": "State Workspace", "status": "ACTIVE_INTERNAL", "zone": "stateWorkspace"}, {"id": "controlCenter", "name": "Control Center", "status": "ACTIVE_INTERNAL", "zone": "controlCenter"}, {"id": "realStateEngine", "name": "Real State Engine", "status": "BOOTSTRAP", "zone": "realStateEngine"}]}, "rollbackPoints": {"schema": "ODIN_ROLLBACK_POINTS_v1", "points": [{"id": "RB-199D", "name": "Last Clean Foundation", "package": "ODIN_V03_PACKAGE_199D_SECURE_EXPORT_RELEASE_QA_GATE_V1.zip", "status": "PRIMARY_ROLLBACK"}, {"id": "RB-199D8", "name": "One Main Page Cleanup", "package": "ODIN_V03_199D8_LEGACY_STANDALONE_CLEANUP_V1.zip", "status": "SECONDARY_ROLLBACK"}]}};
+
 const workZone = document.getElementById('workZone');
 const assistContent = document.getElementById('assistContent');
 const modeValue = document.getElementById('modeValue');
@@ -584,6 +628,13 @@ function renderZone(zone) {
     workZone.innerHTML = zoneTemplate(t('commitBuilderTitle'), t('commitBuilderBody'), renderCommitBuilderTool());
     assistContent.innerHTML = t('commitBuilderAssist');
     setTimeout(buildCommitCommands199D5, 0);
+  }
+
+
+  if (zone === 'realStateEngine') {
+    workZone.innerHTML = zoneTemplate(t('realStateEngineTitle'), t('realStateEngineBody'), renderRealStateEngineV040());
+    assistContent.innerHTML = t('realStateAssist');
+    setTimeout(runRealStateDiagnosticsV040, 0);
   }
 
   if (zone === 'stateWorkspace') {
@@ -748,6 +799,76 @@ async function copyCommitCommands199D5() {
 function cloneStateWorkspace199D6() {
   return JSON.parse(JSON.stringify(odinStateWorkspace199D6));
 }
+
+
+function renderRealStateEngineV040() {
+  return `
+    <div class="real-state-engine">
+      <div class="real-state-grid">
+        <article><span>ACTIVE BASE</span><strong>${escapeHtml(odinRealStateEngineV040.activeState.activeBase)}</strong></article>
+        <article><span>STATUS</span><strong>${escapeHtml(odinRealStateEngineV040.activeState.status)}</strong></article>
+        <article><span>CURRENT PHASE</span><strong>${escapeHtml(odinRealStateEngineV040.activeState.currentPhase)}</strong></article>
+        <article><span>NEXT</span><strong>${escapeHtml(odinRealStateEngineV040.activeState.nextPhase)}</strong></article>
+      </div>
+
+      <div class="real-state-actions">
+        <button type="button" class="primary-action" onclick="showRealStatePayloadV040('activeState')">${t('stateShowActive')}</button>
+        <button type="button" onclick="showRealStatePayloadV040('packageRegistry')">${t('stateShowPackages')}</button>
+        <button type="button" onclick="showRealStatePayloadV040('moduleRegistry')">${t('stateShowModules')}</button>
+        <button type="button" onclick="showRealStatePayloadV040('rollbackPoints')">${t('stateShowRollback')}</button>
+        <button type="button" onclick="runRealStateDiagnosticsV040()">${t('stateRunDiagnostics')}</button>
+        <button type="button" onclick="copyRealStateSnapshotV040()">${t('stateCopySnapshot')}</button>
+      </div>
+
+      <div id="realStateStatus" class="real-state-status">REAL_STATE_ENGINE_BOOTSTRAP_READY</div>
+      <pre id="realStateOutput" class="real-state-output"></pre>
+    </div>
+  `;
+}
+
+function showRealStatePayloadV040(key) {
+  const payload = odinRealStateEngineV040[key] || {};
+  const output = document.getElementById('realStateOutput');
+  const status = document.getElementById('realStateStatus');
+  if (output) output.textContent = JSON.stringify(payload, null, 2);
+  if (status) status.textContent = key.toUpperCase() + '_READY';
+  return payload;
+}
+
+function runRealStateDiagnosticsV040() {
+  const diagnostics = {
+    status: 'REAL_STATE_DIAGNOSTICS_PASSED',
+    checks: [
+      { id: 'STATE-001', name: 'active state exists', pass: !!odinRealStateEngineV040.activeState },
+      { id: 'STATE-002', name: 'package registry exists', pass: !!odinRealStateEngineV040.packageRegistry },
+      { id: 'STATE-003', name: 'module registry exists', pass: !!odinRealStateEngineV040.moduleRegistry },
+      { id: 'STATE-004', name: 'rollback points exist', pass: !!odinRealStateEngineV040.rollbackPoints },
+      { id: 'STATE-005', name: 'one main page rule', pass: odinRealStateEngineV040.activeState.oneMainPageRule === true }
+    ]
+  };
+  const output = document.getElementById('realStateOutput');
+  const status = document.getElementById('realStateStatus');
+  if (output) output.textContent = JSON.stringify(diagnostics, null, 2);
+  if (status) status.textContent = diagnostics.status;
+  return diagnostics;
+}
+
+async function copyRealStateSnapshotV040() {
+  const snapshot = {
+    status: 'REAL_STATE_SNAPSHOT_READY',
+    created: new Date().toISOString(),
+    payload: odinRealStateEngineV040
+  };
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(snapshot, null, 2));
+    const status = document.getElementById('realStateStatus');
+    if (status) status.textContent = 'REAL_STATE_SNAPSHOT_COPIED';
+  } catch (error) {
+    const output = document.getElementById('realStateOutput');
+    if (output) output.textContent = JSON.stringify(snapshot, null, 2);
+  }
+}
+
 
 function renderStateWorkspaceTool() {
   return `

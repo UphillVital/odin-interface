@@ -1,0 +1,53 @@
+{
+  "schema": "ODIN_MODULE_REGISTRY_v1",
+  "modules": [
+    {
+      "id": "mainInterface",
+      "name": "Main ODIN Interface",
+      "status": "ACTIVE",
+      "zone": "command"
+    },
+    {
+      "id": "v04Plan",
+      "name": "V04 Plan Tracker",
+      "status": "ACTIVE",
+      "zone": "v04plan"
+    },
+    {
+      "id": "foundation",
+      "name": "Foundation Lock",
+      "status": "ACTIVE",
+      "zone": "foundation"
+    },
+    {
+      "id": "capabilities",
+      "name": "Capabilities Registry",
+      "status": "ACTIVE",
+      "zone": "capabilities"
+    },
+    {
+      "id": "commitBuilder",
+      "name": "Commit Builder",
+      "status": "ACTIVE_INTERNAL",
+      "zone": "commitBuilder"
+    },
+    {
+      "id": "stateWorkspace",
+      "name": "State Workspace",
+      "status": "ACTIVE_INTERNAL",
+      "zone": "stateWorkspace"
+    },
+    {
+      "id": "controlCenter",
+      "name": "Control Center",
+      "status": "ACTIVE_INTERNAL",
+      "zone": "controlCenter"
+    },
+    {
+      "id": "realStateEngine",
+      "name": "Real State Engine",
+      "status": "BOOTSTRAP",
+      "zone": "realStateEngine"
+    }
+  ]
+}

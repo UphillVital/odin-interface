@@ -1,0 +1,18 @@
+{
+  "schema": "ODIN_ACTIVE_STATE_v1",
+  "version": "V04.0.0",
+  "created": "2026-05-08T04:51:41.141520+00:00",
+  "activeBase": "199D",
+  "currentPhase": "V04.0 — REAL STATE ENGINE BOOTSTRAP",
+  "previousPhase": "199D.8 — LEGACY STANDALONE CLEANUP",
+  "oneMainPageRule": true,
+  "mainPage": "dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html",
+  "status": "REAL_STATE_ENGINE_BOOTSTRAP_READY",
+  "systemMode": "FOUNDATION_TO_REAL_CORE",
+  "legacyStandalonePages": {
+    "commit_builder.html": "DEPRECATED_REMOVABLE",
+    "state_workspace.html": "DEPRECATED_REMOVABLE",
+    "control_center.html": "DEPRECATED_REMOVABLE"
+  },
+  "nextPhase": "V04.1 — REAL EXECUTION ENGINE"
+}
