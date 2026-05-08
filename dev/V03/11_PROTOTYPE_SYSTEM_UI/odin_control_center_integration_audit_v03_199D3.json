@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Control Center Integration Audit",
+    "version": "V03.199D.3",
+    "type": "CONTROL_CENTER_INTEGRATION_AUDIT_v1",
+    "created": "2026-05-08T03:48:04.974020+00:00",
+    "workingFolder": "dev/V03/11_PROTOTYPE_SYSTEM_UI",
+    "templateEtalon": "dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html"
+  },
+  "status": "CONTROL_CENTER_INTEGRATION_AUDIT_READY",
+  "phase": "PHASE 0.6 — CONTROL CENTER INTEGRATION AUDIT",
+  "activeBase": "199D",
+  "oneMainPageRule": true,
+  "auditedStandalonePage": {
+    "file": "dev/V03/control_center.html",
+    "currentLinksDetectedInTemplate": [],
+    "status": "LEGACY_SOURCE_FOR_INTEGRATION",
+    "decision": "INTEGRATE_AS_INTERNAL_ZONE",
+    "targetZone": "controlCenter",
+    "deleteNow": false,
+    "reason": "Control Center can contain useful release/QA/control logic. Do not delete before extracting useful functions."
+  },
+  "integrationPlan": [
+    {
+      "step": "AUDIT",
+      "description": "Inspect legacy control_center.html when available in repo and identify useful control functions."
+    },
+    {
+      "step": "EXTRACT",
+      "description": "Extract reusable runtime/state/control logic, not page shell or standalone design."
+    },
+    {
+      "step": "INTEGRATE",
+      "description": "Move useful logic into app.js as internal zone rendering and shared functions."
+    },
+    {
+      "step": "NORMALIZE_UI",
+      "description": "Render Control Center inside existing workZone using ODIN UI Matrix styles."
+    },
+    {
+      "step": "DEPRECATE_STANDALONE",
+      "description": "After successful migration, remove active role of dev/V03/control_center.html."
+    }
+  ],
+  "rules": {
+    "doNotCreateNewHtmlPages": true,
+    "doNotExposeControlCenterAsStandaloneNavigation": true,
+    "leftTreeMustUseInternalZone": true,
+    "quickSettingsMustNotNavigateToStandaloneControlCenter": true,
+    "controlCenterTarget": "internal zone: controlCenter",
+    "preserveQuickSettings": true,
+    "preserveLeftTree": true,
+    "preserveWorkZone": true,
+    "preserveAssistPanel": true,
+    "preserveStatusBar": true
+  },
+  "nextStep": "Prepare 199D.4 — Legacy Function Migration Plan for Commit Builder, State Workspace, Control Center."
+}

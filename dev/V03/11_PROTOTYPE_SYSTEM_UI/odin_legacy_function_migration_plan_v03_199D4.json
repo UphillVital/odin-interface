@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Legacy Function Migration Plan",
+    "version": "V03.199D.4",
+    "type": "LEGACY_FUNCTION_MIGRATION_PLAN_v1",
+    "created": "2026-05-08T04:02:31.547608+00:00",
+    "workingFolder": "dev/V03/11_PROTOTYPE_SYSTEM_UI",
+    "templateEtalon": "dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html"
+  },
+  "status": "LEGACY_FUNCTION_MIGRATION_PLAN_READY",
+  "phase": "PHASE 0.7 — LEGACY FUNCTION MIGRATION PLAN",
+  "activeBase": "199D",
+  "oneMainPageRule": true,
+  "legacyPages": [
+    {
+      "id": "LEGACY-COMMIT-BUILDER",
+      "source": "dev/V03/commit_builder.html",
+      "targetZone": "commitBuilder",
+      "migrationStatus": "PLANNED",
+      "extract": [
+        "commit message builder logic",
+        "path list / git add helper logic",
+        "commit preview",
+        "copy git commands",
+        "validation of commit text"
+      ],
+      "reject": [
+        "standalone html shell",
+        "separate header/sidebar",
+        "independent styles not matching ODIN UI Matrix"
+      ]
+    },
+    {
+      "id": "LEGACY-STATE-WORKSPACE",
+      "source": "dev/V03/state_workspace.html",
+      "targetZone": "stateWorkspace",
+      "migrationStatus": "PLANNED",
+      "extract": [
+        "state viewing logic",
+        "state history display",
+        "state import/export helpers",
+        "state diff / comparison ideas",
+        "workspace diagnostics"
+      ],
+      "reject": [
+        "standalone html shell",
+        "separate navigation",
+        "local layout duplication"
+      ]
+    },
+    {
+      "id": "LEGACY-CONTROL-CENTER",
+      "source": "dev/V03/control_center.html",
+      "targetZone": "controlCenter",
+      "migrationStatus": "PLANNED",
+      "extract": [
+        "QA flow controls",
+        "release/export controls",
+        "package status display",
+        "system status report generation",
+        "control action validation concepts"
+      ],
+      "reject": [
+        "standalone control center page",
+        "independent mini-design-system",
+        "duplicate runtime panels"
+      ]
+    }
+  ],
+  "migrationRules": {
+    "onlyActiveHtml": "dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html",
+    "allLogicGoesTo": "dev/V03/11_PROTOTYPE_SYSTEM_UI/app.js",
+    "allStylesGoTo": "dev/V03/11_PROTOTYPE_SYSTEM_UI/styles.css",
+    "noNewHtmlPages": true,
+    "preserveHeader": true,
+    "preserveQuickSettings": true,
+    "preserveLeftTree": true,
+    "preserveWorkZone": true,
+    "preserveAssistPanel": true,
+    "preserveStatusBar": true,
+    "legacyPagesDeleteOnlyAfterMigrationQa": true
+  },
+  "implementationOrder": [
+    {
+      "step": "199D.5",
+      "name": "Commit Builder Internal Function Migration",
+      "why": "Smallest and safest legacy function to migrate first.",
+      "expectedResult": "Commit Builder becomes a real internal tool zone."
+    },
+    {
+      "step": "199D.6",
+      "name": "State Workspace Internal Function Migration",
+      "why": "State Workspace prepares V04.0 Real State Engine.",
+      "expectedResult": "State viewing/workspace logic becomes internal zone."
+    },
+    {
+      "step": "199D.7",
+      "name": "Control Center Internal Function Migration",
+      "why": "Control Center should orchestrate QA/release functions inside one interface.",
+      "expectedResult": "Control Center becomes internal command/control zone."
+    },
+    {
+      "step": "199D.8",
+      "name": "Legacy Standalone Cleanup",
+      "why": "After successful migration QA, standalone files can be deprecated or removed.",
+      "expectedResult": "One main page rule fully enforced."
+    },
+    {
+      "step": "V04.0",
+      "name": "Real State Engine Bootstrap",
+      "why": "After UI is clean and legacy zones are internal, build real state.",
+      "expectedResult": "ODIN starts tracking real active state."
+    }
+  ],
+  "nextStep": "Prepare 199D.5 — Commit Builder Internal Function Migration."
+}

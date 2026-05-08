@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Commit Builder Internal Function Migration",
+    "version": "V03.199D.5",
+    "type": "COMMIT_BUILDER_INTERNAL_FUNCTION_MIGRATION_v1",
+    "created": "2026-05-08T04:12:28.230793+00:00",
+    "workingFolder": "dev/V03/11_PROTOTYPE_SYSTEM_UI",
+    "templateEtalon": "dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html"
+  },
+  "status": "COMMIT_BUILDER_INTERNAL_ZONE_READY",
+  "phase": "PHASE 0.8 — COMMIT BUILDER INTERNAL FUNCTION MIGRATION",
+  "activeBase": "199D",
+  "sourceLegacyPage": "dev/V03/commit_builder.html",
+  "targetZone": "commitBuilder",
+  "standaloneRole": "DEPRECATED_AFTER_QA",
+  "implementedFunctions": [
+    "commit message builder",
+    "path list / git add helper",
+    "commit preview",
+    "copy git commands",
+    "basic validation"
+  ],
+  "rules": {
+    "noNewHtmlPages": true,
+    "renderInsideWorkZone": true,
+    "logicInAppJs": true,
+    "stylesInStylesCss": true,
+    "preserveTemplateShell": true
+  },
+  "nextStep": "Prepare 199D.6 — State Workspace Internal Function Migration."
+}

@@ -248,6 +248,98 @@ Object.assign(i18n.de, {
 });
 
 
+
+Object.assign(i18n.ua, {
+  zoneControlCenter: 'Control Center',
+  controlCenter: 'Control Center',
+  controlCenterTitle: 'Control Center — аудит інтеграції',
+  controlCenterBody: 'Control Center має бути інтегрований як внутрішня зона ODIN Interface, а не як окрема активна HTML-сторінка.',
+  hintControlCenter: 'Аудит Control Center: визначити корисну логіку та перенести її в єдиний ODIN Interface.',
+  controlCenterAssist: '<strong>Control Center</strong> — джерело для інтеграції release/QA/control логіки. Наступний крок: перевірити старий файл і перенести корисні функції в цю зону.'
+});
+Object.assign(i18n.en, {
+  zoneControlCenter: 'Control Center',
+  controlCenter: 'Control Center',
+  controlCenterTitle: 'Control Center — integration audit',
+  controlCenterBody: 'Control Center must be integrated as an internal ODIN Interface zone, not as an active standalone HTML page.',
+  hintControlCenter: 'Control Center audit: identify useful logic and migrate it into the single ODIN Interface.',
+  controlCenterAssist: '<strong>Control Center</strong> — source for release/QA/control logic integration. Next step: inspect old file and migrate useful functions into this zone.'
+});
+Object.assign(i18n.de, {
+  zoneControlCenter: 'Control Center',
+  controlCenter: 'Control Center',
+  controlCenterTitle: 'Control Center — Integrationsaudit',
+  controlCenterBody: 'Control Center muss als interne ODIN-Interface-Zone integriert werden, nicht als aktive separate HTML-Seite.',
+  hintControlCenter: 'Control-Center-Audit: nützliche Logik identifizieren und in das einheitliche ODIN Interface migrieren.',
+  controlCenterAssist: '<strong>Control Center</strong> — Quelle für Release-/QA-/Control-Logik. Nächster Schritt: alte Datei prüfen und nützliche Funktionen migrieren.'
+});
+
+
+
+Object.assign(i18n.ua, {
+  zoneMigrationPlan: 'План міграції',
+  migrationPlanTitle: 'Legacy Function Migration Plan',
+  migrationPlanBody: 'План перенесення корисної логіки зі старих standalone сторінок у єдиний ODIN Interface.',
+  hintMigrationPlan: 'Показує порядок перенесення Commit Builder, State Workspace і Control Center у внутрішні зони.',
+  migrationPlanAssist: '<strong>Legacy Function Migration Plan</strong> — дорожня карта перед реальною міграцією функцій. Наступний крок: 199D.5 Commit Builder.'
+});
+Object.assign(i18n.en, {
+  zoneMigrationPlan: 'Migration Plan',
+  migrationPlanTitle: 'Legacy Function Migration Plan',
+  migrationPlanBody: 'Plan for migrating useful logic from old standalone pages into the single ODIN Interface.',
+  hintMigrationPlan: 'Shows the order for migrating Commit Builder, State Workspace and Control Center into internal zones.',
+  migrationPlanAssist: '<strong>Legacy Function Migration Plan</strong> — roadmap before real function migration. Next step: 199D.5 Commit Builder.'
+});
+Object.assign(i18n.de, {
+  zoneMigrationPlan: 'Migrationsplan',
+  migrationPlanTitle: 'Legacy Function Migration Plan',
+  migrationPlanBody: 'Plan zur Migration nützlicher Logik aus alten Standalone-Seiten in das einheitliche ODIN Interface.',
+  hintMigrationPlan: 'Zeigt die Reihenfolge für Commit Builder, State Workspace und Control Center als interne Zonen.',
+  migrationPlanAssist: '<strong>Legacy Function Migration Plan</strong> — Roadmap vor der echten Funktionsmigration. Nächster Schritt: 199D.5 Commit Builder.'
+});
+
+
+const odinLegacyMigrationPlan199D4 = {"meta": {"system": "ODIN Interface", "module": "Legacy Function Migration Plan", "version": "V03.199D.4", "type": "LEGACY_FUNCTION_MIGRATION_PLAN_v1", "created": "2026-05-08T04:02:31.547608+00:00", "workingFolder": "dev/V03/11_PROTOTYPE_SYSTEM_UI", "templateEtalon": "dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html"}, "status": "LEGACY_FUNCTION_MIGRATION_PLAN_READY", "phase": "PHASE 0.7 — LEGACY FUNCTION MIGRATION PLAN", "activeBase": "199D", "oneMainPageRule": true, "legacyPages": [{"id": "LEGACY-COMMIT-BUILDER", "source": "dev/V03/commit_builder.html", "targetZone": "commitBuilder", "migrationStatus": "PLANNED", "extract": ["commit message builder logic", "path list / git add helper logic", "commit preview", "copy git commands", "validation of commit text"], "reject": ["standalone html shell", "separate header/sidebar", "independent styles not matching ODIN UI Matrix"]}, {"id": "LEGACY-STATE-WORKSPACE", "source": "dev/V03/state_workspace.html", "targetZone": "stateWorkspace", "migrationStatus": "PLANNED", "extract": ["state viewing logic", "state history display", "state import/export helpers", "state diff / comparison ideas", "workspace diagnostics"], "reject": ["standalone html shell", "separate navigation", "local layout duplication"]}, {"id": "LEGACY-CONTROL-CENTER", "source": "dev/V03/control_center.html", "targetZone": "controlCenter", "migrationStatus": "PLANNED", "extract": ["QA flow controls", "release/export controls", "package status display", "system status report generation", "control action validation concepts"], "reject": ["standalone control center page", "independent mini-design-system", "duplicate runtime panels"]}], "migrationRules": {"onlyActiveHtml": "dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html", "allLogicGoesTo": "dev/V03/11_PROTOTYPE_SYSTEM_UI/app.js", "allStylesGoTo": "dev/V03/11_PROTOTYPE_SYSTEM_UI/styles.css", "noNewHtmlPages": true, "preserveHeader": true, "preserveQuickSettings": true, "preserveLeftTree": true, "preserveWorkZone": true, "preserveAssistPanel": true, "preserveStatusBar": true, "legacyPagesDeleteOnlyAfterMigrationQa": true}, "implementationOrder": [{"step": "199D.5", "name": "Commit Builder Internal Function Migration", "why": "Smallest and safest legacy function to migrate first.", "expectedResult": "Commit Builder becomes a real internal tool zone."}, {"step": "199D.6", "name": "State Workspace Internal Function Migration", "why": "State Workspace prepares V04.0 Real State Engine.", "expectedResult": "State viewing/workspace logic becomes internal zone."}, {"step": "199D.7", "name": "Control Center Internal Function Migration", "why": "Control Center should orchestrate QA/release functions inside one interface.", "expectedResult": "Control Center becomes internal command/control zone."}, {"step": "199D.8", "name": "Legacy Standalone Cleanup", "why": "After successful migration QA, standalone files can be deprecated or removed.", "expectedResult": "One main page rule fully enforced."}, {"step": "V04.0", "name": "Real State Engine Bootstrap", "why": "After UI is clean and legacy zones are internal, build real state.", "expectedResult": "ODIN starts tracking real active state."}], "nextStep": "Prepare 199D.5 — Commit Builder Internal Function Migration."};
+
+
+Object.assign(i18n.ua, {
+  commitBuilderTitle: 'Commit Builder',
+  commitBuilderBody: 'Внутрішній інструмент ODIN для підготовки git-команд без переходу на окрему HTML-сторінку.',
+  commitBuilderAssist: '<strong>Commit Builder</strong> формує 3 рядки git-команд у стандарті ODIN: git add, git commit, git push.',
+  commitPathLabel: 'Шляхи для git add',
+  commitMessageLabel: 'Текст commit',
+  commitBranchLabel: 'Гілка',
+  commitBuildButton: 'Зібрати команди',
+  commitCopyButton: 'Скопіювати команди',
+  commitValidationOk: 'COMMIT_BUILDER_READY',
+  commitValidationFail: 'Потрібно вказати шлях і текст commit.'
+});
+Object.assign(i18n.en, {
+  commitBuilderTitle: 'Commit Builder',
+  commitBuilderBody: 'Internal ODIN tool for preparing git commands without opening a separate HTML page.',
+  commitBuilderAssist: '<strong>Commit Builder</strong> creates ODIN-standard 3-line git commands: git add, git commit, git push.',
+  commitPathLabel: 'Paths for git add',
+  commitMessageLabel: 'Commit message',
+  commitBranchLabel: 'Branch',
+  commitBuildButton: 'Build commands',
+  commitCopyButton: 'Copy commands',
+  commitValidationOk: 'COMMIT_BUILDER_READY',
+  commitValidationFail: 'Path and commit message are required.'
+});
+Object.assign(i18n.de, {
+  commitBuilderTitle: 'Commit Builder',
+  commitBuilderBody: 'Internes ODIN-Werkzeug zur Vorbereitung von Git-Befehlen ohne separate HTML-Seite.',
+  commitBuilderAssist: '<strong>Commit Builder</strong> erstellt ODIN-Standard-Git-Befehle in 3 Zeilen: git add, git commit, git push.',
+  commitPathLabel: 'Pfade für git add',
+  commitMessageLabel: 'Commit-Nachricht',
+  commitBranchLabel: 'Branch',
+  commitBuildButton: 'Befehle erstellen',
+  commitCopyButton: 'Befehle kopieren',
+  commitValidationOk: 'COMMIT_BUILDER_READY',
+  commitValidationFail: 'Pfad und Commit-Nachricht sind erforderlich.'
+});
+
+
 const workZone = document.getElementById('workZone');
 const assistContent = document.getElementById('assistContent');
 const modeValue = document.getElementById('modeValue');
@@ -381,9 +473,22 @@ function renderZone(zone) {
   }
 
 
+
+
+  if (zone === 'migrationPlan') {
+    workZone.innerHTML = zoneTemplate(t('migrationPlanTitle'), t('migrationPlanBody'), renderLegacyMigrationPlan199D4());
+    assistContent.innerHTML = t('migrationPlanAssist');
+  }
+
+  if (zone === 'controlCenter') {
+    workZone.innerHTML = zoneTemplate(t('controlCenterTitle'), t('controlCenterBody'), renderControlCenterIntegrationAudit());
+    assistContent.innerHTML = t('controlCenterAssist');
+  }
+
   if (zone === 'commitBuilder') {
-    workZone.innerHTML = zoneTemplate(t('commitBuilderTitle'), t('commitBuilderBody'), renderStandaloneIntegrationAudit('commitBuilder'));
+    workZone.innerHTML = zoneTemplate(t('commitBuilderTitle'), t('commitBuilderBody'), renderCommitBuilderTool());
     assistContent.innerHTML = t('commitBuilderAssist');
+    setTimeout(buildCommitCommands199D5, 0);
   }
 
   if (zone === 'stateWorkspace') {
@@ -470,6 +575,79 @@ function renderCapabilitiesRegistry() {
 
 
 
+
+function renderCommitBuilderTool() {
+  return `
+    <div class="commit-builder-tool">
+      <div class="commit-builder-grid">
+        <label>
+          <span>${t('commitPathLabel')}</span>
+          <textarea id="commitBuilderPaths" rows="5">dev/V03/11_PROTOTYPE_SYSTEM_UI/</textarea>
+        </label>
+        <label>
+          <span>${t('commitMessageLabel')}</span>
+          <input id="commitBuilderMessage" type="text" value="ODIN V03.199D.5 — інтегровано Commit Builder у головний шаблон" />
+        </label>
+        <label>
+          <span>${t('commitBranchLabel')}</span>
+          <input id="commitBuilderBranch" type="text" value="dev" />
+        </label>
+      </div>
+      <div class="commit-builder-actions">
+        <button type="button" class="primary-action" onclick="buildCommitCommands199D5()">${t('commitBuildButton')}</button>
+        <button type="button" onclick="copyCommitCommands199D5()">${t('commitCopyButton')}</button>
+      </div>
+      <div id="commitBuilderStatus" class="commit-builder-status">READY</div>
+      <pre id="commitBuilderOutput" class="commit-builder-output"></pre>
+    </div>
+  `;
+}
+
+function normalizeCommitPaths199D5(raw) {
+  return String(raw || '')
+    .split(/\n|,/)
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .join(' ');
+}
+
+function sanitizeCommitMessage199D5(message) {
+  return String(message || '').replace(/"/g, '\\"').trim();
+}
+
+function buildCommitCommands199D5() {
+  const paths = normalizeCommitPaths199D5(document.getElementById('commitBuilderPaths')?.value);
+  const message = sanitizeCommitMessage199D5(document.getElementById('commitBuilderMessage')?.value);
+  const branch = String(document.getElementById('commitBuilderBranch')?.value || 'dev').trim() || 'dev';
+  const status = document.getElementById('commitBuilderStatus');
+  const output = document.getElementById('commitBuilderOutput');
+
+  if (!paths || !message) {
+    if (status) status.textContent = t('commitValidationFail');
+    if (output) output.textContent = '';
+    return '';
+  }
+
+  const commands = `git add ${paths}\ngit commit -m "${message}"\ngit push origin ${branch}`;
+  if (status) status.textContent = t('commitValidationOk');
+  if (output) output.textContent = commands;
+  return commands;
+}
+
+async function copyCommitCommands199D5() {
+  const commands = buildCommitCommands199D5();
+  if (!commands) return;
+  try {
+    await navigator.clipboard.writeText(commands);
+    const status = document.getElementById('commitBuilderStatus');
+    if (status) status.textContent = 'COMMIT_COMMANDS_COPIED';
+  } catch (error) {
+    const status = document.getElementById('commitBuilderStatus');
+    if (status) status.textContent = 'COPY_UNAVAILABLE';
+  }
+}
+
+
 function renderStandaloneIntegrationAudit(kind) {
   const isCommit = kind === 'commitBuilder';
   const legacyFile = isCommit ? 'dev/V03/commit_builder.html' : 'dev/V03/state_workspace.html';
@@ -488,6 +666,68 @@ function renderStandaloneIntegrationAudit(kind) {
         <li>Keep UI inside existing <code>workZone</code>.</li>
         <li>Remove standalone legacy pages after successful migration.</li>
       </ol>
+    </div>
+  `;
+}
+
+
+
+function renderControlCenterIntegrationAudit() {
+  return `
+    <div class="standalone-audit-card control-center-audit-card">
+      <div class="standalone-audit-status">PHASE 0.6 — CONTROL CENTER AUDIT</div>
+      <h3>dev/V03/control_center.html</h3>
+      <p><strong>Status:</strong> LEGACY / SOURCE FOR INTEGRATION.</p>
+      <p><strong>Decision:</strong> integrate as internal zone <code>controlCenter</code>.</p>
+      <p><strong>Rule:</strong> one active page only: <code>dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html</code>.</p>
+      <p><strong>Delete now:</strong> no. First extract useful control, QA and release logic.</p>
+      <div class="audit-step-grid">
+        <article><strong>1. Audit</strong><span>Inspect legacy control_center.html in repo.</span></article>
+        <article><strong>2. Extract</strong><span>Keep logic, reject old shell/layout.</span></article>
+        <article><strong>3. Integrate</strong><span>Move functions into app.js internal zone.</span></article>
+        <article><strong>4. Normalize</strong><span>Render inside workZone using ODIN UI Matrix.</span></article>
+        <article><strong>5. Deprecate</strong><span>Remove standalone active role after migration.</span></article>
+      </div>
+    </div>
+  `;
+}
+
+
+
+function renderLegacyMigrationPlan199D4() {
+  const pages = odinLegacyMigrationPlan199D4.legacyPages.map((item) => `
+    <article class="migration-card">
+      <div class="migration-card-head">
+        <span>${escapeHtml(item.id)}</span>
+        <strong>${escapeHtml(item.migrationStatus)}</strong>
+      </div>
+      <h3>${escapeHtml(item.targetZone)}</h3>
+      <p><strong>Source:</strong> <code>${escapeHtml(item.source)}</code></p>
+      <p><strong>Extract:</strong></p>
+      <ul>${item.extract.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ul>
+      <p><strong>Reject:</strong></p>
+      <ul>${item.reject.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ul>
+    </article>
+  `).join('');
+
+  const order = odinLegacyMigrationPlan199D4.implementationOrder.map((step) => `
+    <article class="migration-step">
+      <strong>${escapeHtml(step.step)} — ${escapeHtml(step.name)}</strong>
+      <span>${escapeHtml(step.why)}</span>
+      <em>${escapeHtml(step.expectedResult)}</em>
+    </article>
+  `).join('');
+
+  return `
+    <div class="migration-plan">
+      <div class="migration-lock">
+        <strong>ONE MAIN PAGE RULE</strong>
+        <span>${escapeHtml(odinLegacyMigrationPlan199D4.migrationRules.onlyActiveHtml)}</span>
+      </div>
+      <h3>Legacy pages</h3>
+      <div class="migration-grid">${pages}</div>
+      <h3>Implementation order</h3>
+      <div class="migration-steps">${order}</div>
     </div>
   `;
 }

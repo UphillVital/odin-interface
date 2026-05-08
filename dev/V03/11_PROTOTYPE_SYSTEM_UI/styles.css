@@ -842,3 +842,170 @@ body {
 .standalone-audit-card li {
   margin: 6px 0;
 }
+
+/* ODIN V03.199D.3 — Control Center Integration Audit */
+.control-center-audit-card .audit-step-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.control-center-audit-card .audit-step-grid article {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.control-center-audit-card .audit-step-grid strong,
+.control-center-audit-card .audit-step-grid span {
+  display: block;
+}
+
+.control-center-audit-card .audit-step-grid span {
+  margin-top: 6px;
+  color: var(--muted);
+}
+
+/* ODIN V03.199D.4 — Legacy Function Migration Plan */
+.migration-lock {
+  border: 1px solid var(--border);
+  background: var(--accent-soft);
+  color: var(--text);
+  border-radius: 18px;
+  padding: 14px;
+  margin: 16px 0;
+}
+
+.migration-lock strong,
+.migration-lock span {
+  display: block;
+}
+
+.migration-lock span {
+  margin-top: 6px;
+  font-weight: 800;
+}
+
+.migration-grid,
+.migration-steps {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.migration-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.migration-card,
+.migration-step {
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.migration-card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.migration-card-head span,
+.migration-card-head strong {
+  border-radius: 999px;
+  padding: 4px 9px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.migration-step strong,
+.migration-step span,
+.migration-step em {
+  display: block;
+}
+
+.migration-step span {
+  margin-top: 6px;
+  color: var(--muted);
+}
+
+.migration-step em {
+  margin-top: 6px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* ODIN V03.199D.5 — Commit Builder Internal Tool */
+.commit-builder-tool {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.commit-builder-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.commit-builder-grid label {
+  display: grid;
+  gap: 6px;
+  font-weight: 700;
+}
+
+.commit-builder-grid input,
+.commit-builder-grid textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text);
+  padding: 12px;
+  font: inherit;
+}
+
+.commit-builder-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.commit-builder-actions button {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.commit-builder-actions .primary-action {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.commit-builder-status {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.commit-builder-output {
+  white-space: pre-wrap;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+  background: var(--surface-soft);
+  color: var(--text);
+  overflow: auto;
+}
