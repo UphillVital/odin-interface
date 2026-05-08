@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Legacy Standalone Cleanup",
+    "version": "V03.199D.8",
+    "type": "LEGACY_STANDALONE_CLEANUP_v1",
+    "created": "2026-05-08T04:49:47.444360+00:00"
+  },
+  "phase": "PHASE 1.1 — LEGACY STANDALONE CLEANUP",
+  "activeBase": "199D",
+  "oneMainPageRule": {
+    "active": true,
+    "mainPage": "dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html"
+  },
+  "legacyStandalonePages": [
+    {
+      "file": "dev/V03/commit_builder.html",
+      "status": "DEPRECATED_REMOVABLE",
+      "replacement": "internal zone: commitBuilder"
+    },
+    {
+      "file": "dev/V03/state_workspace.html",
+      "status": "DEPRECATED_REMOVABLE",
+      "replacement": "internal zone: stateWorkspace"
+    },
+    {
+      "file": "dev/V03/control_center.html",
+      "status": "DEPRECATED_REMOVABLE",
+      "replacement": "internal zone: controlCenter"
+    }
+  ],
+  "systemState": {
+    "commitBuilder": "INTERNAL_ZONE_READY",
+    "stateWorkspace": "INTERNAL_ZONE_READY",
+    "controlCenter": "INTERNAL_ZONE_READY",
+    "legacyStandaloneRole": "REMOVED_FROM_ACTIVE_ARCHITECTURE"
+  },
+  "nextPhase": {
+    "version": "V04.0",
+    "name": "REAL STATE ENGINE BOOTSTRAP",
+    "goal": [
+      "real active state",
+      "runtime foundation",
+      "state persistence",
+      "state replay",
+      "live execution graph"
+    ]
+  }
+}
