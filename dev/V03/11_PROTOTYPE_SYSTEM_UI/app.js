@@ -792,6 +792,51 @@ Object.assign(i18n.de, {
 const odinLiveStateDbV048Base = {"schema": "ODIN_LIVE_STATE_DB_v1", "version": "V04.8.0", "created": "2026-05-08T17:12:00.593899+00:00", "status": "LIVE_STATE_DB_READY", "phase": "V04.8 — LIVE STATE DB", "activeBase": "199D", "safety": {"mode": "LOCAL_UI_MEMORY_ONLY", "backendRequired": false, "networkAllowed": false, "fileWritesAllowed": false}, "tables": [{"id": "active_state", "name": "Active State", "records": [{"key": "activeBase", "value": "199D", "type": "string"}, {"key": "currentPhase", "value": "V04.8 — LIVE STATE DB", "type": "string"}, {"key": "nextPhase", "value": "V04.9 — Real Runtime Core", "type": "string"}]}, {"id": "runtime_modules", "name": "Runtime Modules", "records": [{"key": "stateEngine", "value": "ACTIVE", "type": "module"}, {"key": "executionEngine", "value": "ACTIVE", "type": "module"}, {"key": "eventBus", "value": "ACTIVE", "type": "module"}]}, {"id": "safety_locks", "name": "Safety Locks", "records": [{"key": "oneMainPageRule", "value": true, "type": "boolean"}, {"key": "fileWritesAllowed", "value": false, "type": "boolean"}]}], "operations": ["READ_TABLE", "QUERY_RECORD", "CREATE_SNAPSHOT", "RESTORE_PREVIEW", "COPY_DB_EXPORT"], "nextStep": "V04.9 — Real Runtime Core"};
 let odinLiveStateDbV048 = JSON.parse(JSON.stringify(odinLiveStateDbV048Base));
 
+
+Object.assign(i18n.ua, {
+  zoneRuntimeCore: 'Runtime Core',
+  runtimeCoreTitle: 'V04.9 — Real Runtime Core',
+  runtimeCoreBody: 'Обʼєднаний контрольований runtime core ODIN: state, execution, persistence, graph, replay, loop, observers, event bus, live state DB.',
+  hintRuntimeCore: 'Runtime Core показує, як усі основні шари ODIN працюють як одна контрольована система.',
+  runtimeCoreAssist: '<strong>Real Runtime Core</strong> — перше зведення V04-шарів в один контрольований runtime. Режим: CONTROLLED_UI_RUNTIME.',
+  runtimeCoreHealth: 'Run Runtime Health',
+  runtimeCoreShowLayers: 'Show Core Layers',
+  runtimeCoreShowFlow: 'Show Runtime Flow',
+  runtimeCoreTrace: 'Create Runtime Trace',
+  runtimeCoreCopy: 'Copy Runtime Snapshot',
+  runtimeCoreReset: 'Reset Runtime View'
+});
+Object.assign(i18n.en, {
+  zoneRuntimeCore: 'Runtime Core',
+  runtimeCoreTitle: 'V04.9 — Real Runtime Core',
+  runtimeCoreBody: 'Unified controlled ODIN runtime core: state, execution, persistence, graph, replay, loop, observers, event bus, live state DB.',
+  hintRuntimeCore: 'Runtime Core shows how all main ODIN layers work as one controlled system.',
+  runtimeCoreAssist: '<strong>Real Runtime Core</strong> — first consolidation of V04 layers into one controlled runtime. Mode: CONTROLLED_UI_RUNTIME.',
+  runtimeCoreHealth: 'Run Runtime Health',
+  runtimeCoreShowLayers: 'Show Core Layers',
+  runtimeCoreShowFlow: 'Show Runtime Flow',
+  runtimeCoreTrace: 'Create Runtime Trace',
+  runtimeCoreCopy: 'Copy Runtime Snapshot',
+  runtimeCoreReset: 'Reset Runtime View'
+});
+Object.assign(i18n.de, {
+  zoneRuntimeCore: 'Runtime Core',
+  runtimeCoreTitle: 'V04.9 — Real Runtime Core',
+  runtimeCoreBody: 'Vereinheitlichter kontrollierter ODIN Runtime Core: State, Execution, Persistence, Graph, Replay, Loop, Observers, Event Bus, Live State DB.',
+  hintRuntimeCore: 'Runtime Core zeigt, wie alle ODIN-Hauptschichten als ein kontrolliertes System arbeiten.',
+  runtimeCoreAssist: '<strong>Real Runtime Core</strong> — erste Konsolidierung der V04-Schichten in eine kontrollierte Runtime. Modus: CONTROLLED_UI_RUNTIME.',
+  runtimeCoreHealth: 'Runtime Health starten',
+  runtimeCoreShowLayers: 'Core Layers anzeigen',
+  runtimeCoreShowFlow: 'Runtime Flow anzeigen',
+  runtimeCoreTrace: 'Runtime Trace erstellen',
+  runtimeCoreCopy: 'Runtime Snapshot kopieren',
+  runtimeCoreReset: 'Runtime View zurücksetzen'
+});
+
+
+const odinRuntimeCoreV049Base = {"schema": "ODIN_REAL_RUNTIME_CORE_v1", "version": "V04.9.0", "created": "2026-05-08T18:04:28.674452+00:00", "status": "REAL_RUNTIME_CORE_READY", "phase": "V04.9 — REAL RUNTIME CORE", "activeBase": "199D", "safety": {"mode": "CONTROLLED_UI_RUNTIME", "backendRequired": false, "networkAllowed": false, "fileWritesAllowed": false, "destructiveActionsAllowed": false, "humanApprovalRequiredForWrites": true}, "coreLayers": [{"id": "state", "name": "Real State Engine", "status": "ACTIVE"}, {"id": "execution", "name": "Real Execution Engine", "status": "ACTIVE"}, {"id": "persistence", "name": "Persistence Layer", "status": "BOOTSTRAP"}, {"id": "graph", "name": "Live Runtime Graph", "status": "ACTIVE"}, {"id": "recovery", "name": "Recovery Replay Engine", "status": "ACTIVE"}, {"id": "loop", "name": "Autonomous Loop", "status": "SAFE_OBSERVATION_ONLY"}, {"id": "observers", "name": "Observer System", "status": "ACTIVE"}, {"id": "events", "name": "Event Bus", "status": "SAFE_INTERNAL_ONLY"}, {"id": "db", "name": "Live State DB", "status": "LOCAL_UI_MEMORY_ONLY"}, {"id": "files", "name": "File Workspace", "status": "EDITOR_UNLOCKED"}], "runtimeFlow": ["INPUT", "EVENT", "VALIDATION", "EXECUTION_REQUEST", "STATE_READ", "OBSERVER_CHECK", "RESULT", "TRACE", "HUMAN_APPROVAL_GATE"], "healthChecks": ["core layers registered", "one main page rule", "safe runtime mode", "file editor unlocked", "html diff fix preserved", "event bus ready", "observer system ready", "recovery replay ready"], "nextStep": "V04.10 — Runtime Core QA Lock"};
+let odinRuntimeCoreTraceV049 = [];
+
 const workZone = document.getElementById('workZone');
 const assistContent = document.getElementById('assistContent');
 const modeValue = document.getElementById('modeValue');
@@ -951,6 +996,13 @@ function renderZone(zone) {
 
 
 
+
+
+  if (zone === 'runtimeCore') {
+    workZone.innerHTML = zoneTemplate(t('runtimeCoreTitle'), t('runtimeCoreBody'), renderRuntimeCoreV049());
+    assistContent.innerHTML = t('runtimeCoreAssist');
+    setTimeout(runRuntimeCoreHealthV049, 0);
+  }
 
   if (zone === 'liveStateDb') {
     workZone.innerHTML = zoneTemplate(t('liveStateDbTitle'), t('liveStateDbBody'), renderLiveStateDbV048());
@@ -1169,6 +1221,123 @@ function cloneStateWorkspace199D6() {
 
 
 
+
+
+
+function renderRuntimeCoreV049() {
+  const layers = odinRuntimeCoreV049Base.coreLayers.map((layer) => `
+    <article class="runtime-core-layer">
+      <span>${escapeHtml(layer.id)}</span>
+      <strong>${escapeHtml(layer.name)}</strong>
+      <em>${escapeHtml(layer.status)}</em>
+    </article>
+  `).join('');
+
+  const flow = odinRuntimeCoreV049Base.runtimeFlow.map((step) => `<span>${escapeHtml(step)}</span>`).join('');
+
+  return `
+    <div class="runtime-core-tool">
+      <div class="runtime-core-safety">
+        <strong>${escapeHtml(odinRuntimeCoreV049Base.safety.mode)}</strong>
+        <span>fileWritesAllowed = ${escapeHtml(String(odinRuntimeCoreV049Base.safety.fileWritesAllowed))}</span>
+        <span>humanApprovalRequiredForWrites = ${escapeHtml(String(odinRuntimeCoreV049Base.safety.humanApprovalRequiredForWrites))}</span>
+      </div>
+
+      <div class="runtime-core-summary">
+        <article><span>STATUS</span><strong>${escapeHtml(odinRuntimeCoreV049Base.status)}</strong></article>
+        <article><span>LAYERS</span><strong>${escapeHtml(String(odinRuntimeCoreV049Base.coreLayers.length))}</strong></article>
+        <article><span>FLOW STEPS</span><strong>${escapeHtml(String(odinRuntimeCoreV049Base.runtimeFlow.length))}</strong></article>
+        <article><span>NEXT</span><strong>${escapeHtml(odinRuntimeCoreV049Base.nextStep)}</strong></article>
+      </div>
+
+      <div class="runtime-core-actions">
+        <button type="button" class="primary-action" onclick="runRuntimeCoreHealthV049()">${t('runtimeCoreHealth')}</button>
+        <button type="button" onclick="showRuntimeCoreLayersV049()">${t('runtimeCoreShowLayers')}</button>
+        <button type="button" onclick="showRuntimeCoreFlowV049()">${t('runtimeCoreShowFlow')}</button>
+        <button type="button" onclick="createRuntimeCoreTraceV049()">${t('runtimeCoreTrace')}</button>
+        <button type="button" onclick="copyRuntimeCoreSnapshotV049()">${t('runtimeCoreCopy')}</button>
+        <button type="button" onclick="resetRuntimeCoreViewV049()">${t('runtimeCoreReset')}</button>
+      </div>
+
+      <div class="runtime-core-flow">${flow}</div>
+      <div class="runtime-core-layer-list">${layers}</div>
+      <div id="runtimeCoreStatus" class="runtime-core-status">REAL_RUNTIME_CORE_READY</div>
+      <pre id="runtimeCoreOutput" class="runtime-core-output"></pre>
+    </div>
+  `;
+}
+
+function writeRuntimeCoreOutputV049(payload, status) {
+  const output = document.getElementById('runtimeCoreOutput');
+  const statusEl = document.getElementById('runtimeCoreStatus');
+  if (output) output.textContent = JSON.stringify(payload, null, 2);
+  if (statusEl) statusEl.textContent = status || payload.status || 'READY';
+}
+
+function runRuntimeCoreHealthV049() {
+  const result = {
+    status: 'RUNTIME_CORE_HEALTH_PASSED',
+    checks: [
+      { id: 'CORE-001', name: 'core layers registered', pass: odinRuntimeCoreV049Base.coreLayers.length >= 10 },
+      { id: 'CORE-002', name: 'safe runtime mode', pass: odinRuntimeCoreV049Base.safety.mode === 'CONTROLLED_UI_RUNTIME' },
+      { id: 'CORE-003', name: 'file writes disabled', pass: odinRuntimeCoreV049Base.safety.fileWritesAllowed === false },
+      { id: 'CORE-004', name: 'human approval gate', pass: odinRuntimeCoreV049Base.safety.humanApprovalRequiredForWrites === true },
+      { id: 'CORE-005', name: 'runtime flow defined', pass: odinRuntimeCoreV049Base.runtimeFlow.length > 0 }
+    ]
+  };
+  result.passed = result.checks.every((check) => check.pass);
+  result.status = result.passed ? 'RUNTIME_CORE_HEALTH_PASSED' : 'RUNTIME_CORE_HEALTH_FAILED';
+  writeRuntimeCoreOutputV049(result, result.status);
+}
+
+function showRuntimeCoreLayersV049() {
+  writeRuntimeCoreOutputV049({
+    status: 'RUNTIME_CORE_LAYERS_READY',
+    layers: odinRuntimeCoreV049Base.coreLayers
+  }, 'RUNTIME_CORE_LAYERS_READY');
+}
+
+function showRuntimeCoreFlowV049() {
+  writeRuntimeCoreOutputV049({
+    status: 'RUNTIME_CORE_FLOW_READY',
+    flow: odinRuntimeCoreV049Base.runtimeFlow
+  }, 'RUNTIME_CORE_FLOW_READY');
+}
+
+function createRuntimeCoreTraceV049() {
+  const trace = {
+    time: new Date().toISOString(),
+    status: 'RUNTIME_CORE_TRACE_READY',
+    flow: odinRuntimeCoreV049Base.runtimeFlow,
+    mode: odinRuntimeCoreV049Base.safety.mode
+  };
+  odinRuntimeCoreTraceV049.push(trace);
+  writeRuntimeCoreOutputV049({
+    status: 'RUNTIME_CORE_TRACE_READY',
+    trace,
+    history: odinRuntimeCoreTraceV049
+  }, 'RUNTIME_CORE_TRACE_READY');
+}
+
+async function copyRuntimeCoreSnapshotV049() {
+  const snapshot = {
+    status: 'RUNTIME_CORE_SNAPSHOT_READY',
+    created: new Date().toISOString(),
+    core: odinRuntimeCoreV049Base,
+    trace: odinRuntimeCoreTraceV049
+  };
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(snapshot, null, 2));
+    writeRuntimeCoreOutputV049(snapshot, 'RUNTIME_CORE_SNAPSHOT_COPIED');
+  } catch (error) {
+    writeRuntimeCoreOutputV049(snapshot, 'COPY_UNAVAILABLE');
+  }
+}
+
+function resetRuntimeCoreViewV049() {
+  odinRuntimeCoreTraceV049 = [];
+  writeRuntimeCoreOutputV049(odinRuntimeCoreV049Base, 'REAL_RUNTIME_CORE_READY');
+}
 
 
 function renderLiveStateDbV048() {

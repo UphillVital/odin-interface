@@ -1862,3 +1862,113 @@ body {
   padding: 10px 12px;
   font-weight: 800;
 }
+
+/* ODIN V04.9 — Real Runtime Core */
+.runtime-core-tool {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.runtime-core-safety,
+.runtime-core-summary article,
+.runtime-core-layer {
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.runtime-core-safety strong,
+.runtime-core-safety span,
+.runtime-core-summary span,
+.runtime-core-summary strong,
+.runtime-core-layer span,
+.runtime-core-layer strong,
+.runtime-core-layer em {
+  display: block;
+}
+
+.runtime-core-safety span,
+.runtime-core-summary span,
+.runtime-core-layer span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  margin-top: 6px;
+}
+
+.runtime-core-summary,
+.runtime-core-layer-list {
+  display: grid;
+  gap: 12px;
+}
+
+.runtime-core-summary {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.runtime-core-layer em {
+  margin-top: 8px;
+  font-style: normal;
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.runtime-core-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.runtime-core-flow span {
+  border: 1px solid var(--border);
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.runtime-core-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.runtime-core-actions button {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.runtime-core-actions .primary-action {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.runtime-core-status {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.runtime-core-output {
+  white-space: pre-wrap;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+  background: var(--surface-soft);
+  color: var(--text);
+  overflow: auto;
+}
