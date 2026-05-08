@@ -1,0 +1,37 @@
+{
+  "schema": "ODIN_RECOVERY_REPLAY_ENGINE_v1",
+  "version": "V04.4.0",
+  "created": "2026-05-08T10:59:14.018374+00:00",
+  "status": "RECOVERY_REPLAY_ENGINE_READY",
+  "phase": "V04.4 — RECOVERY REPLAY ENGINE",
+  "activeBase": "199D",
+  "capabilities": [
+    "snapshot creation",
+    "replay plan generation",
+    "rollback preview",
+    "recovery validation"
+  ],
+  "snapshots": [
+    {
+      "id": "SNAP-199D",
+      "name": "Last Clean Foundation",
+      "source": "ODIN_V03_PACKAGE_199D_SECURE_EXPORT_RELEASE_QA_GATE_V1.zip",
+      "status": "PRIMARY"
+    },
+    {
+      "id": "SNAP-V04.3",
+      "name": "Live Runtime Graph Checkpoint",
+      "source": "ODIN_V04_3_LIVE_RUNTIME_GRAPH_V1.zip",
+      "status": "CURRENT"
+    }
+  ],
+  "replayFlow": [
+    "LOAD_SNAPSHOT",
+    "VALIDATE_STATE",
+    "REPLAY_EVENTS",
+    "CHECK_REGISTRIES",
+    "VERIFY_UI_MATRIX",
+    "REPORT_RECOVERY_STATUS"
+  ],
+  "nextStep": "V04.5 — Autonomous Loop"
+}

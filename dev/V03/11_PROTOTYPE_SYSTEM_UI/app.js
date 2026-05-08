@@ -535,6 +535,85 @@ Object.assign(i18n.de, {
 });
 
 
+
+Object.assign(i18n.ua, {
+  zoneRuntimeGraph: 'Runtime Graph',
+  runtimeGraphTitle: 'V04.3 — Live Runtime Graph',
+  runtimeGraphBody: 'Візуальна карта звʼязків між State Engine, Execution Engine, Persistence Layer, Registry, Rollback і внутрішніми зонами.',
+  hintRuntimeGraph: 'Live Runtime Graph показує, як основні частини ODIN повʼязані між собою.',
+  runtimeGraphAssist: '<strong>Live Runtime Graph</strong> — перший живий огляд архітектури ODIN. Наступний крок: Recovery Replay Engine.',
+  graphShowNodes: 'Показати Nodes',
+  graphShowEdges: 'Показати Edges',
+  graphRunHealth: 'Graph Health Check',
+  graphCopy: 'Copy Graph Snapshot'
+});
+Object.assign(i18n.en, {
+  zoneRuntimeGraph: 'Runtime Graph',
+  runtimeGraphTitle: 'V04.3 — Live Runtime Graph',
+  runtimeGraphBody: 'Visual map of links between State Engine, Execution Engine, Persistence Layer, Registry, Rollback and internal zones.',
+  hintRuntimeGraph: 'Live Runtime Graph shows how main ODIN parts are connected.',
+  runtimeGraphAssist: '<strong>Live Runtime Graph</strong> — first live overview of ODIN architecture. Next step: Recovery Replay Engine.',
+  graphShowNodes: 'Show Nodes',
+  graphShowEdges: 'Show Edges',
+  graphRunHealth: 'Graph Health Check',
+  graphCopy: 'Copy Graph Snapshot'
+});
+Object.assign(i18n.de, {
+  zoneRuntimeGraph: 'Runtime Graph',
+  runtimeGraphTitle: 'V04.3 — Live Runtime Graph',
+  runtimeGraphBody: 'Visuelle Karte der Verbindungen zwischen State Engine, Execution Engine, Persistence Layer, Registry, Rollback und internen Zonen.',
+  hintRuntimeGraph: 'Live Runtime Graph zeigt, wie ODIN-Hauptteile verbunden sind.',
+  runtimeGraphAssist: '<strong>Live Runtime Graph</strong> — erster Live-Überblick der ODIN-Architektur. Nächster Schritt: Recovery Replay Engine.',
+  graphShowNodes: 'Nodes anzeigen',
+  graphShowEdges: 'Edges anzeigen',
+  graphRunHealth: 'Graph Health Check',
+  graphCopy: 'Graph Snapshot kopieren'
+});
+
+
+const odinRuntimeGraphV043 = {"schema": "ODIN_LIVE_RUNTIME_GRAPH_v1", "version": "V04.3.0", "created": "2026-05-08T06:21:58.445345+00:00", "status": "LIVE_RUNTIME_GRAPH_READY", "phase": "V04.3 — LIVE RUNTIME GRAPH", "activeBase": "199D", "nodes": [{"id": "stateEngine", "label": "Real State Engine", "status": "ACTIVE", "type": "core"}, {"id": "executionEngine", "label": "Real Execution Engine", "status": "ACTIVE", "type": "runtime"}, {"id": "persistenceLayer", "label": "Persistence Layer", "status": "BOOTSTRAP", "type": "storage"}, {"id": "moduleRegistry", "label": "Module Registry", "status": "ACTIVE", "type": "registry"}, {"id": "packageRegistry", "label": "Package Registry", "status": "ACTIVE", "type": "registry"}, {"id": "rollbackPoints", "label": "Rollback Points", "status": "ACTIVE", "type": "recovery"}, {"id": "commitBuilder", "label": "Commit Builder", "status": "INTERNAL_ZONE", "type": "tool"}, {"id": "stateWorkspace", "label": "State Workspace", "status": "INTERNAL_ZONE", "type": "tool"}, {"id": "controlCenter", "label": "Control Center", "status": "INTERNAL_ZONE", "type": "tool"}, {"id": "htmlDiffFix", "label": "HTML Diff Fix", "status": "APPLIED", "type": "fix"}], "edges": [{"from": "stateEngine", "to": "moduleRegistry", "relation": "reads/writes"}, {"from": "stateEngine", "to": "packageRegistry", "relation": "tracks"}, {"from": "stateEngine", "to": "rollbackPoints", "relation": "protects"}, {"from": "executionEngine", "to": "stateEngine", "relation": "updates"}, {"from": "executionEngine", "to": "persistenceLayer", "relation": "logs"}, {"from": "persistenceLayer", "to": "stateEngine", "relation": "persists"}, {"from": "controlCenter", "to": "executionEngine", "relation": "orchestrates"}, {"from": "stateWorkspace", "to": "stateEngine", "relation": "views"}, {"from": "commitBuilder", "to": "packageRegistry", "relation": "release support"}, {"from": "htmlDiffFix", "to": "stateWorkspace", "relation": "file workspace repair"}], "nextStep": "V04.4 — Recovery Replay Engine"};
+
+
+Object.assign(i18n.ua, {
+  zoneRecoveryReplay: 'Recovery Replay',
+  recoveryReplayTitle: 'V04.4 — Recovery Replay Engine',
+  recoveryReplayBody: 'Перший recovery/replay layer ODIN: snapshots, replay plan, rollback preview, recovery validation.',
+  hintRecoveryReplay: 'Recovery Replay показує, як ODIN може відновлювати стан через snapshots і replay.',
+  recoveryReplayAssist: '<strong>Recovery Replay Engine</strong> — міст до справжнього restore/rollback. Наступний крок: Autonomous Loop.',
+  recoveryShowSnapshots: 'Показати Snapshots',
+  recoveryGenerateReplay: 'Generate Replay Plan',
+  recoveryRollbackPreview: 'Rollback Preview',
+  recoveryValidate: 'Recovery Validation',
+  recoveryCopy: 'Copy Recovery Snapshot'
+});
+Object.assign(i18n.en, {
+  zoneRecoveryReplay: 'Recovery Replay',
+  recoveryReplayTitle: 'V04.4 — Recovery Replay Engine',
+  recoveryReplayBody: 'First ODIN recovery/replay layer: snapshots, replay plan, rollback preview, recovery validation.',
+  hintRecoveryReplay: 'Recovery Replay shows how ODIN can restore state through snapshots and replay.',
+  recoveryReplayAssist: '<strong>Recovery Replay Engine</strong> — bridge to real restore/rollback. Next step: Autonomous Loop.',
+  recoveryShowSnapshots: 'Show Snapshots',
+  recoveryGenerateReplay: 'Generate Replay Plan',
+  recoveryRollbackPreview: 'Rollback Preview',
+  recoveryValidate: 'Recovery Validation',
+  recoveryCopy: 'Copy Recovery Snapshot'
+});
+Object.assign(i18n.de, {
+  zoneRecoveryReplay: 'Recovery Replay',
+  recoveryReplayTitle: 'V04.4 — Recovery Replay Engine',
+  recoveryReplayBody: 'Erster ODIN Recovery/Replay Layer: Snapshots, Replay Plan, Rollback Preview, Recovery Validation.',
+  hintRecoveryReplay: 'Recovery Replay zeigt, wie ODIN Zustand über Snapshots und Replay wiederherstellen kann.',
+  recoveryReplayAssist: '<strong>Recovery Replay Engine</strong> — Brücke zu echtem Restore/Rollback. Nächster Schritt: Autonomous Loop.',
+  recoveryShowSnapshots: 'Snapshots anzeigen',
+  recoveryGenerateReplay: 'Replay Plan erstellen',
+  recoveryRollbackPreview: 'Rollback Preview',
+  recoveryValidate: 'Recovery Validation',
+  recoveryCopy: 'Recovery Snapshot kopieren'
+});
+
+
+const odinRecoveryReplayV044 = {"schema": "ODIN_RECOVERY_REPLAY_ENGINE_v1", "version": "V04.4.0", "created": "2026-05-08T10:59:14.018374+00:00", "status": "RECOVERY_REPLAY_ENGINE_READY", "phase": "V04.4 — RECOVERY REPLAY ENGINE", "activeBase": "199D", "capabilities": ["snapshot creation", "replay plan generation", "rollback preview", "recovery validation"], "snapshots": [{"id": "SNAP-199D", "name": "Last Clean Foundation", "source": "ODIN_V03_PACKAGE_199D_SECURE_EXPORT_RELEASE_QA_GATE_V1.zip", "status": "PRIMARY"}, {"id": "SNAP-V04.3", "name": "Live Runtime Graph Checkpoint", "source": "ODIN_V04_3_LIVE_RUNTIME_GRAPH_V1.zip", "status": "CURRENT"}], "replayFlow": ["LOAD_SNAPSHOT", "VALIDATE_STATE", "REPLAY_EVENTS", "CHECK_REGISTRIES", "VERIFY_UI_MATRIX", "REPORT_RECOVERY_STATUS"], "nextStep": "V04.5 — Autonomous Loop"};
+
 const workZone = document.getElementById('workZone');
 const assistContent = document.getElementById('assistContent');
 const modeValue = document.getElementById('modeValue');
@@ -688,6 +767,20 @@ function renderZone(zone) {
   }
 
 
+
+
+
+  if (zone === 'recoveryReplay') {
+    workZone.innerHTML = zoneTemplate(t('recoveryReplayTitle'), t('recoveryReplayBody'), renderRecoveryReplayV044());
+    assistContent.innerHTML = t('recoveryReplayAssist');
+    setTimeout(validateRecoveryV044, 0);
+  }
+
+  if (zone === 'runtimeGraph') {
+    workZone.innerHTML = zoneTemplate(t('runtimeGraphTitle'), t('runtimeGraphBody'), renderRuntimeGraphV043());
+    assistContent.innerHTML = t('runtimeGraphAssist');
+    setTimeout(runRuntimeGraphHealthV043, 0);
+  }
 
   if (zone === 'executionEngine') {
     workZone.innerHTML = zoneTemplate(t('executionEngineTitle'), t('executionEngineBody'), renderExecutionEngineV041());
@@ -864,6 +957,183 @@ function cloneStateWorkspace199D6() {
   return JSON.parse(JSON.stringify(odinStateWorkspace199D6));
 }
 
+
+
+
+
+function renderRecoveryReplayV044() {
+  const flow = odinRecoveryReplayV044.replayFlow.map((step) => `<span>${escapeHtml(step)}</span>`).join('');
+  const snapshots = odinRecoveryReplayV044.snapshots.map((snap) => `
+    <article class="recovery-snapshot-card">
+      <span>${escapeHtml(snap.id)}</span>
+      <strong>${escapeHtml(snap.name)}</strong>
+      <em>${escapeHtml(snap.status)}</em>
+      <code>${escapeHtml(snap.source)}</code>
+    </article>
+  `).join('');
+
+  return `
+    <div class="recovery-replay-tool">
+      <div class="recovery-summary">
+        <article><span>STATUS</span><strong>${escapeHtml(odinRecoveryReplayV044.status)}</strong></article>
+        <article><span>SNAPSHOTS</span><strong>${escapeHtml(String(odinRecoveryReplayV044.snapshots.length))}</strong></article>
+        <article><span>FLOW STEPS</span><strong>${escapeHtml(String(odinRecoveryReplayV044.replayFlow.length))}</strong></article>
+        <article><span>NEXT</span><strong>${escapeHtml(odinRecoveryReplayV044.nextStep)}</strong></article>
+      </div>
+
+      <div class="recovery-flow">${flow}</div>
+
+      <div class="recovery-actions">
+        <button type="button" class="primary-action" onclick="showRecoverySnapshotsV044()">${t('recoveryShowSnapshots')}</button>
+        <button type="button" onclick="generateRecoveryReplayPlanV044()">${t('recoveryGenerateReplay')}</button>
+        <button type="button" onclick="rollbackPreviewV044()">${t('recoveryRollbackPreview')}</button>
+        <button type="button" onclick="validateRecoveryV044()">${t('recoveryValidate')}</button>
+        <button type="button" onclick="copyRecoverySnapshotV044()">${t('recoveryCopy')}</button>
+      </div>
+
+      <div class="recovery-snapshot-list">${snapshots}</div>
+      <div id="recoveryReplayStatus" class="recovery-status">RECOVERY_REPLAY_ENGINE_READY</div>
+      <pre id="recoveryReplayOutput" class="recovery-output"></pre>
+    </div>
+  `;
+}
+
+function writeRecoveryReplayOutputV044(payload, status) {
+  const output = document.getElementById('recoveryReplayOutput');
+  const statusEl = document.getElementById('recoveryReplayStatus');
+  if (output) output.textContent = JSON.stringify(payload, null, 2);
+  if (statusEl) statusEl.textContent = status || payload.status || 'READY';
+}
+
+function showRecoverySnapshotsV044() {
+  writeRecoveryReplayOutputV044({ status: 'RECOVERY_SNAPSHOTS_READY', snapshots: odinRecoveryReplayV044.snapshots }, 'RECOVERY_SNAPSHOTS_READY');
+}
+
+function generateRecoveryReplayPlanV044() {
+  const plan = { status: 'RECOVERY_REPLAY_PLAN_READY', created: new Date().toISOString(), flow: odinRecoveryReplayV044.replayFlow, targetSnapshot: 'SNAP-V04.3', validationRequired: true };
+  writeRecoveryReplayOutputV044(plan, plan.status);
+}
+
+function rollbackPreviewV044() {
+  const preview = { status: 'ROLLBACK_PREVIEW_READY', rollbackTarget: 'SNAP-199D', currentSnapshot: 'SNAP-V04.3', mode: 'PREVIEW_ONLY', destructiveAction: false };
+  writeRecoveryReplayOutputV044(preview, preview.status);
+}
+
+function validateRecoveryV044() {
+  const result = {
+    status: 'RECOVERY_VALIDATION_PASSED',
+    checks: [
+      { id: 'REC-001', name: 'snapshots exist', pass: odinRecoveryReplayV044.snapshots.length > 0 },
+      { id: 'REC-002', name: 'replay flow exists', pass: odinRecoveryReplayV044.replayFlow.length > 0 },
+      { id: 'REC-003', name: 'active base known', pass: odinRecoveryReplayV044.activeBase === '199D' },
+      { id: 'REC-004', name: 'next step defined', pass: !!odinRecoveryReplayV044.nextStep }
+    ]
+  };
+  result.passed = result.checks.every((check) => check.pass);
+  result.status = result.passed ? 'RECOVERY_VALIDATION_PASSED' : 'RECOVERY_VALIDATION_FAILED';
+  writeRecoveryReplayOutputV044(result, result.status);
+}
+
+async function copyRecoverySnapshotV044() {
+  const snapshot = { status: 'RECOVERY_SNAPSHOT_EXPORT_READY', created: new Date().toISOString(), recovery: odinRecoveryReplayV044 };
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(snapshot, null, 2));
+    writeRecoveryReplayOutputV044(snapshot, 'RECOVERY_SNAPSHOT_COPIED');
+  } catch (error) {
+    writeRecoveryReplayOutputV044(snapshot, 'COPY_UNAVAILABLE');
+  }
+}
+
+
+function renderRuntimeGraphV043() {
+  const nodes = odinRuntimeGraphV043.nodes.map((node) => `
+    <article class="runtime-node node-${escapeHtml(node.type)}">
+      <span>${escapeHtml(node.type)}</span>
+      <strong>${escapeHtml(node.label)}</strong>
+      <em>${escapeHtml(node.status)}</em>
+    </article>
+  `).join('');
+
+  const edges = odinRuntimeGraphV043.edges.map((edge) => `
+    <article class="runtime-edge">
+      <strong>${escapeHtml(edge.from)} → ${escapeHtml(edge.to)}</strong>
+      <span>${escapeHtml(edge.relation)}</span>
+    </article>
+  `).join('');
+
+  return `
+    <div class="runtime-graph-tool">
+      <div class="runtime-graph-summary">
+        <article><span>STATUS</span><strong>${escapeHtml(odinRuntimeGraphV043.status)}</strong></article>
+        <article><span>NODES</span><strong>${escapeHtml(String(odinRuntimeGraphV043.nodes.length))}</strong></article>
+        <article><span>EDGES</span><strong>${escapeHtml(String(odinRuntimeGraphV043.edges.length))}</strong></article>
+        <article><span>NEXT</span><strong>${escapeHtml(odinRuntimeGraphV043.nextStep)}</strong></article>
+      </div>
+
+      <div class="runtime-graph-actions">
+        <button type="button" class="primary-action" onclick="showRuntimeNodesV043()">${t('graphShowNodes')}</button>
+        <button type="button" onclick="showRuntimeEdgesV043()">${t('graphShowEdges')}</button>
+        <button type="button" onclick="runRuntimeGraphHealthV043()">${t('graphRunHealth')}</button>
+        <button type="button" onclick="copyRuntimeGraphSnapshotV043()">${t('graphCopy')}</button>
+      </div>
+
+      <div class="runtime-graph-map">
+        <div class="runtime-node-list">${nodes}</div>
+        <div class="runtime-edge-list">${edges}</div>
+      </div>
+
+      <div id="runtimeGraphStatus" class="runtime-graph-status">LIVE_RUNTIME_GRAPH_READY</div>
+      <pre id="runtimeGraphOutput" class="runtime-graph-output"></pre>
+    </div>
+  `;
+}
+
+function writeRuntimeGraphOutputV043(payload, status) {
+  const output = document.getElementById('runtimeGraphOutput');
+  const statusEl = document.getElementById('runtimeGraphStatus');
+  if (output) output.textContent = JSON.stringify(payload, null, 2);
+  if (statusEl) statusEl.textContent = status || payload.status || 'READY';
+}
+
+function showRuntimeNodesV043() {
+  writeRuntimeGraphOutputV043({
+    status: 'RUNTIME_GRAPH_NODES_READY',
+    nodes: odinRuntimeGraphV043.nodes
+  }, 'RUNTIME_GRAPH_NODES_READY');
+}
+
+function showRuntimeEdgesV043() {
+  writeRuntimeGraphOutputV043({
+    status: 'RUNTIME_GRAPH_EDGES_READY',
+    edges: odinRuntimeGraphV043.edges
+  }, 'RUNTIME_GRAPH_EDGES_READY');
+}
+
+function runRuntimeGraphHealthV043() {
+  const nodeIds = new Set(odinRuntimeGraphV043.nodes.map((node) => node.id));
+  const invalidEdges = odinRuntimeGraphV043.edges.filter((edge) => !nodeIds.has(edge.from) || !nodeIds.has(edge.to));
+  const result = {
+    status: invalidEdges.length ? 'RUNTIME_GRAPH_HEALTH_FAILED' : 'RUNTIME_GRAPH_HEALTH_PASSED',
+    totalNodes: odinRuntimeGraphV043.nodes.length,
+    totalEdges: odinRuntimeGraphV043.edges.length,
+    invalidEdges
+  };
+  writeRuntimeGraphOutputV043(result, result.status);
+}
+
+async function copyRuntimeGraphSnapshotV043() {
+  const snapshot = {
+    status: 'RUNTIME_GRAPH_SNAPSHOT_READY',
+    created: new Date().toISOString(),
+    graph: odinRuntimeGraphV043
+  };
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(snapshot, null, 2));
+    writeRuntimeGraphOutputV043(snapshot, 'RUNTIME_GRAPH_SNAPSHOT_COPIED');
+  } catch (error) {
+    writeRuntimeGraphOutputV043(snapshot, 'COPY_UNAVAILABLE');
+  }
+}
 
 
 function renderExecutionEngineV041() {
