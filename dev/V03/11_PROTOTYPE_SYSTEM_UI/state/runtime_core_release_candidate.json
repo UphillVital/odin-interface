@@ -1,0 +1,76 @@
+{
+  "schema": "ODIN_RUNTIME_CORE_RELEASE_CANDIDATE_v1",
+  "version": "V04.11.0",
+  "created": "2026-05-08T18:55:21.182107+00:00",
+  "status": "RUNTIME_CORE_RELEASE_CANDIDATE_READY",
+  "phase": "V04.11 — RUNTIME CORE RELEASE CANDIDATE",
+  "activeBase": "199D",
+  "candidateName": "ODIN V04 Runtime Core RC1",
+  "includedStack": [
+    "Real State Engine",
+    "Real Execution Engine",
+    "Persistence Layer",
+    "Live Runtime Graph",
+    "Recovery Replay Engine",
+    "Autonomous Loop",
+    "Observer System",
+    "Event Bus",
+    "Live State DB",
+    "Real Runtime Core",
+    "Runtime Core QA Lock",
+    "File Workspace HTML Diff Fix",
+    "File Workspace Editor Unlock"
+  ],
+  "releaseProfile": {
+    "mode": "CONTROLLED_RELEASE_CANDIDATE",
+    "standaloneHtmlAllowed": false,
+    "activeHtmlPage": "dev/V03/11_PROTOTYPE_SYSTEM_UI/index.html",
+    "networkRequired": false,
+    "fileWritesAllowed": false,
+    "humanApprovalRequiredForWrites": true,
+    "readyForRcTesting": true
+  },
+  "rcChecks": [
+    {
+      "id": "RC-001",
+      "name": "RC stack complete",
+      "expected": "PASS"
+    },
+    {
+      "id": "RC-002",
+      "name": "Runtime Core QA passed",
+      "expected": "PASS"
+    },
+    {
+      "id": "RC-003",
+      "name": "Runtime health passed",
+      "expected": "PASS"
+    },
+    {
+      "id": "RC-004",
+      "name": "Event Bus dispatch works",
+      "expected": "PASS"
+    },
+    {
+      "id": "RC-005",
+      "name": "Observer report works",
+      "expected": "PASS"
+    },
+    {
+      "id": "RC-006",
+      "name": "Live State DB works",
+      "expected": "PASS"
+    },
+    {
+      "id": "RC-007",
+      "name": "File Workspace editor unlocked",
+      "expected": "PASS"
+    },
+    {
+      "id": "RC-008",
+      "name": "HTML aware diff preserved",
+      "expected": "PASS"
+    }
+  ],
+  "nextStep": "V04.12 — Runtime Stabilization Plan"
+}

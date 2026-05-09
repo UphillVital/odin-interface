@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "system": "ODIN Interface",
+    "module": "Runtime Core Release Candidate",
+    "version": "V04.11.0",
+    "created": "2026-05-08T18:55:21.182107+00:00",
+    "workingFolder": "dev/V03/11_PROTOTYPE_SYSTEM_UI"
+  },
+  "status": "RUNTIME_CORE_RELEASE_CANDIDATE_READY",
+  "stateFiles": [
+    "state/runtime_core_release_candidate.json"
+  ],
+  "releaseProfile": "CONTROLLED_RELEASE_CANDIDATE",
+  "nextStep": "V04.12 — Runtime Stabilization Plan"
+}
