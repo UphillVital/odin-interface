@@ -2190,3 +2190,14 @@ a[href*="commit_builder"],a[href*="state_workspace"],a[href*="control_center"]{d
 .runtime-stab-actions .primary-action{background:var(--accent);border-color:var(--accent);color:#fff}
 .runtime-stab-status{color:var(--accent);font-weight:800}
 .runtime-stab-output{white-space:pre-wrap;overflow:auto}
+
+/* ODIN V04.12.3 — System i18n Core Lock */
+.i18n-lock-tool{display:grid;gap:14px;margin-top:18px}
+.i18n-lock-banner,.i18n-lock-status,.i18n-lock-output{border:1px solid var(--border);border-radius:18px;padding:14px;background:var(--surface-soft)}
+.i18n-lock-banner strong,.i18n-lock-banner span{display:block}
+.i18n-lock-banner span{margin-top:6px;color:var(--muted);font-weight:800}
+.i18n-lock-actions{display:flex;flex-wrap:wrap;gap:10px}
+.i18n-lock-actions button{border:1px solid var(--border);border-radius:14px;padding:10px 14px;background:var(--surface);color:var(--text);cursor:pointer;font-weight:800}
+.i18n-lock-actions .primary-action{background:var(--accent);border-color:var(--accent);color:#fff}
+.i18n-lock-status{color:var(--accent);font-weight:800}
+.i18n-lock-output{white-space:pre-wrap;overflow:auto}

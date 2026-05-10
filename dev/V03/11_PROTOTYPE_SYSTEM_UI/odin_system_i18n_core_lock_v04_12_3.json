@@ -1,0 +1,12 @@
+{
+  "schema": "ODIN_SYSTEM_I18N_CORE_LOCK_v1",
+  "version": "V04.12.3",
+  "created": "2026-05-10T00:41:15.995027+00:00",
+  "status": "SYSTEM_I18N_CORE_LOCK_READY",
+  "rules": {
+    "UA": "Усі user-facing тексти українською, крім коду, JSON і технічних статусів.",
+    "EN": "All user-facing text in English, except code, JSON and technical statuses.",
+    "DE": "Alle nutzerseitigen Texte auf Deutsch, außer Code, JSON und technische Statuswerte."
+  },
+  "nextStep": "V04.13 — Runtime Session Architecture"
+}

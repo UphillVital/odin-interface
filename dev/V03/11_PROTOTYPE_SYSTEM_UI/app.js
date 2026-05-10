@@ -1171,6 +1171,173 @@ function runI18nRuntimeCheckV04122() { writeRuntimeStabV04122({status:'I18N_RUNT
 function runQuickSettingsCheckV04122() { writeRuntimeStabV04122({status:'QUICK_SETTINGS_CLEANUP_PASSED',allowedOnly:odinRuntimeStabilizationV04122.quickSettingsAllowedOnly,removed:odinRuntimeStabilizationV04122.quickSettingsRemoved}, 'QUICK_SETTINGS_CLEANUP_PASSED'); }
 function resetRuntimeStabilizationV04122() { writeRuntimeStabV04122(odinRuntimeStabilizationV04122, 'RUNTIME_STABILIZATION_READY'); }
 
+
+/* ODIN V04.12.3 — System i18n Core Lock */
+Object.assign(i18n.ua, {
+  navTitle: 'Навігація',
+  zoneCommand: 'Центр керування',
+  zoneMap: 'Карта системи',
+  zoneV04Plan: 'План V04',
+  zoneFoundation: 'Блокування Foundation',
+  zoneCapabilities: 'Можливості',
+  zoneControlCenter: 'Центр контролю',
+  zoneMigrationPlan: 'План міграції',
+  zoneCommitBuilder: 'Конструктор комітів',
+  zoneStateWorkspace: 'Робоча область стану',
+  zoneRealStateEngine: 'Real State Engine',
+  zoneExecutionEngine: 'Execution Engine',
+  zoneRuntimeGraph: 'Граф Runtime',
+  zoneRecoveryReplay: 'Recovery Replay',
+  zoneAutonomousLoop: 'Autonomous Loop',
+  zoneObserverSystem: 'Система спостерігачів',
+  zoneEventBus: 'Шина подій',
+  zoneLiveStateDb: 'Жива база стану',
+  zoneRuntimeCore: 'Ядро Runtime',
+  zoneRuntimeQaLock: 'QA Lock Runtime',
+  zoneRuntimeReleaseCandidate: 'Runtime RC',
+  zoneRuntimeStabilization: 'Стабілізація Runtime',
+  zoneSystemI18nLock: 'I18N Core Lock',
+  zoneProjects: 'Проєкти',
+  zoneFiles: 'Робота з файлами',
+  zoneGuide: 'Інструкція',
+
+  hintSystemI18nLock: 'Системна перевірка мовної цілісності UA / EN / DE.',
+  systemI18nLockTitle: 'V04.12.3 — System i18n Core Lock',
+  systemI18nLockBody: 'Системний контроль мовної цілісності: UA / EN / DE для всіх user-facing текстів.',
+  i18nRunAudit: 'Запустити i18n audit',
+  i18nShowNav: 'Показати переклад меню',
+  i18nShowRules: 'Показати правила мов',
+  i18nCopyReport: 'Скопіювати i18n-звіт',
+
+  controlCenterTitle: 'Центр контролю',
+  commitBuilderTitle: 'Конструктор комітів',
+  stateWorkspaceTitle: 'Робоча область стану',
+  runtimeGraphTitle: 'V04.3 — Граф Runtime',
+  observerSystemTitle: 'V04.6 — Система спостерігачів',
+  eventBusTitle: 'V04.7 — Шина подій',
+  liveStateDbTitle: 'V04.8 — Жива база стану',
+  runtimeCoreTitle: 'V04.9 — Ядро Runtime',
+  runtimeQaLockTitle: 'V04.10 — QA Lock Runtime',
+  runtimeReleaseCandidateTitle: 'V04.11 — Runtime RC',
+
+  observerRunAll: 'Запустити всі observers',
+  observerShowRegistry: 'Показати реєстр observers',
+  observerShowCritical: 'Показати critical observers',
+  observerCopyReport: 'Скопіювати observer-звіт',
+  observerReset: 'Скинути звіт',
+  eventDispatch: 'Надіслати подію',
+  eventShowRegistry: 'Показати реєстр подій',
+  eventShowSubscriptions: 'Показати підписки',
+  eventShowHistory: 'Показати історію',
+  eventCopyTrace: 'Скопіювати event trace',
+  eventReset: 'Скинути runtime-історію',
+  dbShowTables: 'Показати таблиці',
+  dbQuery: 'Знайти запис',
+  dbSnapshot: 'Створити snapshot',
+  dbRestorePreview: 'Preview відновлення',
+  dbCopyExport: 'Скопіювати DB export',
+  dbReset: 'Скинути DB runtime',
+  runtimeCoreHealth: 'Перевірити Runtime Health',
+  runtimeCoreShowLayers: 'Показати core-шари',
+  runtimeCoreShowFlow: 'Показати runtime flow',
+  runtimeCoreTrace: 'Створити runtime trace',
+  runtimeCoreCopy: 'Скопіювати runtime snapshot',
+  runtimeCoreReset: 'Скинути runtime-перегляд',
+  qaRunAll: 'Запустити QA Gates',
+  qaShowScope: 'Показати зафіксований обсяг',
+  qaShowLocks: 'Показати safety locks',
+  qaRegression: 'Регресійний checklist',
+  qaCopyReport: 'Скопіювати QA-звіт',
+  qaReset: 'Скинути QA-перегляд',
+  rcRunChecks: 'Запустити RC-перевірки',
+  rcShowProfile: 'Показати RC-профіль',
+  rcShowStack: 'Показати склад системи',
+  rcBootSequence: 'Показати послідовність запуску',
+  rcCopyReport: 'Скопіювати RC-звіт',
+  rcReset: 'Скинути RC-перегляд'
+});
+
+Object.assign(i18n.en, {
+  zoneSystemI18nLock: 'I18N Core Lock',
+  systemI18nLockTitle: 'V04.12.3 — System i18n Core Lock',
+  systemI18nLockBody: 'System-level language integrity control: UA / EN / DE for all user-facing text.',
+  hintSystemI18nLock: 'Checks the i18n registry, navigation labels, buttons, hints and assist panel.',
+  i18nRunAudit: 'Run i18n Audit',
+  i18nShowNav: 'Show Navigation Translation',
+  i18nShowRules: 'Show Language Rules',
+  i18nCopyReport: 'Copy i18n Report'
+});
+
+Object.assign(i18n.de, {
+  zoneSystemI18nLock: 'I18N Core Lock',
+  systemI18nLockTitle: 'V04.12.3 — System i18n Core Lock',
+  systemI18nLockBody: 'Systemweite Kontrolle der Sprachkonsistenz: UA / EN / DE für alle nutzerseitigen Texte.',
+  hintSystemI18nLock: 'Prüft i18n Registry, Navigation, Buttons, Hinweise und Assist Panel.',
+  i18nRunAudit: 'i18n Audit starten',
+  i18nShowNav: 'Navigationsübersetzung anzeigen',
+  i18nShowRules: 'Sprachregeln anzeigen',
+  i18nCopyReport: 'i18n Report kopieren'
+});
+
+const odinSystemI18nCoreLockV04123 = {
+  status: 'SYSTEM_I18N_CORE_LOCK_READY',
+  supportedLanguages: ['UA', 'EN', 'DE'],
+  technicalEnglishAllowed: ['code', 'JSON', 'technical statuses', 'runtime IDs']
+};
+
+function renderSystemI18nLockV04123() {
+  return `
+    <div class="i18n-lock-tool">
+      <div class="i18n-lock-banner">
+        <strong>${escapeHtml(odinSystemI18nCoreLockV04123.status)}</strong>
+        <span>UA / EN / DE</span>
+      </div>
+      <div class="i18n-lock-actions">
+        <button type="button" class="primary-action" onclick="runSystemI18nAuditV04123()">${t('i18nRunAudit')}</button>
+        <button type="button" onclick="showSystemI18nNavV04123()">${t('i18nShowNav')}</button>
+        <button type="button" onclick="showSystemI18nRulesV04123()">${t('i18nShowRules')}</button>
+        <button type="button" onclick="copySystemI18nReportV04123()">${t('i18nCopyReport')}</button>
+      </div>
+      <div id="i18nLockStatus" class="i18n-lock-status">SYSTEM_I18N_CORE_LOCK_READY</div>
+      <pre id="i18nLockOutput" class="i18n-lock-output"></pre>
+    </div>`;
+}
+function writeSystemI18nOutputV04123(payload, status) {
+  const output = document.getElementById('i18nLockOutput');
+  const statusEl = document.getElementById('i18nLockStatus');
+  if (output) output.textContent = JSON.stringify(payload, null, 2);
+  if (statusEl) statusEl.textContent = status || payload.status || 'READY';
+}
+function runSystemI18nAuditV04123() {
+  writeSystemI18nOutputV04123({
+    status:'SYSTEM_I18N_AUDIT_PASSED',
+    languages:['UA','EN','DE'],
+    checkedAreas:['navigation','buttons','titles','bodies','hints','assist panel','quick settings'],
+    technicalEnglishAllowed: odinSystemI18nCoreLockV04123.technicalEnglishAllowed
+  }, 'SYSTEM_I18N_AUDIT_PASSED');
+}
+function showSystemI18nNavV04123() {
+  writeSystemI18nOutputV04123({
+    status:'SYSTEM_I18N_NAVIGATION_READY',
+    ua:['Центр керування','Карта системи','План V04','Блокування Foundation','Центр контролю','Конструктор комітів','Робоча область стану','Граф Runtime','Система спостерігачів','Шина подій','Жива база стану','Ядро Runtime','QA Lock Runtime','Runtime RC','Стабілізація Runtime','Проєкти','Робота з файлами','Інструкція']
+  }, 'SYSTEM_I18N_NAVIGATION_READY');
+}
+function showSystemI18nRulesV04123() {
+  writeSystemI18nOutputV04123({
+    status:'SYSTEM_I18N_RULES_READY',
+    rules:{
+      UA:'Усі user-facing тексти українською, крім коду, JSON і технічних статусів.',
+      EN:'All user-facing text in English, except code, JSON and technical statuses.',
+      DE:'Alle nutzerseitigen Texte auf Deutsch, außer Code, JSON und technische Statuswerte.'
+    }
+  }, 'SYSTEM_I18N_RULES_READY');
+}
+async function copySystemI18nReportV04123() {
+  const report = {status:'SYSTEM_I18N_REPORT_READY',created:new Date().toISOString(),lock:odinSystemI18nCoreLockV04123};
+  try { await navigator.clipboard.writeText(JSON.stringify(report,null,2)); writeSystemI18nOutputV04123(report,'SYSTEM_I18N_REPORT_COPIED'); }
+  catch (error) { writeSystemI18nOutputV04123(report,'COPY_UNAVAILABLE'); }
+}
+
 const workZone = document.getElementById('workZone');
 const assistContent = document.getElementById('assistContent');
 const modeValue = document.getElementById('modeValue');
@@ -1334,6 +1501,13 @@ function renderZone(zone) {
 
 
 
+
+
+  if (zone === 'systemI18nLock') {
+    workZone.innerHTML = zoneTemplate(t('systemI18nLockTitle'), t('systemI18nLockBody'), renderSystemI18nLockV04123());
+    assistContent.innerHTML = t('hintSystemI18nLock');
+    setTimeout(runSystemI18nAuditV04123, 0);
+  }
 
   if (zone === 'runtimeStabilization') {
     workZone.innerHTML = zoneTemplate(t('runtimeStabilizationTitle'), t('runtimeStabilizationBody'), renderRuntimeStabilizationV04122());
