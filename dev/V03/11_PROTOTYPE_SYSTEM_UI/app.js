@@ -1338,6 +1338,17 @@ async function copySystemI18nReportV04123() {
   catch (error) { writeSystemI18nOutputV04123(report,'COPY_UNAVAILABLE'); }
 }
 
+
+/* ODIN V04.12.4 FIX — Autonomous Loop UA Alignment Safe */
+if (typeof i18n !== 'undefined' && i18n.ua) {
+  Object.assign(i18n.ua, {
+    zoneAutonomousLoop: 'Автономний цикл',
+    autonomousLoopTitle: 'V04.5 — Автономний цикл',
+    autonomousLoopBody: 'Безпечний автономний цикл ODIN: heartbeat, tick, observers, health check та runtime log.',
+    hintAutonomousLoop: 'Автономний behavioral/runtime layer для heartbeat, tick та observer coordination.'
+  });
+}
+
 const workZone = document.getElementById('workZone');
 const assistContent = document.getElementById('assistContent');
 const modeValue = document.getElementById('modeValue');

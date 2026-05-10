@@ -1,0 +1,15 @@
+{
+  "schema": "ODIN_FIX_RECORD_v1",
+  "version": "V04.12.4-FIX",
+  "created": "2026-05-10T14:06:22.831742+00:00",
+  "status": "AUTONOMOUS_LOOP_UA_ALIGNMENT_SAFE_FIX_READY",
+  "base": "ODIN_V04_12_3_SYSTEM_I18N_CORE_LOCK_V1.zip",
+  "problem": "Previous V04.12.4 package could produce blank/white UI.",
+  "fix": [
+    "Rebuilt strictly from last working V04.12.3 package",
+    "Only app.js i18n override added",
+    "No index.html replacement",
+    "No styles.css destructive replacement",
+    "No fallback empty package logic"
+  ]
+}
