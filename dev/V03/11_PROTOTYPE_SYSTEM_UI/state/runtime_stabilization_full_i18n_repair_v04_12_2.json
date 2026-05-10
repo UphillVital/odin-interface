@@ -1,0 +1,33 @@
+{
+  "schema": "ODIN_RUNTIME_STABILIZATION_FULL_I18N_REPAIR_v1",
+  "version": "V04.12.2",
+  "created": "2026-05-09T22:48:11.696157+00:00",
+  "status": "RUNTIME_STABILIZATION_FULL_I18N_REPAIR_READY",
+  "runtimeStabilization": {
+    "ready": "RUNTIME_STABILIZATION_READY",
+    "health": "RUNTIME_HEALTH_GREEN",
+    "integrity": "RUNTIME_INTEGRITY_PASSED",
+    "sync": "RUNTIME_SYNC_OK",
+    "recovery": "RUNTIME_RECOVERY_CONSISTENT",
+    "dependencyGraph": "RUNTIME_DEPENDENCY_GRAPH_READY"
+  },
+  "quickSettings": {
+    "allowedOnly": [
+      "language switch",
+      "theme switch"
+    ],
+    "removed": [
+      "Головний інтерфейс",
+      "Control Center",
+      "Commit Builder",
+      "State Workspace",
+      "System Pages"
+    ]
+  },
+  "i18nRules": {
+    "UA": "Усе для користувача українською, крім коду та технічних статусів.",
+    "EN": "All user-facing text in English, except code and technical statuses.",
+    "DE": "Alle nutzerseitigen Texte auf Deutsch, außer Code und technische Statuswerte."
+  },
+  "nextStep": "V04.13 — Runtime Session Architecture"
+}

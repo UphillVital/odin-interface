@@ -2160,3 +2160,33 @@ body {
   color: var(--text);
   overflow: auto;
 }
+
+/* ODIN V04.12.1 — Quick Settings + i18n Lock */
+.settings-link,
+.settings-pages,
+.settings-system-pages,
+.quick-settings-pages,
+[data-zone-jump] {
+  display: none !important;
+}
+
+.settings-menu .settings-row,
+.settings-menu [data-lang],
+.settings-menu #themeToggle,
+.settings-menu .language-switch,
+.settings-menu .theme-switch {
+  display: flex;
+}
+
+/* ODIN V04.12.2 — Quick Settings cleanup + Runtime Stabilization repair */
+.settings-link,.settings-pages,.settings-system-pages,.quick-settings-pages,[data-zone-jump],
+a[href*="commit_builder"],a[href*="state_workspace"],a[href*="control_center"]{display:none!important}
+.runtime-stab-tool{display:grid;gap:14px;margin-top:18px}
+.runtime-stab-banner,.runtime-stab-status,.runtime-stab-output{border:1px solid var(--border);border-radius:18px;padding:14px;background:var(--surface-soft)}
+.runtime-stab-banner strong,.runtime-stab-banner span{display:block}
+.runtime-stab-banner span{margin-top:6px;font-size:12px;color:var(--muted);font-weight:800}
+.runtime-stab-actions{display:flex;flex-wrap:wrap;gap:10px}
+.runtime-stab-actions button{border:1px solid var(--border);border-radius:14px;padding:10px 14px;background:var(--surface);color:var(--text);cursor:pointer;font-weight:800}
+.runtime-stab-actions .primary-action{background:var(--accent);border-color:var(--accent);color:#fff}
+.runtime-stab-status{color:var(--accent);font-weight:800}
+.runtime-stab-output{white-space:pre-wrap;overflow:auto}

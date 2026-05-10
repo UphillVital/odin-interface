@@ -1,0 +1,21 @@
+{
+  "schema": "ODIN_QUICK_SETTINGS_I18N_LOCK_v1",
+  "version": "V04.12.1",
+  "created": "2026-05-09T19:14:02.561002+00:00",
+  "status": "QUICK_SETTINGS_I18N_LOCK_READY",
+  "rules": {
+    "quickSettingsAllowed": [
+      "language switch",
+      "theme switch"
+    ],
+    "quickSettingsRemoved": [
+      "system pages",
+      "extra navigation links",
+      "legacy page links"
+    ],
+    "languageRuleUA": "Усе для користувача українською, крім коду.",
+    "languageRuleEN": "All user-facing text in English, except code.",
+    "languageRuleDE": "Alle nutzerseitigen Texte auf Deutsch, außer Code."
+  },
+  "nextStep": "V04.13 — Runtime Session Architecture"
+}
