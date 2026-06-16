@@ -1,0 +1,14 @@
+{
+  "package": "ODIN_ADMIN_V02_6_REAL_EXPORT_PACKAGE_v1",
+  "target": "dev/V02/",
+  "created_at": "2026-04-27T22:21:19",
+  "type": "odin_admin_real_export_system",
+  "changes_code": true,
+  "has_readme": true,
+  "export_outputs": [
+    "README.md",
+    "PACKAGE_MANIFEST.md",
+    "PACKAGE_STATUS.json",
+    "EXPORT.html"
+  ]
+}

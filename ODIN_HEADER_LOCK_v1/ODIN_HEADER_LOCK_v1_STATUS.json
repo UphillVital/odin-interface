@@ -1,0 +1,8 @@
+{
+  "package": "ODIN_HEADER_LOCK_v1_SON",
+  "mode": "SON",
+  "problem": "Lesson Engine reconstructed header instead of using locked etalon header",
+  "solution": "HEADER_LOCK_v1 extract/inject/fingerprint",
+  "requires_etalon_file": true,
+  "created_at": "2026-04-25T18:25:12"
+}

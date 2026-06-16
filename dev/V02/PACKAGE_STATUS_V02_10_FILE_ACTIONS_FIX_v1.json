@@ -1,0 +1,8 @@
+{
+  "package": "ODIN_ADMIN_V02_10_FILE_ACTIONS_FIX_PACKAGE_v1",
+  "target": "dev/V02/",
+  "created_at": "2026-04-28T16:42:31",
+  "type": "file_actions_fix",
+  "fix": "viewer.js now reads const ODIN_TREE_DATA",
+  "has_readme": true
+}

@@ -1,0 +1,10 @@
+# PACKAGE MANIFEST — ODIN_ADMIN_V03_6_REAL_SEMANTIC_DEPTH_FULL_PACKAGE_v1
+
+## Target
+dev/V02/
+
+## Files
+- README.md
+- index.html
+- v036_engine.js
+- PACKAGE_STATUS_V03_6_REAL_SEMANTIC_DEPTH_v1.json

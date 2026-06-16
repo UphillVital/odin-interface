@@ -1,0 +1,10 @@
+{
+  "package": "ODIN_ADMIN_V02_2_GITHUB_FILE_VIEWER_PACKAGE_v1",
+  "target": "dev/V02/",
+  "created_at": "2026-04-27T21:47:52",
+  "type": "odin_admin_github_raw_file_viewer",
+  "repo": "UphillVital/odin-interface",
+  "branch": "dev",
+  "has_readme": true,
+  "changes_code": true
+}

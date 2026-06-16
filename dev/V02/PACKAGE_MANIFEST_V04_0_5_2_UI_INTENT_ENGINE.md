@@ -1,0 +1,12 @@
+# PACKAGE MANIFEST — V04.0.5.2 UI INTENT ENGINE
+
+Runtime:
+- dev/V02/odin_engine.js
+- dev/V02/odin_base_ui.js
+- dev/V02/odin_ui.css
+- dev/V02/README_V04_0_5_2_UI_INTENT_ENGINE.md
+- dev/V02/test_scenario_V04_0_5_2_UI_INTENT_ENGINE.md
+- dev/V02/PACKAGE_MANIFEST_V04_0_5_2_UI_INTENT_ENGINE.md
+
+Fixation:
+- ODIN_TREE_PROJECT_v1/14_WORKFLOW/ODIN_V04_0_5_2_UI_INTENT_ENGINE_FIXATION_v1.md

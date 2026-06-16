@@ -1,0 +1,8 @@
+{
+  "package": "ODIN_ADMIN_V02_3_QA_LAYER_PACKAGE_v1",
+  "target": "dev/V02/",
+  "created_at": "2026-04-27T22:00:07",
+  "type": "odin_admin_qa_layer",
+  "changes_code": true,
+  "has_readme": true
+}

@@ -1,0 +1,16 @@
+{
+  "package": "ODIN_ADMIN_V04_4_EXPORT_SYSTEM_PRO_FULL_PACKAGE_v1",
+  "target": "dev/V02/",
+  "created_at": "2026-04-29T16:04:38",
+  "type": "export_system_pro",
+  "ready_without_manual_code_edits": true,
+  "export_files": [
+    "lesson.html",
+    "lesson.json",
+    "qa_report.json",
+    "meta.json",
+    "README.md"
+  ],
+  "has_readme": true,
+  "next": "V04.5 CONTROL PANEL PRO"
+}

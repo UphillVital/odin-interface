@@ -1,0 +1,13 @@
+{
+  "package": "ODIN_ADMIN_V02_1_FILE_VIEWER_PACKAGE_v1",
+  "target": "dev/V02/",
+  "created_at": "2026-04-27T21:30:59",
+  "type": "odin_admin_file_viewer_layer",
+  "changes_code": true,
+  "adds": [
+    "File Viewer",
+    "selected node preview",
+    "preview-map content layer"
+  ],
+  "has_readme": true
+}

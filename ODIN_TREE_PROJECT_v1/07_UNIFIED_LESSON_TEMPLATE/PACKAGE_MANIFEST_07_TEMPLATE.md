@@ -1,0 +1,10 @@
+# PACKAGE MANIFEST
+
+## Package
+ODIN_07_UNIFIED_TEMPLATE_DOCS_PACKAGE_v1
+
+## Target
+ODIN_TREE_PROJECT_v1/07_UNIFIED_LESSON_TEMPLATE/
+
+## Purpose
+Опис єдиного шаблону уроку

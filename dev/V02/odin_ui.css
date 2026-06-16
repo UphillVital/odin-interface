@@ -1,0 +1,177 @@
+
+/* ODIN V04.0.5.1 BASE UI */
+.odin-control-shell {
+  margin: 16px 0;
+  padding: 18px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(15,23,42,.98), rgba(30,41,59,.96));
+  border: 1px solid rgba(148,163,184,.22);
+  box-shadow: 0 18px 55px rgba(0,0,0,.28);
+}
+
+.odin-topbar {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.odin-brand h1 {
+  margin: 0;
+  font-size: 26px;
+  letter-spacing: .3px;
+}
+
+.odin-brand p {
+  margin: 4px 0 0;
+  color: #94a3b8;
+}
+
+.odin-lang, .odin-levels, .odin-main-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.odin-lang button,
+.odin-levels button,
+.odin-main-actions button,
+.odin-advanced-toggle {
+  border: 1px solid rgba(148,163,184,.28);
+  background: rgba(15,23,42,.75);
+  color: #e5e7eb;
+  border-radius: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.odin-lang button.active,
+.odin-levels button.active {
+  background: #2563eb;
+  border-color: #60a5fa;
+  color: #fff;
+}
+
+.odin-main-actions button {
+  background: rgba(37,99,235,.95);
+}
+
+.odin-main-actions button:hover,
+.odin-lang button:hover,
+.odin-levels button:hover,
+.odin-advanced-toggle:hover {
+  filter: brightness(1.12);
+}
+
+.odin-status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.odin-status-card {
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(2,6,23,.55);
+  border: 1px solid rgba(148,163,184,.16);
+}
+
+.odin-status-card small {
+  display: block;
+  color: #94a3b8;
+  margin-bottom: 6px;
+}
+
+.odin-status-card b {
+  font-size: 16px;
+}
+
+.odin-result {
+  margin-top: 14px;
+}
+
+body[data-odin-level="user"] .card:not(.odin-keep-user) {
+  display: none;
+}
+
+body[data-odin-level="control"][data-advanced-open="false"] .card:not(.odin-keep-user):not(.odin-keep-control) {
+  display: none;
+}
+
+body[data-odin-level="system"] .card {
+  display: block;
+}
+
+
+/* V04.0.5.1.1 UI SCROLL + CONTRAST FIX */
+.odin-control-shell {
+  color: #e5e7eb;
+  scroll-margin-top: 18px;
+}
+
+.odin-control-shell h1,
+.odin-control-shell h2,
+.odin-control-shell h3,
+.odin-status-card b,
+.odin-brand h1 {
+  color: #f8fafc !important;
+  opacity: 1 !important;
+}
+
+.odin-brand p,
+.odin-status-card small,
+.odin-control-shell .muted {
+  color: #cbd5e1 !important;
+  opacity: 1 !important;
+}
+
+.odin-status-card {
+  background: rgba(2,6,23,.74);
+  border-color: rgba(148,163,184,.28);
+}
+
+.odin-result .log,
+#odinUiResultBox {
+  color: #e5e7eb;
+  background: rgba(2,6,23,.82);
+  border: 1px solid rgba(148,163,184,.22);
+}
+
+.odin-lang button,
+.odin-levels button,
+.odin-main-actions button,
+.odin-advanced-toggle {
+  user-select: none;
+}
+
+body[data-odin-level="user"] {
+  min-height: 100vh;
+}
+
+body[data-odin-level="control"] {
+  min-height: 100vh;
+}
+
+
+/* V04.0.5.2 UI INTENT POLISH */
+#odinUiResultBox {
+  white-space: pre-wrap;
+  line-height: 1.45;
+}
+
+.odin-main-actions button {
+  min-width: 138px;
+  box-shadow: 0 8px 22px rgba(37,99,235,.24);
+}
+
+.odin-status-card b {
+  word-break: break-word;
+}
+
+.odin-status-card:has(#odinUiPushStatus) b {
+  color: #86efac !important;
+}

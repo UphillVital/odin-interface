@@ -1,0 +1,11 @@
+# PACKAGE MANIFEST — ODIN V03.9 PROJECT MAP PRO
+
+## Runtime files
+- dev/V02/admin.html
+- dev/V02/project_map_pro.js
+- dev/V02/README_V03_9_PROJECT_MAP_PRO.md
+- dev/V02/test_scenario_V03_9_PROJECT_MAP_PRO.md
+- dev/V02/PACKAGE_MANIFEST_V03_9_PROJECT_MAP_PRO.md
+
+## Base fixation
+- ODIN_TREE_PROJECT_v1/14_WORKFLOW/ODIN_V03_9_PROJECT_MAP_PRO_FIXATION_v1.md

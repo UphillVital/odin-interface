@@ -1,0 +1,12 @@
+{
+  "package": "ODIN_ADMIN_V04_6_QA_EXPORT_FIX_PACKAGE_v1",
+  "target": "dev/V02/",
+  "created_at": "2026-04-29T16:58:23",
+  "type": "qa_export_fix",
+  "fixes": [
+    "QA CHECK false fail",
+    "EXPORT PACKAGE blocked by bad QA logic"
+  ],
+  "ready_without_manual_code_edits": true,
+  "has_readme": true
+}

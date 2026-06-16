@@ -1,0 +1,11 @@
+# PACKAGE MANIFEST — ODIN V04.0.1 ENGINE CORE
+
+Runtime:
+- dev/V02/admin.html
+- dev/V02/odin_engine.js
+- dev/V02/README_V04_0_1_ENGINE_CORE.md
+- dev/V02/test_scenario_V04_0_1_ENGINE_CORE.md
+- dev/V02/PACKAGE_MANIFEST_V04_0_1_ENGINE_CORE.md
+
+Fixation:
+- ODIN_TREE_PROJECT_v1/14_WORKFLOW/ODIN_V04_0_1_ENGINE_CORE_FIXATION_v1.md

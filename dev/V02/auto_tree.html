@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ODIN AUTO TREE</title>
+<style>
+body{margin:0;background:#f5f7fb;color:#132033;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;padding:18px}
+.card{background:white;border:1px solid #dbe5f2;border-radius:24px;padding:18px;margin:14px auto;max-width:1200px;box-shadow:0 12px 30px rgba(15,23,42,.08)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+button{border:0;background:#111827;color:white;border-radius:13px;padding:10px 12px;font-weight:900;cursor:pointer}
+button.blue{background:#2563eb} button.green{background:#16a34a}
+pre{background:#0f172a;color:#e5e7eb;border-radius:18px;padding:14px;overflow:auto;max-height:65vh;white-space:pre-wrap}
+code{background:#f1f5f9;border-radius:7px;padding:2px 6px}
+</style>
+</head>
+<body>
+<section class="card">
+  <h1>ODIN AUTO TREE</h1>
+  <p>Генерує <code>odin_tree_data.js</code> з індексу <code>odin_file_index.js</code>.</p>
+</section>
+<section class="card">
+  <h2>Actions</h2>
+  <div class="actions">
+    <button class="blue" onclick="ODIN_AUTO_TREE.generate()">GENERATE TREE</button>
+    <button onclick="ODIN_AUTO_TREE.copy()">COPY TREE DATA</button>
+    <button class="green" onclick="ODIN_AUTO_TREE.download()">DOWNLOAD odin_tree_data.js</button>
+  </div>
+  <p id="treeStats">Groups: — · Files: —</p>
+</section>
+<section class="card">
+  <h2>Generated odin_tree_data.js</h2>
+  <pre id="generatedTree">Натисни GENERATE TREE.</pre>
+</section>
+<script src="odin_file_index.js"></script>
+<script src="odin_auto_tree.js"></script>
+</body>
+</html>

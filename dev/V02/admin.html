@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ODIN-ADMIN V02.6 Real Export</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="odin_ui.css">
+</head>
+<body>
+<div class="admin-app">
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="mark">O</div>
+      <div>
+        <h1>ODIN-ADMIN</h1>
+        <p>V02.6 · Real Export</p>
+      </div>
+    </div>
+
+    <div class="sidebar-actions">
+      <button onclick="ODIN_SYNC.snapshot()">SNAPSHOT</button>
+      <button onclick="ODIN_SYNC.sync()">SYNC</button>
+      <button onclick="ODIN_AUTH.logout()">LOGOUT</button>
+    </div>
+
+    <h2>ODIN TREE</h2>
+    <div id="treeRoot" class="tree"></div>
+  </aside>
+
+  <main class="main">
+    <section class="topbar">
+      <div>
+        <h2 id="selectedTitle">Dashboard</h2>
+        <p id="selectedPath" class="muted">ODIN SYSTEM</p>
+      </div>
+      <span id="systemStatus" class="pill ready">READY</span>
+    </section>
+
+    <section class="card hero">
+      <span class="pill">AUTH</span>
+      <span class="pill">GITHUB VIEWER</span>
+      <span class="pill">QA</span>
+      <span class="pill">TEMPLATE CONTROL</span>
+      <span class="pill">PACKAGE</span>
+      <span class="pill">REAL EXPORT</span>
+      <p><b>ODIN-ADMIN V02.6</b> читає, перевіряє, контролює, формує пакети і створює downloadable export-файли.</p>
+    </section>
+
+    <section class="card">
+      <h2>Selected Node</h2>
+      <div class="grid">
+        <div class="stat"><div>Type</div><b id="nodeType">system</b></div>
+        <div class="stat"><div>Status</div><b id="nodeStatus">READY</b></div>
+        <div class="stat"><div>Layer</div><b id="nodeLayer">ODIN</b></div>
+        <div class="stat"><div>Sync</div><b id="syncState">IDLE</b></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Admin Actions</h2>
+      <div class="actions">
+        <button onclick="ODIN_ADMIN.run('OPEN')">OPEN</button>
+        <button onclick="ODIN_ADMIN.run('QA')">QA CHECK</button>
+        <button onclick="ODIN_ADMIN.run('TEMPLATE')">TEMPLATE</button>
+        <button onclick="ODIN_ADMIN.run('BUILD')">BUILD</button>
+        <button onclick="ODIN_ADMIN.run('PACKAGE')">PACKAGE</button>
+        <button onclick="ODIN_ADMIN.run('EXPORT')">EXPORT</button>
+        <button class="warn" onclick="ODIN_ADMIN.run('FIX')">FIX</button>
+        <button class="danger" onclick="ODIN_ADMIN.resetLog()">RESET LOG</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Description</h2>
+      <p id="nodeDescription" class="content-box">Вибери пункт дерева зліва.</p>
+    </section>
+
+    <section class="card">
+      <h2>GitHub File Viewer</h2>
+      <div class="file-meta">
+        <div><b>Path:</b> <code id="viewerPath">—</code></div>
+        <div><b>Type:</b> <code id="viewerType">—</code></div>
+        <div><b>Mode:</b> <code id="viewerMode">github-raw</code></div>
+      </div>
+      <pre id="filePreview" class="file-preview">Натисни OPEN для вибраного файлу або вузла.</pre>
+    </section>
+
+    <section class="card">
+      <h2>QA Control</h2>
+      <div class="qa-summary">
+        <span id="qaResult" class="qa-badge idle">NOT_RUN</span>
+        <span id="qaCounts" class="muted">checks: 0 · warnings: 0 · errors: 0</span>
+      </div>
+      <div id="qaDetails" class="qa-list"></div>
+    </section>
+
+    <section class="card">
+      <h2>Template Control</h2>
+      <div class="template-actions">
+        <button onclick="ODIN_TEMPLATE_CONTROL.routeCheck()">ROUTE CHECK</button>
+        <button onclick="ODIN_TEMPLATE_CONTROL.lessonLock()">LESSON LOCK</button>
+        <button onclick="ODIN_TEMPLATE_CONTROL.adminLock()">ADMIN LOCK</button>
+        <button onclick="ODIN_TEMPLATE_CONTROL.routerQA()">ROUTER QA</button>
+      </div>
+      <div class="template-grid">
+        <div class="template-box">
+          <h3>Task Type Router</h3>
+          <pre id="templateRouterView">Натисни ROUTE CHECK.</pre>
+        </div>
+        <div class="template-box">
+          <h3>Hard Lock Status</h3>
+          <pre id="templateLockView">Натисни LESSON LOCK або ADMIN LOCK.</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Package Builder</h2>
+      <div class="package-actions">
+        <button onclick="ODIN_PACKAGE_BUILDER.build()">BUILD PACKAGE</button>
+        <button onclick="ODIN_PACKAGE_BUILDER.copy('readme')">COPY README</button>
+        <button onclick="ODIN_PACKAGE_BUILDER.copy('manifest')">COPY MANIFEST</button>
+        <button onclick="ODIN_PACKAGE_BUILDER.copy('status')">COPY STATUS</button>
+      </div>
+      <div class="package-grid">
+        <div class="package-box">
+          <h3>README.md</h3>
+          <pre id="packageReadme">Натисни BUILD PACKAGE.</pre>
+        </div>
+        <div class="package-box">
+          <h3>MANIFEST</h3>
+          <pre id="packageManifest">Натисни BUILD PACKAGE.</pre>
+        </div>
+        <div class="package-box">
+          <h3>STATUS.json</h3>
+          <pre id="packageStatus">Натисни BUILD PACKAGE.</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Export System</h2>
+      <div class="export-actions">
+        <button onclick="ODIN_EXPORT_SYSTEM.prepare()">PREPARE EXPORT</button>
+        <button onclick="ODIN_EXPORT_SYSTEM.download('readme')">DOWNLOAD README</button>
+        <button onclick="ODIN_EXPORT_SYSTEM.download('manifest')">DOWNLOAD MANIFEST</button>
+        <button onclick="ODIN_EXPORT_SYSTEM.download('status')">DOWNLOAD STATUS</button>
+        <button onclick="ODIN_EXPORT_SYSTEM.download('html')">DOWNLOAD EXPORT HTML</button>
+      </div>
+      <div class="export-box">
+        <h3>Export Status</h3>
+        <pre id="exportStatus">Натисни PREPARE EXPORT.</pre>
+      </div>
+    </section>
+
+
+    <section class="card">
+      <h2>ODIN Core State</h2>
+      <div class="grid">
+        <div class="stat"><div>Active Project</div><b id="coreActiveProject">—</b></div>
+        <div class="stat"><div>Project Count</div><b id="coreProjectCount">0</b></div>
+        <div class="stat"><div>System Status</div><b id="coreSystemStatus">IDLE</b></div>
+        <div class="stat"><div>Stage</div><b id="coreStage">—</b></div>
+      </div>
+      <div class="actions">
+        <button onclick="ODIN_STATE_BRIDGE.createDefaultProject()">CREATE DEFAULT PROJECT</button>
+        <button onclick="ODIN_STATE_BRIDGE.emitTestEvent()">TEST EVENT</button>
+        <button onclick="ODIN_STATE_BRIDGE.refresh()">REFRESH STATE</button>
+      </div>
+      <pre id="coreStateBox" class="log">ODIN Core State готовий до перевірки.</pre>
+    </section>
+
+    <section class="card">
+      <h2>Automation Plan</h2>
+      <pre id="automationPlan" class="log">AUTH → TREE → OPEN → QA → TEMPLATE → PACKAGE → EXPORT → DOWNLOAD</pre>
+    </section>
+
+
+    <section class="card">
+      <h2>Task Center / Live Status</h2>
+      <div class="grid">
+        <div class="stat"><div>Current Mode</div><b id="taskCurrentMode">—</b></div>
+        <div class="stat"><div>Current Stage</div><b id="taskCurrentStage">—</b></div>
+        <div class="stat"><div>Current Status</div><b id="taskCurrentStatus">—</b></div>
+        <div class="stat"><div>Task Count</div><b id="taskCount">0</b></div>
+      </div>
+      <div class="actions">
+        <button onclick="ODIN_TASK_CENTER.refresh()">REFRESH TASK CENTER</button>
+        <button onclick="ODIN_TASK_CENTER.clearView()">CLEAR VIEW ONLY</button>
+      </div>
+      <h3>Active Tasks</h3>
+      <pre id="taskListBox" class="log">Поки немає задач.</pre>
+      <h3>Execution Log</h3>
+      <pre id="executionLogBox" class="log">Поки немає подій.</pre>
+    </section>
+
+
+    <section class="card">
+      <h2>File Control B</h2>
+      <p class="muted">ODIN бачить файли, пропонує зміни і генерує Git-команди. Автоматичного видалення або запису немає.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Known Files</div><b id="fileControlCount">0</b></div>
+        <div class="stat"><div>Mode</div><b>PROPOSE ONLY</b></div>
+        <div class="stat"><div>Auto Write</div><b>OFF</b></div>
+        <div class="stat"><div>Confirm</div><b>REQUIRED</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_FILE_CONTROL.render()">REFRESH FILES</button>
+        <button onclick="ODIN_FILE_CONTROL.clearSelection()">CLEAR SELECTION</button>
+        <button onclick="ODIN_FILE_CONTROL.propose('UPDATE')">PROPOSE UPDATE</button>
+        <button onclick="ODIN_FILE_CONTROL.propose('FIX')">PROPOSE FIX</button>
+        <button onclick="ODIN_FILE_CONTROL.propose('DOCS')">PROPOSE DOCS</button>
+        <button class="warn" onclick="ODIN_FILE_CONTROL.propose('REMOVE')">PROPOSE REMOVE</button>
+      </div>
+
+      <h3>Files</h3>
+      <div id="fileControlList" class="log">Натисни REFRESH FILES.</div>
+
+      <h3>Selected Files</h3>
+      <pre id="fileControlSelected" class="log">Нічого не вибрано.</pre>
+
+      <h3>Proposed Change</h3>
+      <pre id="fileControlProposal" class="log">Пропозицій ще немає.</pre>
+
+      <h3>Git Commands</h3>
+      <pre id="gitCommandBox" class="log">Git-команди зʼявляться після PROPOSE.</pre>
+      <div class="actions">
+        <button onclick="ODIN_FILE_CONTROL.copyGitCommands()">COPY GIT COMMANDS</button>
+      </div>
+    </section>
+
+
+    <section class="card">
+      <h2>File Control Map Expanded</h2>
+      <p class="muted">View-only розширена семантична карта ODIN-шарів. Нічого не видаляє, не пише у файли, не робить diff.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Total Files</div><b id="fileMapCount">0</b></div>
+        <div class="stat"><div>Mapped</div><b id="fileMapMapped">0</b></div>
+        <div class="stat"><div>Unmapped</div><b id="fileMapUnmapped">0</b></div>
+        <div class="stat"><div>Mode</div><b>VIEW ONLY</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_FILE_CONTROL_MAP.render()">REFRESH MAP</button>
+        <button onclick="ODIN_FILE_CONTROL_MAP.copyMap()">COPY MAP</button>
+      </div>
+
+      <h3>Interaction Map</h3>
+      <pre id="fileMapBox" class="log">Карта ще не побудована.</pre>
+
+      <h3>Unmapped / Needs Review</h3>
+      <pre id="fileMapUnmappedBox" class="log">Немає даних.</pre>
+    </section>
+
+
+    <section class="card">
+      <h2>Unknown Detector</h2>
+      <p class="muted">Semantic quality layer: показує слабкі місця карти. Нічого не видаляє, не пише у файли, не робить diff.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Total Unknown</div><b id="unknownTotal">0</b></div>
+        <div class="stat"><div>Weak Match</div><b id="unknownWeak">0</b></div>
+        <div class="stat"><div>No Role</div><b id="unknownNoRole">0</b></div>
+        <div class="stat"><div>Conflict</div><b id="unknownConflict">0</b></div>
+        <div class="stat"><div>Orphan</div><b id="unknownOrphan">0</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_UNKNOWN_DETECTOR.render()">RUN UNKNOWN DETECTOR</button>
+        <button onclick="ODIN_UNKNOWN_DETECTOR.copyReport()">COPY UNKNOWN REPORT</button>
+      </div>
+
+      <h3>Semantic Unknown Report</h3>
+      <pre id="unknownReportBox" class="log">Unknown detector ще не запущено.</pre>
+    </section>
+
+
+    <section class="card">
+      <h2>Unknown Review + Actions</h2>
+      <p class="muted">Review-шар для conflict/orphan. Нічого не змінює автоматично. Тільки рішення: KEEP / IGNORE / DOCUMENT / FIX_LATER / CREATE_TASK / MOVE_REVIEW.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Total Items</div><b id="unknownReviewTotal">0</b></div>
+        <div class="stat"><div>Confirmed</div><b id="unknownReviewConfirmed">0</b></div>
+        <div class="stat"><div>Pending</div><b id="unknownReviewPending">0</b></div>
+        <div class="stat"><div>Mode</div><b>REVIEW ONLY</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_UNKNOWN_REVIEW.render()">REFRESH REVIEW</button>
+        <button onclick="ODIN_UNKNOWN_REVIEW.exportPlan()">EXPORT REVIEW PLAN</button>
+        <button onclick="ODIN_UNKNOWN_REVIEW.copyPlan()">COPY REVIEW PLAN</button>
+        <button class="danger" onclick="ODIN_UNKNOWN_REVIEW.clearDecisions()">CLEAR DECISIONS</button>
+      </div>
+
+      <h3>Review Items</h3>
+      <div id="unknownReviewList" class="log">Review ще не побудовано.</div>
+
+      <h3>Review Plan JSON</h3>
+      <pre id="unknownReviewExport" class="log">Натисни EXPORT REVIEW PLAN.</pre>
+    </section>
+
+
+    <section class="card">
+      <h2>Review → Task Center Integration</h2>
+      <p class="muted">Перетворює confirmed review decisions у задачі Task Center. Без автоматичного редагування файлів, без git, без видалення.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Candidates</div><b id="reviewTaskCandidates">0</b></div>
+        <div class="stat"><div>Created</div><b id="reviewTaskCreated">0</b></div>
+        <div class="stat"><div>Skipped</div><b id="reviewTaskSkipped">0</b></div>
+        <div class="stat"><div>Mode</div><b>TASK PLAN</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_REVIEW_TO_TASK.generateTasks()">GENERATE TASKS</button>
+        <button onclick="ODIN_REVIEW_TO_TASK.generateTasks({includeDocument:true})">GENERATE TASKS + DOCUMENT</button>
+        <button onclick="ODIN_REVIEW_TO_TASK.renderReport()">VIEW LAST REPORT</button>
+        <button onclick="ODIN_REVIEW_TO_TASK.copyReport()">COPY TASK REPORT</button>
+      </div>
+
+      <h3>Review → Task Report</h3>
+      <pre id="reviewTaskReportBox" class="log">Review → Task ще не запускався.</pre>
+    </section>
+
+
+    <section class="card">
+      <h2>Task Control / Persistent Storage</h2>
+      <p class="muted">Backlog control: фільтри, статуси, пріоритети, export/import snapshot. Не змінює файли проєкту.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Total Tasks</div><b id="taskControlTotal">0</b></div>
+        <div class="stat"><div>Visible</div><b id="taskControlVisible">0</b></div>
+        <div class="stat"><div>Open</div><b id="taskControlOpen">0</b></div>
+        <div class="stat"><div>Done</div><b id="taskControlDone">0</b></div>
+      </div>
+
+      <div class="actions">
+        <label>Status:
+          <select id="taskFilterStatus" onchange="ODIN_TASK_CONTROL.render()">
+            <option>ALL</option>
+            <option>OPEN</option>
+            <option>IN_PROGRESS</option>
+            <option>DONE</option>
+            <option>BLOCKED</option>
+          </select>
+        </label>
+        <label>Priority:
+          <select id="taskFilterPriority" onchange="ODIN_TASK_CONTROL.render()">
+            <option>ALL</option>
+            <option>LOW</option>
+            <option>MEDIUM</option>
+            <option>HIGH</option>
+          </select>
+        </label>
+        <label>Type:
+          <select id="taskFilterType" onchange="ODIN_TASK_CONTROL.render()">
+            <option>ALL</option>
+            <option>UNKNOWN_REVIEW</option>
+            <option>FILE_CONTROL</option>
+            <option>MODE_RUN</option>
+            <option>STATE_TEST</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_TASK_CONTROL.render()">REFRESH TASK CONTROL</button>
+        <button onclick="ODIN_TASK_CONTROL.exportSnapshot()">EXPORT SNAPSHOT</button>
+        <button onclick="ODIN_TASK_CONTROL.copySnapshot()">COPY SNAPSHOT</button>
+        <button onclick="ODIN_TASK_CONTROL.importSnapshotFromBox()">IMPORT SNAPSHOT FROM BOX</button>
+        <button onclick="ODIN_TASK_CONTROL.clearTaskViewOnly()">CLEAR VIEW ONLY</button>
+      </div>
+
+      <h3>Task Backlog</h3>
+      <div id="taskControlList" class="log">Task Control ще не завантажено.</div>
+
+      <h3>Persistent Snapshot</h3>
+      <pre id="taskSnapshotBox" class="log">Натисни EXPORT SNAPSHOT.</pre>
+    </section>
+
+
+    <section class="card">
+      <h2>Snapshot File Export</h2>
+      <p class="muted">Snapshot module loaded: ODIN_STATE + review decisions + tasks/git/safe package. Не змінює файли проєкту напряму.</p>
+
+      <div class="actions">
+        <button onclick="ODIN_SNAPSHOT_FILE.exportJSON()">EXPORT SNAPSHOT JSON</button>
+        <button onclick="ODIN_SNAPSHOT_FILE.downloadFile()">DOWNLOAD SNAPSHOT FILE</button>
+        <button onclick="ODIN_SNAPSHOT_FILE.copySnapshot()">COPY SNAPSHOT</button>
+        <button onclick="ODIN_SNAPSHOT_FILE.restoreFromBox()">RESTORE FROM BOX</button>
+      </div>
+
+      <h3>Snapshot JSON</h3>
+      <pre id="snapshotFileBox" class="log">Натисни EXPORT SNAPSHOT JSON.</pre>
+    </section>
+
+    <section class="card">
+      <h2>Git Control Pro</h2>
+      <p class="muted">V03.8.2 PRO: grouped plan, reason per file, custom commit message, clean command preview. No auto-exec.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Add</div><b id="gitPlanAdd">0</b></div>
+        <div class="stat"><div>Update</div><b id="gitPlanUpdate">0</b></div>
+        <div class="stat"><div>Docs</div><b id="gitPlanDocs">0</b></div>
+        <div class="stat"><div>Review</div><b id="gitPlanReview">0</b></div>
+        <div class="stat"><div>Warnings</div><b id="gitPlanWarnings">0</b></div>
+      </div>
+
+      <div class="actions">
+        <label>Commit message:
+          <input id="gitCommitMessageInput" placeholder="ODIN V03.8.2 git control ..." style="min-width:320px">
+        </label>
+      </div>
+
+      <div class="actions">
+        <label>Exclude path:
+          <input id="gitExcludePathInput" placeholder="ODIN_TREE_PROJECT_v1/..." style="min-width:320px">
+        </label>
+        <button onclick="ODIN_GIT_CONTROL.excludePathFromInput()">EXCLUDE PATH</button>
+        <button onclick="ODIN_GIT_CONTROL.clearExclusions()">CLEAR EXCLUSIONS</button>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_GIT_CONTROL.renderPlan()">BUILD PLAN</button>
+        <button onclick="ODIN_GIT_CONTROL.generateCommands()">GENERATE GIT COMMANDS</button>
+        <button onclick="ODIN_GIT_CONTROL.copyCommands()">COPY COMMANDS</button>
+        <button onclick="ODIN_GIT_CONTROL.copyHumanPlan()">COPY HUMAN PLAN</button>
+        <button onclick="ODIN_GIT_CONTROL.copyPlan()">COPY JSON PLAN</button>
+      </div>
+
+      <h3>Human Change Plan</h3>
+      <pre id="gitHumanPlanBox" class="log">Натисни BUILD PLAN.</pre>
+
+      <h3>Git Commands</h3>
+      <pre id="gitCommandsBox" class="log">Натисни GENERATE GIT COMMANDS.</pre>
+
+      <h3>JSON Plan</h3>
+      <pre id="gitPlanBox" class="log">Натисни BUILD PLAN.</pre>
+    </section>
+
+
+
+    <section class="card">
+      <h2>Real Diff Planning</h2>
+      <p class="muted">V03.8.3: logical diff plan from ODIN Git Plan. No auto-exec, no real filesystem diff yet.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Total</div><b id="diffTotal">0</b></div>
+        <div class="stat"><div>Added</div><b id="diffAdded">0</b></div>
+        <div class="stat"><div>Modified</div><b id="diffModified">0</b></div>
+        <div class="stat"><div>Docs</div><b id="diffDocs">0</b></div>
+        <div class="stat"><div>Review</div><b id="diffReview">0</b></div>
+        <div class="stat"><div>High Risk</div><b id="diffHighRisk">0</b></div>
+        <div class="stat"><div>Gate</div><b id="diffGateStatus">—</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_DIFF_PLANNER.render()">BUILD DIFF PLAN</button>
+        <button onclick="ODIN_DIFF_PLANNER.copyHuman()">COPY HUMAN DIFF</button>
+        <button onclick="ODIN_DIFF_PLANNER.copyJson()">COPY JSON DIFF</button>
+      </div>
+
+      <h3>Human Diff Plan</h3>
+      <pre id="diffHumanPlanBox" class="log">Натисни BUILD DIFF PLAN.</pre>
+
+      <h3>JSON Diff Plan</h3>
+      <pre id="diffJsonPlanBox" class="log">Натисни BUILD DIFF PLAN.</pre>
+    </section>
+
+
+    <section class="card">
+      <h2>Safe Push Checklist</h2>
+      <p class="muted">V03.8.4: фінальний контроль перед ручним git push. Не виконує команди автоматично.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Status</div><b id="safePushStatus">—</b></div>
+        <div class="stat"><div>Manual Push</div><b id="safePushManual">NO</b></div>
+        <div class="stat"><div>Warnings</div><b id="safePushWarnings">0</b></div>
+        <div class="stat"><div>Auto Push</div><b>OFF</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_SAFE_PUSH.render()">RUN SAFE PUSH CHECK</button>
+        <button onclick="ODIN_SAFE_PUSH.confirmSnapshot()">CONFIRM SNAPSHOT SAVED</button>
+        <button onclick="ODIN_SAFE_PUSH.acceptRisk()">ACCEPT RISK</button>
+        <button onclick="ODIN_SAFE_PUSH.resetGate()">RESET GATE</button>
+        <button onclick="ODIN_SAFE_PUSH.copyChecklist()">COPY CHECKLIST</button>
+        <button onclick="ODIN_SAFE_PUSH.copyJson()">COPY JSON</button>
+      </div>
+
+      <h3>Human Safe Push Checklist</h3>
+      <pre id="safePushHumanBox" class="log">Натисни RUN SAFE PUSH CHECK.</pre>
+
+      <h3>JSON Safe Push Checklist</h3>
+      <pre id="safePushJsonBox" class="log">Натисни RUN SAFE PUSH CHECK.</pre>
+    </section>
+
+
+    <section class="card odin-keep-control">
+      <h2>Push Package Export</h2>
+      <p class="muted">V03.8.6 SAFE PUSH PERSISTENT STATE: фінальний пакет перед ручним push: commands + diff + safe checklist + snapshot. Не виконує git.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Status</div><b id="pushPackageStatus">—</b></div>
+        <div class="stat"><div>Ready</div><b id="pushPackageReady">NO</b></div>
+        <div class="stat"><div>Commands</div><b id="pushPackageHasCommands">NO</b></div>
+        <div class="stat"><div>Auto Push</div><b>OFF</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_PUSH_PACKAGE_EXPORT.render()">BUILD PUSH PACKAGE</button>
+        <button onclick="ODIN_PUSH_PACKAGE_EXPORT.downloadJson()">DOWNLOAD JSON</button>
+        <button onclick="ODIN_PUSH_PACKAGE_EXPORT.downloadTxt()">DOWNLOAD TXT</button>
+        <button onclick="ODIN_PUSH_PACKAGE_EXPORT.copyHuman()">COPY HUMAN</button>
+        <button onclick="ODIN_PUSH_PACKAGE_EXPORT.copyJson()">COPY JSON</button>
+      </div>
+
+      <h3>Human Push Package</h3>
+      <pre id="pushPackageHumanBox" class="log">Натисни BUILD PUSH PACKAGE.</pre>
+
+      <h3>JSON Push Package</h3>
+      <pre id="pushPackageJsonBox" class="log">Натисни BUILD PUSH PACKAGE.</pre>
+    </section>
+
+
+    <section class="card odin-control-shell odin-keep-user odin-keep-control">
+      <div class="odin-topbar">
+        <div class="odin-brand">
+          <h1 data-i18n="app_title">ODIN Control Center</h1>
+          <p data-i18n="app_subtitle">System control core</p>
+        </div>
+
+        <div class="odin-lang">
+          <button type="button" data-lang-switch="ua" onclick="ODIN_I18N.setLang('ua')" data-i18n="lang_ua">UA</button>
+          <button type="button" data-lang-switch="en" onclick="ODIN_I18N.setLang('en')" data-i18n="lang_en">EN</button>
+        </div>
+      </div>
+
+      <div class="odin-levels">
+        <button type="button" data-level-switch="user" onclick="ODIN_UI_LEVELS.set('user')" data-i18n="level_user">Level 1 — User</button>
+        <button type="button" data-level-switch="control" onclick="ODIN_UI_LEVELS.set('control')" data-i18n="level_control">Level 2 — Control</button>
+        <button type="button" data-level-switch="system" onclick="ODIN_UI_LEVELS.set('system')" data-i18n="level_system">Level 3 — System</button>
+      </div>
+
+      <div class="odin-status-grid">
+        <div class="odin-status-card">
+          <small data-i18n="project">Project</small>
+          <b id="odinUiProject">—</b>
+        </div>
+        <div class="odin-status-card">
+          <small data-i18n="engine_status">Engine Status</small>
+          <b id="odinUiEngineStatus">—</b>
+        </div>
+        <div class="odin-status-card">
+          <small data-i18n="push_status">Push Status</small>
+          <b id="odinUiPushStatus">—</b>
+        </div>
+        <div class="odin-status-card">
+          <small data-i18n="task_count">Task Count</small>
+          <b id="odinUiTaskCount">—</b>
+        </div>
+        <div class="odin-status-card">
+          <small data-i18n="next_step">Next step</small>
+          <b id="odinUiNextStep">—</b>
+        </div>
+      </div>
+
+      <h3 data-i18n="main_actions">Main Actions</h3>
+      <div class="odin-main-actions">
+        <button type="button" onclick="ODIN_BASE_UI.analyze()" data-i18n="btn_analyze">Analyze</button>
+        <button type="button" onclick="ODIN_BASE_UI.buildPlan()" data-i18n="btn_build_plan">Build Plan</button>
+        <button type="button" onclick="ODIN_BASE_UI.preparePush()" data-i18n="btn_prepare_push">Prepare Push</button>
+        <button type="button" onclick="ODIN_BASE_UI.exportPackage()" data-i18n="btn_export">Export</button>
+      </div>
+
+      <div class="odin-result">
+        <button type="button" id="odinAdvancedToggle" class="odin-advanced-toggle" onclick="ODIN_BASE_UI.toggleAdvanced()" data-i18n="show_advanced">Show Advanced</button>
+        <pre id="odinUiResultBox" class="log">UI ready.</pre>
+      </div>
+    </section>
+
+    <section class="card odin-keep-control">
+      <h2>ODIN Engine Core</h2>
+      <p class="muted">V04.0.2: Engine Core + Task operations. Старий Task Control не замінюється.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Status</div><b id="engineCoreStatus">BOOTING</b></div>
+        <div class="stat"><div>Message</div><b id="engineCoreMessage">—</b></div>
+        <div class="stat"><div>Operations</div><b id="engineCoreOps">0</b></div>
+        <div class="stat"><div>Mode</div><b>TASK CONNECT</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_ENGINE.run('engine_test')">ENGINE TEST</button>
+        <button onclick="ODIN_ENGINE.dependencyCheck()">DEPENDENCY CHECK</button>
+        <button onclick="ODIN_ENGINE.run('task_refresh')">ENGINE TASK REFRESH</button>
+        <button onclick="ODIN_ENGINE.run('task_summary')">ENGINE TASK SUMMARY</button>
+        <button onclick="ODIN_ENGINE.run('task_snapshot')">ENGINE TASK SNAPSHOT</button>
+        <button onclick="ODIN_ENGINE.copyResult()">COPY ENGINE RESULT</button>
+      </div>
+
+      <h3>Engine Result</h3>
+      <pre id="engineCoreResultBox" class="log">Engine ще не запускався.</pre>
+    </section>
+
+
+    <section class="card odin-keep-control">
+      <h2>Project Map Pro</h2>
+      <p class="muted">V03.9: карта системи ODIN — модулі, залежності, ризики, tasks/git/diff/safe/package як один огляд.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Modules</div><b id="projectMapModules">0</b></div>
+        <div class="stat"><div>Links</div><b id="projectMapLinks">0</b></div>
+        <div class="stat"><div>Tasks</div><b id="projectMapTasks">0</b></div>
+        <div class="stat"><div>High Risk</div><b id="projectMapHighRisk">0</b></div>
+        <div class="stat"><div>Push Status</div><b id="projectMapPushStatus">—</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_PROJECT_MAP_PRO.render()">BUILD PROJECT MAP</button>
+        <button onclick="ODIN_PROJECT_MAP_PRO.copyHuman()">COPY HUMAN MAP</button>
+        <button onclick="ODIN_PROJECT_MAP_PRO.copyJson()">COPY JSON MAP</button>
+      </div>
+
+      <h3>Human Project Map</h3>
+      <pre id="projectMapHumanBox" class="log">Натисни BUILD PROJECT MAP.</pre>
+
+      <h3>JSON Project Map</h3>
+      <pre id="projectMapJsonBox" class="log">Натисни BUILD PROJECT MAP.</pre>
+    </section>
+
+    <section class="card">
+      <h2>Admin Log</h2>
+      <pre id="logBox" class="log"></pre>
+    </section>
+
+    <section class="card odin-keep-control">
+      <h2>Visual Graph</h2>
+      <p class="muted">V03.9.3 INTERACTIVE GRAPH PRO: hover/click focus, filters, pipeline highlight, auto-refresh. View-only.</p>
+
+      <div class="grid">
+        <div class="stat"><div>Visible Nodes</div><b id="graphVisibleNodes">0</b></div>
+        <div class="stat"><div>Visible Links</div><b id="graphVisibleLinks">0</b></div>
+        <div class="stat"><div>Auto Refresh</div><b id="graphAutoStatus">ON</b></div>
+        <div class="stat"><div>Push Status</div><b id="graphPushStatus">—</b></div>
+      </div>
+
+      <div class="actions">
+        <button onclick="ODIN_VISUAL_GRAPH.render()">RENDER GRAPH</button>
+        <button onclick="ODIN_VISUAL_GRAPH.toggleAutoRefresh()">AUTO REFRESH ON/OFF</button>
+        <button onclick="ODIN_VISUAL_GRAPH.showPipelineOnly()">PIPELINE ONLY</button>
+        <button onclick="ODIN_VISUAL_GRAPH.resetView()">RESET VIEW</button>
+        <button onclick="ODIN_VISUAL_GRAPH.copyDetails()">COPY NODE DETAILS</button>
+      </div>
+
+      <div class="actions">
+        <label><input id="graphFilterLoaded" type="checkbox" checked onchange="ODIN_VISUAL_GRAPH.render()"> LOADED</label>
+        <label><input id="graphFilterRuntime" type="checkbox" checked onchange="ODIN_VISUAL_GRAPH.render()"> RUNTIME_ONLY</label>
+        <label><input id="graphFilterNotRequired" type="checkbox" checked onchange="ODIN_VISUAL_GRAPH.render()"> NOT_REQUIRED</label>
+        <label><input id="graphFilterMissing" type="checkbox" checked onchange="ODIN_VISUAL_GRAPH.render()"> MISSING</label>
+        <label><input id="graphFilterPartial" type="checkbox" checked onchange="ODIN_VISUAL_GRAPH.render()"> PARTIAL</label>
+        <label><input id="graphFilterHighRisk" type="checkbox" onchange="ODIN_VISUAL_GRAPH.render()"> HIGH RISK ONLY</label>
+        <label><input id="graphFilterProblems" type="checkbox" onchange="ODIN_VISUAL_GRAPH.render()"> PROBLEMS ONLY</label>
+        <label><input id="graphFilterPipeline" type="checkbox" onchange="ODIN_VISUAL_GRAPH.render()"> PIPELINE ONLY</label>
+      </div>
+
+      <canvas id="odinGraphCanvas" style="width:100%;height:580px;background:#0f172a;border-radius:12px;border:1px solid rgba(148,163,184,.25);"></canvas>
+
+      <h3>Node Details</h3>
+      <pre id="graphDetailsBox" class="log">Натисни на вузол графа.</pre>
+    </section>
+
+
+</main>
+</div>
+
+<script src="auth.js"></script>
+<script src="odin_admin_state.js"></script>
+<script src="odin_tree_data.js"></script>
+<script src="odin_repo_config.js"></script>
+<script src="odin_sync.js"></script>
+<script src="odin_file_viewer.js"></script>
+<script src="odin_qa_layer.js"></script>
+<script src="odin_template_control.js"></script>
+<script src="odin_package_builder.js"></script>
+<script src="odin_export_system.js"></script>
+<script src="event_bus.js"></script>
+<script src="odin_state.js"></script>
+<script src="odin_state_bridge.js"></script>
+<script src="task_center.js"></script>
+<script src="file_control.js"></script>
+<script src="file_control_map.js"></script>
+<script src="unknown_detector.js"></script>
+<script src="unknown_review.js"></script>
+<script src="review_to_task.js"></script>
+<script src="task_control.js"></script>
+<script src="snapshot_file.js"></script>
+<script src="git_control.js"></script>
+<script src="diff_planner.js"></script>
+<script src="safe_push_checklist.js"></script>
+<script src="push_package_export.js"></script>
+<script src="project_map_pro.js"></script>
+<script src="app.js"></script>
+<script src="project_visual_graph.js"></script>
+<script src="odin_i18n.js"></script>
+<script src="odin_base_ui.js"></script>
+<script src="odin_engine.js"></script></body>
+</html>

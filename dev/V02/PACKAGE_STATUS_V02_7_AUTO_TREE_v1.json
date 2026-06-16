@@ -1,0 +1,8 @@
+{
+  "package": "ODIN_ADMIN_V02_7_AUTO_TREE_PACKAGE_v1",
+  "target": "dev/V02/",
+  "created_at": "2026-04-28T00:01:04",
+  "type": "odin_admin_auto_tree_generator",
+  "changes_code": true,
+  "has_readme": true
+}

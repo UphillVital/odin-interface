@@ -1,0 +1,26 @@
+# PACKAGE MANIFEST — ODIN_ADMIN_V04_2_LESSON_TYPES_ENGINE_FULL_PACKAGE_v1
+
+## Target
+
+```text
+dev/V02/
+```
+
+## Purpose
+
+Додати Lesson Types Engine.
+
+## Lesson types
+
+- LESSON_FROM_TOPIC
+- LESSON_FROM_PHOTO
+- LESSON_REVIEW
+- LESSON_MIX
+
+## Files
+
+- README.md
+- index.html
+- v042_engine.js
+- PACKAGE_MANIFEST_V04_2_LESSON_TYPES_ENGINE_v1.md
+- PACKAGE_STATUS_V04_2_LESSON_TYPES_ENGINE_v1.json

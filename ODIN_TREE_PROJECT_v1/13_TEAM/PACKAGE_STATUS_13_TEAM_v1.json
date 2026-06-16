@@ -1,0 +1,18 @@
+{
+  "package": "ODIN_13_TEAM_DOCS_PACKAGE_v1",
+  "target": "ODIN_TREE_PROJECT_v1/13_TEAM/",
+  "created_at": "2026-04-26T23:38:12",
+  "type": "documentation_package",
+  "changes_code": false,
+  "files": [
+    "TEAM_SYSTEM_OVERVIEW.md",
+    "TEAM_ROLES.md",
+    "SYNC_PROTOCOL.md",
+    "CRITIC_PROTOCOL.md",
+    "CLERK_PROTOCOL.md",
+    "ASSEMBLER_PROTOCOL.md",
+    "TEAM_QUALITY_RULES.md",
+    "README_13_TEAM.md",
+    "PACKAGE_MANIFEST_13_TEAM.md"
+  ]
+}
